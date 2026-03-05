@@ -1,0 +1,327 @@
+/* ═══════════════════════════════════════════════════════════════
+   L1 — PRIMITIVE DEFINITIONS  (theme-agnostic)
+   Edit via DME → Level 1 tab
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Type Roles — family, weight, letter-spacing, line-height ── */
+  --prim-type-heading:           'Raleway', sans-serif;
+  --prim-type-heading-weight:    700;
+  --prim-type-heading-ls:        -0.02em;
+  --prim-type-heading-lh:        1.05;
+
+  --prim-type-subheading:        Georgia, serif;
+  --prim-type-subheading-weight: 700;
+  --prim-type-subheading-ls:     -0.02em;
+  --prim-type-subheading-lh:     1.1;
+
+  --prim-type-body:              'Inter', sans-serif;
+  --prim-type-body-weight:       400;
+  --prim-type-body-ls:           0em;
+  --prim-type-body-lh:           1.9;
+
+  /* ── Mono Palette ────────────────────────────────────────────── */
+  --prim-mono-white: #ffffff;
+  --prim-mono-50:    #efefef;
+  --prim-mono-100:   #dddddd;
+  --prim-mono-150:   #e0e0e0;
+  --prim-mono-200:   #d9d9d9;
+  --prim-mono-250:   #cccccc;
+  --prim-mono-300:   #bbbbbb;
+  --prim-mono-350:   #aaaaaa;
+  --prim-mono-500:   #7b7b7b;
+  --prim-mono-550:   #777777;
+  --prim-mono-600:   #585858;
+  --prim-mono-700:   #444444;
+  --prim-mono-750:   #2e2e2e;
+  --prim-mono-900:   #111111;
+  --prim-mono-black: #000000;
+
+  /* ── Coral Tide Palette ──────────────────────────────────────── */
+  --prim-sapphire-900: #001635;
+  --prim-sapphire-700: #002458;
+  --prim-sapphire-500: #0c3775;
+  --prim-sapphire-300: #134b9b;
+  --prim-sapphire-100: #2f65b3;
+
+  --prim-splash-900: #0094b9;
+  --prim-splash-700: #26b7dc;
+  --prim-splash-500: #58ddff;
+  --prim-splash-300: #88e7ff;
+  --prim-splash-100: #b4f0ff;
+
+  --prim-orange-900: #a22e05;
+  --prim-orange-700: #ca4313;
+  --prim-orange-500: #f05a25;
+  --prim-orange-300: #ff9874;
+  --prim-orange-100: #ffbda6;
+
+  --prim-butter-900: #f0d18a;
+  --prim-butter-700: #f3ecac;
+  --prim-butter-500: #fefce9;
+
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   L2 — SEMANTIC TOKENS  (default: Mono theme)
+   Controlled by DME → Level 2 tab + theme selector
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Colors ──────────────────────────────────────────────────── */
+  --color-bg:             var(--prim-mono-white);
+  --color-bg-gray:        var(--prim-mono-50);
+  --color-heading:        var(--prim-mono-900);
+  --color-pill:           var(--prim-mono-900); /* primary (dark) pill half */
+  --color-accent:         var(--prim-mono-700);
+  --color-body:           var(--prim-mono-600);
+  --color-muted:          var(--prim-mono-750);
+  --color-border:         var(--prim-mono-100);
+  --color-border-light:   var(--prim-mono-150);
+  --color-border-mid:     var(--prim-mono-250);
+  --color-border-subtle:  var(--prim-mono-350);
+  --color-callout-border: var(--prim-mono-500);
+  --color-placeholder:    var(--prim-mono-200);
+  --color-toc-pip:        var(--prim-mono-300);
+  --color-toc-pip-active: var(--prim-mono-550);
+  --color-white:          var(--prim-mono-white);
+
+  /* ── Typography ──────────────────────────────────────────────── */
+  --font-heading:    var(--prim-type-heading);    /* H1                 */
+  --font-subheading: var(--prim-type-subheading); /* H2                 */
+  --font-body:       var(--prim-type-body);       /* body paragraphs    */
+  --font-logo:       var(--prim-type-heading);    /* site logo          */
+  --font-pill:       var(--prim-type-heading);    /* breadcrumb pills   */
+  --font-toc:        var(--prim-type-body);       /* TOC labels         */
+  --font-meta:       var(--prim-type-body);       /* meta (author/time) */
+
+  --size-h1:   70px;
+  --size-h2:   36px;
+  --size-body: 18px;
+  --size-small: 12px;
+  --size-logo:  30px;
+  --size-pill:  18px;
+
+  --lh-body: 1.9;
+
+  /* ── Spacing ─────────────────────────────────────────────────── */
+  --spacing-section-v:      64px;
+  --spacing-content-gap:    24px;
+  --spacing-content-gap-lg: 32px;
+  --spacing-h:              clamp(24px, 6.6vw, 100px);
+
+  /* ── Layout ──────────────────────────────────────────────────── */
+  --content-max-width: 900px;
+  --header-height:     100px;
+
+}
+
+/* ─── Layout ──────────────────────────────────────────────────── */
+
+.ls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--spacing-h);
+  box-sizing: border-box;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.ls-section {
+  width: 100%;
+  padding: var(--spacing-section-v) var(--spacing-h);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.ls-section-gray {
+  background: var(--color-bg-gray);
+}
+
+.ls-content {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-content-gap);
+  align-items: flex-start;
+}
+
+.ls-content-gap-lg {
+  gap: var(--spacing-content-gap-lg);
+}
+
+/* ─── Hero H1 ─────────────────────────────────────────────────── */
+
+.ls-h1 {
+  font-size: var(--size-h1);
+  font-weight: var(--prim-type-heading-weight);
+  line-height: var(--prim-type-heading-lh);
+  letter-spacing: var(--prim-type-heading-ls);
+  margin: 0;
+  width: 100%;
+  font-feature-settings: 'lnum' 1, 'pnum' 1;
+}
+
+/* ─── Breadcrumb pills ───────────────────────────────────────── */
+
+.ls-pills {
+  display: inline-flex;
+  border-radius: 90px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* ─── Badge + tooltip ────────────────────────────────────────── */
+
+.ls-badge {
+  position: relative;
+  display: flex;
+  align-self: stretch;
+  width: 38.5px;
+  flex-shrink: 0;
+  cursor: default;
+}
+
+.ls-badge-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-heading);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: var(--size-small);
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 20;
+}
+
+.ls-badge-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--color-heading);
+}
+
+.ls-badge:hover .ls-badge-tooltip {
+  opacity: 1;
+}
+
+/* ─── Image + text rows ──────────────────────────────────────── */
+
+.ls-image-row {
+  display: flex;
+  gap: var(--spacing-content-gap-lg);
+  align-items: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.ls-image-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+  width: 48%;
+}
+
+.ls-image-placeholder {
+  background: var(--color-placeholder);
+  width: 100%;
+  aspect-ratio: 500 / 388;
+}
+
+/* ─── Section H2 ─────────────────────────────────────────────── */
+
+.ls-h2 {
+  font-size: var(--size-h2);
+  font-weight: var(--prim-type-subheading-weight);
+  line-height: var(--prim-type-subheading-lh);
+  letter-spacing: var(--prim-type-subheading-ls);
+  margin: 0;
+  width: 100%;
+}
+
+/* ─── Table of Contents ──────────────────────────────────────── */
+
+.ls-toc {
+  position: absolute;
+  left: 0;
+  top: 796px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 8px;
+  width: 40px;
+  overflow: hidden;
+  cursor: default;
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.ls-toc:hover {
+  width: 214px;
+}
+
+.ls-toc-label {
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.18s ease 0.08s;
+}
+
+.ls-toc:hover .ls-toc-label {
+  opacity: 1;
+}
+
+.ls-toc-pip {
+  height: 2px;
+  width: 16px;
+  flex-shrink: 0;
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ls-toc-pip-active {
+  width: 24px;
+}
+
+.ls-toc:hover .ls-toc-pip,
+.ls-toc:hover .ls-toc-pip-active {
+  width: 8px;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .ls-toc { display: none; }
+  .ls-section { padding-top: 48px; padding-bottom: 48px; }
+}
+
+@media (max-width: 800px) {
+  .ls-h1 { font-size: 44px; letter-spacing: -0.5px; }
+  .ls-h2 { font-size: 28px; letter-spacing: -0.8px; }
+  .ls-image-row { flex-direction: column; }
+  .ls-image-col { width: 100%; }
+  .ls-section { padding-top: 40px; padding-bottom: 40px; }
+}
+
+@media (max-width: 480px) {
+  .ls-h1 { font-size: 34px; letter-spacing: -0.3px; }
+  .ls-h2 { font-size: 24px; letter-spacing: -0.5px; }
+  .ls-section { padding-top: 32px; padding-bottom: 32px; }
+}
