@@ -411,7 +411,7 @@ export default function LearnSegmentTemplate() {
           alignItems: 'flex-end',
           fontFamily: fl,
           fontWeight: 700,
-          color: 'var(--color-heading)',
+          color: 'var(--color-logo)',
           letterSpacing: '-0.5px',
           lineHeight: 1,
         }}>

@@ -70,26 +70,34 @@ const L1_COLOR_MAP = {
   '--prim-mono-600':   '#585858', '--prim-mono-700': '#444444',
   '--prim-mono-750':   '#2e2e2e', '--prim-mono-900': '#111111',
   '--prim-mono-black': '#000000',
-  '--prim-sapphire-900': '#001635', '--prim-sapphire-700': '#002458',
-  '--prim-sapphire-500': '#0c3775', '--prim-sapphire-300': '#134b9b',
-  '--prim-sapphire-100': '#2f65b3',
+  '--prim-sapphire-950': '#000b1a', '--prim-sapphire-900': '#001635',
+  '--prim-sapphire-800': '#001d46', '--prim-sapphire-700': '#002458',
+  '--prim-sapphire-600': '#062d66', '--prim-sapphire-500': '#0c3775',
+  '--prim-sapphire-400': '#104188', '--prim-sapphire-300': '#134b9b',
+  '--prim-sapphire-200': '#2158a7', '--prim-sapphire-100': '#2f65b3',
+  '--prim-sapphire-50':  '#97b2d9',
   '--prim-splash-900': '#0094b9', '--prim-splash-700': '#26b7dc',
   '--prim-splash-500': '#58ddff', '--prim-splash-300': '#88e7ff',
   '--prim-splash-100': '#b4f0ff',
-  '--prim-orange-900': '#a22e05', '--prim-orange-700': '#ca4313',
-  '--prim-orange-500': '#f05a25', '--prim-orange-300': '#ff9874',
-  '--prim-orange-100': '#ffbda6',
-  '--prim-butter-900': '#f0d18a', '--prim-butter-700': '#f3ecac',
-  '--prim-butter-500': '#fefce9',
+  '--prim-orange-950': '#511702', '--prim-orange-900': '#a22e05',
+  '--prim-orange-800': '#b6380c', '--prim-orange-700': '#ca4313',
+  '--prim-orange-600': '#dd4e1c', '--prim-orange-500': '#f05a25',
+  '--prim-orange-400': '#f7794c', '--prim-orange-300': '#ff9874',
+  '--prim-orange-200': '#ffaa8d', '--prim-orange-100': '#ffbda6',
+  '--prim-orange-50':  '#ffded2',
+  '--prim-butter-950': '#edb668', '--prim-butter-900': '#f0d18a',
+  '--prim-butter-800': '#f1de9b', '--prim-butter-700': '#f3ecac',
+  '--prim-butter-600': '#f8f4ca', '--prim-butter-500': '#fefce9',
+  '--prim-butter-400': '#fefdf4',
 };
 
 /* Palette groups for the picker UI */
 const L1_COLOR_PALETTES = [
   { name: 'Mono',     tokens: ['--prim-mono-white','--prim-mono-50','--prim-mono-100','--prim-mono-150','--prim-mono-200','--prim-mono-250','--prim-mono-300','--prim-mono-350','--prim-mono-500','--prim-mono-550','--prim-mono-600','--prim-mono-700','--prim-mono-750','--prim-mono-900','--prim-mono-black'] },
-  { name: 'Sapphire', tokens: ['--prim-sapphire-100','--prim-sapphire-300','--prim-sapphire-500','--prim-sapphire-700','--prim-sapphire-900'] },
+  { name: 'Sapphire', tokens: ['--prim-sapphire-50','--prim-sapphire-100','--prim-sapphire-200','--prim-sapphire-300','--prim-sapphire-400','--prim-sapphire-500','--prim-sapphire-600','--prim-sapphire-700','--prim-sapphire-800','--prim-sapphire-900','--prim-sapphire-950'] },
   { name: 'Splash',   tokens: ['--prim-splash-100','--prim-splash-300','--prim-splash-500','--prim-splash-700','--prim-splash-900'] },
-  { name: 'Orange',   tokens: ['--prim-orange-100','--prim-orange-300','--prim-orange-500','--prim-orange-700','--prim-orange-900'] },
-  { name: 'Butter',   tokens: ['--prim-butter-500','--prim-butter-700','--prim-butter-900'] },
+  { name: 'Orange',   tokens: ['--prim-orange-50','--prim-orange-100','--prim-orange-200','--prim-orange-300','--prim-orange-400','--prim-orange-500','--prim-orange-600','--prim-orange-700','--prim-orange-800','--prim-orange-900','--prim-orange-950'] },
+  { name: 'Butter',   tokens: ['--prim-butter-400','--prim-butter-500','--prim-butter-600','--prim-butter-700','--prim-butter-800','--prim-butter-900','--prim-butter-950'] },
 ];
 
 /* ─── Themes — L2 colors reference L1 token names ────────────── */
@@ -97,6 +105,7 @@ const THEMES = {
   mono: {
     label: 'Mono',
     globals: {
+      '--color-logo':           '--prim-mono-900',
       '--color-pill':           '--prim-mono-900',
       '--color-accent':         '--prim-mono-700',
       '--color-toc-pip':        '--prim-mono-300',
@@ -160,6 +169,7 @@ const THEMES = {
   'coral-tide': {
     label: 'Coral Tide',
     globals: {
+      '--color-logo':           '--prim-sapphire-900',
       '--color-pill':           '--prim-sapphire-900',
       '--color-accent':         '--prim-orange-500',
       '--color-toc-pip':        '--prim-splash-100',
@@ -773,22 +783,28 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
   return (
     <>
       <Sect label="Colors">
-        <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <SubSect label="Surfaces">
+          <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
 
-        <SubSect label="Global Components" />
-        <ColorRow label="Pill (primary)"   name="--color-pill"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-        <ColorRow label="Pill (accent)"    name="--color-accent"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <SubSect label="Global Components">
+          <ColorRow label="Logo"             name="--color-logo"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Pill (primary)"   name="--color-pill"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Pill (accent)"    name="--color-accent"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
 
-        <SubSect label="Navigation" />
-        <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-        <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <SubSect label="Navigation">
+          <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
 
-        <SubSect label="Badge" />
-        <ColorRow label="Gradient start"   name="--color-badge-from"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-        <ColorRow label="Gradient end"     name="--color-badge-to"          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-        <SliderRow label="Angle"           name="--badge-angle"             l2={l2} set={set} min={0} max={360} unit="°" />
-        <ColorRow label="Icon (cap)"        name="--color-badge-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-        <ColorRow label="Icon (inner hex)" name="--color-badge-icon-inner"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <SubSect label="Badge">
+          <ColorRow label="Gradient start"   name="--color-badge-from"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Gradient end"     name="--color-badge-to"          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <SliderRow label="Angle"           name="--badge-angle"             l2={l2} set={set} min={0} max={360} unit="°" />
+          <ColorRow label="Icon (cap)"        name="--color-badge-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Icon (inner hex)" name="--color-badge-icon-inner"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
       </Sect>
       <Sect label="Typography">
         <div style={{ padding: '4px 16px 6px' }}>
@@ -1050,30 +1066,45 @@ function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, 
 /* ═══════════════════════════════════════════════════════════════
    Shared UI primitives
    ═══════════════════════════════════════════════════════════════ */
-function SubSect({ label }) {
+function SubSect({ label, children }) {
+  const [open, setOpen] = useState(true);
   return (
-    <div style={{
-      padding: '8px 16px 2px',
-      fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
-      color: '#aaa', marginTop: 4,
-    }}>
-      {label}
+    <div>
+      <div
+        onClick={() => setOpen(o => !o)}
+        style={{
+          padding: '8px 16px 2px',
+          fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
+          color: '#aaa', marginTop: 4, cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}
+      >
+        <span>{label}</span>
+        <span style={{ color: '#555', fontSize: 9, marginRight: 2 }}>{open ? '▾' : '▸'}</span>
+      </div>
+      {open && children}
     </div>
   );
 }
 
 function Sect({ label, children }) {
+  const [open, setOpen] = useState(true);
   return (
     <div>
-      <div style={{
-        padding: '11px 16px 9px',
-        fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-        color: '#ddd', borderBottom: '1px solid #2a2a2a',
-        position: 'sticky', top: 0, background: '#1c1c1c', zIndex: 1,
-      }}>
-        {label}
+      <div
+        onClick={() => setOpen(o => !o)}
+        style={{
+          padding: '11px 16px 9px',
+          fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+          color: '#ddd', borderBottom: '1px solid #2a2a2a',
+          position: 'sticky', top: 0, background: '#1c1c1c', zIndex: 1,
+          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}
+      >
+        <span>{label}</span>
+        <span style={{ color: '#555', fontSize: 11 }}>{open ? '▾' : '▸'}</span>
       </div>
-      <div style={{ padding: '4px 0 8px' }}>{children}</div>
+      {open && <div style={{ padding: '4px 0 8px' }}>{children}</div>}
     </div>
   );
 }
