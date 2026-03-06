@@ -1067,11 +1067,13 @@ function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, 
    Shared UI primitives
    ═══════════════════════════════════════════════════════════════ */
 function SubSect({ label, children }) {
-  const [open, setOpen] = useState(true);
+  const key = `dme-sub-${label}`;
+  const [open, setOpen] = useState(() => localStorage.getItem(key) !== 'closed');
+  const toggle = () => setOpen(o => { const next = !o; localStorage.setItem(key, next ? 'open' : 'closed'); return next; });
   return (
     <div>
       <div
-        onClick={() => setOpen(o => !o)}
+        onClick={toggle}
         style={{
           padding: '8px 16px 2px',
           fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
@@ -1088,11 +1090,13 @@ function SubSect({ label, children }) {
 }
 
 function Sect({ label, children }) {
-  const [open, setOpen] = useState(true);
+  const key = `dme-sect-${label}`;
+  const [open, setOpen] = useState(() => localStorage.getItem(key) !== 'closed');
+  const toggle = () => setOpen(o => { const next = !o; localStorage.setItem(key, next ? 'open' : 'closed'); return next; });
   return (
     <div>
       <div
-        onClick={() => setOpen(o => !o)}
+        onClick={toggle}
         style={{
           padding: '11px 16px 9px',
           fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
