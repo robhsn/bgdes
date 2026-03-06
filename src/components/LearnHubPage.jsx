@@ -132,8 +132,8 @@ function ProgressDots({ total = 5, filled = 0 }) {
       {Array.from({ length: total }).map((_, i) => (
         <div key={i} style={{
           width: 13, height: 13, borderRadius: '50%',
-          background: i < filled ? 'var(--color-heading)' : i === filled ? 'var(--color-dot-active)' : 'transparent',
-          border: `2px solid ${i < filled ? 'var(--color-heading)' : i === filled ? 'var(--color-dot-active)' : 'var(--color-border-subtle)'}`,
+          background: i < filled ? 'var(--color-heading)' : (i === filled && filled > 0) ? 'var(--color-dot-active)' : 'transparent',
+          border: `2px solid ${i < filled ? 'var(--color-heading)' : (i === filled && filled > 0) ? 'var(--color-dot-active)' : 'var(--color-border-subtle)'}`,
           flexShrink: 0,
         }} />
       ))}
