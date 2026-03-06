@@ -230,7 +230,7 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
           <ProgressDots total={progressTotal} filled={progressFilled} />
         </div>
         <p className="lh-course-desc">{description}</p>
-        <IconPlusMinus open={open} />
+        <div className="lh-course-toggle"><IconPlusMinus open={open} /></div>
       </button>
       <div className="lh-course-divider" />
       {open && children && (

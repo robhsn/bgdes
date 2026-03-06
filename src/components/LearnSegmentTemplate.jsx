@@ -1,6 +1,7 @@
 import React, { useRef, useState, useLayoutEffect } from 'react';
 import './LearnSegmentTemplate.css';
 import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import boardSample from '../imgs/board-sample.png';
 
 /* Token shorthand helpers — all resolve via CSS custom properties */
 const fh = 'var(--font-heading)';    /* H1                */
@@ -147,7 +148,7 @@ function SectionBreak() {
 function ImageWithCaption({ caption }) {
   return (
     <div className="ls-image-col">
-      <div className="ls-image-placeholder" />
+      <img src={boardSample} alt="Backgammon board" className="ls-image-placeholder" />
       {caption && (
         <div style={{
           background: 'var(--color-statement-bg)',
@@ -845,12 +846,12 @@ export default function LearnSegmentTemplate({ onNavigate }) {
             How to Play Backgammon
           </h1>
 
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="ls-article-meta">
             <div style={{ fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)' }}>
               <span style={{ fontFamily: fm, fontWeight: 400 }}>Reviewed by </span>
               <a href="#" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Masayuki "Mochy" Mochizuki</a>
             </div>
-            <div style={{ background: 'var(--color-border-subtle)', height: 18, width: 1, flexShrink: 0 }} />
+            <div className="ls-article-meta-divider" />
             <div style={{ display: 'flex', gap: 4, fontFamily: fm, fontWeight: 600, fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>
               <span>4</span>
               <span>Minute Read</span>

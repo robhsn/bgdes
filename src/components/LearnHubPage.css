@@ -515,13 +515,20 @@
   }
 
   .lh-course-header-left {
+    flex: 1;
+    order: 1;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
 
+  .lh-course-toggle {
+    order: 2;
+    flex-shrink: 0;
+  }
+
   .lh-course-title { font-size: 24px; }
-  .lh-course-desc { flex: none; width: 100%; }
+  .lh-course-desc { flex: none; width: 100%; order: 3; }
 
   .lh-lesson-title,
   .lh-lesson-number,

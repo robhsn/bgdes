@@ -388,6 +388,22 @@
   font-feature-settings: 'lnum' 1, 'pnum' 1;
 }
 
+/* ─── Article meta (reviewed by + read time) ────────────────── */
+
+.ls-article-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.ls-article-meta-divider {
+  background: var(--color-border-subtle);
+  height: 18px;
+  width: 1px;
+  flex-shrink: 0;
+}
+
 /* ─── Breadcrumb pills ───────────────────────────────────────── */
 
 .ls-pills {
@@ -488,9 +504,10 @@
 }
 
 .ls-image-placeholder {
-  background: var(--color-placeholder);
+  display: block;
   width: 100%;
-  aspect-ratio: 500 / 388;
+  height: auto;
+  object-fit: contain;
 }
 
 /* ─── Section H2 ─────────────────────────────────────────────── */
@@ -661,6 +678,8 @@
   .ls-header { height: 68px; }
   .ls-mobile-nav { display: flex; }
   .ls-nav-spacer { display: block; height: 66px; flex-shrink: 0; }
+  .ls-article-meta { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .ls-article-meta-divider { display: none; }
 }
 
 @media (max-width: 600px) {
