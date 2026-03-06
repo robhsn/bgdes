@@ -19,49 +19,41 @@ const fm = 'var(--font-meta)';       /* meta / reviewer   */
 
 function IconTrophy() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 3h10v7a5 5 0 0 1-10 0V3Z"/>
-      <path d="M4 5.5H7M17 5.5h3"/>
-      <path d="M12 15v3M9 21h6"/>
+    <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M38.7574 10C40.8277 10 42.5152 11.7031 42.4371 13.7656C42.421 14.1837 42.4007 14.5951 42.3794 15H46.2496C48.2886 15.0001 50.0855 16.6876 49.9292 18.8906C49.3433 26.9921 45.2026 31.4453 40.7105 33.7734C39.4783 34.4129 38.2223 34.8879 37.0289 35.2393C37.6556 34.3501 38.2697 33.2995 38.8472 32.0537C38.2673 33.3027 37.6495 34.354 37.023 35.2412C37.025 35.2406 37.0269 35.2398 37.0289 35.2393C37.0265 35.2426 37.0253 35.2467 37.023 35.25V35.2422C35.4467 37.4742 33.8063 38.6603 32.5074 39.2891V45H37.5074C38.8902 45 40.0074 46.1172 40.0074 47.5C40.0074 48.8828 38.8902 50 37.5074 50H22.5074C21.1246 50 20.0074 48.8828 20.0074 47.5C20.0074 46.1172 21.1246 45 22.5074 45H27.5074V39.2891C26.2415 38.6778 24.6534 37.5409 23.1167 35.4277C23.1379 35.457 23.1581 35.4868 23.1792 35.5156C21.7418 35.1406 20.1792 34.5703 18.648 33.7109C14.4214 31.3438 10.6089 26.8828 10.0621 18.875L10.0699 18.8828C9.92144 16.6875 11.7105 15 13.7574 15H17.6324C17.6365 15.0768 17.6418 15.1532 17.646 15.2295C17.6199 14.7508 17.5965 14.263 17.5777 13.7656C17.4917 11.7031 19.1871 10 21.2574 10H38.7574ZM17.7183 16.3936C17.7742 17.2079 17.8385 17.9935 17.9136 18.75H13.8199C14.3041 25.3656 17.3421 28.6774 20.4742 30.4355C19.1756 27.0748 18.1423 22.5327 17.7183 16.3936ZM42.0943 18.75C41.6101 23.5096 40.7362 27.2029 39.6714 30.0693C42.8353 28.2099 45.6949 24.9059 46.1792 18.7578L42.0943 18.75Z" fill="currentColor"/>
     </svg>
   );
 }
 
 function IconLearning() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="2" width="16" height="20" rx="2"/>
-      <path d="M8 8h8M8 12h8M8 16h5"/>
+    <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M42.5 50H20C15.8594 50 12.5 46.6406 12.5 42.5V17.5C12.5 13.3594 15.8594 10 20 10H43.75C45.8203 10 47.5 11.6797 47.5 13.75V36.25C47.5 37.8828 46.4531 39.2734 45 39.7891V45C46.3828 45 47.5 46.1172 47.5 47.5C47.5 48.8828 46.3828 50 45 50H42.5ZM20 40C18.6172 40 17.5 41.1172 17.5 42.5C17.5 43.8828 18.6172 45 20 45H40V40H20ZM22.5 21.875C22.5 22.9141 23.3359 23.75 24.375 23.75H38.125C39.1641 23.75 40 22.9141 40 21.875C40 20.8359 39.1641 20 38.125 20H24.375C23.3359 20 22.5 20.8359 22.5 21.875ZM24.375 27.5C23.3359 27.5 22.5 28.3359 22.5 29.375C22.5 30.4141 23.3359 31.25 24.375 31.25H38.125C39.1641 31.25 40 30.4141 40 29.375C40 28.3359 39.1641 27.5 38.125 27.5H24.375Z" fill="currentColor"/>
     </svg>
   );
 }
 
 function IconNewGame() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <circle cx="12" cy="12" r="9"/>
-      <circle cx="12" cy="12" r="4"/>
-      <path d="M12 3v2M12 19v2M3 12h2M19 12h2"/>
+    <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 5.81998C37.5987 5.81998 43.7586 11.9794 43.7588 19.5778C43.7588 23.0493 42.4718 26.2196 40.3506 28.6403C37.8287 25.7625 34.1271 23.944 30 23.944C25.8726 23.944 22.1703 25.7622 19.6484 28.6403C17.5275 26.2196 16.2412 23.049 16.2412 19.5778C16.2414 11.9794 22.4013 5.82 30 5.81998ZM30 12.2321C28.6052 12.1702 27.1759 12.5529 25.9893 13.319C23.8809 14.6445 22.6251 17.1787 22.834 19.5778C22.875 20.129 22.9835 20.672 23.1562 21.1872C23.2586 21.4926 23.3834 21.7888 23.5283 22.0719C23.4456 21.7649 23.3837 21.4547 23.3418 21.1442C23.271 20.6202 23.2577 20.0939 23.2988 19.5778C23.4665 17.3335 24.7174 15.315 26.5293 14.1608C27.5573 13.4993 28.7591 13.1144 30 13.0583C31.4401 12.9878 32.9247 13.3672 34.2041 14.1842C34.4685 14.3525 34.7243 14.5395 34.9688 14.7428C34.772 14.4929 34.5546 14.2557 34.3203 14.0348C33.1907 12.9612 31.6226 12.2925 30 12.2321Z" fill="currentColor"/>
+      <path d="M30 26.6634C37.5987 26.6634 43.7586 32.8228 43.7588 40.4212C43.7588 48.0198 37.5988 54.18 30 54.18C22.4012 54.18 16.2412 48.0197 16.2412 40.4212C16.2414 32.8228 22.4013 26.6634 30 26.6634ZM30 33.0472C29.3893 33.0474 28.8945 33.5428 28.8945 34.1536V39.3157H23.7324C23.1216 39.3157 22.6261 39.8104 22.626 40.4212C22.626 41.0321 23.1215 41.5276 23.7324 41.5276H28.8945V46.6898C28.8946 47.3005 29.3893 47.796 30 47.7962C30.6108 47.796 31.1064 47.3005 31.1064 46.6898V41.5276H36.2686C36.8793 41.5275 37.375 41.032 37.375 40.4212C37.3748 39.8105 36.8792 39.3159 36.2686 39.3157H31.1064V34.1536C31.1064 33.5428 30.6108 33.0473 30 33.0472Z" fill="currentColor"/>
     </svg>
   );
 }
 
 function IconFriends() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <circle cx="9" cy="7" r="3.5"/>
-      <path d="M2 20c0-3.31 3.13-6 7-6s7 2.69 7 6"/>
-      <circle cx="18" cy="7" r="3" strokeWidth="1.4"/>
-      <path d="M15.5 20c0-2.12 1.3-3.96 3.5-4.8" strokeWidth="1.4"/>
+    <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11.9355 19.0323C11.9355 17.8461 12.1691 16.6716 12.623 15.5758C13.0769 14.4799 13.7422 13.4842 14.5809 12.6455C15.4197 11.8068 16.4154 11.1415 17.5112 10.6875C18.6071 10.2336 19.7816 10 20.9677 10C22.1539 10 23.3284 10.2336 24.4242 10.6875C25.5201 11.1415 26.5158 11.8068 27.3545 12.6455C28.1932 13.4842 28.8585 14.4799 29.3124 15.5758C29.7664 16.6716 30 17.8461 30 19.0323C30 20.2184 29.7664 21.3929 29.3124 22.4888C28.8585 23.5846 28.1932 24.5803 27.3545 25.419C26.5158 26.2578 25.5201 26.9231 24.4242 27.377C23.3284 27.8309 22.1539 28.0645 20.9677 28.0645C19.7816 28.0645 18.6071 27.8309 17.5112 27.377C16.4154 26.9231 15.4197 26.2578 14.5809 25.419C13.7422 24.5803 13.0769 23.5846 12.623 22.4888C12.1691 21.3929 11.9355 20.2184 11.9355 19.0323ZM6.77417 46.129C6.77417 38.2903 13.129 31.9355 20.9677 31.9355C28.8064 31.9355 35.1613 38.2903 35.1613 46.129V46.6129C35.1613 48.4839 33.6451 50 31.7742 50H10.1613C8.2903 50 6.77417 48.4839 6.77417 46.6129V46.129ZM41.6129 13.871C43.6662 13.871 45.6354 14.6866 47.0873 16.1385C48.5392 17.5904 49.3548 19.5596 49.3548 21.6129C49.3548 23.6662 48.5392 25.6354 47.0873 27.0873C45.6354 28.5392 43.6662 29.3548 41.6129 29.3548C39.5596 29.3548 37.5904 28.5392 36.1385 27.0873C34.6866 25.6354 33.8709 23.6662 33.8709 21.6129C33.8709 19.5596 34.6866 17.5904 36.1385 16.1385C37.5904 14.6866 39.5596 13.871 41.6129 13.871ZM41.6129 33.2258C48.0242 33.2258 53.2258 38.4274 53.2258 44.8387V46.6452C53.2258 48.5 51.7258 50 49.8709 50H38.1935C38.7258 48.9919 39.0322 47.8387 39.0322 46.6129V46.129C39.0322 41.9758 37.629 38.1532 35.2822 35.1048C37.1048 33.9194 39.2822 33.2258 41.6129 33.2258Z" fill="currentColor"/>
     </svg>
   );
 }
 
 function IconProfile() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <circle cx="12" cy="7" r="4"/>
-      <path d="M4 21c0-4.42 3.58-8 8-8s8 3.58 8 8"/>
+    <svg width="24" height="24" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 29.0476C31.2507 29.0476 32.4892 28.8013 33.6446 28.3227C34.8001 27.844 35.85 27.1425 36.7344 26.2582C37.6188 25.3738 38.3203 24.3239 38.7989 23.1684C39.2775 22.0129 39.5238 20.7745 39.5238 19.5238C39.5238 18.2731 39.2775 17.0347 38.7989 15.8792C38.3203 14.7237 37.6188 13.6738 36.7344 12.7895C35.85 11.9051 34.8001 11.2036 33.6446 10.725C32.4892 10.2463 31.2507 10 30 10C28.7493 10 27.5109 10.2463 26.3554 10.725C25.1999 11.2036 24.15 11.9051 23.2657 12.7895C22.3813 13.6738 21.6798 14.7237 21.2012 15.8792C20.7226 17.0347 20.4762 18.2731 20.4762 19.5238C20.4762 20.7745 20.7226 22.0129 21.2012 23.1684C21.6798 24.3239 22.3813 25.3738 23.2657 26.2582C24.15 27.1425 25.1999 27.844 26.3554 28.3227C27.5109 28.8013 28.7493 29.0476 30 29.0476ZM27.6429 33.4921C19.8254 33.4921 13.4921 39.8254 13.4921 47.6429C13.4921 48.9444 14.5477 50 15.8492 50H44.1508C45.4524 50 46.508 48.9444 46.508 47.6429C46.508 39.8254 40.1746 33.4921 32.3572 33.4921H27.6429Z" fill="currentColor"/>
     </svg>
   );
 }
@@ -79,9 +71,7 @@ function MobileNav() {
     <nav className="ls-mobile-nav">
       {NAV_ITEMS.map(({ label, Icon, active }) => (
         <button key={label} className={`ls-nav-item${active ? ' ls-nav-item-active' : ''}`}>
-          <div className="ls-nav-icon-wrap">
-            <Icon />
-          </div>
+          <Icon />
           <span className="ls-nav-label">{label}</span>
         </button>
       ))}
@@ -458,6 +448,65 @@ function SiteFooter() {
   );
 }
 
+/* ─── Glossary ───────────────────────────────────────────────── */
+
+const GLOSSARY = {
+  'Points':      'The 24 triangular spaces on the board, numbered 1–24 from each player\'s home board.',
+  'Home Board':  'Your final quadrant — points 1 to 6. All 15 checkers must be here before you can start bearing off.',
+  'Outer Board': 'The two middle quadrants between the home boards. Much of the early racing and blocking happens here.',
+  'Bar':         'The raised ridge down the centre of the board. Hit checkers sit here and must re-enter before any other move.',
+  'Blot':        'A single lone checker on a point — unprotected and vulnerable to being hit.',
+  'Hit':         'Landing on an opponent\'s blot, sending their checker to the Bar.',
+  'Anchor':      'Two or more of your checkers on the same point. Opponents cannot land here — a defensive stronghold.',
+  'Gammon':      'Winning while the opponent hasn\'t borne off a single checker. Worth 2 points.',
+  'Backgammon':  'The ultimate win — opponent still has a checker on the Bar or in your home board when you finish. Worth 3 points.',
+};
+
+function GlossaryTerm({ term }) {
+  const [show, setShow] = useState(false);
+  const def = GLOSSARY[term];
+
+  if (!def) {
+    return <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>{term}</strong>;
+  }
+
+  return (
+    <span style={{ position: 'relative', display: 'inline' }}>
+      <strong
+        style={{ fontWeight: 700, color: 'var(--color-heading)', borderBottom: '1px dashed var(--color-glossary-underline)', cursor: 'help' }}
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
+        {term}
+      </strong>
+      {show && (
+        <span style={{
+          position: 'absolute',
+          bottom: 'calc(100% + 8px)',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 220,
+          background: 'var(--color-heading)',
+          color: 'var(--color-bg)',
+          fontFamily: fb,
+          fontWeight: 400,
+          fontSize: 13,
+          lineHeight: 1.5,
+          padding: '8px 12px',
+          borderRadius: 6,
+          whiteSpace: 'normal',
+          textAlign: 'left',
+          zIndex: 200,
+          pointerEvents: 'none',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+        }}>
+          {def}
+        </span>
+      )}
+    </span>
+  );
+}
+
 /* ─── Quiz ───────────────────────────────────────────────────── */
 
 const QUIZ_QUESTIONS = [
@@ -689,32 +738,15 @@ function QuizModule() {
         })}
       </div>
 
-      {/* Feedback — appears between options and button */}
-      <div style={{
-        fontFamily: fb, fontSize: 14, lineHeight: 1.5, flexShrink: 0,
-        color: isCorrect ? '#a5d6a7' : '#ef9a9a',
-        marginTop: 16, padding: '10px 14px',
-        background: isAnswered
-          ? (isCorrect ? 'rgba(76,175,80,0.1)' : 'rgba(244,67,54,0.1)')
-          : 'transparent',
-        borderRadius: 6,
-        visibility: isAnswered ? 'visible' : 'hidden',
-      }}>
-        {isCorrect ? '✓ Correct!' : '✗ Not quite — the correct answer is highlighted above.'}
-      </div>
-
-      {/* Next button — always rendered, invisible until answered, keeps height stable */}
-      <button
-        onClick={isAnswered ? handleNext : undefined}
-        style={{
-          ...quizBtn,
-          marginTop: 8, flexShrink: 0,
-          opacity: isAnswered ? 1 : 0,
-          pointerEvents: isAnswered ? 'auto' : 'none',
-        }}
-      >
-        {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →'}
-      </button>
+      {/* Next button — only rendered once answered */}
+      {isAnswered && (
+        <button
+          onClick={handleNext}
+          style={{ ...quizBtn, marginTop: 16, flexShrink: 0 }}
+        >
+          {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →'}
+        </button>
+      )}
     </div>
   );
 }
@@ -724,7 +756,6 @@ const quizCard = {
   padding: '28px',
   width: '100%',
   boxSizing: 'border-box',
-  height: 520,
   display: 'flex',
   flexDirection: 'column',
 };
@@ -742,6 +773,68 @@ const quizBtn = {
   cursor: 'pointer',
   letterSpacing: '0.03em',
 };
+
+/* ─── Guide navigation CTAs ─────────────────────────────────── */
+
+const GUIDE_SEQUENCE = [
+  { title: 'Introduction to Backgammon', href: '#' },
+  { title: 'How to Play Backgammon',     href: '#' },
+  { title: 'The Doubling Cube',          href: '#' },
+];
+const CURRENT_GUIDE_IDX = 1;
+
+function GuideCTAs() {
+  const prev = GUIDE_SEQUENCE[CURRENT_GUIDE_IDX - 1] ?? null;
+  const next = GUIDE_SEQUENCE[CURRENT_GUIDE_IDX + 1] ?? null;
+
+  const card = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4,
+    padding: '14px 18px',
+    borderRadius: 10,
+    background: 'var(--color-guide-nav-bg)',
+    border: '1px solid var(--color-guide-nav-border)',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    transition: 'border-color 0.15s',
+  };
+
+  const labelStyle = {
+    fontFamily: fm,
+    fontSize: 11,
+    fontWeight: 600,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    color: 'var(--color-guide-nav-label)',
+  };
+
+  const titleStyle = {
+    fontFamily: fs,
+    fontSize: 15,
+    fontWeight: 700,
+    color: 'var(--color-guide-nav-title)',
+    lineHeight: 1.3,
+  };
+
+  return (
+    <div style={{ display: 'flex', gap: 12, width: '100%' }}>
+      {prev ? (
+        <a href={prev.href} style={{ ...card, alignItems: 'flex-start' }}>
+          <span style={labelStyle}>← Previous</span>
+          <span style={titleStyle}>{prev.title}</span>
+        </a>
+      ) : <div style={{ flex: 1 }} />}
+      {next ? (
+        <a href={next.href} style={{ ...card, alignItems: 'flex-end', textAlign: 'right' }}>
+          <span style={labelStyle}>Next →</span>
+          <span style={titleStyle}>{next.title}</span>
+        </a>
+      ) : <div style={{ flex: 1 }} />}
+    </div>
+  );
+}
 
 /* ─── Table of Contents ──────────────────────────────────────── */
 
@@ -887,11 +980,14 @@ export default function LearnSegmentTemplate() {
       <section className="ls-section">
         <div className="ls-content">
 
-          <div className="ls-breadcrumb-row">
-            <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
+          <div className="ls-breadcrumb-wrap">
+            <div className="ls-breadcrumb-row">
+              <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
+            </div>
             <div className="ls-badge">
               <BadgeIcon />
-              <div className="ls-badge-tooltip">Lesson 1 Badge — 1XP</div>
+              <div className="ls-badge-dot">1</div>
+              <div className="ls-badge-tooltip">Learn EXP +1</div>
             </div>
           </div>
 
@@ -934,10 +1030,10 @@ export default function LearnSegmentTemplate() {
             <H2>1. Board Layout</H2>
             <BodyText>
               <p style={{ margin: 0 }}>
-                The board has 24 triangles called <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Points</strong>. The board is split into four quadrants.{' '}
-                Your <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Home Board</strong> is where you finish.{' '}
-                The <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Outer Board</strong> is the middle of the track.{' '}
-                The <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Bar</strong> is the ridge down the center.
+                The board has 24 triangles called <GlossaryTerm term="Points" />. The board is split into four quadrants.{' '}
+                Your <GlossaryTerm term="Home Board" /> is where you finish.{' '}
+                The <GlossaryTerm term="Outer Board" /> is the middle of the track.{' '}
+                The <GlossaryTerm term="Bar" /> is the ridge down the center.
               </p>
             </BodyText>
           </div>
@@ -1010,7 +1106,7 @@ export default function LearnSegmentTemplate() {
               <BulletItem label="Blocked Points">
                 If your opponent has{' '}
                 <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>two or more</strong> checkers on a point, it is an{' '}
-                <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Anchor</strong>. You cannot land there.
+                <GlossaryTerm term="Anchor" />. You cannot land there.
                 This is how you control the game — building anchors stops your opponent from moving.
               </BulletItem>
               <BulletItem label="Doubles">
@@ -1031,9 +1127,9 @@ export default function LearnSegmentTemplate() {
               <BodyText>
                 <p style={{ margin: 0 }}>
                   If your opponent leaves a single checker on a point, it is called a{' '}
-                  <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Blot</strong>.
-                  If you land on a Blot, you <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Hit</strong> it
-                  and send it to the <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>Bar</strong>.
+                  <GlossaryTerm term="Blot" />.
+                  If you land on a Blot, you <GlossaryTerm term="Hit" /> it
+                  and send it to the <GlossaryTerm term="Bar" />.
                 </p>
               </BodyText>
               <Callout>The Penalty</Callout>
@@ -1101,6 +1197,9 @@ export default function LearnSegmentTemplate() {
             <QuizModule />
           </div>
 
+          {/* Guide navigation */}
+          <GuideCTAs />
+
           <div className="ls-nav-spacer" />
 
         </div>
@@ -1123,13 +1222,20 @@ export default function LearnSegmentTemplate() {
               Reading is good. Playing is better.
             </div>
           </div>
-          <button style={{
-            background: 'var(--color-heading)', border: 'none', borderRadius: 8,
-            padding: '11px 28px', fontFamily: fp, fontWeight: 700, fontSize: 15,
-            color: 'var(--color-bg)', cursor: 'pointer', letterSpacing: '0.04em', flexShrink: 0,
-          }}>
+          <a
+            href="https://backgammon.com/play"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              background: 'var(--color-heading)', border: 'none', borderRadius: 8,
+              padding: '11px 28px', fontFamily: fp, fontWeight: 700, fontSize: 15,
+              color: 'var(--color-bg)', cursor: 'pointer', letterSpacing: '0.04em', flexShrink: 0,
+              textDecoration: 'none',
+            }}
+          >
             Play Now
-          </button>
+          </a>
         </div>
       </div>
 

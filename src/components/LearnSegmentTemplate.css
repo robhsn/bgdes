@@ -193,6 +193,20 @@
   --color-badge-icon:             var(--prim-mono-750);
   --color-badge-icon-inner:       var(--prim-mono-100);
 
+  /* ── Mobile nav ───────────────────────────────────────────── */
+  --color-nav-bg:                 var(--prim-mono-100);
+  --color-nav-border:             var(--prim-mono-250);
+  --color-nav-icon:               var(--prim-mono-900);
+
+  /* ── Glossary ─────────────────────────────────────────────── */
+  --color-glossary-underline:     var(--prim-mono-350);
+
+  /* ── Guide nav CTAs ───────────────────────────────────────── */
+  --color-guide-nav-bg:           var(--prim-mono-white);
+  --color-guide-nav-border:       var(--prim-mono-250);
+  --color-guide-nav-label:        var(--prim-mono-500);
+  --color-guide-nav-title:        var(--prim-mono-900);
+
   /* ── Typography ──────────────────────────────────────────────── */
   --font-heading:    var(--prim-type-heading);    /* H1                 */
   --font-subheading: var(--prim-type-subheading); /* H2                 */
@@ -261,6 +275,11 @@
   --color-link:           var(--sf-muted-link);
   --color-pill:           var(--sf-muted-pill);
   --color-accent:         var(--sf-muted-accent);
+  --color-glossary-underline: var(--prim-mono-350);
+  --color-guide-nav-bg:       var(--prim-mono-white);
+  --color-guide-nav-border:   var(--prim-mono-250);
+  --color-guide-nav-label:    var(--prim-mono-500);
+  --color-guide-nav-title:    var(--prim-mono-900);
 }
 
 .surface-inverse {
@@ -279,6 +298,11 @@
   --color-link:           var(--sf-inverse-link);
   --color-pill:           var(--sf-inverse-pill);
   --color-accent:         var(--sf-inverse-accent);
+  --color-glossary-underline: var(--prim-mono-550);
+  --color-guide-nav-bg:       var(--prim-mono-750);
+  --color-guide-nav-border:   var(--prim-mono-550);
+  --color-guide-nav-label:    var(--prim-mono-350);
+  --color-guide-nav-title:    var(--prim-mono-white);
 }
 
 .surface-accent {
@@ -297,6 +321,11 @@
   --color-link:           var(--sf-accent-link);
   --color-pill:           var(--sf-accent-pill);
   --color-accent:         var(--sf-accent-accent);
+  --color-glossary-underline: var(--prim-mono-500);
+  --color-guide-nav-bg:       var(--prim-mono-600);
+  --color-guide-nav-border:   var(--prim-mono-500);
+  --color-guide-nav-label:    var(--prim-mono-250);
+  --color-guide-nav-title:    var(--prim-mono-white);
 }
 
 .surface-tertiary {
@@ -315,6 +344,11 @@
   --color-link:           var(--sf-tertiary-link);
   --color-pill:           var(--sf-tertiary-pill);
   --color-accent:         var(--sf-tertiary-accent);
+  --color-glossary-underline: var(--prim-mono-550);
+  --color-guide-nav-bg:       var(--prim-mono-700);
+  --color-guide-nav-border:   var(--prim-mono-550);
+  --color-guide-nav-label:    var(--prim-mono-350);
+  --color-guide-nav-title:    var(--prim-mono-white);
 }
 
 .ls-content {
@@ -405,6 +439,25 @@
   opacity: 1;
 }
 
+.ls-badge-dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-heading);
+  color: var(--color-white);
+  font-family: var(--font-pill);
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-bg);
+}
+
 /* ─── Image + text rows ──────────────────────────────────────── */
 
 .ls-image-row {
@@ -491,16 +544,22 @@
 
 /* ─── Breadcrumb row ─────────────────────────────────────────── */
 
+.ls-breadcrumb-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
 .ls-breadcrumb-row {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  /* flex props mirror the inline styles so overflow works correctly */
   display: flex;
   gap: 16px;
   align-items: center;
-  flex-shrink: 0;
-  width: 100%;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .ls-breadcrumb-row::-webkit-scrollbar {
@@ -515,8 +574,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #e6e6e6;
-  border-top: 1px solid #d0d0d0;
+  background: var(--color-nav-bg);
+  border-top: 1px solid var(--color-nav-border);
   height: 56px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   box-sizing: content-box;
@@ -530,42 +589,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 4px;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   flex: 1;
-  color: #aaa;
-}
-
-.ls-nav-icon-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 28px;
-  border-radius: 14px;
+  color: var(--color-nav-icon);
+  opacity: 0.4;
 }
 
 .ls-nav-item-active {
-  color: #111;
-}
-
-.ls-nav-item-active .ls-nav-icon-wrap {
-  background: #333;
-  color: #fff;
+  opacity: 1;
 }
 
 .ls-nav-label {
   font-family: var(--font-body);
   font-size: 10px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1;
-}
-
-.ls-nav-item-active .ls-nav-label {
-  font-weight: 700;
 }
 
 /* Spacer so content isn't hidden behind fixed nav */
