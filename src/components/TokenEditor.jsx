@@ -76,9 +76,12 @@ const L1_COLOR_MAP = {
   '--prim-sapphire-400': '#104188', '--prim-sapphire-300': '#134b9b',
   '--prim-sapphire-200': '#2158a7', '--prim-sapphire-100': '#2f65b3',
   '--prim-sapphire-50':  '#97b2d9',
-  '--prim-splash-900': '#0094b9', '--prim-splash-700': '#26b7dc',
-  '--prim-splash-500': '#58ddff', '--prim-splash-300': '#88e7ff',
-  '--prim-splash-100': '#b4f0ff',
+  '--prim-splash-950': '#0082a7', '--prim-splash-900': '#0094b9',
+  '--prim-splash-800': '#13a5ca', '--prim-splash-700': '#26b7dc',
+  '--prim-splash-600': '#3fcaed', '--prim-splash-500': '#58ddff',
+  '--prim-splash-400': '#70e2ff', '--prim-splash-300': '#88e7ff',
+  '--prim-splash-200': '#9eebff', '--prim-splash-100': '#b4f0ff',
+  '--prim-splash-50':  '#ebfbff',
   '--prim-orange-950': '#511702', '--prim-orange-900': '#a22e05',
   '--prim-orange-800': '#b6380c', '--prim-orange-700': '#ca4313',
   '--prim-orange-600': '#dd4e1c', '--prim-orange-500': '#f05a25',
@@ -95,7 +98,7 @@ const L1_COLOR_MAP = {
 const L1_COLOR_PALETTES = [
   { name: 'Mono',     tokens: ['--prim-mono-white','--prim-mono-50','--prim-mono-100','--prim-mono-150','--prim-mono-200','--prim-mono-250','--prim-mono-300','--prim-mono-350','--prim-mono-500','--prim-mono-550','--prim-mono-600','--prim-mono-700','--prim-mono-750','--prim-mono-900','--prim-mono-black'] },
   { name: 'Sapphire', tokens: ['--prim-sapphire-50','--prim-sapphire-100','--prim-sapphire-200','--prim-sapphire-300','--prim-sapphire-400','--prim-sapphire-500','--prim-sapphire-600','--prim-sapphire-700','--prim-sapphire-800','--prim-sapphire-900','--prim-sapphire-950'] },
-  { name: 'Splash',   tokens: ['--prim-splash-100','--prim-splash-300','--prim-splash-500','--prim-splash-700','--prim-splash-900'] },
+  { name: 'Splash',   tokens: ['--prim-splash-50','--prim-splash-100','--prim-splash-200','--prim-splash-300','--prim-splash-400','--prim-splash-500','--prim-splash-600','--prim-splash-700','--prim-splash-800','--prim-splash-900','--prim-splash-950'] },
   { name: 'Orange',   tokens: ['--prim-orange-50','--prim-orange-100','--prim-orange-200','--prim-orange-300','--prim-orange-400','--prim-orange-500','--prim-orange-600','--prim-orange-700','--prim-orange-800','--prim-orange-900','--prim-orange-950'] },
   { name: 'Butter',   tokens: ['--prim-butter-400','--prim-butter-500','--prim-butter-600','--prim-butter-700','--prim-butter-800','--prim-butter-900','--prim-butter-950'] },
 ];
@@ -105,15 +108,15 @@ const THEMES = {
   mono: {
     label: 'Mono',
     globals: {
-      '--color-logo':           '--prim-mono-900',
-      '--color-pill':           '--prim-mono-900',
-      '--color-accent':         '--prim-mono-700',
       '--color-toc-pip':        '--prim-mono-300',
       '--color-toc-pip-active': '--prim-mono-550',
       '--color-badge-from':     '--prim-mono-700',
       '--color-badge-to':       '--prim-mono-900',
       '--color-badge-icon':     '--prim-mono-750',
       '--color-badge-icon-inner': '--prim-mono-100',
+      '--color-statement-bg':     '--prim-mono-100',
+      '--color-statement-border': '--prim-mono-350',
+      '--color-statement-text':   '--prim-mono-700',
     },
     surfaces: {
       default: {
@@ -127,6 +130,10 @@ const THEMES = {
         '--color-border-subtle':  '--prim-mono-350',
         '--color-callout-border': '--prim-mono-500',
         '--color-placeholder':    '--prim-mono-200',
+        '--color-logo':           '--prim-mono-900',
+        '--color-link':           '--prim-mono-700',
+        '--color-pill':           '--prim-mono-900',
+        '--color-accent':         '--prim-mono-700',
       },
       muted: {
         '--sf-muted-bg':             '--prim-mono-50',
@@ -139,6 +146,10 @@ const THEMES = {
         '--sf-muted-border-subtle':  '--prim-mono-350',
         '--sf-muted-callout-border': '--prim-mono-500',
         '--sf-muted-placeholder':    '--prim-mono-200',
+        '--sf-muted-logo':           '--prim-mono-900',
+        '--sf-muted-link':           '--prim-mono-700',
+        '--sf-muted-pill':           '--prim-mono-900',
+        '--sf-muted-accent':         '--prim-mono-700',
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mono-900',
@@ -151,6 +162,10 @@ const THEMES = {
         '--sf-inverse-border-subtle':  '--prim-mono-500',
         '--sf-inverse-callout-border': '--prim-mono-350',
         '--sf-inverse-placeholder':    '--prim-mono-700',
+        '--sf-inverse-logo':           '--prim-mono-white',
+        '--sf-inverse-link':           '--prim-mono-300',
+        '--sf-inverse-pill':           '--prim-mono-white',
+        '--sf-inverse-accent':         '--prim-mono-500',
       },
       accent: {
         '--sf-accent-bg':             '--prim-mono-700',
@@ -163,21 +178,41 @@ const THEMES = {
         '--sf-accent-border-subtle':  '--prim-mono-350',
         '--sf-accent-callout-border': '--prim-mono-250',
         '--sf-accent-placeholder':    '--prim-mono-600',
+        '--sf-accent-logo':           '--prim-mono-white',
+        '--sf-accent-link':           '--prim-mono-300',
+        '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-accent':         '--prim-mono-900',
+      },
+      tertiary: {
+        '--sf-tertiary-bg':             '--prim-mono-750',
+        '--sf-tertiary-heading':        '--prim-mono-white',
+        '--sf-tertiary-body':           '--prim-mono-200',
+        '--sf-tertiary-text-muted':     '--prim-mono-350',
+        '--sf-tertiary-border':         '--prim-mono-600',
+        '--sf-tertiary-border-light':   '--prim-mono-700',
+        '--sf-tertiary-border-mid':     '--prim-mono-550',
+        '--sf-tertiary-border-subtle':  '--prim-mono-500',
+        '--sf-tertiary-callout-border': '--prim-mono-300',
+        '--sf-tertiary-placeholder':    '--prim-mono-600',
+        '--sf-tertiary-logo':           '--prim-mono-white',
+        '--sf-tertiary-link':           '--prim-mono-200',
+        '--sf-tertiary-pill':           '--prim-mono-white',
+        '--sf-tertiary-accent':         '--prim-mono-500',
       },
     },
   },
   'coral-tide': {
     label: 'Coral Tide',
     globals: {
-      '--color-logo':           '--prim-sapphire-900',
-      '--color-pill':           '--prim-sapphire-900',
-      '--color-accent':         '--prim-orange-500',
-      '--color-toc-pip':        '--prim-splash-100',
-      '--color-toc-pip-active': '--prim-splash-900',
-      '--color-badge-from':     '--prim-orange-500',
-      '--color-badge-to':       '--prim-sapphire-900',
-      '--color-badge-icon':     '--prim-mono-white',
+      '--color-toc-pip':          '--prim-splash-100',
+      '--color-toc-pip-active':   '--prim-splash-900',
+      '--color-badge-from':       '--prim-orange-500',
+      '--color-badge-to':         '--prim-sapphire-900',
+      '--color-badge-icon':       '--prim-mono-white',
       '--color-badge-icon-inner': '--prim-sapphire-900',
+      '--color-statement-bg':     '--prim-butter-700',
+      '--color-statement-border': '--prim-orange-300',
+      '--color-statement-text':   '--prim-sapphire-700',
     },
     surfaces: {
       default: {
@@ -191,6 +226,10 @@ const THEMES = {
         '--color-border-subtle':  '--prim-orange-300',
         '--color-callout-border': '--prim-splash-700',
         '--color-placeholder':    '--prim-splash-300',
+        '--color-logo':           '--prim-sapphire-400',
+        '--color-link':           '--prim-splash-700',
+        '--color-pill':           '--prim-sapphire-900',
+        '--color-accent':         '--prim-orange-300',
       },
       muted: {
         '--sf-muted-bg':             '--prim-butter-700',
@@ -203,6 +242,10 @@ const THEMES = {
         '--sf-muted-border-subtle':  '--prim-orange-300',
         '--sf-muted-callout-border': '--prim-sapphire-300',
         '--sf-muted-placeholder':    '--prim-splash-300',
+        '--sf-muted-logo':           '--prim-sapphire-900',
+        '--sf-muted-link':           '--prim-splash-700',
+        '--sf-muted-pill':           '--prim-sapphire-900',
+        '--sf-muted-accent':         '--prim-orange-300',
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -215,6 +258,10 @@ const THEMES = {
         '--sf-inverse-border-subtle':  '--prim-sapphire-300',
         '--sf-inverse-callout-border': '--prim-orange-300',
         '--sf-inverse-placeholder':    '--prim-sapphire-700',
+        '--sf-inverse-logo':           '--prim-butter-500',
+        '--sf-inverse-link':           '--prim-splash-500',
+        '--sf-inverse-pill':           '--prim-butter-500',
+        '--sf-inverse-accent':         '--prim-orange-300',
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -227,12 +274,32 @@ const THEMES = {
         '--sf-accent-border-subtle':  '--prim-orange-900',
         '--sf-accent-callout-border': '--prim-splash-700',
         '--sf-accent-placeholder':    '--prim-orange-700',
+        '--sf-accent-logo':           '--prim-mono-white',
+        '--sf-accent-link':           '--prim-splash-300',
+        '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-accent':         '--prim-orange-900',
+      },
+      tertiary: {
+        '--sf-tertiary-bg':             '--prim-sapphire-600',
+        '--sf-tertiary-heading':        '--prim-splash-300',
+        '--sf-tertiary-body':           '--prim-splash-100',
+        '--sf-tertiary-text-muted':     '--prim-sapphire-50',
+        '--sf-tertiary-border':         '--prim-sapphire-400',
+        '--sf-tertiary-border-light':   '--prim-sapphire-500',
+        '--sf-tertiary-border-mid':     '--prim-sapphire-300',
+        '--sf-tertiary-border-subtle':  '--prim-sapphire-200',
+        '--sf-tertiary-callout-border': '--prim-splash-700',
+        '--sf-tertiary-placeholder':    '--prim-sapphire-400',
+        '--sf-tertiary-logo':           '--prim-splash-300',
+        '--sf-tertiary-link':           '--prim-splash-500',
+        '--sf-tertiary-pill':           '--prim-splash-300',
+        '--sf-tertiary-accent':         '--prim-orange-300',
       },
     },
   },
 };
 
-/* Flatten globals + all 4 surfaces into a single token map for a given theme */
+/* Flatten globals + all surfaces into a single token map for a given theme */
 function themeAllColorTokens(key) {
   const t = THEMES[key];
   return {
@@ -241,16 +308,18 @@ function themeAllColorTokens(key) {
     ...t.surfaces.muted,
     ...t.surfaces.inverse,
     ...t.surfaces.accent,
+    ...t.surfaces.tertiary,
   };
 }
 
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
-const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder'];
+const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent'];
 const SURFACE_DEFS = [
-  { key: 'default', label: 'Default', prefix: '--color-',      bgToken: '--color-bg'        },
-  { key: 'muted',   label: 'Muted',   prefix: '--sf-muted-',   bgToken: '--sf-muted-bg'     },
-  { key: 'inverse', label: 'Inverse', prefix: '--sf-inverse-', bgToken: '--sf-inverse-bg'   },
-  { key: 'accent',  label: 'Accent',  prefix: '--sf-accent-',  bgToken: '--sf-accent-bg'    },
+  { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
+  { key: 'muted',    label: 'Secondary', prefix: '--sf-muted-',     bgToken: '--sf-muted-bg'       },
+  { key: 'inverse',  label: 'Inverse',   prefix: '--sf-inverse-',   bgToken: '--sf-inverse-bg'     },
+  { key: 'accent',   label: 'Accent',    prefix: '--sf-accent-',    bgToken: '--sf-accent-bg'      },
+  { key: 'tertiary', label: 'Tertiary',  prefix: '--sf-tertiary-',  bgToken: '--sf-tertiary-bg'    },
 ];
 /* Default-surface uses different names for some semantic tokens */
 const DEFAULT_SURFACE_TOKEN_MAP = {
@@ -264,6 +333,10 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'border-subtle': '--color-border-subtle',
   'callout-border':'--color-callout-border',
   'placeholder':   '--color-placeholder',
+  'logo':          '--color-logo',
+  'link':          '--color-link',
+  'pill':          '--color-pill',
+  'accent':        '--color-accent',
 };
 
 /* ─── L1 defaults ────────────────────────────────────────────── */
@@ -390,6 +463,13 @@ export default function TokenEditor() {
   const l1GroupsRef   = useRef([...INIT_L1_GROUPS]);
   const histRef       = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
   const idxRef        = useRef(0);
+  const savedSnapshotRef = useRef({
+    theme:    INIT_THEME,
+    l1:       { ...INIT_L1 },
+    l2:       { ...INIT_L2 },
+    l1Colors: { ...INIT_L1_COLOR_MAP },
+    l1Groups: INIT_L1_GROUPS.map(g => ({ ...g, tokens: [...g.tokens] })),
+  });
 
   /* Apply committed file defaults to DOM on mount */
   useEffect(() => {
@@ -613,22 +693,33 @@ export default function TokenEditor() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(state),
     }).catch(() => {});
+    /* Update the reset baseline to this saved state */
+    savedSnapshotRef.current = {
+      theme:    themeRef.current,
+      l1:       { ...l1Ref.current },
+      l2:       { ...l2Ref.current },
+      l1Colors: { ...l1ColorMapRef.current },
+      l1Groups: l1GroupsRef.current.map(g => ({ ...g, tokens: [...g.tokens] })),
+    };
     setIsDirty(false);
     setHasSavedState(true);
   }, []);
 
   const reset = useCallback(() => {
+    const snap = savedSnapshotRef.current;
     removeAllOverrides();
     Object.keys(l1ColorMapRef.current).forEach(t => document.documentElement.style.removeProperty(t));
-    l1Ref.current = { ...DEFAULT_L1 }; l2Ref.current = { ...DEFAULT_L2 }; themeRef.current = 'mono';
-    l1ColorMapRef.current = { ...L1_COLOR_MAP };
-    l1GroupsRef.current = L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
-    setL1({ ...DEFAULT_L1 }); setL2({ ...DEFAULT_L2 }); setActiveTheme('mono');
-    setL1ColorMap({ ...L1_COLOR_MAP });
-    setL1Groups(L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] })));
-    histRef.current = [{ theme: 'mono', l1: { ...DEFAULT_L1 }, l2: { ...DEFAULT_L2 } }];
+    Object.entries(snap.l1Colors).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+    Object.entries(snap.l2).forEach(([k, v]) => applyL2(k, v));
+    Object.entries(snap.l1).forEach(([k, v]) => applyL1(k, v));
+    l1Ref.current = { ...snap.l1 }; l2Ref.current = { ...snap.l2 }; themeRef.current = snap.theme;
+    l1ColorMapRef.current = { ...snap.l1Colors };
+    l1GroupsRef.current = snap.l1Groups.map(g => ({ ...g, tokens: [...g.tokens] }));
+    setL1({ ...snap.l1 }); setL2({ ...snap.l2 }); setActiveTheme(snap.theme);
+    setL1ColorMap({ ...snap.l1Colors });
+    setL1Groups(snap.l1Groups.map(g => ({ ...g, tokens: [...g.tokens] })));
+    histRef.current = [{ theme: snap.theme, l1: { ...snap.l1 }, l2: { ...snap.l2 } }];
     idxRef.current = 0;
-    setHasSavedState(false);
     setIsDirty(false);
     refreshHistoryState();
   }, []);
@@ -745,7 +836,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder' };
+  const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)' };
   return (
     <>
       {/* Surface tab bar */}
@@ -787,10 +878,10 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
           <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
-        <SubSect label="Global Components">
-          <ColorRow label="Logo"             name="--color-logo"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-          <ColorRow label="Pill (primary)"   name="--color-pill"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-          <ColorRow label="Pill (accent)"    name="--color-accent"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <SubSect label="Statement">
+          <ColorRow label="Background"   name="--color-statement-bg"     l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Border"       name="--color-statement-border" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Text"         name="--color-statement-text"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Navigation">
@@ -1076,8 +1167,8 @@ function SubSect({ label, children }) {
         onClick={toggle}
         style={{
           padding: '8px 16px 2px',
-          fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
-          color: '#aaa', marginTop: 4, cursor: 'pointer',
+          fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
+          color: '#e0e0e0', marginTop: 4, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}
       >
