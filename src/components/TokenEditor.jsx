@@ -117,6 +117,9 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mono-100',
       '--color-statement-border': '--prim-mono-350',
       '--color-statement-text':   '--prim-mono-700',
+      '--color-nav-bg':           '--prim-mono-100',
+      '--color-nav-border':       '--prim-mono-250',
+      '--color-nav-icon':         '--prim-mono-900',
     },
     surfaces: {
       default: {
@@ -204,40 +207,43 @@ const THEMES = {
   'coral-tide': {
     label: 'Coral Tide',
     globals: {
-      '--color-toc-pip':          '--prim-splash-100',
-      '--color-toc-pip-active':   '--prim-splash-900',
-      '--color-badge-from':       '--prim-orange-500',
-      '--color-badge-to':         '--prim-sapphire-900',
-      '--color-badge-icon':       '--prim-mono-white',
-      '--color-badge-icon-inner': '--prim-sapphire-900',
+      '--color-toc-pip':          '--prim-sapphire-50',
+      '--color-toc-pip-active':   '--prim-orange-500',
+      '--color-badge-from':       '--prim-sapphire-500',
+      '--color-badge-to':         '--prim-sapphire-50',
+      '--color-badge-icon':       '--prim-sapphire-500',
+      '--color-badge-icon-inner': '--prim-splash-400',
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-nav-bg':           '--prim-butter-500',
+      '--color-nav-border':       '--prim-butter-900',
+      '--color-nav-icon':         '--prim-sapphire-500',
     },
     surfaces: {
       default: {
-        '--color-bg':             '--prim-butter-500',
-        '--color-heading':        '--prim-sapphire-900',
+        '--color-bg':             '--prim-mono-white',
+        '--color-heading':        '--prim-sapphire-500',
         '--color-body':           '--prim-sapphire-500',
         '--color-muted':          '--prim-sapphire-700',
-        '--color-border':         '--prim-butter-900',
+        '--color-border':         '--prim-orange-50',
         '--color-border-light':   '--prim-butter-700',
         '--color-border-mid':     '--prim-butter-900',
-        '--color-border-subtle':  '--prim-orange-300',
+        '--color-border-subtle':  '--prim-splash-300',
         '--color-callout-border': '--prim-splash-700',
         '--color-placeholder':    '--prim-splash-300',
         '--color-logo':           '--prim-sapphire-400',
         '--color-link':           '--prim-splash-700',
-        '--color-pill':           '--prim-sapphire-900',
+        '--color-pill':           '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
       },
       muted: {
-        '--sf-muted-bg':             '--prim-butter-700',
-        '--sf-muted-heading':        '--prim-sapphire-900',
+        '--sf-muted-bg':             '--prim-splash-50',
+        '--sf-muted-heading':        '--prim-sapphire-600',
         '--sf-muted-body':           '--prim-sapphire-700',
         '--sf-muted-text-muted':     '--prim-sapphire-500',
         '--sf-muted-border':         '--prim-butter-900',
-        '--sf-muted-border-light':   '--prim-butter-700',
+        '--sf-muted-border-light':   '--prim-splash-200',
         '--sf-muted-border-mid':     '--prim-butter-900',
         '--sf-muted-border-subtle':  '--prim-orange-300',
         '--sf-muted-callout-border': '--prim-sapphire-300',
@@ -280,17 +286,116 @@ const THEMES = {
         '--sf-accent-accent':         '--prim-orange-900',
       },
       tertiary: {
-        '--sf-tertiary-bg':             '--prim-sapphire-600',
-        '--sf-tertiary-heading':        '--prim-splash-300',
-        '--sf-tertiary-body':           '--prim-splash-100',
-        '--sf-tertiary-text-muted':     '--prim-sapphire-50',
+        '--sf-tertiary-bg':             '--prim-sapphire-800',
+        '--sf-tertiary-heading':        '--prim-mono-white',
+        '--sf-tertiary-body':           '--prim-mono-white',
+        '--sf-tertiary-text-muted':     '--prim-splash-200',
         '--sf-tertiary-border':         '--prim-sapphire-400',
         '--sf-tertiary-border-light':   '--prim-sapphire-500',
         '--sf-tertiary-border-mid':     '--prim-sapphire-300',
         '--sf-tertiary-border-subtle':  '--prim-sapphire-200',
         '--sf-tertiary-callout-border': '--prim-splash-700',
-        '--sf-tertiary-placeholder':    '--prim-sapphire-400',
-        '--sf-tertiary-logo':           '--prim-splash-300',
+        '--sf-tertiary-placeholder':    '--prim-mono-black',
+        '--sf-tertiary-logo':           '--prim-mono-black',
+        '--sf-tertiary-link':           '--prim-splash-500',
+        '--sf-tertiary-pill':           '--prim-splash-300',
+        '--sf-tertiary-accent':         '--prim-orange-300',
+      },
+    },
+  },
+  'coral-tide-alt': {
+    label: 'Coral Tide Alt',
+    globals: {
+      '--color-toc-pip':          '--prim-sapphire-50',
+      '--color-toc-pip-active':   '--prim-orange-500',
+      '--color-badge-from':       '--prim-sapphire-500',
+      '--color-badge-to':         '--prim-sapphire-50',
+      '--color-badge-icon':       '--prim-sapphire-500',
+      '--color-badge-icon-inner': '--prim-splash-400',
+      '--color-statement-bg':     '--prim-butter-700',
+      '--color-statement-border': '--prim-orange-300',
+      '--color-statement-text':   '--prim-sapphire-700',
+      '--color-nav-bg':           '--prim-butter-500',
+      '--color-nav-border':       '--prim-butter-900',
+      '--color-nav-icon':         '--prim-sapphire-500',
+    },
+    surfaces: {
+      default: {
+        '--color-bg':             '--prim-mono-white',
+        '--color-heading':        '--prim-sapphire-500',
+        '--color-body':           '--prim-sapphire-500',
+        '--color-muted':          '--prim-sapphire-700',
+        '--color-border':         '--prim-orange-50',
+        '--color-border-light':   '--prim-butter-700',
+        '--color-border-mid':     '--prim-butter-900',
+        '--color-border-subtle':  '--prim-splash-300',
+        '--color-callout-border': '--prim-splash-700',
+        '--color-placeholder':    '--prim-splash-300',
+        '--color-logo':           '--prim-sapphire-400',
+        '--color-link':           '--prim-splash-700',
+        '--color-pill':           '--prim-orange-500',
+        '--color-accent':         '--prim-orange-300',
+      },
+      muted: {
+        '--sf-muted-bg':             '--prim-splash-50',
+        '--sf-muted-heading':        '--prim-sapphire-600',
+        '--sf-muted-body':           '--prim-sapphire-700',
+        '--sf-muted-text-muted':     '--prim-sapphire-500',
+        '--sf-muted-border':         '--prim-butter-900',
+        '--sf-muted-border-light':   '--prim-splash-200',
+        '--sf-muted-border-mid':     '--prim-butter-900',
+        '--sf-muted-border-subtle':  '--prim-orange-300',
+        '--sf-muted-callout-border': '--prim-sapphire-300',
+        '--sf-muted-placeholder':    '--prim-splash-300',
+        '--sf-muted-logo':           '--prim-sapphire-900',
+        '--sf-muted-link':           '--prim-splash-700',
+        '--sf-muted-pill':           '--prim-sapphire-900',
+        '--sf-muted-accent':         '--prim-orange-300',
+      },
+      inverse: {
+        '--sf-inverse-bg':             '--prim-sapphire-900',
+        '--sf-inverse-heading':        '--prim-butter-500',
+        '--sf-inverse-body':           '--prim-butter-700',
+        '--sf-inverse-text-muted':     '--prim-butter-900',
+        '--sf-inverse-border':         '--prim-sapphire-700',
+        '--sf-inverse-border-light':   '--prim-sapphire-700',
+        '--sf-inverse-border-mid':     '--prim-sapphire-500',
+        '--sf-inverse-border-subtle':  '--prim-sapphire-300',
+        '--sf-inverse-callout-border': '--prim-orange-300',
+        '--sf-inverse-placeholder':    '--prim-sapphire-700',
+        '--sf-inverse-logo':           '--prim-butter-500',
+        '--sf-inverse-link':           '--prim-splash-500',
+        '--sf-inverse-pill':           '--prim-butter-500',
+        '--sf-inverse-accent':         '--prim-orange-300',
+      },
+      accent: {
+        '--sf-accent-bg':             '--prim-orange-500',
+        '--sf-accent-heading':        '--prim-mono-white',
+        '--sf-accent-body':           '--prim-butter-500',
+        '--sf-accent-text-muted':     '--prim-butter-700',
+        '--sf-accent-border':         '--prim-orange-700',
+        '--sf-accent-border-light':   '--prim-orange-500',
+        '--sf-accent-border-mid':     '--prim-orange-700',
+        '--sf-accent-border-subtle':  '--prim-orange-900',
+        '--sf-accent-callout-border': '--prim-splash-700',
+        '--sf-accent-placeholder':    '--prim-orange-700',
+        '--sf-accent-logo':           '--prim-mono-white',
+        '--sf-accent-link':           '--prim-splash-300',
+        '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-accent':         '--prim-orange-900',
+      },
+      tertiary: {
+        '--sf-tertiary-bg':             '--prim-sapphire-800',
+        '--sf-tertiary-heading':        '--prim-mono-white',
+        '--sf-tertiary-body':           '--prim-mono-white',
+        '--sf-tertiary-text-muted':     '--prim-splash-200',
+        '--sf-tertiary-border':         '--prim-sapphire-400',
+        '--sf-tertiary-border-light':   '--prim-sapphire-500',
+        '--sf-tertiary-border-mid':     '--prim-sapphire-300',
+        '--sf-tertiary-border-subtle':  '--prim-sapphire-200',
+        '--sf-tertiary-callout-border': '--prim-splash-700',
+        '--sf-tertiary-placeholder':    '--prim-mono-black',
+        '--sf-tertiary-logo':           '--prim-mono-black',
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
@@ -377,6 +482,10 @@ const DEFAULT_L2_EXTRA = {
   '--size-h1':         '70',
   '--size-h2':         '36',
   '--size-body':       '18',
+  '--size-logo':       '30',
+  '--size-pill':       '18',
+  '--size-toc':        '12',
+  '--size-meta':       '14',
   '--spacing-section-v':   '64',
   '--spacing-content-gap': '24',
   '--content-max-width':   '900',
@@ -395,6 +504,11 @@ const INIT_L2           = {
   ...DEFAULT_L2,
   ...(THEMES[INIT_THEME] ? themeAllColorTokens(INIT_THEME) : {}),
   ...(fileDefaults.l2 ?? {}),
+};
+/* Per-theme l2 snapshots — persisted so switching themes restores saved edits */
+const INIT_THEME_STATES = {
+  ...(fileDefaults.themeStates ?? {}),
+  [INIT_THEME]: { ...INIT_L2 },
 };
 const INIT_L1_COLOR_MAP = { ...L1_COLOR_MAP,  ...(fileDefaults.l1Colors ?? {}) };
 const INIT_L1_GROUPS    = fileDefaults.l1Groups
@@ -456,11 +570,12 @@ export default function TokenEditor() {
   const [hasSavedState, setHasSavedState] = useState(false);
 
   /* Refs for sync access inside callbacks */
-  const l1Ref         = useRef({ ...INIT_L1 });
-  const l2Ref         = useRef({ ...INIT_L2 });
-  const themeRef      = useRef(INIT_THEME);
-  const l1ColorMapRef = useRef({ ...INIT_L1_COLOR_MAP });
-  const l1GroupsRef   = useRef([...INIT_L1_GROUPS]);
+  const l1Ref          = useRef({ ...INIT_L1 });
+  const l2Ref          = useRef({ ...INIT_L2 });
+  const themeRef       = useRef(INIT_THEME);
+  const l1ColorMapRef  = useRef({ ...INIT_L1_COLOR_MAP });
+  const l1GroupsRef    = useRef([...INIT_L1_GROUPS]);
+  const themeStatesRef = useRef({ ...INIT_THEME_STATES });
   const histRef       = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
   const idxRef        = useRef(0);
   const savedSnapshotRef = useRef({
@@ -546,9 +661,21 @@ export default function TokenEditor() {
   }, [pushHistory]);
 
   const switchTheme = useCallback((key) => {
-    const colors = themeAllColorTokens(key);
-    Object.entries(colors).forEach(([k, v]) => applyL2(k, v));
-    const next = { ...l2Ref.current, ...colors };
+    /* Snapshot current theme before leaving */
+    themeStatesRef.current[themeRef.current] = { ...l2Ref.current };
+
+    const savedState = themeStatesRef.current[key];
+    let next;
+    if (savedState) {
+      /* Restore full saved state for this theme */
+      Object.entries(savedState).forEach(([k, v]) => applyL2(k, v));
+      next = { ...savedState };
+    } else {
+      /* First visit — seed from hardcoded template */
+      const colors = themeAllColorTokens(key);
+      Object.entries(colors).forEach(([k, v]) => applyL2(k, v));
+      next = { ...l2Ref.current, ...colors };
+    }
     l2Ref.current = next; themeRef.current = key;
     setL2(next); setActiveTheme(key);
     pushHistory();
@@ -680,12 +807,15 @@ export default function TokenEditor() {
 
   /* ── Save ─────────────────────────────────────────────────── */
   const handleSave = useCallback(() => {
+    /* Always snapshot current theme before saving */
+    themeStatesRef.current[themeRef.current] = { ...l2Ref.current };
     const state = {
-      theme:    themeRef.current,
-      l1:       l1Ref.current,
-      l2:       l2Ref.current,
-      l1Colors: l1ColorMapRef.current,
-      l1Groups: l1GroupsRef.current,
+      theme:       themeRef.current,
+      l1:          l1Ref.current,
+      l2:          l2Ref.current,
+      l1Colors:    l1ColorMapRef.current,
+      l1Groups:    l1GroupsRef.current,
+      themeStates: themeStatesRef.current,
     };
     /* Write to src/tokens/dme-defaults.json via Vite dev middleware */
     fetch('/__dme_save', {
@@ -887,6 +1017,9 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
         <SubSect label="Navigation">
           <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Mobile nav bg"    name="--color-nav-bg"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Mobile nav border" name="--color-nav-border"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Mobile nav icon"  name="--color-nav-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Badge">
@@ -913,6 +1046,10 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
         <SliderRow label="H1 size"       name="--size-h1"         l2={l2} set={set} min={32}  max={120}  unit="px" />
         <SliderRow label="H2 size"       name="--size-h2"         l2={l2} set={set} min={18}  max={72}   unit="px" />
         <SliderRow label="Body size"     name="--size-body"       l2={l2} set={set} min={12}  max={28}   unit="px" />
+        <SliderRow label="Logo size"     name="--size-logo"       l2={l2} set={set} min={16}  max={60}   unit="px" />
+        <SliderRow label="Pill size"     name="--size-pill"       l2={l2} set={set} min={10}  max={24}   unit="px" />
+        <SliderRow label="TOC size"      name="--size-toc"        l2={l2} set={set} min={9}   max={18}   unit="px" />
+        <SliderRow label="Meta size"     name="--size-meta"       l2={l2} set={set} min={9}   max={18}   unit="px" />
       </Sect>
       <Sect label="Spacing &amp; Layout">
         <SliderRow label="Section padding"   name="--spacing-section-v"   l2={l2} set={set} min={24}  max={120}  unit="px" />
@@ -1254,7 +1391,7 @@ function ColorRow({ label, name, l2, set, l1ColorMap, l1Groups }) {
                     <button
                       key={tok}
                       title={tok}
-                      onClick={() => { set(name, tok); setOpen(false); }}
+                      onClick={() => { set(name, tok); }}
                       style={{
                         width: 22, height: 22,
                         background: l1ColorMap[tok] || '#888',

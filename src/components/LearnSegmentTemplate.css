@@ -222,6 +222,8 @@
   --size-small: 12px;
   --size-logo:  30px;
   --size-pill:  18px;
+  --size-toc:   12px;
+  --size-meta:  14px;
 
   --lh-body: 1.9;
 
@@ -255,6 +257,7 @@
   padding: var(--spacing-section-v) var(--spacing-h);
   box-sizing: border-box;
   flex-shrink: 0;
+  position: relative;
 }
 
 /* ── Surface classes — each is a "color contract" for descendants ── */
@@ -497,8 +500,8 @@
 
 .ls-toc {
   position: absolute;
-  left: 0;
-  top: 796px;
+  left: 40px;
+  top: 600px; /* JS overrides this immediately via useLayoutEffect */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -514,6 +517,25 @@
 
 .ls-toc:hover {
   width: 214px;
+}
+
+.ls-toc-heading {
+  display: block;
+  opacity: 0;
+  white-space: nowrap;
+  font-family: var(--font-toc);
+  font-size: var(--size-toc);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-toc-pip-active);
+  padding: 0 0 6px 0;
+  transition: opacity 0.18s ease 0.08s;
+  pointer-events: none;
+}
+
+.ls-toc:hover .ls-toc-heading {
+  opacity: 1;
 }
 
 .ls-toc-label {
