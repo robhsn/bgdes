@@ -72,7 +72,6 @@
 
   /* ── Colors ──────────────────────────────────────────────────── */
   --color-bg:             var(--prim-mono-white);
-  --color-bg-gray:        var(--prim-mono-50);
   --color-heading:        var(--prim-mono-900);
   --color-pill:           var(--prim-mono-900); /* primary (dark) pill half */
   --color-accent:         var(--prim-mono-700);
@@ -87,6 +86,51 @@
   --color-toc-pip:        var(--prim-mono-300);
   --color-toc-pip-active: var(--prim-mono-550);
   --color-white:          var(--prim-mono-white);
+
+  /* ── Muted surface ──────────────────────────────────────────── */
+  --sf-muted-bg:             var(--prim-mono-50);
+  --sf-muted-heading:        var(--prim-mono-900);
+  --sf-muted-body:           var(--prim-mono-600);
+  --sf-muted-text-muted:     var(--prim-mono-750);
+  --sf-muted-border:         var(--prim-mono-100);
+  --sf-muted-border-light:   var(--prim-mono-150);
+  --sf-muted-border-mid:     var(--prim-mono-250);
+  --sf-muted-border-subtle:  var(--prim-mono-350);
+  --sf-muted-callout-border: var(--prim-mono-500);
+  --sf-muted-placeholder:    var(--prim-mono-200);
+
+  /* ── Inverse surface ────────────────────────────────────────── */
+  --sf-inverse-bg:             var(--prim-mono-900);
+  --sf-inverse-heading:        var(--prim-mono-white);
+  --sf-inverse-body:           var(--prim-mono-200);
+  --sf-inverse-text-muted:     var(--prim-mono-350);
+  --sf-inverse-border:         var(--prim-mono-700);
+  --sf-inverse-border-light:   var(--prim-mono-750);
+  --sf-inverse-border-mid:     var(--prim-mono-550);
+  --sf-inverse-border-subtle:  var(--prim-mono-500);
+  --sf-inverse-callout-border: var(--prim-mono-350);
+  --sf-inverse-placeholder:    var(--prim-mono-700);
+
+  /* ── Accent surface ─────────────────────────────────────────── */
+  --sf-accent-bg:             var(--prim-mono-700);
+  --sf-accent-heading:        var(--prim-mono-white);
+  --sf-accent-body:           var(--prim-mono-100);
+  --sf-accent-text-muted:     var(--prim-mono-250);
+  --sf-accent-border:         var(--prim-mono-550);
+  --sf-accent-border-light:   var(--prim-mono-600);
+  --sf-accent-border-mid:     var(--prim-mono-400);
+  --sf-accent-border-subtle:  var(--prim-mono-350);
+  --sf-accent-callout-border: var(--prim-mono-250);
+  --sf-accent-placeholder:    var(--prim-mono-600);
+
+  /* ── Badge gradient ───────────────────────────────────────── */
+  --color-badge-from: var(--prim-mono-700);
+  --color-badge-to:   var(--prim-mono-900);
+  --badge-angle:      135deg;
+
+  /* ── Badge icon ───────────────────────────────────────────── */
+  --color-badge-icon:             var(--prim-mono-750);
+  --color-badge-icon-inner:       var(--prim-mono-100);
 
   /* ── Typography ──────────────────────────────────────────────── */
   --font-heading:    var(--prim-type-heading);    /* H1                 */
@@ -138,8 +182,48 @@
   flex-shrink: 0;
 }
 
-.ls-section-gray {
-  background: var(--color-bg-gray);
+/* ── Surface classes — each is a "color contract" for descendants ── */
+
+.surface-muted {
+  background:             var(--sf-muted-bg);
+  --color-bg:             var(--sf-muted-bg);
+  --color-heading:        var(--sf-muted-heading);
+  --color-body:           var(--sf-muted-body);
+  --color-muted:          var(--sf-muted-text-muted);
+  --color-border:         var(--sf-muted-border);
+  --color-border-light:   var(--sf-muted-border-light);
+  --color-border-mid:     var(--sf-muted-border-mid);
+  --color-border-subtle:  var(--sf-muted-border-subtle);
+  --color-callout-border: var(--sf-muted-callout-border);
+  --color-placeholder:    var(--sf-muted-placeholder);
+}
+
+.surface-inverse {
+  background:             var(--sf-inverse-bg);
+  --color-bg:             var(--sf-inverse-bg);
+  --color-heading:        var(--sf-inverse-heading);
+  --color-body:           var(--sf-inverse-body);
+  --color-muted:          var(--sf-inverse-text-muted);
+  --color-border:         var(--sf-inverse-border);
+  --color-border-light:   var(--sf-inverse-border-light);
+  --color-border-mid:     var(--sf-inverse-border-mid);
+  --color-border-subtle:  var(--sf-inverse-border-subtle);
+  --color-callout-border: var(--sf-inverse-callout-border);
+  --color-placeholder:    var(--sf-inverse-placeholder);
+}
+
+.surface-accent {
+  background:             var(--sf-accent-bg);
+  --color-bg:             var(--sf-accent-bg);
+  --color-heading:        var(--sf-accent-heading);
+  --color-body:           var(--sf-accent-body);
+  --color-muted:          var(--sf-accent-text-muted);
+  --color-border:         var(--sf-accent-border);
+  --color-border-light:   var(--sf-accent-border-light);
+  --color-border-mid:     var(--sf-accent-border-mid);
+  --color-border-subtle:  var(--sf-accent-border-subtle);
+  --color-callout-border: var(--sf-accent-callout-border);
+  --color-placeholder:    var(--sf-accent-placeholder);
 }
 
 .ls-content {
@@ -182,10 +266,19 @@
 .ls-badge {
   position: relative;
   display: flex;
-  align-self: stretch;
+  align-self: center;
   width: 38.5px;
+  height: 38.5px;
   flex-shrink: 0;
   cursor: default;
+}
+
+.ls-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--badge-angle), var(--color-badge-from), var(--color-badge-to));
+  clip-path: polygon(32% 5%, 67% 5%, 79% 12%, 97% 43%, 97% 57%, 79% 88%, 67% 95%, 32% 95%, 20% 88%, 2% 57%, 2% 43%, 20% 12%);
 }
 
 .ls-badge-tooltip {
@@ -262,12 +355,12 @@
   position: absolute;
   left: 0;
   top: 796px;
-  height: 400px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  padding: 0 8px;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 0 8px 0 0;
   width: 40px;
   overflow: hidden;
   cursor: default;
@@ -305,6 +398,90 @@
   width: 8px;
 }
 
+/* ─── Breadcrumb row ─────────────────────────────────────────── */
+
+.ls-breadcrumb-row {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* flex props mirror the inline styles so overflow works correctly */
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.ls-breadcrumb-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Mobile bottom nav ──────────────────────────────────────── */
+
+.ls-mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #e6e6e6;
+  border-top: 1px solid #d0d0d0;
+  height: 56px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: content-box;
+  z-index: 100;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.ls-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex: 1;
+  color: #aaa;
+}
+
+.ls-nav-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 28px;
+  border-radius: 14px;
+}
+
+.ls-nav-item-active {
+  color: #111;
+}
+
+.ls-nav-item-active .ls-nav-icon-wrap {
+  background: #333;
+  color: #fff;
+}
+
+.ls-nav-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.ls-nav-item-active .ls-nav-label {
+  font-weight: 700;
+}
+
+/* Spacer so content isn't hidden behind fixed nav */
+.ls-nav-spacer {
+  display: none;
+}
+
 /* ─── Responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 1100px) {
@@ -318,10 +495,19 @@
   .ls-image-row { flex-direction: column; }
   .ls-image-col { width: 100%; }
   .ls-section { padding-top: 40px; padding-bottom: 40px; }
+  .ls-header { height: 68px; }
+  .ls-mobile-nav { display: flex; }
+  .ls-nav-spacer { display: block; height: 56px; flex-shrink: 0; }
+}
+
+@media (max-width: 600px) {
+  .ls-username { display: none; }
 }
 
 @media (max-width: 480px) {
   .ls-h1 { font-size: 34px; letter-spacing: -0.3px; }
   .ls-h2 { font-size: 24px; letter-spacing: -0.5px; }
   .ls-section { padding-top: 32px; padding-bottom: 32px; }
+  /* Smaller pills so badge stays visible in the breadcrumb row */
+  :root { --size-pill: 14px; }
 }
