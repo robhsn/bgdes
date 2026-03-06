@@ -388,19 +388,227 @@ User clicks Save
 
 ---
 
-## Pending — Session 9: Surface Architecture
+---
 
-### Goal
-Expand from 1 surface (muted) to a full 4-surface system: **Default, Muted, Inverse, Accent**.
+## Session 9 — Surface System + Full Article Content
 
-Each surface is a CSS "color contract" — a class that sets `--color-bg`, `--color-heading`, etc. for all descendants, so components work on any surface without knowing which they're on.
+### Surface Architecture (COMPLETE)
+- 4-surface CSS system: `surface-muted`, `surface-inverse`, `surface-accent`, `surface-tertiary`
+- Each class is a "color contract" — sets `--color-bg/heading/body/muted/border-*` etc. for all descendants
+- THEMES restructured: `globals` (root-level semantic tokens) + `surfaces` (per-surface overrides)
+- `themeAllColorTokens(key)` helper flattens both into a single token map for L2 init
+- Author link token (`--color-link`) added; body/muted text color tokens fixed
+- `--sf-muted-*`, `--sf-inverse-*`, `--sf-accent-*`, `--sf-tertiary-*` token groups added to CSS and THEMES
+- Zigzag separator uses `--sf-muted-bg` directly so it tracks the muted surface token
 
-### Current state (pre-session 9)
-- `.ls-section-gray` applies `--color-surface-*` tokens (one muted surface)
-- THEMES stores `--color-surface-*` as flat entries alongside default surface tokens
-- No inverse or accent surfaces
+### Full Article Content (COMPLETE)
+All sections fully authored with real backgammon content:
+- `section-layout`: Board Layout with GlossaryTerms (Points, Home Board, Outer Board, Bar)
+- `section-setup`: How to Set Up — CheckerStack components (Runners, Mid-point, Builders, Defenders)
+- `section-start`: Starting the Game
+- `section-moving`: Moving Checkers — BulletItem rules (Open Points, Blocked Points, Doubles)
+- `section-hitting`: Hitting — with Blot/Hit/Bar glossary terms
+- `section-bearing`: Bearing Off
+- `section-scoring`: Scoring (Single, Gammon, Backgammon)
+- `section-quiz`: Test Yourself (see Quiz below)
 
-### Plan
-1. **CSS** — rename `--color-surface-*` → `--sf-muted-*`, add `--sf-inverse-*` / `--sf-accent-*` tokens; rename `.ls-section-gray` → `.surface-muted`; add `.surface-inverse` and `.surface-accent` classes
-2. **JSX** — swap class name `ls-section-gray` → `surface-muted`
-3. **TokenEditor** — restructure THEMES: `colors → {globals, surfaces: {default, muted, inverse, accent}}`; helper `themeAllColorTokens(key)` to flatten; add `SURFACE_DEFS`; update L2View with surface sub-tabs
+TOC updated to track all 8 sections: Board Layout, How to Set Up, Starting the Game, Moving Checkers, Hitting, Bearing Off, Scoring, Test Yourself
+
+### Glossary System (COMPLETE)
+- `GLOSSARY` object maps term → definition
+- `GlossaryTerm` component: bold + dashed underline; hover shows floating tooltip
+- Used inline in body text: `<GlossaryTerm term="Points" />`
+
+### Quiz Module (COMPLETE)
+- 3-question multiple-choice quiz with A/B/C lettered options
+- `QuizModule` state: `currentIdx`, `selected`, `userAnswers`, `completed`
+- Per-answer feedback: green correct / red wrong highlighting immediately on select
+- Results view: score fraction + compact question breakdown with ✓/✗ and answer correction
+- `surface-tertiary` card styling; progress bar
+
+### Footer (COMPLETE)
+- `SiteFooter` component on `surface-inverse`
+- Logo + 6 social icons (TikTok, Twitch, Facebook, Instagram, X, Bluesky) + divider + copyright + Terms/Privacy links
+
+### Guide Nav CTAs (COMPLETE)
+- `GuideCTAs` component: Previous / Next lesson cards with title
+- Uses `--color-guide-nav-*` tokens for theming on both default and surface backgrounds
+
+---
+
+## Session 10 — TOC Polish + Badge + Themes + DME Enhancements
+
+### Badge Dot Clipping Fix (COMPLETE)
+- Badge dot (`.ls-badge-dot`) was being clipped by `overflow: hidden` on `.ls-badge`
+- Fix: removed `overflow: hidden` from `.ls-badge`; added `clip-path` polygon directly to `::before` pseudo-element to shape the badge hex without clipping children
+
+### Coral Tide Alt Theme (COMPLETE)
+- Third theme added: **Coral Tide Alt** — swaps roles of `--color-pill` and `--color-accent` vs standard Coral Tide
+- `nav-bg: butter-500`, `nav-border: butter-900`, `nav-icon: sapphire-500`
+- Theme dropdown in DME now shows three options: Mono | Coral Tide | Coral Tide Alt
+
+### Per-Theme State Persistence (COMPLETE)
+- Switching themes now snapshots the current L2 token state before switching
+- On returning to a theme, the snapshot is restored
+- `themeStatesRef` — map from theme key → L2 snapshot
+
+### Color Picker Stays Open (COMPLETE)
+- Previously the L2 palette picker closed on any state update
+- Fixed by moving picker open/close state into a ref rather than React state
+
+### Avatar Order Fix (COMPLETE)
+- Header showed avatar before username; flipped to username then avatar (left → right)
+
+### TOC Heading (COMPLETE)
+- "Table of Contents" label added to TOC panel (`ls-toc-heading` class)
+- Hidden when TOC is collapsed; fades in on hover alongside labels
+
+### TOC Pip Sizing (COMPLETE)
+- Pip height: 4px (was 2px)
+- Pip width (inactive): 22px; active: 30px; hover (expanded): 8px all
+
+### TOC Sticky Position (COMPLETE)
+- TOC sticks at `top: 54px` (was 24px) — below header
+
+### Font Size Tokens for All Roles (COMPLETE)
+- `--size-logo`, `--size-pill`, `--size-toc`, `--size-meta`, `--size-small` added to CSS and DME
+- All size tokens now controllable via L2 Typography sliders
+
+---
+
+## Session 11 — Mobile Nav Tokens + TOC Fixes
+
+### Mobile Nav Tokens in DME (COMPLETE)
+- `--color-nav-bg`, `--color-nav-border`, `--color-nav-icon` registered in all three THEMES `globals`
+- Mono defaults: `mono-100 / mono-250 / mono-900`
+- Coral Tide + Alt defaults: `butter-500 / butter-900 / sapphire-500`
+- Three new `ColorRow` entries added to DME L2 → Navigation sub-section
+
+### TOC Left Position (COMPLETE)
+- Moved from `left: var(--spacing-h)` (was maxing at 100px) to fixed `left: 40px`
+
+### Last TOC Item Always Highlights (COMPLETE)
+- Bug: the last section (`section-quiz`) never became active — `getBoundingClientRect().top < 80` can't trigger if page runs out of content below
+- Fix: added `atBottom` guard — `window.innerHeight + scrollY >= document.body.scrollHeight - 80` → force-activate last section
+
+### Active TOC Label Color (COMPLETE)
+- Active TOC label now uses `var(--color-toc-pip-active)` (was only bold, no color change)
+
+### TOC Smooth Sticky Transition (COMPLETE)
+- **Old approach**: `position: absolute → fixed` switch via `isFixed` state → instant jump
+- **New approach**: always `position: fixed`, `top = Math.max(54, initialTop - scrollY)`
+  - `initialTop` measured dynamically from `contentSection.getBoundingClientRect().top + scrollY + 64`
+  - Aligns TOC top with start of article body text (first H2 level)
+  - As user scrolls, `top` decreases smoothly until it reaches 54px and sticks
+  - No position-type switch → no jump
+- Uses `useLayoutEffect` for measurement + direct DOM manipulation for `top` updates (zero re-renders on scroll)
+- `isFixed` state and `useEffect` removed; replaced entirely
+
+---
+
+## DME Reference (current state)
+
+### Trigger
+`↑ ↑ ↓ ↓` — toggles panel · `src/components/TokenEditor.jsx`
+
+### Panel
+- Width: `30vw` (minimum `380px`), fixed to right edge of viewport
+- Header: Theme dropdown · Save (green, when dirty) · Reset · `● saved` indicator · Undo/Redo · ×
+
+### L2 Tab — Colors
+Palette picker referencing L1 tokens, grouped into sub-sections:
+- **Default surface**: bg, heading, body, muted, border variants, callout, placeholder, toc-pip, toc-pip-active, logo, link, white
+- **Statement**: bg, border, text
+- **Navigation**: TOC pip, TOC active pip, mobile nav bg, mobile nav border, mobile nav icon
+- **Badge**: gradient start, gradient end, angle slider, badge icon, badge icon inner
+- **Muted surface**: bg, heading, body, muted, border variants, callout, placeholder, logo, link, pill, accent
+- **Inverse surface**: (same structure)
+- **Accent surface**: (same structure)
+- **Tertiary surface**: (same structure)
+
+### L2 Tab — Typography
+- Role dropdowns (Heading / Subheading / Body) per element: heading, subheading, body, logo, pill, toc, meta
+- Size sliders: H1 (20–120px), H2 (18–60px), body (12–28px), small, logo, pill, toc, meta
+
+### L2 Tab — Spacing & Layout
+- Section vertical padding, content gap, max content width sliders
+
+### L1 Tab — Type Roles
+Per role (Heading / Subheading / Body): Family · Weight · Letter spacing · Line height
+
+### L1 Tab — Color Palettes
+Full CRUD: view/edit/add/delete tokens and palettes; ↑/↓ reorder
+
+### Global controls
+- Theme dropdown: **Mono** | **Coral Tide** | **Coral Tide Alt**
+- Per-theme state snapshots — switching restores previous edits
+- Undo/Redo: `⌘Z` / `⌘⇧Z` (50-step history)
+- Reset: reverts to `fileDefaults`
+- `● saved` indicator: green dot when `!isDirty && hasSavedState`
+
+---
+
+## Key Architecture Notes
+
+### Layout pattern
+```
+<section className="ls-section">            ← full-width, padding: clamp()
+  <div className="ls-content">             ← max-width: 900px, margin: auto
+    ...content...
+  </div>
+</section>
+```
+
+### Token layers
+```
+L1 primitives  →  L2 semantic  →  CSS custom property on :root  →  element styles
+--prim-mono-900    --color-heading    var(--color-heading)           color: var(--color-heading)
+```
+- L1 colors stored as hex in `l1Colors`
+- L2 color tokens store L1 token names (e.g. `'--prim-mono-900'`), resolved by `applyL2` as `var(...)`
+- L2 font tokens store role names (`'heading'`), resolved as `var(--prim-type-heading)`
+- L2 `--badge-angle` stored as plain integer string, `applyL2` appends `'deg'`
+
+### TOC positioning (current)
+- Always `position: fixed`
+- `top = Math.max(54, initialTop - scrollY)` where `initialTop` = content section top + 64px
+- Initial position aligns with first H2 in article body
+- Smoothly slides up to `top: 54px` as user scrolls; no position-type jump
+- `left: 40px` (fixed, not relative to content padding)
+- Hidden below `1100px` viewport width via media query
+
+### Surface system
+Each `.surface-*` class is a color contract:
+```css
+.surface-muted { background: var(--sf-muted-bg); --color-bg: var(--sf-muted-bg); --color-heading: ... }
+```
+Components only use `--color-*` semantic tokens — they work on any surface automatically.
+
+### Connected two-tone pill pattern
+```jsx
+<div className="ls-pills">          {/* overflow: hidden; border-radius: 90px */}
+  <div style={{ background: dark }}>...</div>
+  <div style={{ background: accent }}>...</div>
+</div>
+```
+
+### File persistence flow (dev)
+```
+User clicks Save → POST /__dme_save → dmeSavePlugin (vite.config.js) → writeFileSync(dme-defaults.json) → HMR
+```
+
+---
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `src/components/LearnSegmentTemplate.jsx` | Main component + all sub-components |
+| `src/components/LearnSegmentTemplate.css` | Layout, TOC, responsive breakpoints, badge styles |
+| `src/components/TokenEditor.jsx` | Design Matrix Editor (DME) panel |
+| `src/tokens/dme-defaults.json` | Persisted DME state — sole source of truth for saved design tokens |
+| `src/main.jsx` | Root render |
+| `index.html` | Google Fonts links, global box-sizing reset |
+| `package.json` | React 18.3.1, Vite 5.4.10, @vitejs/plugin-react |
+| `vite.config.js` | Port 5199 (autoPort, no strictPort), dmeSavePlugin middleware |
+| `.claude/launch.json` | Preview server config for `preview_start` tool |

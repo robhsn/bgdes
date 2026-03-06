@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import './LearnSegmentTemplate.css';
 import avatarImg from '../imgs/avatar-dink.png';
 
@@ -436,12 +436,12 @@ function SiteFooter() {
         display: 'flex', gap: 24, alignItems: 'center',
         flexWrap: 'wrap', justifyContent: 'space-between',
       }}>
-        <span style={{ fontFamily: fm, fontSize: 13, color: 'var(--color-muted)' }}>
+        <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
           © 2026 Backgammon.com
         </span>
         <div style={{ display: 'flex', gap: 24 }}>
-          <a href="#" style={{ fontFamily: fm, fontSize: 13, color: 'var(--color-link)', textDecoration: 'none' }}>Terms of Service</a>
-          <a href="#" style={{ fontFamily: fm, fontSize: 13, color: 'var(--color-link)', textDecoration: 'none' }}>Privacy Policy</a>
+          <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Terms of Service</a>
+          <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Privacy Policy</a>
         </div>
       </div>
     </footer>
@@ -656,10 +656,10 @@ function QuizModule() {
       {/* Progress bar */}
       <div style={{ marginBottom: 20, flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <span style={{ fontFamily: fm, fontSize: 12, color: 'var(--color-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
             Question {currentIdx + 1} of {QUIZ_QUESTIONS.length}
           </span>
-          <span style={{ fontFamily: fm, fontSize: 12, color: 'var(--color-muted)' }}>
+          <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
             {userAnswers.filter((a, i) => a === QUIZ_QUESTIONS[i].correct).length} correct so far
           </span>
         </div>
@@ -870,9 +870,9 @@ function TocItem({ label, sectionId, active = false }) {
         style={{
           fontFamily: ft,
           fontWeight: active ? 700 : 400,
-          fontSize: 'var(--size-small)',
+          fontSize: 'var(--size-toc)',
           lineHeight: 1,
-          color: 'var(--color-muted)',
+          color: active ? 'var(--color-toc-pip-active)' : 'var(--color-muted)',
         }}
       >
         {label}
@@ -883,21 +883,34 @@ function TocItem({ label, sectionId, active = false }) {
 
 function TableOfContents() {
   const tocRef = useRef(null);
-  const [isFixed, setIsFixed] = useState(false);
   const [activeSection, setActiveSection] = useState(-1);
+  const STICKY_TOP = 54;
 
-  useEffect(() => {
-    if (!tocRef.current) return;
-    const rect = tocRef.current.getBoundingClientRect();
-    const initialTop = rect.top + window.scrollY;
+  useLayoutEffect(() => {
+    const el = tocRef.current;
+    if (!el) return;
+
+    // Align TOC top with the start of the article text content
+    const contentSection = document.querySelector('.ls-section.surface-muted');
+    const initialTop = contentSection
+      ? Math.round(contentSection.getBoundingClientRect().top + window.scrollY) + 64
+      : Math.round(el.getBoundingClientRect().top + window.scrollY);
+
+    // Apply fixed positioning before first paint — no jump, no state
+    el.style.position = 'fixed';
+    el.style.top = Math.max(STICKY_TOP, initialTop - window.scrollY) + 'px';
 
     const handleScroll = () => {
-      setIsFixed(window.scrollY > initialTop - 24);
+      el.style.top = Math.max(STICKY_TOP, initialTop - window.scrollY) + 'px';
+
+      // If scrolled to the bottom, always highlight the last section
+      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 80;
+      if (atBottom) { setActiveSection(SECTION_IDS.length - 1); return; }
 
       let next = -1;
       for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
-        const el = document.getElementById(SECTION_IDS[i]);
-        if (el && el.getBoundingClientRect().top < 80) { next = i; break; }
+        const sectionEl = document.getElementById(SECTION_IDS[i]);
+        if (sectionEl && sectionEl.getBoundingClientRect().top < 80) { next = i; break; }
       }
       setActiveSection(next);
     };
@@ -910,8 +923,8 @@ function TableOfContents() {
     <div
       ref={tocRef}
       className="ls-toc"
-      style={isFixed ? { position: 'fixed', top: 54 } : undefined}
     >
+      <span className="ls-toc-heading">Table of Contents</span>
       {TOC_ITEMS.map((item, i) => (
         <TocItem
           key={item.id}
@@ -954,6 +967,9 @@ export default function LearnSegmentTemplate() {
         </div>
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+          <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
+            Christopher
+          </span>
           <div style={{
             width: 48, height: 48, borderRadius: '50%',
             border: '2px solid var(--color-border-subtle)',
@@ -970,9 +986,6 @@ export default function LearnSegmentTemplate() {
               }}
             />
           </div>
-          <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
-            Christopher
-          </span>
         </div>
       </header>
 
