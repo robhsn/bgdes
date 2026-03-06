@@ -388,8 +388,6 @@ User clicks Save
 
 ---
 
----
-
 ## Session 9 — Surface System + Full Article Content
 
 ### Surface Architecture (COMPLETE)
@@ -604,11 +602,58 @@ User clicks Save → POST /__dme_save → dmeSavePlugin (vite.config.js) → wri
 | File | Purpose |
 |------|---------|
 | `src/components/LearnSegmentTemplate.jsx` | Main component + all sub-components |
-| `src/components/LearnSegmentTemplate.css` | Layout, TOC, responsive breakpoints, badge styles |
+| `src/components/LearnSegmentTemplate.css` | Layout, TOC, responsive breakpoints, badge styles, button tokens |
+| `src/components/LearnHubPage.jsx` | Learn Hub page |
+| `src/components/LearnHubPage.css` | Hub-specific styles |
+| `src/components/SharedLayout.jsx` | Shared SiteHeader, PlayNowCta, SiteFooter |
+| `src/components/PageSelector.jsx` | Konami-gated floating page switcher |
 | `src/components/TokenEditor.jsx` | Design Matrix Editor (DME) panel |
 | `src/tokens/dme-defaults.json` | Persisted DME state — sole source of truth for saved design tokens |
-| `src/main.jsx` | Root render |
+| `src/imgs/wbf-logo.png` | World Backgammon Federation logo |
+| `src/main.jsx` | Root render — page routing + DME visibility state |
 | `index.html` | Google Fonts links, global box-sizing reset |
 | `package.json` | React 18.3.1, Vite 5.4.10, @vitejs/plugin-react |
 | `vite.config.js` | Port 5199 (autoPort, no strictPort), dmeSavePlugin middleware |
 | `.claude/launch.json` | Preview server config for `preview_start` tool |
+
+---
+
+## Session 12 — Learn Hub + Multi-Page Routing + Button Tokens
+
+### Learn Hub Page (COMPLETE)
+New `LearnHubPage.jsx` + `LearnHubPage.css`:
+- Hero: H1 with `var(--prim-type-heading-weight)` token, stats row, body, HRule, CTA buttons + WBF badge
+- CTA buttons: **primary** ("Continue: Lesson 2" → navigates to article) + **secondary** ("View Syllabus")
+- Lessons section (`surface-muted`): CourseAccordion + ProgressDots + LessonRow components
+- WBF logo: imported from `src/imgs/wbf-logo.png` (replaced Figma plugin localhost URL)
+
+### Multi-Page Routing (COMPLETE)
+- `src/main.jsx`: `currentPageId` state switches between `LearnHubPage` and `LearnSegmentTemplate`
+- Both pages receive `onNavigate` prop; "Continue: Lesson 2" button navigates to article
+- Header logo (both pages) calls `onNavigate('learn-hub')` via `SiteHeader.onLogoClick` prop
+
+### Shared Layout — `SharedLayout.jsx` (COMPLETE)
+- `SiteHeader`, `PlayNowCta`, `SiteFooter` extracted from `LearnSegmentTemplate` → shared module
+- `SiteHeader` accepts optional `onLogoClick` prop (cursor: pointer when provided)
+- Both pages import and use shared components — ~120 lines of duplication removed
+
+### PageSelector Widget (COMPLETE)
+- Floating bottom-left pill; shows page list on click
+- Removed own Konami logic + `visible` state — now a controlled component
+- App owns `dmeVisible` state; both `TokenEditor` and `PageSelector` receive it as prop
+- Opening/closing DME (Konami code, × button) always syncs PageSelector visibility
+
+### Button Token System (COMPLETE)
+Five new tokens defined in `LearnSegmentTemplate.css` `:root` and managed by DME:
+```
+--btn-primary-bg / --btn-primary-fg   → primary button fill + text
+--btn-secondary-bg / --btn-secondary-fg → secondary button fill + text
+--btn-border                           → shared border + 3D drop-shadow color
+```
+- Registered in DME L2 → Colors → **Buttons** subsection (all 3 themes)
+- Hub hero: `lh-btn--primary` / `lh-btn--secondary` classes with 3D box-shadow press effect
+- `PlayNowCta` "Play Now": secondary style with matching 3D drop-shadow (4px, press on click)
+
+### Heading Weight Fix (COMPLETE)
+- `lh-hero-title` changed from hardcoded `700` to `var(--prim-type-heading-weight)`
+- Both hub and article H1 now use identical weight token (900 in coral-tide defaults)

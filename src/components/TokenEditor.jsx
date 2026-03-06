@@ -120,6 +120,11 @@ const THEMES = {
       '--color-nav-bg':           '--prim-mono-100',
       '--color-nav-border':       '--prim-mono-250',
       '--color-nav-icon':         '--prim-mono-900',
+      '--btn-primary-bg':         '--prim-mono-250',
+      '--btn-primary-fg':         '--prim-mono-900',
+      '--btn-secondary-bg':       '--prim-mono-white',
+      '--btn-secondary-fg':       '--prim-mono-900',
+      '--btn-border':             '--prim-mono-900',
     },
     surfaces: {
       default: {
@@ -219,6 +224,11 @@ const THEMES = {
       '--color-nav-bg':           '--prim-butter-500',
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
+      '--btn-primary-bg':         '--prim-butter-900',
+      '--btn-primary-fg':         '--prim-sapphire-500',
+      '--btn-secondary-bg':       '--prim-mono-white',
+      '--btn-secondary-fg':       '--prim-sapphire-500',
+      '--btn-border':             '--prim-sapphire-500',
     },
     surfaces: {
       default: {
@@ -318,6 +328,11 @@ const THEMES = {
       '--color-nav-bg':           '--prim-butter-500',
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
+      '--btn-primary-bg':         '--prim-butter-900',
+      '--btn-primary-fg':         '--prim-sapphire-500',
+      '--btn-secondary-bg':       '--prim-mono-white',
+      '--btn-secondary-fg':       '--prim-sapphire-500',
+      '--btn-border':             '--prim-sapphire-500',
     },
     surfaces: {
       default: {
@@ -556,8 +571,7 @@ function removeAllOverrides() {
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function TokenEditor() {
-  const [visible, setVisible]         = useState(false);
+export default function TokenEditor({ visible, onToggle, onClose }) {
   const [tab, setTab]                 = useState('l2');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
@@ -645,7 +659,7 @@ export default function TokenEditor() {
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') { e.preventDefault(); undo(); return; }
       if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); redo(); return; }
       /* Konami */
-      if (e.key === KONAMI[ki]) { ki++; if (ki === KONAMI.length) { setVisible(v => !v); ki = 0; } }
+      if (e.key === KONAMI[ki]) { ki++; if (ki === KONAMI.length) { onToggle(); ki = 0; } }
       else { ki = e.key === KONAMI[0] ? 1 : 0; }
     };
     window.addEventListener('keydown', handler);
@@ -892,7 +906,7 @@ export default function TokenEditor() {
             <div style={{ width: 1, height: 16, background: '#333' }} />
             {isDirty && <button onClick={handleSave} style={saveBtn}>Save</button>}
             <button onClick={reset} style={ghostBtn}>Reset</button>
-            <button onClick={() => setVisible(false)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 28, cursor: 'pointer', lineHeight: 1, padding: '0 2px' }}>×</button>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#888', fontSize: 28, cursor: 'pointer', lineHeight: 1, padding: '0 2px' }}>×</button>
           </div>
         </div>
 
@@ -1028,6 +1042,14 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
           <SliderRow label="Angle"           name="--badge-angle"             l2={l2} set={set} min={0} max={360} unit="°" />
           <ColorRow label="Icon (cap)"        name="--color-badge-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Icon (inner hex)" name="--color-badge-icon-inner"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
+        <SubSect label="Buttons">
+          <ColorRow label="Primary bg"      name="--btn-primary-bg"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Primary text"    name="--btn-primary-fg"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Secondary bg"    name="--btn-secondary-bg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Secondary text"  name="--btn-secondary-fg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Border / shadow" name="--btn-border"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
       </Sect>
       <Sect label="Typography">

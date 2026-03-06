@@ -1,6 +1,6 @@
 # bgdes — Project Overview
 
-A design system prototype and interactive learning page for **Backgammon.com**, built as a Figma-to-code implementation exercise with a live Design Matrix Editor (DME) for token-driven theming.
+A design system prototype and interactive learning experience for **Backgammon.com**, built as a Figma-to-code implementation exercise with a live Design Matrix Editor (DME) for token-driven theming.
 
 **Stack:** React 18 + Vite 5 · Inline styles + CSS file · Google Fonts
 **Dev server:** `http://127.0.0.1:5199` (port 5199)
@@ -8,128 +8,152 @@ A design system prototype and interactive learning page for **Backgammon.com**, 
 
 ---
 
+## Pages
+
+| Page | Component | Description |
+|------|-----------|-------------|
+| Learn Hub | `LearnHubPage.jsx` | Hero + stats + course/lesson list |
+| Lesson Article | `LearnSegmentTemplate.jsx` | Full article with TOC, quiz, footer |
+
+Navigation is managed in `src/main.jsx` via `currentPageId` state. The Konami code (`↑↑↓↓`) reveals both the DME panel and a **PageSelector** widget (bottom-left) for switching pages.
+
+---
+
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `src/components/LearnSegmentTemplate.jsx` | Main page component — all article content, quiz, footer, SVG icons |
-| `src/components/LearnSegmentTemplate.css` | Surface classes, layout, TOC, responsive breakpoints |
+| `src/main.jsx` | Root render — page routing state, DME visibility state |
+| `src/components/LearnHubPage.jsx` | Learn Hub page component |
+| `src/components/LearnHubPage.css` | Hub-specific layout and styles |
+| `src/components/LearnSegmentTemplate.jsx` | Lesson article component + all sub-components |
+| `src/components/LearnSegmentTemplate.css` | Shared token root, surface classes, layout, TOC, responsive |
+| `src/components/SharedLayout.jsx` | Shared `SiteHeader`, `PlayNowCta`, `SiteFooter` |
 | `src/components/TokenEditor.jsx` | Design Matrix Editor (DME) panel |
+| `src/components/PageSelector.jsx` | Konami-gated floating page switcher (bottom-left) |
 | `src/tokens/dme-defaults.json` | Persisted DME state — source of truth for saved tokens |
-| `src/main.jsx` | Root render |
+| `src/imgs/avatar-dink.png` | Christopher avatar |
+| `src/imgs/wbf-logo.png` | World Backgammon Federation logo |
+| `src/imgs/badge-learn.svg` | Lesson badge SVG |
 | `index.html` | Google Fonts links, box-sizing reset |
 | `vite.config.js` | Dev server config + `dmeSavePlugin` middleware |
 | `.claude/launch.json` | `preview_start` server config |
 
 ---
 
-## Page — Components & Features
+## Shared Layout
 
-### Header
-- **Backgammon.com logo** — font-driven wordmark (`Backgammon` in heading font + `.com` in body)
-- **User avatar** — circular image + username ("Christopher")
-
-### Hero
-- **Connected two-tone breadcrumb pills** — "Intro to Backgammon" (dark) + "Lesson 1" (accent), clipped into one capsule via parent `overflow: hidden; border-radius: 90px`
-- **Lesson badge** — circular icon with token-driven gradient (`--color-badge-from` → `--color-badge-to` at `--badge-angle`). Tooltip "Lesson 1 Badge — 1XP" on hover.
-- **H1** — "How to Play Backgammon"
-- **Meta row** — reviewer name (linked) + estimated read time
-
-### Article body (`surface-muted`)
-Structured with reusable components:
+`SharedLayout.jsx` exports three reusable layout components used by both pages:
 
 | Component | Description |
-|---|---|
-| `H2` | Section heading with token-driven font/weight/size |
-| `BodyText` | Body paragraph, `--font-body` + `--prim-type-body-weight` |
-| `Callout` | Highlighted block with left border in `--color-callout-border` |
-| `ImageWithCaption` | Image + caption, used inline or in `ImageRow` side-by-side layout |
-| `HRule` | Full-width horizontal rule using `--color-border` |
-| `ZigzagSeparator` | SVG zigzag transition between white and muted sections — white ∇ teeth biting into the gray area |
-| `SectionBreak` | Paragraph-level visual divider |
+|-----------|-------------|
+| `SiteHeader` | Top bar — Backgammon.com logo (clicks → hub) + Christopher avatar |
+| `PlayNowCta` | `surface-accent` strip — "Ready to Play?" + secondary "Play Now" button |
+| `SiteFooter` | `surface-inverse` footer — logo + social icons + copyright |
 
-**Article content:** 8 sections — Board Layout, How to Set Up, Starting the Game, Moving Checkers, Hitting, Bearing Off, Scoring, Test Yourself (quiz).
+---
+
+## Learn Hub Page
+
+### Hero
+- **H1** — "Learn & Master Backgammon" (weight from `--prim-type-heading-weight` token)
+- **Stats row** — Courses · Lessons · Total Time
+- **Body text** — one-paragraph summary
+- **CTA buttons** (two 3D-press style buttons using button token system):
+  - **Primary** (`lh-btn--primary`) — "Continue: Lesson 2" → navigates to article page
+  - **Secondary** (`lh-btn--secondary`) — "View Syllabus"
+- **WBF badge** — `wbf-logo.png` + "Officially Sanctioned by The World Backgammon Federation"
+
+### Lessons section (`surface-muted`)
+- Section intro with pill label + H2 + body
+- Mobile quick-continue bar
+- **CourseAccordion** — expandable course cards with `ProgressDots`
+- **LessonRow** — lesson entry with number, title, duration, Completed/Continue badges + chevron
+
+### End-cap
+- `PlayNowCta` (secondary button style)
+- `SiteFooter`
+- `MobileNav` (same 5-tab nav as article page)
+
+---
+
+## Article Page — Components & Features
+
+### Header
+Shared `SiteHeader` — logo click → hub.
+
+### Hero
+- **Connected two-tone breadcrumb pills** — "Intro to Backgammon" + "Lesson 1"
+- **Lesson badge** — circular gradient icon (`--color-badge-from` → `--color-badge-to`)
+- **H1** — "How to Play Backgammon" (uses `ls-h1` with `--prim-type-heading-weight`)
+- **Meta row** — reviewer name + estimated read time
+
+### Article body (`surface-muted`)
+| Component | Description |
+|---|---|
+| `H2` | Section heading |
+| `BodyText` | Body paragraph |
+| `Callout` | Highlighted block with left border |
+| `ImageWithCaption` | Image + caption |
+| `HRule` | Full-width rule |
+| `ZigzagSeparator` | SVG zigzag transition |
+| `SectionBreak` | Paragraph-level divider |
+| `GlossaryTerm` | Bold + dashed underline with hover tooltip |
+
+8 sections: Board Layout, How to Set Up, Starting the Game, Moving Checkers, Hitting, Bearing Off, Scoring, Test Yourself.
 
 ### Quiz (`QuizModule`, `surface-tertiary`)
-3-question multiple-choice quiz with a fixed 520px card height (no layout shift).
+3-question multiple-choice. Fixed 520px card height. Per-answer feedback + results view.
 
-**Active question view:**
-- `QUESTION N OF 3` progress header + live correct count
-- Question text
-- A / B / C option buttons — on selection: correct highlights green, wrong highlights red
-- Feedback message (`visibility: hidden` until answered — preserves height)
-- Next / See Results button (`opacity: 0` until answered — preserves height)
+### Table of Contents
+Sticky side panel (hidden < 1100px). Collapsed (40px) → expanded on hover (214px). Active section tracking + smooth sticky transition.
 
-**Results view:**
-- Score (`2/3`) + contextual message inline
-- Per-question compact review rows: ✓/✗ circle + question text + answer letter(s)
-- "Try Again" resets to question 1
+---
 
-### Compact CTA (`surface-accent`)
-Slim horizontal strip — "Ready to Play?" heading + "Reading is good. Playing is better." subtext + "Play Now" button. Not a full page section.
+## Button Token System
 
-### Footer (`SiteFooter`, `surface-inverse`)
-- **Backgammon.com** logo (smaller size)
-- Social icon links: TikTok · Twitch · Facebook · Instagram · X · Bluesky (all SVG components)
-- Hairline divider
-- © 2026 Backgammon.com · Terms of Service · Privacy Policy
+Defined in `LearnSegmentTemplate.css` root — adapts automatically per surface:
 
-### Table of Contents (`TableOfContents`)
-Sticky side panel, right-aligned, hidden below 1100px viewport width.
-- **Collapsed:** 40px wide, shows only pip indicators
-- **Expanded on hover:** 214px wide, labels fade in
-- **Active section tracking:** scroll listener finds last section with `top < 80px`; bottom-of-page guard forces last item active; active pip wider + uses `--color-toc-pip-active` color on label too
-- **Smooth sticky:** always `position: fixed`; `top = max(54, contentSectionTop + 64 - scrollY)` — scrolls with page then sticks at 54px with no jump
-- 8 tracked sections: Board Layout, How to Set Up, Starting the Game, Moving Checkers, Hitting, Bearing Off, Scoring, Test Yourself
+```css
+--btn-primary-bg:  var(--color-border-mid);
+--btn-primary-fg:  var(--color-heading);
+--btn-secondary-bg: var(--color-bg);
+--btn-secondary-fg: var(--color-heading);
+--btn-border:      var(--color-heading);
+```
+
+Hub hero uses `lh-btn` base class with `lh-btn--primary` / `lh-btn--secondary` modifiers (3D box-shadow press effect). `PlayNowCta` "Play Now" uses secondary style via inline token vars.
 
 ---
 
 ## Design Matrix Editor (DME)
 
-**Trigger:** `↑ ↑ ↓ ↓` keyboard sequence
-**Panel:** Fixed right, `30vw` wide (min 380px)
+**Trigger:** `↑ ↑ ↓ ↓` keyboard sequence (toggles DME panel **and** PageSelector together)
 
 ### Global Controls
 | Control | Description |
 |---|---|
-| Theme dropdown | **Mono** / **Coral Tide** / **Coral Tide Alt** — applies full L1 + L2 preset; per-theme state snapshots persist edits between switches |
-| Save (green) | Appears when dirty; POSTs to `/__dme_save` → writes `dme-defaults.json` → HMR reloads |
-| Reset | Reverts all tokens to last saved `fileDefaults` |
-| `● saved` | Green dot indicator when saved and not dirty |
+| Theme dropdown | **Mono** / **Coral Tide** / **Coral Tide Alt** — full L1+L2 preset; per-theme state snapshots |
+| Save (green) | Appears when dirty; POSTs to `/__dme_save` → writes `dme-defaults.json` → HMR |
+| Reset | Reverts to last saved `fileDefaults` |
+| `● saved` | Green dot when saved and not dirty |
 | Undo / Redo | `⌘Z` / `⌘⇧Z`, 50-step history |
-| × | Close panel |
+| × | Closes panel (also hides PageSelector) |
 
 ### L2 Tab — Colors
-Palette pickers grouped into sub-sections:
-- **Default surface**: bg, heading, body, muted, border variants, callout, placeholder, toc-pip, toc-pip-active, logo, link, white
-- **Statement**: bg, border, text
-- **Navigation**: TOC pip, TOC active pip, mobile nav bg, mobile nav border, mobile nav icon
-- **Badge**: gradient start, gradient end, angle slider, badge icon, badge icon inner
-- **Muted / Inverse / Accent / Tertiary surfaces**: full 14-token color contracts each
+Palette pickers grouped into sub-sections: Default surface, Statement, Navigation, Badge, Muted/Inverse/Accent/Tertiary surfaces.
 
 ### L2 Tab — Typography
-- Per-element font role dropdowns (Heading / Subheading / Body): heading, subheading, body, logo, pill, toc, meta
-- H1 size slider · H2 size slider · Body size slider
+Role dropdowns per element + size sliders (H1, H2, body, small, logo, pill, toc, meta).
 
 ### L2 Tab — Spacing & Layout
-- Section vertical padding slider
-- Content gap slider
-- Max content width slider
+Section vertical padding · Content gap · Max content width.
 
 ### L1 Tab — Type Roles
-Per role (Heading / Subheading / Body):
-- **Family** — font dropdown (Outfit, Raleway, Inter, Georgia, etc.)
-- **Weight** — only shows weights valid for the selected font
-- **Letter spacing** — slider (−5 to +20 hundredths of em), displayed as `0.00em`
-- **Line height** — slider (0.9–2.2 in tenths), displayed as `1.0`
+Per role (Heading / Subheading / Body): Family · Weight · Letter spacing · Line height.
 
 ### L1 Tab — Color Palettes
-Full CRUD for all L1 primitive color tokens:
-- View tokens grouped by palette (Mono, Sapphire, Splash, Orange, Butter + custom)
-- ✎ Edit hex per token (live DOM preview) · × Delete token
-- ↑ / ↓ Reorder tokens within a palette
-- + Add Color per palette (color picker + name input)
-- + Add Palette · Delete palette (two-step confirm)
+Full CRUD: view/edit/add/delete tokens and palettes; ↑/↓ reorder.
 
 ---
 
@@ -141,45 +165,23 @@ L1 primitives  →  L2 semantic  →  CSS custom property  →  element style
 --prim-orange-500  --color-accent  var(--color-accent)    color: var(--color-accent)
 ```
 
-### L1 — Primitives
-- **Colors:** hex values stored in `l1Colors` map (e.g. `--prim-sapphire-500: #0c3775`)
-- **Type roles:** font family, weight, letter-spacing, line-height per role (heading / subheading / body)
-
-### L2 — Semantics
-- **Colors:** store L1 token *names* (e.g. `--color-heading: '--prim-sapphire-500'`), applied via `var()` by `applyL2`
-- **Fonts:** store role names (`'heading'`), applied as `var(--prim-type-heading)`
-- **Badge angle:** plain integer string, `applyL2` appends `'deg'`
-- **Type metrics:** integer strings, `applyL1` converts to `em` / unitless
-
-### Surface cascade
-A surface class (e.g. `.surface-inverse`) overrides all `--color-*` tokens for its entire subtree:
-```css
-.surface-inverse {
-  background: var(--sf-inverse-bg);
-  --color-bg:      var(--sf-inverse-bg);
-  --color-heading: var(--sf-inverse-heading);
-  /* ... all 14 tokens ... */
-}
-```
-Components use only `--color-*` tokens and work correctly on any surface.
-
 ### Five surfaces
 
 | Class | Background | Use |
 |---|---|---|
 | _(default)_ | white | Main page |
-| `.surface-muted` | pale tint | Article body sections |
-| `.surface-inverse` | dark navy | Footer, dark cards |
-| `.surface-accent` | orange | CTA strip |
-| `.surface-tertiary` | mid-dark navy + cyan text | Quiz card |
+| `.surface-muted` | pale tint | Article body, lessons section |
+| `.surface-inverse` | dark navy | Footer |
+| `.surface-accent` | orange/coral | Play Now CTA strip |
+| `.surface-tertiary` | mid-dark navy | Quiz card |
+
+Each surface class redefines all `--color-*` tokens for its subtree — components are surface-agnostic.
 
 ### Persistence (dev)
 ```
-Save click → POST /__dme_save → dmeSavePlugin (vite.config.js)
-           → writeFileSync(dme-defaults.json) → Vite HMR
-           → TokenEditor re-evaluates with new INIT_* constants
+Save → POST /__dme_save → dmeSavePlugin (vite.config.js) → writeFileSync(dme-defaults.json) → HMR
 ```
-In production (Vercel): `dme-defaults.json` is statically imported — no server needed.
+In production (Vercel): `dme-defaults.json` is statically imported.
 
 ---
 
@@ -188,14 +190,14 @@ In production (Vercel): `dme-defaults.json` is statically imported — no server
 | Breakpoint | Changes |
 |---|---|
 | `< 1100px` | TOC hidden |
-| `< 800px` | ImageRow stacks vertically; H1/H2/body font sizes reduce |
-| `< 480px` | Further font size reduction; pill + badge text adjustments |
+| `< 800px` | ImageRow stacks; H1/H2/body font sizes reduce |
+| `< 480px` | Further font reduction; pill/badge adjustments |
 
 ---
 
 ## Known Issues / To-Do
 
-- [ ] Footer copyright row may be clipped by fixed mobile tab nav (fix: add `paddingBottom: 72` to footer)
-- [ ] Quiz questions are hardcoded — no data-driven question loading yet
-- [ ] "Play Now" and social links are `href="#"` placeholders
-- [ ] TOC tracks all 8 sections ✓
+- [ ] Footer copyright may be clipped by mobile tab nav
+- [ ] Quiz questions are hardcoded
+- [ ] "View Syllabus" and social links are `href="#"` placeholders
+- [ ] Article page back-navigation (from article → hub via breadcrumb) not yet wired

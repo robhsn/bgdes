@@ -1,0 +1,155 @@
+/* ═══════════════════════════════════════════════════════════════
+   PageSelector — floating fixed page navigation widget
+   Sits bottom-left, clear of the DME panel on the right.
+   Uses the same CSS custom properties as the rest of the system
+   so it adapts to active themes automatically.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Root anchor — fixed bottom-left */
+.ps-root {
+  position: fixed;
+  bottom: 24px;
+  left: 28px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ─── Trigger pill ─────────────────────────────────────────────── */
+
+.ps-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--color-heading, #111111);
+  color: var(--color-white, #ffffff);
+  border: none;
+  border-radius: 100px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ps-trigger:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.ps-trigger:active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.ps-trigger--open {
+  opacity: 0.85;
+}
+
+/* Page count badge inside trigger */
+.ps-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ─── Menu card ────────────────────────────────────────────────── */
+
+.ps-menu {
+  background: var(--color-bg, #ffffff);
+  border: 1px solid var(--color-border, #dddddd);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  min-width: 230px;
+
+  /* Slide up from bottom */
+  animation: ps-slide-up 0.18s ease;
+}
+
+@keyframes ps-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section label */
+.ps-menu-header {
+  padding: 10px 16px 8px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-body, #585858);
+  opacity: 0.55;
+  border-bottom: 1px solid var(--color-border-light, #eeeeee);
+}
+
+/* ─── Page item ────────────────────────────────────────────────── */
+
+.ps-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-heading, #111111);
+  transition: background 0.1s ease;
+  line-height: 1.3;
+}
+
+.ps-item + .ps-item {
+  border-top: 1px solid var(--color-border-light, #eeeeee);
+}
+
+.ps-item:hover {
+  background: var(--color-border-light, #f5f5f5);
+}
+
+.ps-item--active {
+  font-weight: 700;
+  background: var(--color-border-light, #f5f5f5);
+}
+
+/* Check icon column — fixed width so labels align */
+.ps-item-check {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-heading, #111111);
+  flex-shrink: 0;
+}
+
+.ps-item-label {
+  flex: 1 0 0;
+}

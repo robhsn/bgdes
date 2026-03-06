@@ -111,6 +111,13 @@
   --color-link:           var(--prim-mono-700);
   --color-white:          var(--prim-mono-white);
 
+  /* ── Button tokens ────────────────────────────────────────────── */
+  --btn-primary-bg: var(--color-border-mid);
+  --btn-primary-fg: var(--color-heading);
+  --btn-secondary-bg: var(--color-bg);
+  --btn-secondary-fg: var(--color-heading);
+  --btn-border: var(--color-heading);
+
   /* ── Statement component tokens ──────────────────────────────── */
   --color-statement-bg:     var(--prim-mono-100);
   --color-statement-border: var(--prim-mono-350);
