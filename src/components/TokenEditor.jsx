@@ -1076,8 +1076,8 @@ function SubSect({ label, children }) {
         onClick={toggle}
         style={{
           padding: '8px 16px 2px',
-          fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
-          color: '#aaa', marginTop: 4, cursor: 'pointer',
+          fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
+          color: '#e0e0e0', marginTop: 4, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}
       >
