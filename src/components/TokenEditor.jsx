@@ -109,6 +109,7 @@ const THEMES = {
     label: 'Mono',
     globals: {
       '--color-logo':           '--prim-mono-900',
+      '--color-link':           '--prim-mono-700',
       '--color-pill':           '--prim-mono-900',
       '--color-accent':         '--prim-mono-700',
       '--color-toc-pip':        '--prim-mono-300',
@@ -173,6 +174,7 @@ const THEMES = {
     label: 'Coral Tide',
     globals: {
       '--color-logo':           '--prim-sapphire-900',
+      '--color-link':           '--prim-splash-700',
       '--color-pill':           '--prim-sapphire-900',
       '--color-accent':         '--prim-orange-500',
       '--color-toc-pip':        '--prim-splash-100',
@@ -250,8 +252,8 @@ function themeAllColorTokens(key) {
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
 const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder'];
 const SURFACE_DEFS = [
-  { key: 'default', label: 'Default', prefix: '--color-',      bgToken: '--color-bg'        },
-  { key: 'muted',   label: 'Muted',   prefix: '--sf-muted-',   bgToken: '--sf-muted-bg'     },
+  { key: 'default', label: 'Primary',   prefix: '--color-',      bgToken: '--color-bg'        },
+  { key: 'muted',   label: 'Secondary', prefix: '--sf-muted-',   bgToken: '--sf-muted-bg'     },
   { key: 'inverse', label: 'Inverse', prefix: '--sf-inverse-', bgToken: '--sf-inverse-bg'   },
   { key: 'accent',  label: 'Accent',  prefix: '--sf-accent-',  bgToken: '--sf-accent-bg'    },
 ];
@@ -810,6 +812,7 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
 
         <SubSect label="Global Components">
           <ColorRow label="Logo"             name="--color-logo"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Link"             name="--color-link"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Pill (primary)"   name="--color-pill"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Pill (accent)"    name="--color-accent"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>

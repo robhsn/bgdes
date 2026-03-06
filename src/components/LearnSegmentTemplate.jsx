@@ -183,7 +183,7 @@ function ImageWithCaption({ caption }) {
             fontWeight: 'var(--prim-type-body-weight)',
             fontSize: 'var(--size-body)',
             lineHeight: 'var(--lh-body)',
-            color: 'var(--color-body)',
+            color: 'var(--color-muted)',
             margin: 0,
             flex: '1 0 0',
           }}>
@@ -479,7 +479,7 @@ export default function LearnSegmentTemplate() {
           <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
             <div style={{ fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)' }}>
               <span style={{ fontFamily: fm, fontWeight: 400, opacity: 0.6 }}>Reviewed by </span>
-              <span style={{ fontFamily: fm, fontWeight: 600, opacity: 0.6 }}>Masayuki "Mochy" Mochizuki</span>
+              <a href="#" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Masayuki "Mochy" Mochizuki</a>
             </div>
             <div style={{ background: 'var(--color-border-subtle)', height: 18, width: 1, flexShrink: 0 }} />
             <div style={{ display: 'flex', gap: 4, fontFamily: fm, fontWeight: 600, fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>
@@ -491,7 +491,7 @@ export default function LearnSegmentTemplate() {
           <HRule />
 
           {/* Intro paragraphs */}
-          <BodyText muted>
+          <BodyText>
             <p style={{ margin: 0 }}>
               Backgammon is a two-player race. You and your opponent each have 15 checkers, and the goal is to move them all around the board and off before the other player does. Dice determine how far you move, but strategy determines which checkers you move and when. That blend of luck and skill is what has kept people playing for five thousand years.
             </p>
@@ -513,7 +513,7 @@ export default function LearnSegmentTemplate() {
           {/* Section: The Goal of the Game */}
           <div id="section-goal" style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
             <H2>The Goal of the Game</H2>
-            <BodyText muted>
+            <BodyText>
               <p style={{ margin: 0 }}>
                 Each player moves their 15 checkers around the board in a horseshoe-shaped path, from their opponent's side of the board toward their own home board. Once all 15 are in the home board, you start bearing off, removing checkers from the board entirely. The first player to bear off all 15 checkers wins.
               </p>
@@ -533,7 +533,7 @@ export default function LearnSegmentTemplate() {
             <ImageWithCaption caption="The complete starting position with all 30 checkers placed, points numbered, and arrows showing each player's direction of movement." />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, flex: '1 0 0', justifyContent: 'center' }}>
               <H2>How to Set Up the Board</H2>
-              <BodyText muted>
+              <BodyText>
                 <p style={{ margin: 0 }}>
                   The board has 24 triangles (called points), a centre divider called the bar, and four quadrants. Each player places 15 checkers in a specific pattern: 2 on the 24-point, 5 on the 13-point, 3 on the 8-point, and 5 on the 6-point.
                 </p>

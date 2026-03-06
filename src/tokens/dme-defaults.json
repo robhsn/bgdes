@@ -16,6 +16,7 @@
   },
   "l2": {
     "--color-logo": "--prim-sapphire-400",
+    "--color-link": "--prim-splash-700",
     "--color-pill": "--prim-sapphire-900",
     "--color-accent": "--prim-orange-300",
     "--color-toc-pip": "--prim-sapphire-50",

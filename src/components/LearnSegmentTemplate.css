@@ -108,6 +108,7 @@
   --color-toc-pip:        var(--prim-mono-300);
   --color-toc-pip-active: var(--prim-mono-550);
   --color-logo:           var(--prim-mono-900);
+  --color-link:           var(--prim-mono-700);
   --color-white:          var(--prim-mono-white);
 
   /* ── Muted surface ──────────────────────────────────────────── */
