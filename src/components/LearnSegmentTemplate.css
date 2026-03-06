@@ -626,7 +626,7 @@
   cursor: pointer;
   flex: 1;
   color: var(--color-nav-icon);
-  opacity: 0.4;
+  opacity: 0.65;
 }
 
 .ls-nav-item-active {
