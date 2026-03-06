@@ -375,7 +375,7 @@ function TableOfContents() {
     <div
       ref={tocRef}
       className="ls-toc"
-      style={isFixed ? { position: 'fixed', top: 24 } : undefined}
+      style={isFixed ? { position: 'fixed', top: 54 } : undefined}
     >
       {TOC_ITEMS.map((item, i) => (
         <TocItem
