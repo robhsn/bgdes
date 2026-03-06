@@ -1,0 +1,158 @@
+{
+  "theme": "coral-tide",
+  "l1": {
+    "--prim-type-heading": "Outfit",
+    "--prim-type-subheading": "Outfit",
+    "--prim-type-body": "Inter",
+    "--prim-type-heading-weight": "900",
+    "--prim-type-heading-ls": "2",
+    "--prim-type-heading-lh": "12",
+    "--prim-type-subheading-weight": "900",
+    "--prim-type-subheading-ls": "3",
+    "--prim-type-subheading-lh": "12",
+    "--prim-type-body-weight": "400",
+    "--prim-type-body-ls": "0",
+    "--prim-type-body-lh": "19"
+  },
+  "l2": {
+    "--color-bg": "--prim-splash-50",
+    "--color-bg-surface": "--prim-butter-700",
+    "--color-heading": "--prim-sapphire-900",
+    "--color-pill": "--prim-sapphire-900",
+    "--color-accent": "--prim-orange-300",
+    "--color-body": "--prim-sapphire-500",
+    "--color-muted": "--prim-sapphire-700",
+    "--color-border": "--prim-butter-900",
+    "--color-border-light": "--prim-butter-700",
+    "--color-border-mid": "--prim-butter-900",
+    "--color-border-subtle": "--prim-orange-300",
+    "--color-callout-border": "--prim-splash-700",
+    "--color-placeholder": "--prim-splash-300",
+    "--color-toc-pip": "--prim-splash-100",
+    "--color-toc-pip-active": "--prim-splash-900",
+    "--color-badge-from": "--prim-orange-500",
+    "--color-badge-to": "--prim-sapphire-900",
+    "--color-badge-icon": "--prim-mono-white",
+    "--color-badge-icon-inner": "--prim-sapphire-900",
+    "--color-surface-heading": "--prim-sapphire-900",
+    "--color-surface-body": "--prim-sapphire-700",
+    "--color-surface-muted": "--prim-sapphire-500",
+    "--color-surface-border": "--prim-orange-300",
+    "--color-surface-border-light": "--prim-butter-700",
+    "--color-surface-border-mid": "--prim-butter-900",
+    "--color-surface-border-subtle": "--prim-orange-300",
+    "--color-surface-callout-border": "--prim-sapphire-300",
+    "--color-surface-placeholder": "--prim-splash-300",
+    "--font-heading": "heading",
+    "--font-subheading": "subheading",
+    "--font-body": "body",
+    "--font-logo": "heading",
+    "--font-pill": "heading",
+    "--font-toc": "body",
+    "--font-meta": "body",
+    "--size-h1": "60",
+    "--size-h2": "36",
+    "--size-body": "18",
+    "--spacing-section-v": "64",
+    "--spacing-content-gap": "24",
+    "--content-max-width": "900",
+    "--badge-angle": "135"
+  },
+  "l1Colors": {
+    "--prim-mono-white": "#ffffff",
+    "--prim-mono-50": "#efefef",
+    "--prim-mono-100": "#dddddd",
+    "--prim-mono-150": "#e0e0e0",
+    "--prim-mono-200": "#d9d9d9",
+    "--prim-mono-250": "#cccccc",
+    "--prim-mono-300": "#bbbbbb",
+    "--prim-mono-350": "#aaaaaa",
+    "--prim-mono-500": "#7b7b7b",
+    "--prim-mono-550": "#777777",
+    "--prim-mono-600": "#585858",
+    "--prim-mono-700": "#444444",
+    "--prim-mono-750": "#2e2e2e",
+    "--prim-mono-900": "#111111",
+    "--prim-mono-black": "#000000",
+    "--prim-sapphire-900": "#001635",
+    "--prim-sapphire-700": "#002458",
+    "--prim-sapphire-500": "#0c3775",
+    "--prim-sapphire-300": "#134b9b",
+    "--prim-sapphire-100": "#2f65b3",
+    "--prim-splash-900": "#0094b9",
+    "--prim-splash-700": "#26b7dc",
+    "--prim-splash-500": "#58ddff",
+    "--prim-splash-300": "#88e7ff",
+    "--prim-splash-100": "#b4f0ff",
+    "--prim-orange-900": "#a22e05",
+    "--prim-orange-700": "#ca4313",
+    "--prim-orange-500": "#f05a25",
+    "--prim-orange-300": "#ff9874",
+    "--prim-orange-100": "#ffbda6",
+    "--prim-butter-900": "#f0d18a",
+    "--prim-butter-700": "#f3ecac",
+    "--prim-butter-500": "#fefce9",
+    "--prim-splash-50": "#ebfbff"
+  },
+  "l1Groups": [
+    {
+      "name": "Mono",
+      "tokens": [
+        "--prim-mono-white",
+        "--prim-mono-50",
+        "--prim-mono-100",
+        "--prim-mono-150",
+        "--prim-mono-200",
+        "--prim-mono-250",
+        "--prim-mono-300",
+        "--prim-mono-350",
+        "--prim-mono-500",
+        "--prim-mono-550",
+        "--prim-mono-600",
+        "--prim-mono-700",
+        "--prim-mono-750",
+        "--prim-mono-900",
+        "--prim-mono-black"
+      ]
+    },
+    {
+      "name": "Sapphire",
+      "tokens": [
+        "--prim-sapphire-100",
+        "--prim-sapphire-300",
+        "--prim-sapphire-500",
+        "--prim-sapphire-700",
+        "--prim-sapphire-900"
+      ]
+    },
+    {
+      "name": "Splash",
+      "tokens": [
+        "--prim-splash-50",
+        "--prim-splash-100",
+        "--prim-splash-300",
+        "--prim-splash-500",
+        "--prim-splash-700",
+        "--prim-splash-900"
+      ]
+    },
+    {
+      "name": "Orange",
+      "tokens": [
+        "--prim-orange-100",
+        "--prim-orange-300",
+        "--prim-orange-500",
+        "--prim-orange-700",
+        "--prim-orange-900"
+      ]
+    },
+    {
+      "name": "Butter",
+      "tokens": [
+        "--prim-butter-500",
+        "--prim-butter-700",
+        "--prim-butter-900"
+      ]
+    }
+  ]
+}

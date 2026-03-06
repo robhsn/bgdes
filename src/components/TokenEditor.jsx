@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import fileDefaults from '../tokens/dme-defaults.json';
 
 /* ─── Konami sequence ────────────────────────────────────────── */
 const KONAMI = [
   'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
-  'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight',
 ];
 
 /* ─── Fonts ──────────────────────────────────────────────────── */
@@ -96,44 +96,164 @@ const L1_COLOR_PALETTES = [
 const THEMES = {
   mono: {
     label: 'Mono',
-    colors: {
-      '--color-bg':             '--prim-mono-white',
-      '--color-bg-gray':        '--prim-mono-50',
-      '--color-heading':        '--prim-mono-900',
+    globals: {
       '--color-pill':           '--prim-mono-900',
       '--color-accent':         '--prim-mono-700',
-      '--color-body':           '--prim-mono-600',
-      '--color-muted':          '--prim-mono-750',
-      '--color-border':         '--prim-mono-100',
-      '--color-border-light':   '--prim-mono-150',
-      '--color-border-mid':     '--prim-mono-250',
-      '--color-border-subtle':  '--prim-mono-350',
-      '--color-callout-border': '--prim-mono-500',
-      '--color-placeholder':    '--prim-mono-200',
       '--color-toc-pip':        '--prim-mono-300',
       '--color-toc-pip-active': '--prim-mono-550',
+      '--color-badge-from':     '--prim-mono-700',
+      '--color-badge-to':       '--prim-mono-900',
+      '--color-badge-icon':     '--prim-mono-750',
+      '--color-badge-icon-inner': '--prim-mono-100',
+    },
+    surfaces: {
+      default: {
+        '--color-bg':             '--prim-mono-white',
+        '--color-heading':        '--prim-mono-900',
+        '--color-body':           '--prim-mono-600',
+        '--color-muted':          '--prim-mono-750',
+        '--color-border':         '--prim-mono-100',
+        '--color-border-light':   '--prim-mono-150',
+        '--color-border-mid':     '--prim-mono-250',
+        '--color-border-subtle':  '--prim-mono-350',
+        '--color-callout-border': '--prim-mono-500',
+        '--color-placeholder':    '--prim-mono-200',
+      },
+      muted: {
+        '--sf-muted-bg':             '--prim-mono-50',
+        '--sf-muted-heading':        '--prim-mono-900',
+        '--sf-muted-body':           '--prim-mono-600',
+        '--sf-muted-text-muted':     '--prim-mono-750',
+        '--sf-muted-border':         '--prim-mono-100',
+        '--sf-muted-border-light':   '--prim-mono-150',
+        '--sf-muted-border-mid':     '--prim-mono-250',
+        '--sf-muted-border-subtle':  '--prim-mono-350',
+        '--sf-muted-callout-border': '--prim-mono-500',
+        '--sf-muted-placeholder':    '--prim-mono-200',
+      },
+      inverse: {
+        '--sf-inverse-bg':             '--prim-mono-900',
+        '--sf-inverse-heading':        '--prim-mono-white',
+        '--sf-inverse-body':           '--prim-mono-200',
+        '--sf-inverse-text-muted':     '--prim-mono-350',
+        '--sf-inverse-border':         '--prim-mono-700',
+        '--sf-inverse-border-light':   '--prim-mono-750',
+        '--sf-inverse-border-mid':     '--prim-mono-550',
+        '--sf-inverse-border-subtle':  '--prim-mono-500',
+        '--sf-inverse-callout-border': '--prim-mono-350',
+        '--sf-inverse-placeholder':    '--prim-mono-700',
+      },
+      accent: {
+        '--sf-accent-bg':             '--prim-mono-700',
+        '--sf-accent-heading':        '--prim-mono-white',
+        '--sf-accent-body':           '--prim-mono-100',
+        '--sf-accent-text-muted':     '--prim-mono-250',
+        '--sf-accent-border':         '--prim-mono-550',
+        '--sf-accent-border-light':   '--prim-mono-600',
+        '--sf-accent-border-mid':     '--prim-mono-400',
+        '--sf-accent-border-subtle':  '--prim-mono-350',
+        '--sf-accent-callout-border': '--prim-mono-250',
+        '--sf-accent-placeholder':    '--prim-mono-600',
+      },
     },
   },
   'coral-tide': {
     label: 'Coral Tide',
-    colors: {
-      '--color-bg':             '--prim-butter-500',
-      '--color-bg-gray':        '--prim-butter-700',
-      '--color-heading':        '--prim-sapphire-900',
+    globals: {
       '--color-pill':           '--prim-sapphire-900',
       '--color-accent':         '--prim-orange-500',
-      '--color-body':           '--prim-sapphire-500',
-      '--color-muted':          '--prim-sapphire-700',
-      '--color-border':         '--prim-butter-900',
-      '--color-border-light':   '--prim-butter-700',
-      '--color-border-mid':     '--prim-butter-900',
-      '--color-border-subtle':  '--prim-orange-300',
-      '--color-callout-border': '--prim-splash-700',
-      '--color-placeholder':    '--prim-splash-300',
       '--color-toc-pip':        '--prim-splash-100',
       '--color-toc-pip-active': '--prim-splash-900',
+      '--color-badge-from':     '--prim-orange-500',
+      '--color-badge-to':       '--prim-sapphire-900',
+      '--color-badge-icon':     '--prim-mono-white',
+      '--color-badge-icon-inner': '--prim-sapphire-900',
+    },
+    surfaces: {
+      default: {
+        '--color-bg':             '--prim-butter-500',
+        '--color-heading':        '--prim-sapphire-900',
+        '--color-body':           '--prim-sapphire-500',
+        '--color-muted':          '--prim-sapphire-700',
+        '--color-border':         '--prim-butter-900',
+        '--color-border-light':   '--prim-butter-700',
+        '--color-border-mid':     '--prim-butter-900',
+        '--color-border-subtle':  '--prim-orange-300',
+        '--color-callout-border': '--prim-splash-700',
+        '--color-placeholder':    '--prim-splash-300',
+      },
+      muted: {
+        '--sf-muted-bg':             '--prim-butter-700',
+        '--sf-muted-heading':        '--prim-sapphire-900',
+        '--sf-muted-body':           '--prim-sapphire-700',
+        '--sf-muted-text-muted':     '--prim-sapphire-500',
+        '--sf-muted-border':         '--prim-butter-900',
+        '--sf-muted-border-light':   '--prim-butter-700',
+        '--sf-muted-border-mid':     '--prim-butter-900',
+        '--sf-muted-border-subtle':  '--prim-orange-300',
+        '--sf-muted-callout-border': '--prim-sapphire-300',
+        '--sf-muted-placeholder':    '--prim-splash-300',
+      },
+      inverse: {
+        '--sf-inverse-bg':             '--prim-sapphire-900',
+        '--sf-inverse-heading':        '--prim-butter-500',
+        '--sf-inverse-body':           '--prim-butter-700',
+        '--sf-inverse-text-muted':     '--prim-butter-900',
+        '--sf-inverse-border':         '--prim-sapphire-700',
+        '--sf-inverse-border-light':   '--prim-sapphire-700',
+        '--sf-inverse-border-mid':     '--prim-sapphire-500',
+        '--sf-inverse-border-subtle':  '--prim-sapphire-300',
+        '--sf-inverse-callout-border': '--prim-orange-300',
+        '--sf-inverse-placeholder':    '--prim-sapphire-700',
+      },
+      accent: {
+        '--sf-accent-bg':             '--prim-orange-500',
+        '--sf-accent-heading':        '--prim-mono-white',
+        '--sf-accent-body':           '--prim-butter-500',
+        '--sf-accent-text-muted':     '--prim-butter-700',
+        '--sf-accent-border':         '--prim-orange-700',
+        '--sf-accent-border-light':   '--prim-orange-500',
+        '--sf-accent-border-mid':     '--prim-orange-700',
+        '--sf-accent-border-subtle':  '--prim-orange-900',
+        '--sf-accent-callout-border': '--prim-splash-700',
+        '--sf-accent-placeholder':    '--prim-orange-700',
+      },
     },
   },
+};
+
+/* Flatten globals + all 4 surfaces into a single token map for a given theme */
+function themeAllColorTokens(key) {
+  const t = THEMES[key];
+  return {
+    ...t.globals,
+    ...t.surfaces.default,
+    ...t.surfaces.muted,
+    ...t.surfaces.inverse,
+    ...t.surfaces.accent,
+  };
+}
+
+/* ─── Surface definitions — drives DME surface sub-tabs ─────── */
+const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder'];
+const SURFACE_DEFS = [
+  { key: 'default', label: 'Default', prefix: '--color-',      bgToken: '--color-bg'        },
+  { key: 'muted',   label: 'Muted',   prefix: '--sf-muted-',   bgToken: '--sf-muted-bg'     },
+  { key: 'inverse', label: 'Inverse', prefix: '--sf-inverse-', bgToken: '--sf-inverse-bg'   },
+  { key: 'accent',  label: 'Accent',  prefix: '--sf-accent-',  bgToken: '--sf-accent-bg'    },
+];
+/* Default-surface uses different names for some semantic tokens */
+const DEFAULT_SURFACE_TOKEN_MAP = {
+  'bg':            '--color-bg',
+  'heading':       '--color-heading',
+  'body':          '--color-body',
+  'text-muted':    '--color-muted',
+  'border':        '--color-border',
+  'border-light':  '--color-border-light',
+  'border-mid':    '--color-border-mid',
+  'border-subtle': '--color-border-subtle',
+  'callout-border':'--color-callout-border',
+  'placeholder':   '--color-placeholder',
 };
 
 /* ─── L1 defaults ────────────────────────────────────────────── */
@@ -177,39 +297,25 @@ const DEFAULT_L2_EXTRA = {
   '--spacing-section-v':   '64',
   '--spacing-content-gap': '24',
   '--content-max-width':   '900',
+  '--badge-angle':         '135',
 };
 
-const DEFAULT_L2 = { ...THEMES.mono.colors, ...DEFAULT_L2_EXTRA };
+const DEFAULT_L2 = { ...themeAllColorTokens('mono'), ...DEFAULT_L2_EXTRA };
 
-/* ─── Persistence ────────────────────────────────────────────── */
-const STORAGE_KEY = 'dme-state';
-
-function saveState(theme, l1, l2) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ theme, l1, l2 })); } catch (_) {}
-}
-function clearSavedState() {
-  try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
-}
-
-/* Loaded once at module init — used to seed initial React state */
-const _saved = (() => {
-  try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; }
-  catch (_) { return null; }
-})();
-const INIT_THEME = _saved?.theme ?? 'mono';
-const INIT_L1    = { ...DEFAULT_L1, ...(_saved?.l1 ?? {}) };
-const INIT_L2    = { ...DEFAULT_L2, ...(_saved?.l2 ?? {}) };
-
-/* ─── L1 reference palettes (display only) ───────────────────── */
-const L1_PALETTES = [
-  { name: 'Mono', swatches: [
-    '#ffffff','#efefef','#dddddd','#aaaaaa','#7b7b7b','#585858','#444444','#2e2e2e','#111111',
-  ]},
-  { name: 'Sapphire', swatches: ['#001635','#002458','#0c3775','#134b9b','#2f65b3'] },
-  { name: 'Splash',   swatches: ['#0094b9','#26b7dc','#58ddff','#88e7ff','#b4f0ff'] },
-  { name: 'Orange',   swatches: ['#a22e05','#ca4313','#f05a25','#ff9874','#ffbda6'] },
-  { name: 'Butter',   swatches: ['#f0d18a','#f3ecac','#fefce9'] },
-];
+/* ─── Initial state from committed file ──────────────────────── */
+/* dme-defaults.json is the sole source of truth; Save writes to it via Vite middleware */
+const INIT_THEME        = fileDefaults.theme    ?? 'mono';
+const INIT_L1           = { ...DEFAULT_L1,    ...(fileDefaults.l1       ?? {}) };
+/* Seed surface tokens from saved theme (so switching themes applies correct surface defaults),
+   then overlay any explicit user customizations from the saved file */
+const INIT_L2           = {
+  ...DEFAULT_L2,
+  ...(THEMES[INIT_THEME] ? themeAllColorTokens(INIT_THEME) : {}),
+  ...(fileDefaults.l2 ?? {}),
+};
+const INIT_L1_COLOR_MAP = { ...L1_COLOR_MAP,  ...(fileDefaults.l1Colors ?? {}) };
+const INIT_L1_GROUPS    = fileDefaults.l1Groups
+  ?? L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
 
 /* ─── Helpers ────────────────────────────────────────────────── */
 function applyL2(name, rawVal) {
@@ -217,9 +323,11 @@ function applyL2(name, rawVal) {
   if (L2_FONT_ROLE_TOKENS.has(name)) {
     /* rawVal is 'heading' | 'subheading' | 'body' → CSS var reference */
     css = `var(--prim-type-${rawVal})`;
-  } else if (name.startsWith('--color-')) {
+  } else if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) {
     /* rawVal is an L1 token name like '--prim-mono-900' → CSS var reference */
     css = `var(${rawVal})`;
+  } else if (name === '--badge-angle') {
+    css = rawVal + 'deg';
   } else if (name.startsWith('--size-') || name.startsWith('--spacing-') || name === '--content-max-width') {
     css = rawVal + 'px';
   }
@@ -257,22 +365,29 @@ export default function TokenEditor() {
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
   const [l2, setL2]                   = useState({ ...INIT_L2 });
+  const [l1ColorMap, setL1ColorMap]   = useState({ ...INIT_L1_COLOR_MAP });
+  const [l1Groups, setL1Groups]       = useState([...INIT_L1_GROUPS]);
   const [canUndo, setCanUndo]         = useState(false);
   const [canRedo, setCanRedo]         = useState(false);
-  const [hasSavedState, setHasSavedState] = useState(!!_saved);
+  const [isDirty, setIsDirty]         = useState(false);
+  const [hasSavedState, setHasSavedState] = useState(false);
 
   /* Refs for sync access inside callbacks */
-  const l1Ref     = useRef({ ...INIT_L1 });
-  const l2Ref     = useRef({ ...INIT_L2 });
-  const themeRef  = useRef(INIT_THEME);
-  const histRef   = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
-  const idxRef    = useRef(0);
+  const l1Ref         = useRef({ ...INIT_L1 });
+  const l2Ref         = useRef({ ...INIT_L2 });
+  const themeRef      = useRef(INIT_THEME);
+  const l1ColorMapRef = useRef({ ...INIT_L1_COLOR_MAP });
+  const l1GroupsRef   = useRef([...INIT_L1_GROUPS]);
+  const histRef       = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
+  const idxRef        = useRef(0);
 
-  /* Re-apply any persisted token overrides to the DOM on mount */
+  /* Apply committed file defaults to DOM on mount */
   useEffect(() => {
-    if (!_saved) return;
     Object.entries(INIT_L1).forEach(([k, v]) => applyL1(k, v));
     Object.entries(INIT_L2).forEach(([k, v]) => applyL2(k, v));
+    Object.entries(INIT_L1_COLOR_MAP).forEach(([tok, hex]) => {
+      document.documentElement.style.setProperty(tok, hex);
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refreshHistoryState = () => {
@@ -290,8 +405,7 @@ export default function TokenEditor() {
     histRef.current.push(snap);
     if (histRef.current.length > 60) histRef.current.shift();
     else idxRef.current++;
-    saveState(snap.theme, snap.l1, snap.l2);
-    setHasSavedState(true);
+    setIsDirty(true);
     refreshHistoryState();
   }, []);
 
@@ -301,8 +415,7 @@ export default function TokenEditor() {
     Object.entries(snap.l1).forEach(([k, v]) => applyL1(k, v));
     l1Ref.current = snap.l1; l2Ref.current = snap.l2; themeRef.current = snap.theme;
     setL1({ ...snap.l1 }); setL2({ ...snap.l2 }); setActiveTheme(snap.theme);
-    saveState(snap.theme, snap.l1, snap.l2);
-    setHasSavedState(true);
+    setIsDirty(true);
     refreshHistoryState();
   }, []);
 
@@ -343,7 +456,7 @@ export default function TokenEditor() {
   }, [pushHistory]);
 
   const switchTheme = useCallback((key) => {
-    const colors = THEMES[key].colors;
+    const colors = themeAllColorTokens(key);
     Object.entries(colors).forEach(([k, v]) => applyL2(k, v));
     const next = { ...l2Ref.current, ...colors };
     l2Ref.current = next; themeRef.current = key;
@@ -360,14 +473,153 @@ export default function TokenEditor() {
     pushHistory();
   }, [pushHistory]);
 
+  /* ── L1 color CRUD ────────────────────────────────────────── */
+  const setL1ColorHex = useCallback((token, hex) => {
+    document.documentElement.style.setProperty(token, hex);
+    const next = { ...l1ColorMapRef.current, [token]: hex };
+    l1ColorMapRef.current = next;
+    setL1ColorMap(next);
+    setIsDirty(true);
+  }, []);
+
+  const natSort = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+
+  const addL1Color = useCallback((groupName, token, hex) => {
+    document.documentElement.style.setProperty(token, hex);
+    const nextMap = { ...l1ColorMapRef.current, [token]: hex };
+    l1ColorMapRef.current = nextMap;
+    setL1ColorMap(nextMap);
+    const nextGroups = l1GroupsRef.current.map(g => {
+      if (g.name !== groupName) return g;
+      const tokens = [...g.tokens, token].sort(natSort);
+      return { ...g, tokens };
+    });
+    l1GroupsRef.current = nextGroups;
+    setL1Groups(nextGroups);
+    setIsDirty(true);
+  }, []);
+
+  const sortL1Group = useCallback((groupName) => {
+    const nextGroups = l1GroupsRef.current.map(g => {
+      if (g.name !== groupName) return g;
+      return { ...g, tokens: [...g.tokens].sort(natSort) };
+    });
+    l1GroupsRef.current = nextGroups;
+    setL1Groups(nextGroups);
+    setIsDirty(true);
+  }, []);
+
+  const renameL1Color = useCallback((groupName, oldToken, newToken, hex) => {
+    if (oldToken === newToken) return;
+    document.documentElement.style.removeProperty(oldToken);
+    document.documentElement.style.setProperty(newToken, hex);
+    const nextMap = { ...l1ColorMapRef.current };
+    delete nextMap[oldToken];
+    nextMap[newToken] = hex;
+    l1ColorMapRef.current = nextMap;
+    setL1ColorMap(nextMap);
+    const nextGroups = l1GroupsRef.current.map(g =>
+      g.name === groupName
+        ? { ...g, tokens: g.tokens.map(t => t === oldToken ? newToken : t) }
+        : g
+    );
+    l1GroupsRef.current = nextGroups;
+    setL1Groups(nextGroups);
+    /* Also update any L2 tokens referencing the old name */
+    const l2Updates = {};
+    Object.entries(l2Ref.current).forEach(([k, v]) => {
+      if (v === oldToken) l2Updates[k] = newToken;
+    });
+    if (Object.keys(l2Updates).length > 0) {
+      const nextL2 = { ...l2Ref.current, ...l2Updates };
+      Object.entries(l2Updates).forEach(([k, v]) => applyL2(k, v));
+      l2Ref.current = nextL2;
+      setL2(nextL2);
+    }
+    setIsDirty(true);
+  }, []);
+
+  const deleteL1Color = useCallback((groupName, token) => {
+    document.documentElement.style.removeProperty(token);
+    const nextMap = { ...l1ColorMapRef.current };
+    delete nextMap[token];
+    l1ColorMapRef.current = nextMap;
+    setL1ColorMap(nextMap);
+    const nextGroups = l1GroupsRef.current.map(g =>
+      g.name === groupName ? { ...g, tokens: g.tokens.filter(t => t !== token) } : g
+    );
+    l1GroupsRef.current = nextGroups;
+    setL1Groups(nextGroups);
+    setIsDirty(true);
+  }, []);
+
+  const moveL1Color = useCallback((groupName, fromIdx, toIdx) => {
+    const nextGroups = l1GroupsRef.current.map(g => {
+      if (g.name !== groupName) return g;
+      const tokens = [...g.tokens];
+      const [moved] = tokens.splice(fromIdx, 1);
+      tokens.splice(toIdx, 0, moved);
+      return { ...g, tokens };
+    });
+    l1GroupsRef.current = nextGroups;
+    setL1Groups(nextGroups);
+    setIsDirty(true);
+  }, []);
+
+  const addL1Group = useCallback((name) => {
+    const next = [...l1GroupsRef.current, { name, tokens: [] }];
+    l1GroupsRef.current = next;
+    setL1Groups(next);
+    setIsDirty(true);
+  }, []);
+
+  const deleteL1Group = useCallback((name) => {
+    const group = l1GroupsRef.current.find(g => g.name === name);
+    if (group) {
+      group.tokens.forEach(t => document.documentElement.style.removeProperty(t));
+      const nextMap = { ...l1ColorMapRef.current };
+      group.tokens.forEach(t => delete nextMap[t]);
+      l1ColorMapRef.current = nextMap;
+      setL1ColorMap(nextMap);
+    }
+    const nextGroups = l1GroupsRef.current.filter(g => g.name !== name);
+    l1GroupsRef.current = nextGroups;
+    setL1Groups(nextGroups);
+    setIsDirty(true);
+  }, []);
+
+  /* ── Save ─────────────────────────────────────────────────── */
+  const handleSave = useCallback(() => {
+    const state = {
+      theme:    themeRef.current,
+      l1:       l1Ref.current,
+      l2:       l2Ref.current,
+      l1Colors: l1ColorMapRef.current,
+      l1Groups: l1GroupsRef.current,
+    };
+    /* Write to src/tokens/dme-defaults.json via Vite dev middleware */
+    fetch('/__dme_save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state),
+    }).catch(() => {});
+    setIsDirty(false);
+    setHasSavedState(true);
+  }, []);
+
   const reset = useCallback(() => {
     removeAllOverrides();
+    Object.keys(l1ColorMapRef.current).forEach(t => document.documentElement.style.removeProperty(t));
     l1Ref.current = { ...DEFAULT_L1 }; l2Ref.current = { ...DEFAULT_L2 }; themeRef.current = 'mono';
+    l1ColorMapRef.current = { ...L1_COLOR_MAP };
+    l1GroupsRef.current = L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
     setL1({ ...DEFAULT_L1 }); setL2({ ...DEFAULT_L2 }); setActiveTheme('mono');
+    setL1ColorMap({ ...L1_COLOR_MAP });
+    setL1Groups(L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] })));
     histRef.current = [{ theme: 'mono', l1: { ...DEFAULT_L1 }, l2: { ...DEFAULT_L2 } }];
     idxRef.current = 0;
-    clearSavedState();
     setHasSavedState(false);
+    setIsDirty(false);
     refreshHistoryState();
   }, []);
 
@@ -375,7 +627,7 @@ export default function TokenEditor() {
 
   return (
     <div style={{
-      position: 'fixed', top: 0, right: 0, height: '100vh', width: 300,
+      position: 'fixed', top: 0, right: 0, height: '100vh', width: '30vw', minWidth: 380,
       background: '#1c1c1c', color: '#e0e0e0',
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontSize: 12, zIndex: 9999,
@@ -393,28 +645,29 @@ export default function TokenEditor() {
               Design Matrix Editor
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 2 }}>
-              <span style={{ color: '#444', fontSize: 10 }}>↑↑↓↓←→←→ to toggle</span>
-              {hasSavedState && <span style={{ color: '#3d7a4e', fontSize: 10 }}>● saved</span>}
+              <span style={{ color: '#666', fontSize: 10 }}>↑↑↓↓←→←→ to toggle</span>
+              {!isDirty && hasSavedState && <span style={{ color: '#3d7a4e', fontSize: 10 }}>● saved</span>}
             </div>
           </div>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
             {/* Undo */}
             <button title="Undo (⌘Z)" onClick={undo} disabled={!canUndo} style={iconBtn(canUndo)}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3.5h3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3.5h3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
             {/* Redo */}
             <button title="Redo (⌘⇧Z)" onClick={redo} disabled={!canRedo} style={iconBtn(canRedo)}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7a5 5 0 1 1-1.5-3.5L12 2M12 2v3.5H8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <svg width="20" height="20" viewBox="0 0 14 14" fill="none"><path d="M12 7a5 5 0 1 1-1.5-3.5L12 2M12 2v3.5H8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
             <div style={{ width: 1, height: 16, background: '#333' }} />
+            {isDirty && <button onClick={handleSave} style={saveBtn}>Save</button>}
             <button onClick={reset} style={ghostBtn}>Reset</button>
-            <button onClick={() => setVisible(false)} style={{ background: 'none', border: 'none', color: '#555', fontSize: 20, cursor: 'pointer', lineHeight: 1, padding: '0 2px' }}>×</button>
+            <button onClick={() => setVisible(false)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 28, cursor: 'pointer', lineHeight: 1, padding: '0 2px' }}>×</button>
           </div>
         </div>
 
         {/* Theme selector */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ color: '#555', fontSize: 11, flexShrink: 0 }}>Theme</span>
+          <span style={{ color: '#999', fontSize: 11, flexShrink: 0 }}>Theme</span>
           <select
             value={activeTheme}
             onChange={e => switchTheme(e.target.value)}
@@ -432,7 +685,7 @@ export default function TokenEditor() {
         {[['l2', 'Level 2 — Applied'], ['l1', 'Level 1 — Primitives']].map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)} style={{
             flex: 1, padding: '9px 4px', background: 'none', border: 'none',
-            color: tab === key ? '#fff' : '#555', fontSize: 11, cursor: 'pointer',
+            color: tab === key ? '#fff' : '#888', fontSize: 11, cursor: 'pointer',
             borderBottom: tab === key ? '2px solid #666' : '2px solid transparent',
             fontWeight: tab === key ? 600 : 400,
           }}>
@@ -444,8 +697,11 @@ export default function TokenEditor() {
       {/* ── Scrollable body ───────────────────────────────────── */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {tab === 'l2'
-          ? <L2View l2={l2} set={setL2Token} />
-          : <L1View l1={l1} setRole={setL1Role} />
+          ? <L2View l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          : <L1View l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+              setL1ColorHex={setL1ColorHex} addL1Color={addL1Color} deleteL1Color={deleteL1Color}
+              moveL1Color={moveL1Color} addL1Group={addL1Group} deleteL1Group={deleteL1Group}
+              sortL1Group={sortL1Group} renameL1Color={renameL1Color} />
         }
       </div>
 
@@ -453,29 +709,90 @@ export default function TokenEditor() {
   );
 }
 
+/* ─── Surface swatch — live preview of one surface's bg/heading/body ── */
+function SurfaceSwatch({ surfaceDef, l2, l1ColorMap }) {
+  const tokenName = (suffix) =>
+    surfaceDef.key === 'default'
+      ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
+      : `${surfaceDef.prefix}${suffix}`;
+  const hex = (suffix) => l1ColorMap[l2[tokenName(suffix)]] || '#888';
+  return (
+    <div style={{ margin: '4px 16px 6px', borderRadius: 5, overflow: 'hidden', border: '1px solid #2a2a2a' }}>
+      <div style={{ background: hex('bg'), padding: '8px 12px' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: hex('heading'), marginBottom: 2 }}>{surfaceDef.label} surface</div>
+        <div style={{ fontSize: 10, color: hex('body') }}>Body text preview</div>
+        <div style={{ fontSize: 10, color: hex('text-muted') }}>Muted / secondary text</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Surface colour panel — tab bar selects one of 4 surfaces ── */
+function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
+  const [activeSurf, setActiveSurf] = React.useState('default');
+  const sf = SURFACE_DEFS.find(s => s.key === activeSurf);
+  const tokenFor = (suffix) =>
+    sf.key === 'default'
+      ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
+      : `${sf.prefix}${suffix}`;
+  const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder' };
+  return (
+    <>
+      {/* Surface tab bar */}
+      <div style={{ display: 'flex', gap: 2, padding: '4px 16px 0' }}>
+        {SURFACE_DEFS.map(s => (
+          <button
+            key={s.key}
+            onClick={() => setActiveSurf(s.key)}
+            style={{
+              flex: 1, padding: '3px 2px', fontSize: 10, fontWeight: activeSurf === s.key ? 700 : 400,
+              background: activeSurf === s.key ? '#2a2a2a' : 'transparent',
+              color: activeSurf === s.key ? '#fff' : '#888', border: '1px solid #2a2a2a',
+              borderRadius: 3, cursor: 'pointer',
+            }}
+          >{s.label}</button>
+        ))}
+      </div>
+      <SurfaceSwatch surfaceDef={sf} l2={l2} l1ColorMap={l1ColorMap} />
+      {SURFACE_TOKENS.map(suffix => (
+        <ColorRow
+          key={suffix}
+          label={LABELS[suffix]}
+          name={tokenFor(suffix)}
+          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+        />
+      ))}
+    </>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════════
    L2 View
    ═══════════════════════════════════════════════════════════════ */
-function L2View({ l2, set }) {
+function L2View({ l2, set, l1ColorMap, l1Groups }) {
   return (
     <>
       <Sect label="Colors">
-        <ColorRow label="Page background"  name="--color-bg"             l2={l2} set={set} />
-        <ColorRow label="Gray section"     name="--color-bg-gray"        l2={l2} set={set} />
-        <ColorRow label="Headings"         name="--color-heading"        l2={l2} set={set} />
-        <ColorRow label="Pill (primary)"   name="--color-pill"           l2={l2} set={set} />
-        <ColorRow label="Pill (accent)"    name="--color-accent"         l2={l2} set={set} />
-        <ColorRow label="Body text"        name="--color-body"           l2={l2} set={set} />
-        <ColorRow label="Muted text"       name="--color-muted"          l2={l2} set={set} />
-        <ColorRow label="Borders"          name="--color-border"         l2={l2} set={set} />
-        <ColorRow label="Callout border"   name="--color-callout-border" l2={l2} set={set} />
-        <ColorRow label="Placeholder"      name="--color-placeholder"    l2={l2} set={set} />
-        <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} />
-        <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} />
+        <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+
+        <SubSect label="Global Components" />
+        <ColorRow label="Pill (primary)"   name="--color-pill"           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <ColorRow label="Pill (accent)"    name="--color-accent"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+
+        <SubSect label="Navigation" />
+        <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+
+        <SubSect label="Badge" />
+        <ColorRow label="Gradient start"   name="--color-badge-from"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <ColorRow label="Gradient end"     name="--color-badge-to"          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <SliderRow label="Angle"           name="--badge-angle"             l2={l2} set={set} min={0} max={360} unit="°" />
+        <ColorRow label="Icon (cap)"        name="--color-badge-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        <ColorRow label="Icon (inner hex)" name="--color-badge-icon-inner"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
       </Sect>
       <Sect label="Typography">
         <div style={{ padding: '4px 16px 6px' }}>
-          <div style={{ color: '#484848', fontSize: 10, lineHeight: 1.5 }}>
+          <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>
             Assign L1 type roles to each element. Change the role's font under Level 1 → Type Roles.
           </div>
         </div>
@@ -512,7 +829,7 @@ function L1RoleGroup({ roleKey, roleLabel, l1, setRole }) {
 
   return (
     <div>
-      <div style={{ padding: '8px 16px 2px', color: '#555', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+      <div style={{ padding: '8px 16px 2px', color: '#999', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         {roleLabel}
       </div>
       {/* Family */}
@@ -555,12 +872,137 @@ function L1RoleGroup({ roleKey, roleLabel, l1, setRole }) {
   );
 }
 
-function L1View({ l1, setRole }) {
+function L1PaletteEditor({ group, l1ColorMap, onSetHex, onAdd, onDelete, onMove, onDeleteGroup, onSort, onRename }) {
+  const [editingToken, setEditingToken]   = useState(null);
+  const [editHex, setEditHex]             = useState('');
+  const [editName, setEditName]           = useState('');
+  const [addingColor, setAddingColor]     = useState(false);
+  const [newHex, setNewHex]               = useState('#888888');
+  const [newName, setNewName]             = useState('');
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const tinyBtn = { background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', lineHeight: 1, flexShrink: 0, fontSize: 20 };
+
+  const handleAdd = () => {
+    const slug = newName.trim().replace(/\s+/g, '-').toLowerCase();
+    if (!slug) return;
+    onAdd(group.name, '--prim-' + slug, newHex);
+    setAddingColor(false); setNewName(''); setNewHex('#888888');
+  };
+
+  const handleConfirmEdit = (token) => {
+    const slug = editName.trim().replace(/\s+/g, '-').toLowerCase();
+    if (slug) {
+      const newToken = '--prim-' + slug;
+      onRename(group.name, token, newToken, editHex);
+    }
+    setEditingToken(null);
+  };
+
+  return (
+    <div style={{ padding: '6px 16px 8px', borderBottom: '1px solid #2a2a2a' }}>
+      {/* Palette header */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
+        <span style={{ color: '#999', fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, flex: 1 }}>{group.name}</span>
+        <button onClick={() => onSort(group.name)} title="Sort A→Z" style={{ ...tinyBtn, color: '#777', fontSize: 14 }}>A↓</button>
+        {confirmDelete ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ color: '#bbb', fontSize: 10 }}>Delete?</span>
+            <button onClick={() => onDeleteGroup(group.name)} style={{ ...tinyBtn, color: '#e06060' }}>Yes</button>
+            <button onClick={() => setConfirmDelete(false)} style={{ ...tinyBtn, color: '#999' }}>No</button>
+          </div>
+        ) : (
+          <button onClick={() => setConfirmDelete(true)} title="Delete palette" style={{ ...tinyBtn, color: '#777' }}>×</button>
+        )}
+      </div>
+
+      {/* Token rows */}
+      {group.tokens.map((token, idx) => {
+        const hex = l1ColorMap[token] || '#888888';
+        const shortName = token.replace('--prim-', '');
+        const isEditing = editingToken === token;
+        const last = group.tokens.length - 1;
+        return (
+          <div key={token} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, minHeight: 34 }}>
+            {isEditing ? (
+              <>
+                <input type="color" value={editHex}
+                  onChange={e => { setEditHex(e.target.value); onSetHex(token, e.target.value); }}
+                  style={{ width: 40, height: 28, padding: 1, border: '1px solid #3a3a3a', borderRadius: 3, cursor: 'pointer', flexShrink: 0 }}
+                />
+                <input type="text" value={editHex}
+                  onChange={e => {
+                    const val = e.target.value;
+                    setEditHex(val);
+                    if (/^#[0-9a-fA-F]{6}$/.test(val)) onSetHex(token, val);
+                  }}
+                  maxLength={7}
+                  style={{ width: 68, background: '#1a1a1a', border: '1px solid #3a3a3a', color: '#ddd', fontSize: 11, padding: '3px 5px', borderRadius: 3, fontFamily: 'monospace' }}
+                />
+                <input type="text" value={editName}
+                  onChange={e => setEditName(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleConfirmEdit(token); if (e.key === 'Escape') setEditingToken(null); }}
+                  placeholder="token-name"
+                  style={{ flex: 1, background: '#1a1a1a', border: '1px solid #3a3a3a', color: '#ddd', fontSize: 11, padding: '3px 5px', borderRadius: 3, fontFamily: 'monospace', minWidth: 0 }}
+                />
+                <button onClick={() => handleConfirmEdit(token)} style={{ ...tinyBtn, color: '#4cb87a' }}>✓</button>
+              </>
+            ) : (
+              <>
+                <div style={{ width: 28, height: 28, background: hex, borderRadius: 2, border: '1px solid rgba(255,255,255,0.12)', flexShrink: 0 }} />
+                <span style={{ color: '#bbb', fontSize: 11, fontFamily: 'monospace' }}>{shortName}</span>
+                <span style={{ color: '#777', fontSize: 10, fontFamily: 'monospace', flex: 1 }}>{hex}</span>
+                <button onClick={() => onMove(group.name, idx, idx - 1)} disabled={idx === 0}
+                  style={{ ...tinyBtn, color: idx === 0 ? '#3a3a3a' : '#888', fontSize: 18 }}>↑</button>
+                <button onClick={() => onMove(group.name, idx, idx + 1)} disabled={idx === last}
+                  style={{ ...tinyBtn, color: idx === last ? '#3a3a3a' : '#888', fontSize: 18 }}>↓</button>
+                <button onClick={() => { setEditingToken(token); setEditHex(hex); setEditName(shortName); }} style={{ ...tinyBtn, color: '#888' }}>✎</button>
+                <button onClick={() => onDelete(group.name, token)} style={{ ...tinyBtn, color: '#888' }}>×</button>
+              </>
+            )}
+          </div>
+        );
+      })}
+
+      {/* Add color form */}
+      {addingColor ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 5 }}>
+          <input type="color" value={newHex} onChange={e => setNewHex(e.target.value)}
+            style={{ width: 40, height: 28, padding: 1, border: '1px solid #3a3a3a', borderRadius: 3, cursor: 'pointer', flexShrink: 0 }}
+          />
+          <input type="text" value={newName} onChange={e => setNewName(e.target.value)}
+            placeholder="token-name" autoFocus
+            onKeyDown={e => { if (e.key === 'Enter') handleAdd(); if (e.key === 'Escape') { setAddingColor(false); setNewName(''); } }}
+            style={{ flex: 1, background: '#1a1a1a', border: '1px solid #3a3a3a', color: '#ddd', fontSize: 11, padding: '3px 6px', borderRadius: 3, fontFamily: 'monospace' }}
+          />
+          <button onClick={handleAdd} style={{ ...tinyBtn, color: '#4cb87a' }}>✓</button>
+          <button onClick={() => { setAddingColor(false); setNewName(''); }} style={{ ...tinyBtn, color: '#888' }}>×</button>
+        </div>
+      ) : (
+        <button onClick={() => setAddingColor(true)}
+          style={{ color: '#888', fontSize: 10, background: 'none', border: 'none', cursor: 'pointer', padding: '3px 0 0', letterSpacing: '0.04em' }}
+        >+ Add Color</button>
+      )}
+    </div>
+  );
+}
+
+function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, deleteL1Color, moveL1Color, addL1Group, deleteL1Group, sortL1Group, renameL1Color }) {
+  const [addingPalette, setAddingPalette]   = useState(false);
+  const [newPaletteName, setNewPaletteName] = useState('');
+
+  const handleAddPalette = () => {
+    const name = newPaletteName.trim();
+    if (!name) return;
+    addL1Group(name);
+    setAddingPalette(false); setNewPaletteName('');
+  };
+
   return (
     <>
       <Sect label="Type Roles">
         <div style={{ padding: '4px 16px 6px' }}>
-          <div style={{ color: '#484848', fontSize: 10, lineHeight: 1.5 }}>
+          <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>
             Define font roles. Changes apply across all themes and L2 assignments.
           </div>
         </div>
@@ -572,28 +1014,34 @@ function L1View({ l1, setRole }) {
       </Sect>
       <Sect label="Color Palettes">
         <div style={{ padding: '4px 16px 6px' }}>
-          <div style={{ color: '#484848', fontSize: 10, lineHeight: 1.5 }}>
-            Reference palette — use in Level 2 tokens.
+          <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>
+            Define primitive color tokens. L2 tokens reference these.
           </div>
         </div>
-        {L1_PALETTES.map(({ name, swatches }) => (
-          <div key={name} style={{ padding: '6px 16px' }}>
-            <div style={{ color: '#444', fontSize: 10, marginBottom: 5, letterSpacing: '0.04em' }}>{name}</div>
-            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-              {swatches.map(hex => (
-                <div
-                  key={hex}
-                  title={hex}
-                  style={{
-                    width: 22, height: 22, borderRadius: 3,
-                    background: hex, border: '1px solid rgba(255,255,255,0.08)',
-                    flexShrink: 0,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+        {l1Groups.map(group => (
+          <L1PaletteEditor key={group.name} group={group} l1ColorMap={l1ColorMap}
+            onSetHex={setL1ColorHex} onAdd={addL1Color} onDelete={deleteL1Color} onMove={moveL1Color}
+            onDeleteGroup={deleteL1Group} onSort={sortL1Group} onRename={renameL1Color}
+          />
         ))}
+        <div style={{ padding: '8px 16px' }}>
+          {addingPalette ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <input type="text" value={newPaletteName} onChange={e => setNewPaletteName(e.target.value)}
+                placeholder="Palette name" autoFocus
+                onKeyDown={e => { if (e.key === 'Enter') handleAddPalette(); if (e.key === 'Escape') { setAddingPalette(false); setNewPaletteName(''); } }}
+                style={{ flex: 1, background: '#262626', border: '1px solid #3a3a3a', color: '#ccc', fontSize: 11, padding: '4px 8px', borderRadius: 3 }}
+              />
+              <button onClick={handleAddPalette} style={ghostBtn}>Add</button>
+              <button onClick={() => { setAddingPalette(false); setNewPaletteName(''); }}
+                style={{ background: 'none', border: 'none', color: '#555', cursor: 'pointer', fontSize: 16, padding: '0 2px' }}>×</button>
+            </div>
+          ) : (
+            <button onClick={() => setAddingPalette(true)}
+              style={{ color: '#888', fontSize: 10, background: 'none', border: 'none', cursor: 'pointer', padding: 0, letterSpacing: '0.04em' }}
+            >+ Add Palette</button>
+          )}
+        </div>
       </Sect>
     </>
   );
@@ -602,13 +1050,25 @@ function L1View({ l1, setRole }) {
 /* ═══════════════════════════════════════════════════════════════
    Shared UI primitives
    ═══════════════════════════════════════════════════════════════ */
+function SubSect({ label }) {
+  return (
+    <div style={{
+      padding: '8px 16px 2px',
+      fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
+      color: '#aaa', marginTop: 4,
+    }}>
+      {label}
+    </div>
+  );
+}
+
 function Sect({ label, children }) {
   return (
     <div>
       <div style={{
-        padding: '10px 16px 8px',
-        fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-        color: '#444', borderBottom: '1px solid #252525',
+        padding: '11px 16px 9px',
+        fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+        color: '#ddd', borderBottom: '1px solid #2a2a2a',
         position: 'sticky', top: 0, background: '#1c1c1c', zIndex: 1,
       }}>
         {label}
@@ -621,7 +1081,7 @@ function Sect({ label, children }) {
 function Row({ label, children }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 16px', gap: 8, minHeight: 32 }}>
-      <span style={{ color: '#888', fontSize: 12, flexShrink: 0 }}>{label}</span>
+      <span style={{ color: '#aaa', fontSize: 12, flexShrink: 0 }}>{label}</span>
       {children}
     </div>
   );
@@ -629,9 +1089,9 @@ function Row({ label, children }) {
 
 
 /* ── Palette colour picker — selects an L1 token reference ──── */
-function ColorRow({ label, name, l2, set }) {
+function ColorRow({ label, name, l2, set, l1ColorMap, l1Groups }) {
   const currentToken = l2[name] || '--prim-mono-900';
-  const hex = L1_COLOR_MAP[currentToken] || '#888';
+  const hex = l1ColorMap[currentToken] || '#888';
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -653,16 +1113,16 @@ function ColorRow({ label, name, l2, set }) {
           onClick={() => setOpen(o => !o)}
           style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#262626', border: '1px solid #3a3a3a', padding: '3px 8px 3px 5px', borderRadius: 4, cursor: 'pointer' }}
         >
-          <div style={{ width: 14, height: 14, borderRadius: 2, background: hex, border: '1px solid rgba(255,255,255,0.12)', flexShrink: 0 }} />
-          <span style={{ color: '#777', fontSize: 10, fontFamily: 'monospace' }}>{shortName}</span>
+          <div style={{ width: 22, height: 22, borderRadius: 2, background: hex, border: '1px solid rgba(255,255,255,0.12)', flexShrink: 0 }} />
+          <span style={{ color: '#aaa', fontSize: 10, fontFamily: 'monospace' }}>{shortName}</span>
         </button>
 
         {/* Palette dropdown */}
         {open && (
           <div style={{ position: 'absolute', right: 0, top: 'calc(100% + 4px)', zIndex: 200, background: '#181818', border: '1px solid #2e2e2e', borderRadius: 6, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220 }}>
-            {L1_COLOR_PALETTES.map(({ name: palName, tokens }) => (
+            {l1Groups.map(({ name: palName, tokens }) => (
               <div key={palName} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <span style={{ color: '#444', fontSize: 9, width: 44, flexShrink: 0, letterSpacing: '0.04em' }}>{palName}</span>
+                <span style={{ color: '#888', fontSize: 9, width: 44, flexShrink: 0, letterSpacing: '0.04em' }}>{palName}</span>
                 <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
                   {tokens.map(tok => (
                     <button
@@ -670,8 +1130,8 @@ function ColorRow({ label, name, l2, set }) {
                       title={tok}
                       onClick={() => { set(name, tok); setOpen(false); }}
                       style={{
-                        width: 16, height: 16,
-                        background: L1_COLOR_MAP[tok],
+                        width: 22, height: 22,
+                        background: l1ColorMap[tok] || '#888',
                         border: currentToken === tok ? '2px solid #fff' : '1px solid rgba(255,255,255,0.1)',
                         borderRadius: 2, cursor: 'pointer', padding: 0, flexShrink: 0,
                       }}
@@ -746,12 +1206,16 @@ function SliderRow({ label, name, l2, set, min, max, unit }) {
 }
 
 /* ─── Button styles ──────────────────────────────────────────── */
+const saveBtn = {
+  background: '#1a3a2a', border: '1px solid #2a5a3a',
+  color: '#4eb87a', fontSize: 11, padding: '4px 10px', borderRadius: 4, cursor: 'pointer', fontWeight: 600,
+};
 const ghostBtn = {
   background: '#2a2a2a', border: '1px solid #3a3a3a',
-  color: '#888', fontSize: 11, padding: '4px 10px', borderRadius: 4, cursor: 'pointer',
+  color: '#bbb', fontSize: 11, padding: '4px 10px', borderRadius: 4, cursor: 'pointer',
 };
 const iconBtn = (enabled) => ({
-  background: 'none', border: 'none', padding: '4px 4px',
+  background: 'none', border: 'none', padding: '5px 6px',
   color: enabled ? '#888' : '#333', cursor: enabled ? 'pointer' : 'default',
   display: 'flex', alignItems: 'center', borderRadius: 3,
 });

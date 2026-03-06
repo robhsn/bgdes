@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './LearnSegmentTemplate.css';
+import avatarImg from '../imgs/avatar-dink.png';
 
 const ASSETS = {
-  avatar:   'https://www.figma.com/api/mcp/asset/315f92a3-1e58-4c81-9676-58ec670c08c0',
-  badges:   'https://www.figma.com/api/mcp/asset/e2cfc9a8-319f-4e73-939a-75c2efdd310f',
-  polygon3: 'https://www.figma.com/api/mcp/asset/6c8491e0-c2af-47a8-a6a5-827cefcf0c05',
+  avatar: avatarImg,
 };
 
 /* Token shorthand helpers — all resolve via CSS custom properties */
@@ -16,7 +15,111 @@ const fp = 'var(--font-pill)';       /* breadcrumb pills  */
 const ft = 'var(--font-toc)';        /* TOC labels        */
 const fm = 'var(--font-meta)';       /* meta / reviewer   */
 
+/* ─── Nav icons ───────────────────────────────────────────────── */
+
+function IconTrophy() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 3h10v7a5 5 0 0 1-10 0V3Z"/>
+      <path d="M4 5.5H7M17 5.5h3"/>
+      <path d="M12 15v3M9 21h6"/>
+    </svg>
+  );
+}
+
+function IconLearning() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="2" width="16" height="20" rx="2"/>
+      <path d="M8 8h8M8 12h8M8 16h5"/>
+    </svg>
+  );
+}
+
+function IconNewGame() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <circle cx="12" cy="12" r="9"/>
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 3v2M12 19v2M3 12h2M19 12h2"/>
+    </svg>
+  );
+}
+
+function IconFriends() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <circle cx="9" cy="7" r="3.5"/>
+      <path d="M2 20c0-3.31 3.13-6 7-6s7 2.69 7 6"/>
+      <circle cx="18" cy="7" r="3" strokeWidth="1.4"/>
+      <path d="M15.5 20c0-2.12 1.3-3.96 3.5-4.8" strokeWidth="1.4"/>
+    </svg>
+  );
+}
+
+function IconProfile() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <circle cx="12" cy="7" r="4"/>
+      <path d="M4 21c0-4.42 3.58-8 8-8s8 3.58 8 8"/>
+    </svg>
+  );
+}
+
+const NAV_ITEMS = [
+  { label: 'Challenges', Icon: IconTrophy,   active: false },
+  { label: 'Learning',   Icon: IconLearning,  active: true  },
+  { label: 'New Game',   Icon: IconNewGame,   active: false },
+  { label: 'Friends',    Icon: IconFriends,   active: false },
+  { label: 'Profile',    Icon: IconProfile,   active: false },
+];
+
+function MobileNav() {
+  return (
+    <nav className="ls-mobile-nav">
+      {NAV_ITEMS.map(({ label, Icon, active }) => (
+        <button key={label} className={`ls-nav-item${active ? ' ls-nav-item-active' : ''}`}>
+          <div className="ls-nav-icon-wrap">
+            <Icon />
+          </div>
+          <span className="ls-nav-label">{label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
 /* ─── Sub-components ─────────────────────────────────────────── */
+
+/** Inline SVG badge — fills controlled by --color-badge-icon / --color-badge-icon-inner */
+function BadgeIcon() {
+  return (
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 39 35"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ position: 'absolute', inset: 0, display: 'block' }}
+    >
+      {/* Outer hexagon — transparent, gradient shows through from ::before */}
+      <path
+        d="M0.694387 14.8938C-0.231462 16.5122 -0.231462 18.4951 0.694387 20.1062L7.70751 32.361C8.64065 33.994 10.383 35 12.2639 35H26.2318C28.1126 35 29.855 33.994 30.7881 32.361L37.8012 20.1062C38.7271 18.4878 38.7271 16.5049 37.8012 14.8938L30.7881 2.63903C29.855 1.00604 28.1126 0 26.2318 0H12.2639C10.383 0 8.64065 1.00604 7.70751 2.63903L0.694387 14.8938Z"
+        fill="transparent"
+      />
+      {/* Inner hexagon fill */}
+      <path
+        d="M5.2824 15.538C4.58556 16.7561 4.58556 18.2485 5.2824 19.4611L10.5608 28.6847C11.2632 29.9138 12.5745 30.671 13.9902 30.671H24.5032C25.9188 30.671 27.2302 29.9138 27.9325 28.6847L33.211 19.4611C33.9078 18.243 33.9078 16.7506 33.211 15.538L27.9325 6.3144C27.2302 5.08532 25.9188 4.32812 24.5032 4.32812H13.9902C12.5745 4.32812 11.2632 5.08532 10.5608 6.3144L5.2824 15.538Z"
+        fill="var(--color-badge-icon-inner)"
+      />
+      {/* Graduation cap icon */}
+      <path
+        d="M12.1113 15.1754L18.6488 17.866C18.9551 17.991 19.2801 18.0566 19.6113 18.0566C19.9426 18.0566 20.2676 17.991 20.5738 17.866L28.1488 14.7473C28.4301 14.6316 28.6113 14.3598 28.6113 14.0566C28.6113 13.7535 28.4301 13.4816 28.1488 13.366L20.5738 10.2473C20.2676 10.1223 19.9426 10.0566 19.6113 10.0566C19.2801 10.0566 18.9551 10.1223 18.6488 10.2473L11.0738 13.366C10.7926 13.4816 10.6113 13.7535 10.6113 14.0566V23.3066C10.6113 23.7223 10.9457 24.0566 11.3613 24.0566C11.777 24.0566 12.1113 23.7223 12.1113 23.3066V15.1754ZM13.6113 17.416V21.0566C13.6113 22.7129 16.2988 24.0566 19.6113 24.0566C22.9238 24.0566 25.6113 22.7129 25.6113 21.0566V17.4129L21.1457 19.2535C20.6582 19.4535 20.1395 19.5566 19.6113 19.5566C19.0832 19.5566 18.5645 19.4535 18.077 19.2535L13.6113 17.4129V17.416Z"
+        fill="var(--color-badge-icon)"
+      />
+    </svg>
+  );
+}
 
 /** Two-tone pill breadcrumb — clips both halves into one capsule */
 function BreadcrumbPills({ course, lesson }) {
@@ -77,7 +180,7 @@ function ImageWithCaption({ caption }) {
         }}>
           <p style={{
             fontFamily: fb,
-            fontWeight: 400,
+            fontWeight: 'var(--prim-type-body-weight)',
             fontSize: 'var(--size-body)',
             lineHeight: 'var(--lh-body)',
             color: 'var(--color-body)',
@@ -136,7 +239,7 @@ function BodyText({ children, muted = false }) {
   return (
     <div style={{
       fontFamily: fb,
-      fontWeight: 400,
+      fontWeight: 'var(--prim-type-body-weight)',
       fontSize: 'var(--size-body)',
       lineHeight: 'var(--lh-body)',
       color: muted ? 'var(--color-muted)' : 'var(--color-body)',
@@ -166,7 +269,7 @@ function ZigzagSeparator() {
     <div style={{
       width: '100%',
       height: H,
-      background: 'var(--color-bg-gray)',
+      background: 'var(--sf-muted-bg)',
       flexShrink: 0,
       marginBottom: -H,
       position: 'relative',
@@ -202,17 +305,26 @@ const TOC_SECTIONS = [
   'Quick Answers',
 ];
 
-/* IDs of sections that have real content — used for scroll detection */
-const SECTION_IDS = [
-  'section-goal',
-  'section-setup',
-  'section-rolling',
-  'section-hitting',
+/* TOC items — must match actual H2 sections in the page (id + label) */
+const TOC_ITEMS = [
+  { id: 'section-goal',    label: 'The Goal of the Game' },
+  { id: 'section-setup',   label: 'How to Set Up the Board' },
+  { id: 'section-rolling', label: 'Rolling the Dice and Moving' },
+  { id: 'section-hitting', label: 'Hitting and Entering from the Bar' },
 ];
+const SECTION_IDS = TOC_ITEMS.map(t => t.id);
 
-function TocItem({ label, active = false }) {
+function TocItem({ label, sectionId, active = false }) {
+  const handleClick = () => {
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+    <div
+      onClick={handleClick}
+      style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0, cursor: 'pointer' }}
+    >
       <div
         className={`ls-toc-pip${active ? ' ls-toc-pip-active' : ''}`}
         style={{ background: active ? 'var(--color-toc-pip-active)' : 'var(--color-toc-pip)' }}
@@ -225,17 +337,12 @@ function TocItem({ label, active = false }) {
           fontSize: 'var(--size-small)',
           lineHeight: 1,
           color: 'var(--color-muted)',
-          opacity: 0.6,
         }}
       >
         {label}
       </span>
     </div>
   );
-}
-
-function TocDivider() {
-  return <div style={{ height: 1, width: '100%', background: 'var(--color-border-mid)', flexShrink: 0 }} />;
 }
 
 function TableOfContents() {
@@ -270,34 +377,14 @@ function TableOfContents() {
       className="ls-toc"
       style={isFixed ? { position: 'fixed', top: 24 } : undefined}
     >
-      <TocItem label="How to Play Backgammon" />
-      <TocDivider />
-      {TOC_SECTIONS.map((s, i) => (
-        <TocItem key={s} label={s} active={i === activeSection} />
-      ))}
-      <TocDivider />
-      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
-        <div className="ls-toc-pip" style={{ background: 'var(--color-toc-pip)' }} />
-        <span
-          className="ls-toc-label"
-          style={{
-            fontFamily: ft,
-            fontWeight: 400,
-            fontSize: 'var(--size-small)',
-            lineHeight: 1,
-            color: 'var(--color-muted)',
-            opacity: 0.6,
-          }}
-        >
-          Test Your Knowledge
-        </span>
-        <img
-          src={ASSETS.polygon3}
-          alt=""
-          className="ls-toc-label"
-          style={{ height: 6.64, width: 3.652, flexShrink: 0 }}
+      {TOC_ITEMS.map((item, i) => (
+        <TocItem
+          key={item.id}
+          label={item.label}
+          sectionId={item.id}
+          active={i === activeSection}
         />
-      </div>
+      ))}
     </div>
   );
 }
@@ -313,6 +400,7 @@ export default function LearnSegmentTemplate() {
       width: '100%',
       position: 'relative',
       minHeight: '100vh',
+      overflowX: 'hidden',
     }}>
 
       {/* ── HEADER ── */}
@@ -355,7 +443,7 @@ export default function LearnSegmentTemplate() {
               }}
             />
           </div>
-          <span style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
+          <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
             Christopher
           </span>
         </div>
@@ -366,23 +454,12 @@ export default function LearnSegmentTemplate() {
         <div className="ls-content">
 
           {/* Breadcrumb pills + badge */}
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <div className="ls-breadcrumb-row">
             <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
 
             {/* Badge with tooltip */}
             <div className="ls-badge">
-              <img
-                src={ASSETS.badges}
-                alt="Lesson 1 Badge"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                  objectPosition: 'left center',
-                }}
-              />
+              <BadgeIcon />
               <div className="ls-badge-tooltip">Lesson 1 Badge — 1XP</div>
             </div>
           </div>
@@ -392,7 +469,6 @@ export default function LearnSegmentTemplate() {
             className="ls-h1"
             style={{
               fontFamily: fh,
-              fontWeight: 700,
               color: 'var(--color-heading)',
             }}
           >
@@ -401,7 +477,7 @@ export default function LearnSegmentTemplate() {
 
           {/* Meta: author + reading time */}
           <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', gap: 4, fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>
+            <div style={{ fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)' }}>
               <span style={{ fontFamily: fm, fontWeight: 400, opacity: 0.6 }}>Reviewed by </span>
               <span style={{ fontFamily: fm, fontWeight: 600, opacity: 0.6 }}>Masayuki "Mochy" Mochizuki</span>
             </div>
@@ -431,7 +507,7 @@ export default function LearnSegmentTemplate() {
       <ZigzagSeparator />
 
       {/* ── CONTENT BODY (gray) ── */}
-      <section className="ls-section ls-section-gray">
+      <section className="ls-section surface-muted">
         <div className="ls-content ls-content-gap-lg">
 
           {/* Section: The Goal of the Game */}
@@ -515,11 +591,17 @@ export default function LearnSegmentTemplate() {
             </BodyText>
           </div>
 
+          {/* Pushes content above fixed mobile nav */}
+          <div className="ls-nav-spacer" />
+
         </div>
       </section>
 
       {/* ── TABLE OF CONTENTS ── */}
       <TableOfContents />
+
+      {/* ── MOBILE BOTTOM NAV ── */}
+      <MobileNav />
 
     </div>
   );
