@@ -17,7 +17,7 @@
   "l2": {
     "--color-toc-pip": "--prim-mono-300",
     "--color-toc-pip-active": "--prim-mono-550",
-    "--color-dot-active": "--prim-orange-500",
+    "--color-dot-active": "--prim-mono-500",
     "--color-badge-from": "--prim-mono-700",
     "--color-badge-to": "--prim-mono-900",
     "--color-badge-icon": "--prim-mono-750",
@@ -475,7 +475,7 @@
     "mono": {
       "--color-toc-pip": "--prim-mono-300",
       "--color-toc-pip-active": "--prim-mono-550",
-      "--color-dot-active": "--prim-orange-500",
+      "--color-dot-active": "--prim-mono-500",
       "--color-badge-from": "--prim-mono-700",
       "--color-badge-to": "--prim-mono-900",
       "--color-badge-icon": "--prim-mono-750",
