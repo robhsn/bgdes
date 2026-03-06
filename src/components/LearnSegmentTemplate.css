@@ -606,7 +606,7 @@
   right: 0;
   background: var(--color-nav-bg);
   border-top: 1px solid var(--color-nav-border);
-  height: 56px;
+  height: 66px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   box-sizing: content-box;
   z-index: 100;
@@ -660,7 +660,7 @@
   .ls-section { padding-top: 40px; padding-bottom: 40px; }
   .ls-header { height: 68px; }
   .ls-mobile-nav { display: flex; }
-  .ls-nav-spacer { display: block; height: 56px; flex-shrink: 0; }
+  .ls-nav-spacer { display: block; height: 66px; flex-shrink: 0; }
 }
 
 @media (max-width: 600px) {
