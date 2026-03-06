@@ -132,8 +132,8 @@ function ProgressDots({ total = 5, filled = 0 }) {
       {Array.from({ length: total }).map((_, i) => (
         <div key={i} style={{
           width: 13, height: 13, borderRadius: '50%',
-          background: i < filled ? 'var(--color-heading)' : 'transparent',
-          border: `2px solid ${i < filled ? 'var(--color-heading)' : 'var(--color-border-subtle)'}`,
+          background: i < filled ? 'var(--color-heading)' : i === filled ? 'var(--color-dot-active)' : 'transparent',
+          border: `2px solid ${i < filled ? 'var(--color-heading)' : i === filled ? 'var(--color-dot-active)' : 'var(--color-border-subtle)'}`,
           flexShrink: 0,
         }} />
       ))}
@@ -259,7 +259,7 @@ export default function LearnHubPage({ onNavigate }) {
 
           {/* Title + Stats */}
           <div className="lh-title-stats">
-            <h1 className="lh-hero-title">
+            <h1 className="ls-h1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-heading)' }}>
               <span>Learn </span>
               <span className="lh-hero-title--light">&amp;</span>
               <span> Master</span>
@@ -343,15 +343,6 @@ export default function LearnHubPage({ onNavigate }) {
 
           <HRule />
 
-          {/* Mobile quick-continue (hidden on desktop) */}
-          <div className="lh-mobile-continue">
-            <button className="lh-mobile-continue-btn">
-              Continue: Lesson 2
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden>
-                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          </div>
 
           {/* Course list */}
           <div className="lh-course-list">

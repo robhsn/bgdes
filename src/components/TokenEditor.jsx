@@ -110,6 +110,7 @@ const THEMES = {
     globals: {
       '--color-toc-pip':        '--prim-mono-300',
       '--color-toc-pip-active': '--prim-mono-550',
+      '--color-dot-active':     '--prim-orange-500',
       '--color-badge-from':     '--prim-mono-700',
       '--color-badge-to':       '--prim-mono-900',
       '--color-badge-icon':     '--prim-mono-750',
@@ -214,6 +215,7 @@ const THEMES = {
     globals: {
       '--color-toc-pip':          '--prim-sapphire-50',
       '--color-toc-pip-active':   '--prim-orange-500',
+      '--color-dot-active':       '--prim-orange-500',
       '--color-badge-from':       '--prim-sapphire-500',
       '--color-badge-to':         '--prim-sapphire-50',
       '--color-badge-icon':       '--prim-sapphire-500',
@@ -318,6 +320,7 @@ const THEMES = {
     globals: {
       '--color-toc-pip':          '--prim-sapphire-50',
       '--color-toc-pip-active':   '--prim-orange-500',
+      '--color-dot-active':       '--prim-orange-500',
       '--color-badge-from':       '--prim-sapphire-500',
       '--color-badge-to':         '--prim-sapphire-50',
       '--color-badge-icon':       '--prim-sapphire-500',
@@ -1031,6 +1034,7 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
         <SubSect label="Navigation">
           <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Progress dot active" name="--color-dot-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Mobile nav bg"    name="--color-nav-bg"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Mobile nav border" name="--color-nav-border"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Mobile nav icon"  name="--color-nav-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
