@@ -390,6 +390,13 @@ export default function TokenEditor() {
   const l1GroupsRef   = useRef([...INIT_L1_GROUPS]);
   const histRef       = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
   const idxRef        = useRef(0);
+  const savedSnapshotRef = useRef({
+    theme:    INIT_THEME,
+    l1:       { ...INIT_L1 },
+    l2:       { ...INIT_L2 },
+    l1Colors: { ...INIT_L1_COLOR_MAP },
+    l1Groups: INIT_L1_GROUPS.map(g => ({ ...g, tokens: [...g.tokens] })),
+  });
 
   /* Apply committed file defaults to DOM on mount */
   useEffect(() => {
@@ -613,22 +620,33 @@ export default function TokenEditor() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(state),
     }).catch(() => {});
+    /* Update the reset baseline to this saved state */
+    savedSnapshotRef.current = {
+      theme:    themeRef.current,
+      l1:       { ...l1Ref.current },
+      l2:       { ...l2Ref.current },
+      l1Colors: { ...l1ColorMapRef.current },
+      l1Groups: l1GroupsRef.current.map(g => ({ ...g, tokens: [...g.tokens] })),
+    };
     setIsDirty(false);
     setHasSavedState(true);
   }, []);
 
   const reset = useCallback(() => {
+    const snap = savedSnapshotRef.current;
     removeAllOverrides();
     Object.keys(l1ColorMapRef.current).forEach(t => document.documentElement.style.removeProperty(t));
-    l1Ref.current = { ...DEFAULT_L1 }; l2Ref.current = { ...DEFAULT_L2 }; themeRef.current = 'mono';
-    l1ColorMapRef.current = { ...L1_COLOR_MAP };
-    l1GroupsRef.current = L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
-    setL1({ ...DEFAULT_L1 }); setL2({ ...DEFAULT_L2 }); setActiveTheme('mono');
-    setL1ColorMap({ ...L1_COLOR_MAP });
-    setL1Groups(L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] })));
-    histRef.current = [{ theme: 'mono', l1: { ...DEFAULT_L1 }, l2: { ...DEFAULT_L2 } }];
+    Object.entries(snap.l1Colors).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+    Object.entries(snap.l2).forEach(([k, v]) => applyL2(k, v));
+    Object.entries(snap.l1).forEach(([k, v]) => applyL1(k, v));
+    l1Ref.current = { ...snap.l1 }; l2Ref.current = { ...snap.l2 }; themeRef.current = snap.theme;
+    l1ColorMapRef.current = { ...snap.l1Colors };
+    l1GroupsRef.current = snap.l1Groups.map(g => ({ ...g, tokens: [...g.tokens] }));
+    setL1({ ...snap.l1 }); setL2({ ...snap.l2 }); setActiveTheme(snap.theme);
+    setL1ColorMap({ ...snap.l1Colors });
+    setL1Groups(snap.l1Groups.map(g => ({ ...g, tokens: [...g.tokens] })));
+    histRef.current = [{ theme: snap.theme, l1: { ...snap.l1 }, l2: { ...snap.l2 } }];
     idxRef.current = 0;
-    setHasSavedState(false);
     setIsDirty(false);
     refreshHistoryState();
   }, []);
