@@ -51,11 +51,17 @@
   --prim-sapphire-100: #2f65b3;
   --prim-sapphire-50:  #97b2d9;
 
+  --prim-splash-950: #0082a7;
   --prim-splash-900: #0094b9;
+  --prim-splash-800: #13a5ca;
   --prim-splash-700: #26b7dc;
+  --prim-splash-600: #3fcaed;
   --prim-splash-500: #58ddff;
+  --prim-splash-400: #70e2ff;
   --prim-splash-300: #88e7ff;
+  --prim-splash-200: #9eebff;
   --prim-splash-100: #b4f0ff;
+  --prim-splash-50:  #ebfbff;
 
   --prim-orange-950: #511702;
   --prim-orange-900: #a22e05;
