@@ -327,7 +327,7 @@ export default function LearnHubPage({ onNavigate }) {
             <CourseAccordion
               title="Intro to Backgammon"
               description="For absolute beginners, this course will teach you the fundamentals"
-              progressFilled={2}
+              progressFilled={1}
               progressTotal={5}
               defaultOpen={true}
             >
