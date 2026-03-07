@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import fileDefaults from '../tokens/dme-defaults.json';
 import { STATE_DEFINITIONS } from '../context/dme-states';
 
-/* ─── Konami sequence ────────────────────────────────────────── */
-const KONAMI = [
-  'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
-];
+/* ─── Shortcut sequences ─────────────────────────────────────── */
+const TOKENS_SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown'];
+const STATES_SEQ = ['ArrowLeft','ArrowLeft','ArrowRight','ArrowRight'];
 
 /* ─── Fonts ──────────────────────────────────────────────────── */
 const FONT_OPTIONS = [
@@ -577,7 +576,7 @@ function removeAllOverrides() {
    ═══════════════════════════════════════════════════════════════ */
 export default function TokenEditor({ visible, onToggle, onClose, states, onStateToggle }) {
   const [tab, setTab]                 = useState('l2');
-  const [topTab, setTopTab]           = useState('dme');
+  const [topTab, setTopTab]           = useState('tokens');
   const [side, setSide]               = useState('right');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
@@ -656,21 +655,38 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     restoreSnapshot(histRef.current[idxRef.current]);
   }, [restoreSnapshot]);
 
-  /* ── Konami + undo/redo keyboard listeners ────────────────── */
+  /* ── Refs for fresh values inside keyboard handler ───────── */
+  const visibleRef = useRef(visible);
+  useEffect(() => { visibleRef.current = visible; }, [visible]);
+  const topTabRef  = useRef(topTab);
+  useEffect(() => { topTabRef.current = topTab; }, [topTab]);
+
+  /* openTo(tab): open panel to tab, switch if open, close if already there */
+  const openTo = useCallback((tab) => {
+    if (!visibleRef.current) { setTopTab(tab); onToggle(); }
+    else if (topTabRef.current !== tab) { setTopTab(tab); }
+    else { onToggle(); }
+  }, [onToggle]);
+
+  /* ── Shortcut + undo/redo keyboard listeners ──────────────── */
   useEffect(() => {
-    let ki = 0;
+    let ti = 0; // tokens sequence index
+    let si = 0; // states sequence index
     const handler = (e) => {
       /* Undo/redo — don't fire when typing in DME inputs */
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') { e.preventDefault(); undo(); return; }
       if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); redo(); return; }
-      /* Konami */
-      if (e.key === KONAMI[ki]) { ki++; if (ki === KONAMI.length) { onToggle(); ki = 0; } }
-      else { ki = e.key === KONAMI[0] ? 1 : 0; }
+      /* ↑↑↓↓ → tokens tab */
+      if (e.key === TOKENS_SEQ[ti]) { ti++; if (ti === TOKENS_SEQ.length) { openTo('tokens'); ti = 0; } }
+      else { ti = e.key === TOKENS_SEQ[0] ? 1 : 0; }
+      /* ←←→→ → states tab */
+      if (e.key === STATES_SEQ[si]) { si++; if (si === STATES_SEQ.length) { openTo('states'); si = 0; } }
+      else { si = e.key === STATES_SEQ[0] ? 1 : 0; }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [undo, redo]);
+  }, [undo, redo, openTo]);
 
   /* ── Token setters ────────────────────────────────────────── */
   const setL2Token = useCallback((name, rawVal) => {
@@ -900,7 +916,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
           <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555' }}>
             Design Matrix Editor
           </span>
-          <span style={{ fontSize: 10, color: '#444' }}>↑↑↓↓ to toggle</span>
+          <span style={{ fontSize: 10, color: '#444' }}>↑↑↓↓ tokens · ←←→→ states</span>
         </div>
         <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
           <button title="Dock left"  onClick={() => setSide('left')}  style={dockBtn(side === 'left')}>
@@ -922,7 +938,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
       {/* ── Top-level tab bar ─────────────────────────────────── */}
       <div style={{ display: 'flex', flexShrink: 0, borderBottom: '1px solid #2a2a2a', background: '#141414' }}>
-        {[['dme', 'DME'], ['states', 'States']].map(([key, label]) => (
+        {[['tokens', 'Tokens'], ['states', 'States']].map(([key, label]) => (
           <button key={key} onClick={() => setTopTab(key)} style={{
             flex: 1, padding: '11px 4px', background: 'none', border: 'none',
             color: topTab === key ? '#fff' : '#555', fontSize: 11, cursor: 'pointer',
