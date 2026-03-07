@@ -250,9 +250,6 @@ export default function LearnHubPage({ onNavigate }) {
 
       {/* ── Hero section ── */}
       <section className="ls-section lh-hero">
-        {/* Decorative board grid — purely visual */}
-        <div className="lh-hero-board-bg" aria-hidden="true" />
-
         <div className="lh-hero-content">
 
           {/* Title + Stats */}
