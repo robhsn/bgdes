@@ -258,12 +258,23 @@
   box-sizing: border-box;
   width: 100%;
   flex-shrink: 0;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: 50;
   background: var(--color-bg);
   transition: height 0.2s ease;
 }
+
+/* Spacer holds the header's space in the document flow.
+   Fixed headers don't occupy flow space, so this prevents
+   page content from sliding under the header. */
+.ls-header-spacer {
+  height: var(--header-height);
+  flex-shrink: 0;
+  transition: height 0.2s ease;
+}
+.ls-header-spacer--scrolled { height: 64px; }
 
 .ls-logo-text { font-size: var(--size-logo); }
 .ls-logo-dot  { font-size: 18px; }
