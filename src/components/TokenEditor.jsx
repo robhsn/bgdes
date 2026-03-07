@@ -896,9 +896,12 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
         padding: '8px 12px', borderBottom: '1px solid #222',
         flexShrink: 0, background: '#111',
       }}>
-        <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555' }}>
-          Design Matrix Editor
-        </span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+          <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555' }}>
+            Design Matrix Editor
+          </span>
+          <span style={{ fontSize: 10, color: '#444' }}>↑↑↓↓ to toggle</span>
+        </div>
         <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
           <button title="Dock left"  onClick={() => setSide('left')}  style={dockBtn(side === 'left')}>
             <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
@@ -951,7 +954,6 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
               Design Matrix Editor
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 2 }}>
-              <span style={{ color: '#666', fontSize: 10 }}>↑↑↓↓←→←→ to toggle</span>
               {!isDirty && hasSavedState && <span style={{ color: '#3d7a4e', fontSize: 10 }}>● saved</span>}
             </div>
           </div>

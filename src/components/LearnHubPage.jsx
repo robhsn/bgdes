@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './LearnSegmentTemplate.css';  /* shared tokens, surface classes, layout */
 import './LearnHubPage.css';
 import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import { useDMEState } from '../context/dme-states';
 import wbfLogo from '../imgs/wbf-logo.png';
 
 /* ── Load Caveat font for handwriting-style text ── */
@@ -243,6 +244,7 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
 /* ─── Main page ───────────────────────────────────────────────── */
 
 export default function LearnHubPage({ onNavigate }) {
+  const loggedIn = useDMEState('auth.loggedIn', true);
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
@@ -274,7 +276,7 @@ export default function LearnHubPage({ onNavigate }) {
           <div className="lh-cta-row">
             <div className="lh-cta-buttons">
               <button className="lh-btn lh-btn--primary" onClick={() => onNavigate?.('learn-article')}>
-                Continue: Lesson 2
+                {loggedIn ? 'Continue: Lesson 2' : 'Start Your First Lesson'}
                 <svg width="11" height="15" viewBox="0 0 11 15" fill="currentColor" aria-hidden>
                   <path d="M1.5 1.5L9.5 7.5L1.5 13.5" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
