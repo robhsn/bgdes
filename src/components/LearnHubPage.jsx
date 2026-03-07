@@ -193,8 +193,6 @@ function LessonRow({ number, title, duration, description, completed = false, up
         <div className="lh-lesson-title-row">
           <span className="lh-lesson-number">{number}.</span>
           <span className="lh-lesson-title">{title}</span>
-          <div className="lh-lesson-divider" />
-          <span className="lh-lesson-duration">{duration}mins</span>
         </div>
         <p className="lh-lesson-desc">{description}</p>
       </div>
@@ -266,20 +264,6 @@ export default function LearnHubPage({ onNavigate }) {
               <br />
               <span>Backgammon</span>
             </h1>
-            <div className="lh-stats">
-              <div className="lh-stat">
-                <span className="lh-stat-label">Courses</span>
-                <span className="lh-stat-value">3</span>
-              </div>
-              <div className="lh-stat">
-                <span className="lh-stat-label">Lessons</span>
-                <span className="lh-stat-value">15</span>
-              </div>
-              <div className="lh-stat">
-                <span className="lh-stat-label">Total Time</span>
-                <span className="lh-stat-value">2h 12m</span>
-              </div>
-            </div>
           </div>
 
           {/* Body */}
@@ -298,11 +282,8 @@ export default function LearnHubPage({ onNavigate }) {
                   <path d="M1.5 1.5L9.5 7.5L1.5 13.5" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
-              <button className="lh-btn lh-btn--secondary">
-                View Syllabus
-              </button>
             </div>
-            <div className="lh-sanctioned">
+            <div className="lh-sanctioned" style={{ display: 'none' }}>
               <p className="lh-sanctioned-text">
                 Officially Sanctioned by<br />
                 The World Backgammon Federation
@@ -321,15 +302,12 @@ export default function LearnHubPage({ onNavigate }) {
         </div>
       </section>
 
-      <ZigzagSeparator />
-
       {/* ── Lessons section ── */}
       <section className="ls-section surface-muted">
         <div className="lh-lessons-content">
 
           {/* Section intro */}
           <div className="lh-section-intro">
-            <div className="lh-single-pill">Backgammon Learning</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <h2 className="lh-section-title">
                 Lessons to take you<br />

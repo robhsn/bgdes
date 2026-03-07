@@ -851,11 +851,6 @@ export default function LearnSegmentTemplate({ onNavigate }) {
               <span style={{ fontFamily: fm, fontWeight: 400 }}>Reviewed by </span>
               <a href="#" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Masayuki "Mochy" Mochizuki</a>
             </div>
-            <div className="ls-article-meta-divider" />
-            <div style={{ display: 'flex', gap: 4, fontFamily: fm, fontWeight: 600, fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>
-              <span>4</span>
-              <span>Minute Read</span>
-            </div>
           </div>
 
           <HRule />
@@ -868,9 +863,6 @@ export default function LearnSegmentTemplate({ onNavigate }) {
 
         </div>
       </section>
-
-      {/* ── ZIGZAG SEPARATOR ── */}
-      <ZigzagSeparator />
 
       {/* ── CONTENT BODY ── */}
       <section className="ls-section surface-muted">
