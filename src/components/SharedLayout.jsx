@@ -75,7 +75,14 @@ export function SiteHeader({ onLogoClick }) {
   const loggedIn = useDMEState('auth.loggedIn', true);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(prev => {
+        if (!prev && y > 20) return true;  // enter: must scroll past 20px
+        if (prev && y < 5)  return false;  // exit: must scroll back above 5px
+        return prev;                        // dead zone 5–20px: no change
+      });
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
