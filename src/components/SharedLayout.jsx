@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import avatarImg from '../imgs/avatar-dink.png';
 
 /* Token shorthand helpers */
@@ -70,8 +70,16 @@ const SOCIAL_LINKS = [
 /* ─── Site Header ─────────────────────────────────────────────── */
 
 export function SiteHeader({ onLogoClick }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="ls-header">
+    <header className={`ls-header${scrolled ? ' ls-header--scrolled' : ''}`}>
       <div
         onClick={onLogoClick}
         style={{
@@ -85,8 +93,8 @@ export function SiteHeader({ onLogoClick }) {
           cursor: onLogoClick ? 'pointer' : 'default',
         }}
       >
-        <span style={{ fontSize: 'var(--size-logo)' }}>Backgammon</span>
-        <span style={{ fontSize: 18, opacity: 0.4 }}>.com</span>
+        <span className="ls-logo-text">Backgammon</span>
+        <span className="ls-logo-dot" style={{ opacity: 0.4 }}>.com</span>
       </div>
 
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>

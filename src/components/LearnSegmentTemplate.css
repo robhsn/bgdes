@@ -262,7 +262,15 @@
   top: 0;
   z-index: 50;
   background: var(--color-bg);
+  transition: height 0.2s ease;
 }
+
+.ls-logo-text { font-size: var(--size-logo); }
+.ls-logo-dot  { font-size: 18px; }
+
+.ls-header--scrolled             { height: 64px; }
+.ls-header--scrolled .ls-logo-text { font-size: calc(var(--size-logo) * 0.7); transition: font-size 0.2s ease; }
+.ls-header--scrolled .ls-logo-dot  { font-size: 13px; transition: font-size 0.2s ease; }
 
 .ls-section {
   width: 100%;
