@@ -657,3 +657,69 @@ Five new tokens defined in `LearnSegmentTemplate.css` `:root` and managed by DME
 ### Heading Weight Fix (COMPLETE)
 - `lh-hero-title` changed from hardcoded `700` to `var(--prim-type-heading-weight)`
 - Both hub and article H1 now use identical weight token (900 in coral-tide defaults)
+
+---
+
+## Session 13 — UI Polish (cranky-ellis worktree)
+
+### Completed
+- H1 class parity: hub hero H1 changed from `lh-hero-title` → `ls-h1` (matches article)
+- Active progress dot fix: `filled > 0` guard so unstarted courses show all hollow dots
+- Mobile nav icons 34px, bar 66px tall, inactive opacity 0.65
+- Three mobile fixes: hub course toggle icon inline (CSS `order`), article meta stacked on mobile, board-sample.png replacing empty placeholders
+- UI cleanup: removed Syllabus button, zigzag separators, "Backgammon Learning" pill, duration labels, hero stats block; hid WBF section; made header sticky
+- Sticky header shrink on scroll: height 100px → 64px, logo 30% smaller (`ls-header--scrolled` class toggled by scroll listener in `SharedLayout.jsx`)
+- Removed decorative board grid (`lh-hero-board-bg`) from hub hero
+
+---
+
+## Next Session — DME States Feature (IN PROGRESS)
+
+### What it is
+A new top-level "States" tab in the DME. States are boolean toggles that change contextual UI on pages. Two types: **global** (all pages) and **per-page**. Programmed in code, toggled in the DME. First state: `auth.loggedIn`.
+
+### Files to create
+**`src/context/dme-states.jsx`**
+```jsx
+import { createContext, useContext } from 'react';
+export const DMEStatesContext = createContext({});
+export function useDMEState(key, defaultValue = false) {
+  return useContext(DMEStatesContext)[key] ?? defaultValue;
+}
+export const STATE_DEFINITIONS = [
+  {
+    key: 'auth.loggedIn',
+    label: 'Logged In',
+    description: 'Show authenticated state: player avatar & username',
+    type: 'global',
+    defaultValue: true,
+  },
+];
+```
+
+### Files to modify
+
+**`src/tokens/dme-defaults.json`** — add `"states": { "auth.loggedIn": true }` at top level
+
+**`src/main.jsx`** — add `DMEStatesContext.Provider` wrapping the whole app; add `dmeStates` state initialised from `fileDefaults.states`; pass `states` + `onStateToggle` props to `TokenEditor`
+
+**`src/components/TokenEditor.jsx`**:
+1. Import `STATE_DEFINITIONS` from `../context/dme-states`
+2. Update signature: `{ visible, onToggle, onClose, states, onStateToggle }`
+3. Add `const [topTab, setTopTab] = useState('dme')`
+4. Add `states` to `handleSave` deps array and include in save payload
+5. Add top-level tab bar (DME | States) at very top of panel JSX
+6. When `topTab === 'states'`: show `<StatesView>`; otherwise show existing DME content
+7. Add `StatesView`, `StateToggleRow`, `DmeToggle` components (toggle switch, green when on)
+
+**`src/components/SharedLayout.jsx`**:
+1. Import `useDMEState` from `../context/dme-states`
+2. `const loggedIn = useDMEState('auth.loggedIn', true)` inside `SiteHeader`
+3. Conditionally render avatar/username OR `<button className="ls-login-btn">Log In / Sign Up</button>`
+
+**`src/components/LearnSegmentTemplate.css`** — add `.ls-login-btn` styles (pill button, primary style, header-sized)
+
+### Key notes
+- `vite.config.js` save middleware needs no changes — it writes whatever JSON it receives
+- Inner DME tab bar (L2/L1) remains; top-level tabs just wrap it
+- Toggle switch: 36×20px pill, green (#4caf82) when on, #333 when off, white 14px circle knob

@@ -272,6 +272,26 @@
 .ls-header--scrolled .ls-logo-text { font-size: calc(var(--size-logo) * 0.7); transition: font-size 0.2s ease; }
 .ls-header--scrolled .ls-logo-dot  { font-size: 13px; transition: font-size 0.2s ease; }
 
+.ls-login-btn {
+  padding: 9px 18px;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border: 2px solid var(--btn-border);
+  box-shadow: 0 3px 0 var(--btn-border);
+  border-radius: 8px;
+  font-family: var(--font-pill);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.ls-login-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--btn-border);
+}
+
 .ls-section {
   width: 100%;
   padding: var(--spacing-section-v) var(--spacing-h);

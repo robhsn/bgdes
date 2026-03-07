@@ -1,5 +1,8 @@
 {
   "theme": "mono",
+  "states": {
+    "auth.loggedIn": true
+  },
   "l1": {
     "--prim-type-heading": "Outfit",
     "--prim-type-subheading": "Outfit",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import avatarImg from '../imgs/avatar-dink.png';
+import { useDMEState } from '../context/dme-states';
 
 /* Token shorthand helpers */
 const fl = 'var(--font-logo)';
@@ -71,6 +72,7 @@ const SOCIAL_LINKS = [
 
 export function SiteHeader({ onLogoClick }) {
   const [scrolled, setScrolled] = useState(false);
+  const loggedIn = useDMEState('auth.loggedIn', true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -97,27 +99,31 @@ export function SiteHeader({ onLogoClick }) {
         <span className="ls-logo-dot" style={{ opacity: 0.4 }}>.com</span>
       </div>
 
-      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
-        <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
-          Christopher
-        </span>
-        <div style={{
-          width: 48, height: 48, borderRadius: '50%',
-          border: '2px solid var(--color-border-subtle)',
-          flexShrink: 0, overflow: 'hidden', position: 'relative',
-        }}>
-          <img
-            src={avatarImg}
-            alt="Christopher"
-            style={{
-              position: 'absolute',
-              width: '105.46%', height: '105.46%',
-              left: '-2.73%', top: '6.2%',
-              objectFit: 'cover',
-            }}
-          />
+      {loggedIn ? (
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+          <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
+            Christopher
+          </span>
+          <div style={{
+            width: 48, height: 48, borderRadius: '50%',
+            border: '2px solid var(--color-border-subtle)',
+            flexShrink: 0, overflow: 'hidden', position: 'relative',
+          }}>
+            <img
+              src={avatarImg}
+              alt="Christopher"
+              style={{
+                position: 'absolute',
+                width: '105.46%', height: '105.46%',
+                left: '-2.73%', top: '6.2%',
+                objectFit: 'cover',
+              }}
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <button className="ls-login-btn">Log In / Sign Up</button>
+      )}
     </header>
   );
 }

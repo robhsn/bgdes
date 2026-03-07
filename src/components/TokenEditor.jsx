@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import fileDefaults from '../tokens/dme-defaults.json';
+import { STATE_DEFINITIONS } from '../context/dme-states';
 
 /* ─── Konami sequence ────────────────────────────────────────── */
 const KONAMI = [
@@ -574,8 +575,9 @@ function removeAllOverrides() {
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function TokenEditor({ visible, onToggle, onClose }) {
+export default function TokenEditor({ visible, onToggle, onClose, states, onStateToggle }) {
   const [tab, setTab]                 = useState('l2');
+  const [topTab, setTopTab]           = useState('dme');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
   const [l2, setL2]                   = useState({ ...INIT_L2 });
@@ -833,6 +835,7 @@ export default function TokenEditor({ visible, onToggle, onClose }) {
       l1Colors:    l1ColorMapRef.current,
       l1Groups:    l1GroupsRef.current,
       themeStates: themeStatesRef.current,
+      states,
     };
     /* Write to src/tokens/dme-defaults.json via Vite dev middleware */
     fetch('/__dme_save', {
@@ -850,7 +853,7 @@ export default function TokenEditor({ visible, onToggle, onClose }) {
     };
     setIsDirty(false);
     setHasSavedState(true);
-  }, []);
+  }, [states]);
 
   const reset = useCallback(() => {
     const snap = savedSnapshotRef.current;
@@ -882,6 +885,30 @@ export default function TokenEditor({ visible, onToggle, onClose }) {
       display: 'flex', flexDirection: 'column',
       boxShadow: '-6px 0 32px rgba(0,0,0,0.5)',
     }}>
+
+      {/* ── Top-level tab bar ─────────────────────────────────── */}
+      <div style={{ display: 'flex', flexShrink: 0, borderBottom: '1px solid #2a2a2a', background: '#141414' }}>
+        {[['dme', 'DME'], ['states', 'States']].map(([key, label]) => (
+          <button key={key} onClick={() => setTopTab(key)} style={{
+            flex: 1, padding: '11px 4px', background: 'none', border: 'none',
+            color: topTab === key ? '#fff' : '#555', fontSize: 11, cursor: 'pointer',
+            borderBottom: topTab === key ? '2px solid #e0e0e0' : '2px solid transparent',
+            fontWeight: topTab === key ? 700 : 400,
+            letterSpacing: '0.06em', textTransform: 'uppercase',
+          }}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {topTab === 'states' ? (
+
+        /* ── States panel ─────────────────────────────────────── */
+        <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
+          <StatesView states={states} onStateToggle={onStateToggle} />
+        </div>
+
+      ) : (<>
 
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid #2a2a2a', flexShrink: 0 }}>
@@ -953,7 +980,83 @@ export default function TokenEditor({ visible, onToggle, onClose }) {
         }
       </div>
 
+      </>)}
+
     </div>
+  );
+}
+
+/* ── DME States UI ─────────────────────────────────────────────── */
+
+function StatesView({ states, onStateToggle }) {
+  const grouped = {};
+  STATE_DEFINITIONS.forEach(def => {
+    const group = def.type === 'global' ? 'Global' : `Page: ${def.type}`;
+    if (!grouped[group]) grouped[group] = [];
+    grouped[group].push(def);
+  });
+
+  return (
+    <>
+      {Object.entries(grouped).map(([groupLabel, defs]) => (
+        <div key={groupLabel} style={{ marginBottom: 24 }}>
+          <div style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+            textTransform: 'uppercase', color: '#555', marginBottom: 12,
+            paddingBottom: 6, borderBottom: '1px solid #2a2a2a',
+          }}>
+            {groupLabel}
+          </div>
+          {defs.map(def => (
+            <StateToggleRow
+              key={def.key}
+              def={def}
+              value={states?.[def.key] ?? def.defaultValue}
+              onToggle={() => onStateToggle(def.key)}
+            />
+          ))}
+        </div>
+      ))}
+    </>
+  );
+}
+
+function StateToggleRow({ def, value, onToggle }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '10px 0', borderBottom: '1px solid #242424',
+    }}>
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: '#e0e0e0', marginBottom: 2 }}>
+          {def.label}
+        </div>
+        {def.description && (
+          <div style={{ fontSize: 10, color: '#555' }}>{def.description}</div>
+        )}
+      </div>
+      <DmeToggle value={value} onChange={onToggle} />
+    </div>
+  );
+}
+
+function DmeToggle({ value, onChange }) {
+  return (
+    <button
+      onClick={onChange}
+      style={{
+        position: 'relative', width: 36, height: 20, borderRadius: 10,
+        background: value ? '#4caf82' : '#333',
+        border: 'none', cursor: 'pointer', padding: 0,
+        transition: 'background 0.2s ease', flexShrink: 0, marginLeft: 12,
+      }}
+    >
+      <div style={{
+        position: 'absolute', top: 3, left: value ? 19 : 3,
+        width: 14, height: 14, borderRadius: '50%', background: '#fff',
+        transition: 'left 0.2s ease',
+      }} />
+    </button>
   );
 }
 
