@@ -578,6 +578,7 @@ function removeAllOverrides() {
 export default function TokenEditor({ visible, onToggle, onClose, states, onStateToggle }) {
   const [tab, setTab]                 = useState('l2');
   const [topTab, setTopTab]           = useState('dme');
+  const [side, setSide]               = useState('right');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
   const [l2, setL2]                   = useState({ ...INIT_L2 });
@@ -878,13 +879,43 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
   return (
     <div style={{
-      position: 'fixed', top: 0, right: 0, height: '100vh', width: '30vw', minWidth: 380,
+      position: 'fixed', top: 0,
+      right: side === 'right' ? 0 : 'auto',
+      left:  side === 'left'  ? 0 : 'auto',
+      height: '100vh', width: '30vw', minWidth: 380,
       background: '#1c1c1c', color: '#e0e0e0',
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontSize: 12, zIndex: 9999,
       display: 'flex', flexDirection: 'column',
-      boxShadow: '-6px 0 32px rgba(0,0,0,0.5)',
+      boxShadow: side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)',
     }}>
+
+      {/* ── Persistent top strip ──────────────────────────────── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '8px 12px', borderBottom: '1px solid #222',
+        flexShrink: 0, background: '#111',
+      }}>
+        <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555' }}>
+          Design Matrix Editor
+        </span>
+        <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+          <button title="Dock left"  onClick={() => setSide('left')}  style={dockBtn(side === 'left')}>
+            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+              <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
+              <rect x="1" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
+            </svg>
+          </button>
+          <button title="Dock right" onClick={() => setSide('right')} style={dockBtn(side === 'right')}>
+            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+              <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
+              <rect x="9" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
+            </svg>
+          </button>
+          <div style={{ width: 1, height: 14, background: '#333', margin: '0 3px' }} />
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#666', fontSize: 22, cursor: 'pointer', lineHeight: 1, padding: '0 3px' }}>×</button>
+        </div>
+      </div>
 
       {/* ── Top-level tab bar ─────────────────────────────────── */}
       <div style={{ display: 'flex', flexShrink: 0, borderBottom: '1px solid #2a2a2a', background: '#141414' }}>
@@ -936,7 +967,6 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
             <div style={{ width: 1, height: 16, background: '#333' }} />
             {isDirty && <button onClick={handleSave} style={saveBtn}>Save</button>}
             <button onClick={reset} style={ghostBtn}>Reset</button>
-            <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#888', fontSize: 28, cursor: 'pointer', lineHeight: 1, padding: '0 2px' }}>×</button>
           </div>
         </div>
 
@@ -1609,5 +1639,10 @@ const ghostBtn = {
 const iconBtn = (enabled) => ({
   background: 'none', border: 'none', padding: '5px 6px',
   color: enabled ? '#888' : '#333', cursor: enabled ? 'pointer' : 'default',
+  display: 'flex', alignItems: 'center', borderRadius: 3,
+});
+const dockBtn = (active) => ({
+  background: active ? '#2a2a2a' : 'none', border: 'none', padding: '4px 6px',
+  color: active ? '#e0e0e0' : '#555', cursor: 'pointer',
   display: 'flex', alignItems: 'center', borderRadius: 3,
 });
