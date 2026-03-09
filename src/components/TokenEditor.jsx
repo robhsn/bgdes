@@ -903,7 +903,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
   if (!visible) return (
     <button
       className="dme-gear-btn"
-      onClick={onToggle}
+      onClick={() => { setTopTab('states'); onToggle(); }}
       aria-label="Open Design Matrix Editor"
       style={{
         position: 'fixed', bottom: 16, right: 16, zIndex: 9998,
