@@ -1,6 +1,7 @@
 import React, { useRef, useState, useLayoutEffect } from 'react';
 import './LearnSegmentTemplate.css';
 import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import { useDMEState } from '../context/dme-states';
 import boardSample from '../imgs/board-sample.png';
 
 /* Token shorthand helpers — all resolve via CSS custom properties */
@@ -85,6 +86,33 @@ function MobileNav({ onNavigate, currentPageId }) {
 }
 
 /* ─── Sub-components ─────────────────────────────────────────── */
+
+/** Outlined badge — stroke only, single color, for unearned state */
+function BadgeIconOutline() {
+  return (
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 39 35"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ position: 'absolute', inset: 0, display: 'block' }}
+    >
+      <path
+        d="M0.694387 14.8938C-0.231462 16.5122 -0.231462 18.4951 0.694387 20.1062L7.70751 32.361C8.64065 33.994 10.383 35 12.2639 35H26.2318C28.1126 35 29.855 33.994 30.7881 32.361L37.8012 20.1062C38.7271 18.4878 38.7271 16.5049 37.8012 14.8938L30.7881 2.63903C29.855 1.00604 28.1126 0 26.2318 0H12.2639C10.383 0 8.64065 1.00604 7.70751 2.63903L0.694387 14.8938Z"
+        stroke="var(--color-badge-unearned-stroke)" strokeWidth="0.8" fill="none"
+      />
+      <path
+        d="M5.2824 15.538C4.58556 16.7561 4.58556 18.2485 5.2824 19.4611L10.5608 28.6847C11.2632 29.9138 12.5745 30.671 13.9902 30.671H24.5032C25.9188 30.671 27.2302 29.9138 27.9325 28.6847L33.211 19.4611C33.9078 18.243 33.9078 16.7506 33.211 15.538L27.9325 6.3144C27.2302 5.08532 25.9188 4.32812 24.5032 4.32812H13.9902C12.5745 4.32812 11.2632 5.08532 10.5608 6.3144L5.2824 15.538Z"
+        stroke="var(--color-badge-unearned-stroke)" strokeWidth="0.8" fill="none"
+      />
+      <path
+        d="M12.1113 15.1754L18.6488 17.866C18.9551 17.991 19.2801 18.0566 19.6113 18.0566C19.9426 18.0566 20.2676 17.991 20.5738 17.866L28.1488 14.7473C28.4301 14.6316 28.6113 14.3598 28.6113 14.0566C28.6113 13.7535 28.4301 13.4816 28.1488 13.366L20.5738 10.2473C20.2676 10.1223 19.9426 10.0566 19.6113 10.0566C19.2801 10.0566 18.9551 10.1223 18.6488 10.2473L11.0738 13.366C10.7926 13.4816 10.6113 13.7535 10.6113 14.0566V23.3066C10.6113 23.7223 10.9457 24.0566 11.3613 24.0566C11.777 24.0566 12.1113 23.7223 12.1113 23.3066V15.1754ZM13.6113 17.416V21.0566C13.6113 22.7129 16.2988 24.0566 19.6113 24.0566C22.9238 24.0566 25.6113 22.7129 25.6113 21.0566V17.4129L21.1457 19.2535C20.6582 19.4535 20.1395 19.5566 19.6113 19.5566C19.0832 19.5566 18.5645 19.4535 18.077 19.2535L13.6113 17.4129V17.416Z"
+        stroke="var(--color-badge-unearned-stroke)" strokeWidth="0.8" fill="none"
+      />
+    </svg>
+  );
+}
 
 /** Inline SVG badge — fills controlled by --color-badge-icon / --color-badge-icon-inner */
 function BadgeIcon() {
@@ -423,6 +451,7 @@ const QUIZ_QUESTIONS = [
 const LETTERS = ['A', 'B', 'C'];
 
 function QuizModule() {
+  const loggedIn = useDMEState('auth.loggedIn', true);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected]     = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
@@ -459,22 +488,66 @@ function QuizModule() {
   if (completed) {
     const score = userAnswers.filter((a, i) => a === QUIZ_QUESTIONS[i].correct).length;
     const allCorrect = score === QUIZ_QUESTIONS.length;
+    const earned = allCorrect && loggedIn;
 
     return (
-      <div className="surface-tertiary" style={quizCard}>
-        {/* Score header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16, flexShrink: 0 }}>
-          <div style={{
-            fontFamily: fh, fontWeight: 900, fontSize: 52, lineHeight: 1,
-            color: 'var(--color-heading)', flexShrink: 0,
-          }}>
-            {score}/{QUIZ_QUESTIONS.length}
+      <div key="quiz-results" className="surface-tertiary" style={{ ...quizCard, paddingTop: 14 }}>
+        {/* Score header + badge row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{
+              fontFamily: fh, fontWeight: 900, fontSize: 52, lineHeight: 1,
+              color: 'var(--color-heading)', flexShrink: 0,
+            }}>
+              {score}/{QUIZ_QUESTIONS.length}
+            </div>
+            <div style={{
+              fontFamily: fs, fontWeight: 700, fontSize: 17, lineHeight: 1.25,
+              color: allCorrect ? '#4caf50' : 'var(--color-body)',
+            }}>
+              {allCorrect ? 'Perfect score!' : score === 0 ? "Keep studying — you've got this!" : 'Good effort — review below.'}
+            </div>
           </div>
-          <div style={{
-            fontFamily: fs, fontWeight: 700, fontSize: 17, lineHeight: 1.25,
-            color: allCorrect ? '#4caf50' : 'var(--color-body)',
-          }}>
-            {allCorrect ? 'Perfect score!' : score === 0 ? "Keep studying — you've got this!" : 'Good effort — review below.'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {!earned && (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                    <rect x="5" y="11" width="14" height="11" rx="2" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" fill="none" />
+                    <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  </svg>
+                )}
+                <span style={{
+                  fontFamily: fp, fontWeight: 700, fontSize: 13,
+                  color: earned ? 'var(--color-heading)' : 'var(--color-badge-unearned-text)', whiteSpace: 'nowrap',
+                }}>
+                  Learn EXP +1
+                </span>
+              </div>
+              {allCorrect && !loggedIn && (
+                <span style={{
+                  fontFamily: fb, fontSize: 13, color: 'var(--color-badge-unearned-text)',
+                  whiteSpace: 'nowrap', marginTop: 3,
+                }}>
+                  <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>Sign up</strong>
+                  {' or '}
+                  <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>log in</strong>
+                  {' to save your progress'}
+                </span>
+              )}
+            </div>
+            <div style={{ position: 'relative', width: 100, height: 100, flexShrink: 0 }}>
+              {earned && <div className="quiz-sunburst-wrap" />}
+              {earned ? (
+                <div className="ls-badge" style={{ width: 100, height: 100 }}>
+                  <BadgeIcon />
+                </div>
+              ) : (
+                <div style={{ width: 100, height: 100, position: 'relative' }}>
+                  <BadgeIconOutline />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -523,17 +596,22 @@ function QuizModule() {
           })}
         </div>
 
-        {/* Try again — pinned to bottom */}
-        <button onClick={handleRestart} style={{ ...quizBtn, marginTop: 20 }}>
-          Try Again
-        </button>
+        {/* Try again + Play Now — pinned to bottom */}
+        <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+          <button onClick={handleRestart} style={{ ...quizBtn, flex: 1, background: 'transparent', border: '1px solid var(--color-heading)', color: 'var(--color-heading)' }}>
+            Try Again
+          </button>
+          <button onClick={() => window.open('https://www.backgammon.com', '_blank')} style={{ ...quizBtn, flex: 3 }}>
+            Play Now
+          </button>
+        </div>
       </div>
     );
   }
 
   /* ── Active question ─────────────────────────────── */
   return (
-    <div className="surface-tertiary" style={quizCard}>
+    <div key="quiz-active" className="surface-tertiary" style={quizCard}>
       {/* Progress bar */}
       <div style={{ marginBottom: 20, flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>

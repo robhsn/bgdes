@@ -197,9 +197,16 @@
   --color-badge-to:   var(--prim-mono-900);
   --badge-angle:      135deg;
 
-  /* ── Badge icon ───────────────────────────────────────────── */
+  /* ── Badge icon (earned) ──────────────────────────────────── */
   --color-badge-icon:             var(--prim-mono-750);
   --color-badge-icon-inner:       var(--prim-mono-100);
+
+  /* ── Badge (unearned / outline) ─────────────────────────── */
+  --color-badge-unearned-stroke:  var(--prim-mono-500);
+  --color-badge-unearned-text:    var(--prim-mono-500);
+
+  /* ── Avatar ─────────────────────────────────────────────── */
+  --color-avatar-bg:              var(--prim-mono-200);
 
   /* ── Mobile nav ───────────────────────────────────────────── */
   --color-nav-bg:                 var(--prim-mono-100);
@@ -735,4 +742,69 @@
   .ls-section { padding-top: 32px; padding-bottom: 32px; }
   /* Smaller pills so badge stays visible in the breadcrumb row */
   :root { --size-pill: 14px; }
+}
+
+/* ── Quiz badge sunburst ─────────────────────────────────────── */
+@keyframes quiz-sunburst-a {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.1); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes quiz-sunburst-b {
+  from { transform: rotate(0deg) scale(1.05); }
+  50%  { transform: rotate(180deg) scale(0.95); }
+  to   { transform: rotate(360deg) scale(1.05); }
+}
+
+.quiz-sunburst-wrap {
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+}
+
+.quiz-sunburst-wrap::before,
+.quiz-sunburst-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%);
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 70%);
+}
+
+.quiz-sunburst-wrap::before {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg, rgba(255, 200, 50, 0.3) 8deg, transparent 16deg,
+    transparent 30deg, rgba(255, 200, 50, 0.3) 38deg, transparent 46deg,
+    transparent 60deg, rgba(255, 200, 50, 0.3) 68deg, transparent 76deg,
+    transparent 90deg, rgba(255, 200, 50, 0.3) 98deg, transparent 106deg,
+    transparent 120deg, rgba(255, 200, 50, 0.3) 128deg, transparent 136deg,
+    transparent 150deg, rgba(255, 200, 50, 0.3) 158deg, transparent 166deg,
+    transparent 180deg, rgba(255, 200, 50, 0.3) 188deg, transparent 196deg,
+    transparent 210deg, rgba(255, 200, 50, 0.3) 218deg, transparent 226deg,
+    transparent 240deg, rgba(255, 200, 50, 0.3) 248deg, transparent 256deg,
+    transparent 270deg, rgba(255, 200, 50, 0.3) 278deg, transparent 286deg,
+    transparent 300deg, rgba(255, 200, 50, 0.3) 308deg, transparent 316deg,
+    transparent 330deg, rgba(255, 200, 50, 0.3) 338deg, transparent 346deg,
+    transparent 360deg
+  );
+  animation: quiz-sunburst-a 10s linear infinite;
+}
+
+.quiz-sunburst-wrap::after {
+  background: conic-gradient(
+    from 15deg,
+    transparent 0deg, rgba(255, 210, 80, 0.2) 10deg, transparent 20deg,
+    transparent 45deg, rgba(255, 210, 80, 0.2) 55deg, transparent 65deg,
+    transparent 90deg, rgba(255, 210, 80, 0.2) 100deg, transparent 110deg,
+    transparent 135deg, rgba(255, 210, 80, 0.2) 145deg, transparent 155deg,
+    transparent 180deg, rgba(255, 210, 80, 0.2) 190deg, transparent 200deg,
+    transparent 225deg, rgba(255, 210, 80, 0.2) 235deg, transparent 245deg,
+    transparent 270deg, rgba(255, 210, 80, 0.2) 280deg, transparent 290deg,
+    transparent 315deg, rgba(255, 210, 80, 0.2) 325deg, transparent 335deg,
+    transparent 360deg
+  );
+  animation: quiz-sunburst-b 7s linear infinite;
 }

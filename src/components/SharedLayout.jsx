@@ -101,31 +101,42 @@ export function SiteHeader({ onLogoClick, onNavigate }) {
       </div>
 
       {loggedIn ? (
-        <div
-          onClick={() => onNavigate?.('profile-me')}
-          style={{
-            display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0,
-            cursor: onNavigate ? 'pointer' : 'default',
-          }}
-        >
-          <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
-            Christopher
-          </span>
-          <div style={{
-            width: 48, height: 48, borderRadius: '50%',
-            border: '2px solid var(--color-border-subtle)',
-            flexShrink: 0, overflow: 'hidden', position: 'relative',
-          }}>
-            <img
-              src={avatarImg}
-              alt="Christopher"
-              style={{
-                position: 'absolute',
-                width: '105.46%', height: '105.46%',
-                left: '-2.73%', top: '6.2%',
-                objectFit: 'cover',
-              }}
-            />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+          <button
+            className="ls-login-btn"
+            onClick={() => window.open('https://www.backgammon.com', '_blank')}
+            style={{ padding: '7px 14px', fontSize: 12 }}
+          >
+            New Game
+          </button>
+          <div style={{ width: 1, height: 28, background: 'var(--color-border)', flexShrink: 0 }} />
+          <div
+            onClick={() => onNavigate?.('profile-me')}
+            style={{
+              display: 'flex', gap: 10, alignItems: 'center',
+              cursor: onNavigate ? 'pointer' : 'default',
+            }}
+          >
+            <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
+              Christopher
+            </span>
+            <div style={{
+              width: 48, height: 48, borderRadius: '50%',
+              border: '2px solid var(--color-border-subtle)',
+              background: 'var(--color-avatar-bg)',
+              flexShrink: 0, overflow: 'hidden', position: 'relative',
+            }}>
+              <img
+                src={avatarImg}
+                alt="Christopher"
+                style={{
+                  position: 'absolute',
+                  width: '105.46%', height: '105.46%',
+                  left: '-2.73%', top: '6.2%',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
           </div>
         </div>
       ) : (

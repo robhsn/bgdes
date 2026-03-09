@@ -32,6 +32,10 @@ function dmeSavePlugin() {
         });
       });
     },
+    /* Suppress HMR reload when dme-defaults.json is saved */
+    handleHotUpdate({ file }) {
+      if (file.endsWith('dme-defaults.json')) return [];
+    },
   };
 }
 

@@ -115,6 +115,9 @@ const THEMES = {
       '--color-badge-to':       '--prim-mono-900',
       '--color-badge-icon':     '--prim-mono-750',
       '--color-badge-icon-inner': '--prim-mono-100',
+      '--color-badge-unearned-stroke': '--prim-mono-500',
+      '--color-badge-unearned-text':   '--prim-mono-500',
+      '--color-avatar-bg':        '--prim-mono-200',
       '--color-statement-bg':     '--prim-mono-100',
       '--color-statement-border': '--prim-mono-350',
       '--color-statement-text':   '--prim-mono-700',
@@ -220,6 +223,9 @@ const THEMES = {
       '--color-badge-to':         '--prim-sapphire-50',
       '--color-badge-icon':       '--prim-sapphire-500',
       '--color-badge-icon-inner': '--prim-splash-400',
+      '--color-badge-unearned-stroke': '--prim-sapphire-400',
+      '--color-badge-unearned-text':   '--prim-sapphire-400',
+      '--color-avatar-bg':        '--prim-sapphire-600',
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
@@ -325,6 +331,9 @@ const THEMES = {
       '--color-badge-to':         '--prim-sapphire-50',
       '--color-badge-icon':       '--prim-sapphire-500',
       '--color-badge-icon-inner': '--prim-splash-400',
+      '--color-badge-unearned-stroke': '--prim-sapphire-400',
+      '--color-badge-unearned-text':   '--prim-sapphire-400',
+      '--color-avatar-bg':        '--prim-sapphire-600',
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
@@ -1213,6 +1222,12 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
           <SliderRow label="Angle"           name="--badge-angle"             l2={l2} set={set} min={0} max={360} unit="°" />
           <ColorRow label="Icon (cap)"        name="--color-badge-icon"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Icon (inner hex)" name="--color-badge-icon-inner"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Unearned stroke"  name="--color-badge-unearned-stroke" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Unearned text"    name="--color-badge-unearned-text"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
+        <SubSect label="Avatar">
+          <ColorRow label="Background" name="--color-avatar-bg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Buttons">
