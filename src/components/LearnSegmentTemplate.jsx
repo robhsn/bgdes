@@ -851,7 +851,7 @@ function TocItem({ label, sectionId, active = false }) {
 function TableOfContents() {
   const tocRef = useRef(null);
   const [activeSection, setActiveSection] = useState(-1);
-  const STICKY_TOP = 54;
+  const STICKY_TOP = 94;
 
   useLayoutEffect(() => {
     const el = tocRef.current;
