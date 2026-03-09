@@ -417,7 +417,7 @@ function MatchHistorySection({ history, isEmpty }) {
 
 /* ── Main ProfilePage ────────────────────────────────────────── */
 
-export default function ProfilePage({ onNavigate, isOwnProfile }) {
+export default function ProfilePage({ onNavigate }) {
   const viewType   = useDMEState('profile.viewType', 'own');
   const dmeCelebration = useDMEState('profile.celebration', false);
 

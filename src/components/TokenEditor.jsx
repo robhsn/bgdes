@@ -583,7 +583,7 @@ function removeAllOverrides() {
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function TokenEditor({ visible, onToggle, onClose, states, onStateChange }) {
+export default function TokenEditor({ visible, onToggle, onClose, states, onStateChange, pages, currentPageId, onNavigate }) {
   const [tab, setTab]                 = useState('l2');
   const [topTab, setTopTab]           = useState('tokens');
   const [side, setSide]               = useState('right');
@@ -965,6 +965,29 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#666', fontSize: 22, cursor: 'pointer', lineHeight: 1, padding: '0 3px' }}>×</button>
         </div>
       </div>
+
+      {/* ── Page selector dropdown ───────────────────────────── */}
+      {pages && pages.length > 0 && (
+        <div style={{
+          padding: '6px 12px', borderBottom: '1px solid #222',
+          background: '#161616', flexShrink: 0,
+        }}>
+          <select
+            value={currentPageId}
+            onChange={e => onNavigate?.(e.target.value)}
+            style={{
+              width: '100%', background: '#222', border: '1px solid #333',
+              borderRadius: 6, color: '#e0e0e0', fontSize: 11, fontWeight: 600,
+              padding: '6px 8px', cursor: 'pointer',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+            }}
+          >
+            {pages.map(p => (
+              <option key={p.id} value={p.id}>{p.label}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* ── Top-level tab bar ─────────────────────────────────── */}
       <div style={{ display: 'flex', flexShrink: 0, borderBottom: '1px solid #2a2a2a', background: '#141414' }}>

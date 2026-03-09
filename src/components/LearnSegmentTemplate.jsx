@@ -65,7 +65,7 @@ const NAV_ITEMS = [
 ];
 
 function MobileNav({ onNavigate, currentPageId }) {
-  const isProfileActive = currentPageId === 'profile-me' || currentPageId === 'profile-member';
+  const isProfileActive = currentPageId === 'profile';
   return (
     <nav className="ls-mobile-nav">
       {NAV_ITEMS.map(({ label, Icon, active }) => {
@@ -74,7 +74,7 @@ function MobileNav({ onNavigate, currentPageId }) {
           <button
             key={label}
             className={`ls-nav-item${isActive ? ' ls-nav-item-active' : ''}`}
-            onClick={label === 'Profile' ? () => onNavigate?.('profile-me') : undefined}
+            onClick={label === 'Profile' ? () => onNavigate?.('profile') : undefined}
           >
             <Icon />
             <span className="ls-nav-label">{label}</span>
@@ -509,42 +509,45 @@ function QuizModule() {
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                {!earned && (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-                    <rect x="5" y="11" width="14" height="11" rx="2" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" fill="none" />
-                    <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" strokeLinecap="round" fill="none" />
-                  </svg>
-                )}
+            {earned ? (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', whiteSpace: 'nowrap' }}>
                 <span style={{
-                  fontFamily: fp, fontWeight: 700, fontSize: 13,
-                  color: earned ? 'var(--color-heading)' : 'var(--color-badge-unearned-text)', whiteSpace: 'nowrap',
+                  fontFamily: fb, fontSize: 13, fontWeight: 700, color: 'var(--color-heading)',
+                  textDecoration: 'underline dotted', textDecorationColor: 'var(--color-muted)', textUnderlineOffset: 3,
                 }}>
-                  Learn EXP +1
+                  How to Play
+                </span>
+                <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 400, color: 'var(--color-heading)', marginTop: 2 }}>
+                  badge awarded!
                 </span>
               </div>
-              {!earned && (
-                <span style={{
-                  fontFamily: fb, fontSize: 13, color: 'var(--color-badge-unearned-text)',
-                  whiteSpace: 'nowrap', marginTop: 3,
-                }}>
-                  {allCorrect && !loggedIn ? (
-                    <>
-                      <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>Sign up</strong>
-                      {' or '}
-                      <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>log in</strong>
-                      {' to save your progress'}
-                    </>
-                  ) : !allCorrect ? (
-                    'Try again to earn this badge'
-                  ) : null}
+            ) : allCorrect && !loggedIn ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <rect x="5" y="11" width="14" height="11" rx="2" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" fill="none" />
+                  <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+                <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 400, color: 'var(--color-badge-unearned-text)', whiteSpace: 'nowrap' }}>
+                  <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>Log in</strong>
+                  {' or '}
+                  <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>Sign up</strong>
+                  {' to save your badge'}
                 </span>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <rect x="5" y="11" width="14" height="11" rx="2" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" fill="none" />
+                  <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" strokeLinecap="round" fill="none" />
+                </svg>
+                <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 400, color: 'var(--color-badge-unearned-text)', whiteSpace: 'nowrap' }}>
+                  Try again to earn <strong style={{ fontWeight: 700, textDecoration: 'underline dotted', textDecorationColor: 'var(--color-muted)', textUnderlineOffset: 3 }}>How to Play</strong> badge
+                </span>
+              </div>
+            )}
             <div style={{ position: 'relative', width: 100, height: 100, flexShrink: 0 }}>
-              {earned && <div className="quiz-sunburst-wrap" />}
-              {earned ? (
+              {allCorrect && <div className="quiz-sunburst-wrap" />}
+              {allCorrect ? (
                 <div className="ls-badge" style={{ width: 100, height: 100 }}>
                   <BadgeIcon />
                 </div>
@@ -928,8 +931,10 @@ export default function LearnSegmentTemplate({ onNavigate }) {
             </div>
             <div className="ls-badge">
               <BadgeIcon />
+              {/* EXP pip + tooltip hidden for now
               <div className="ls-badge-dot">1</div>
               <div className="ls-badge-tooltip">Learn EXP +1</div>
+              */}
             </div>
           </div>
 

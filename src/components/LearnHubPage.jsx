@@ -68,7 +68,7 @@ const NAV_ITEMS = [
 ];
 
 function MobileNav({ onNavigate, currentPageId }) {
-  const isProfileActive = currentPageId === 'profile-me' || currentPageId === 'profile-member';
+  const isProfileActive = currentPageId === 'profile';
   return (
     <nav className="ls-mobile-nav">
       {NAV_ITEMS.map(({ label, Icon, active }) => {
@@ -77,7 +77,7 @@ function MobileNav({ onNavigate, currentPageId }) {
           <button
             key={label}
             className={`ls-nav-item${isActive ? ' ls-nav-item-active' : ''}`}
-            onClick={label === 'Profile' ? () => onNavigate?.('profile-me') : undefined}
+            onClick={label === 'Profile' ? () => onNavigate?.('profile') : undefined}
           >
             <Icon />
             <span className="ls-nav-label">{label}</span>

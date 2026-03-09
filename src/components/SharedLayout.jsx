@@ -111,7 +111,7 @@ export function SiteHeader({ onLogoClick, onNavigate }) {
           </button>
           <div style={{ width: 1, height: 28, background: 'var(--color-border)', flexShrink: 0 }} />
           <div
-            onClick={() => onNavigate?.('profile-me')}
+            onClick={() => onNavigate?.('profile')}
             style={{
               display: 'flex', gap: 10, alignItems: 'center',
               cursor: onNavigate ? 'pointer' : 'default',

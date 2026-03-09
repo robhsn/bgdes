@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import LearnSegmentTemplate from './components/LearnSegmentTemplate'
 import LearnHubPage from './components/LearnHubPage'
 import ProfilePage from './components/ProfilePage'
 import TokenEditor from './components/TokenEditor'
-import { PageSelector } from './components/PageSelector'
 import { DMEStatesContext } from './context/dme-states'
 import fileDefaults from './tokens/dme-defaults.json'
 
@@ -15,26 +14,51 @@ import fileDefaults from './tokens/dme-defaults.json'
 const PAGES = [
   { id: 'learn-hub',      label: 'Learn Hub' },
   { id: 'learn-article',  label: 'Lesson 1: How to Play' },
-  { id: 'profile-me',     label: 'My Profile (/me)' },
-  { id: 'profile-member', label: 'Player Profile (/member/...)' },
+  { id: 'profile',        label: 'Profile' },
 ]
+
+const PAGE_IDS = new Set(PAGES.map(p => p.id))
+
+function getInitialPage() {
+  const urlPage = new URLSearchParams(window.location.search).get('page')
+  if (urlPage && PAGE_IDS.has(urlPage)) return urlPage
+  const stored = sessionStorage.getItem('dme-page')
+  if (stored && PAGE_IDS.has(stored)) return stored
+  return 'learn-hub'
+}
 
 const INIT_STATES = fileDefaults.states ?? { 'auth.loggedIn': true }
 
 function App() {
-  const [currentPageId, setCurrentPageId] = useState('learn-hub')
+  const [currentPageId, setCurrentPageId] = useState(getInitialPage)
   const [dmeVisible, setDmeVisible] = useState(false)
   const [dmeStates, setDmeStates] = useState(INIT_STATES)
+
+  const navigateTo = useCallback((id) => {
+    setCurrentPageId(id)
+    sessionStorage.setItem('dme-page', id)
+    const url = new URL(window.location)
+    url.searchParams.set('page', id)
+    window.history.replaceState(null, '', url)
+  }, [])
+
+  /* Sync URL param on mount */
+  useEffect(() => {
+    const url = new URL(window.location)
+    if (url.searchParams.get('page') !== currentPageId) {
+      url.searchParams.set('page', currentPageId)
+      window.history.replaceState(null, '', url)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStateChange = (key, value) =>
     setDmeStates(s => ({ ...s, [key]: value }))
 
   function renderPage() {
-    if (currentPageId === 'learn-hub') return <LearnHubPage onNavigate={setCurrentPageId} />
-    if (currentPageId === 'learn-article') return <LearnSegmentTemplate onNavigate={setCurrentPageId} />
-    if (currentPageId === 'profile-me') return <ProfilePage onNavigate={setCurrentPageId} isOwnProfile />
-    if (currentPageId === 'profile-member') return <ProfilePage onNavigate={setCurrentPageId} isOwnProfile={false} />
-    return <LearnHubPage onNavigate={setCurrentPageId} />
+    if (currentPageId === 'learn-hub') return <LearnHubPage onNavigate={navigateTo} />
+    if (currentPageId === 'learn-article') return <LearnSegmentTemplate onNavigate={navigateTo} />
+    if (currentPageId === 'profile') return <ProfilePage onNavigate={navigateTo} />
+    return <LearnHubPage onNavigate={navigateTo} />
   }
 
   return (
@@ -46,12 +70,9 @@ function App() {
         onClose={() => setDmeVisible(false)}
         states={dmeStates}
         onStateChange={handleStateChange}
-      />
-      <PageSelector
         pages={PAGES}
         currentPageId={currentPageId}
-        onNavigate={setCurrentPageId}
-        visible={dmeVisible}
+        onNavigate={navigateTo}
       />
     </DMEStatesContext.Provider>
   )
