@@ -900,7 +900,28 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     refreshHistoryState();
   }, []);
 
-  if (!visible) return null;
+  if (!visible) return (
+    <button
+      className="dme-gear-btn"
+      onClick={onToggle}
+      aria-label="Open Design Matrix Editor"
+      style={{
+        position: 'fixed', bottom: 16, right: 16, zIndex: 9998,
+        width: 45, height: 45, borderRadius: '50%',
+        background: 'rgba(28,28,28,0.85)', border: '1px solid rgba(255,255,255,0.1)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        cursor: 'pointer', opacity: 0.5, transition: 'opacity 0.2s',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+      }}
+      onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+      onMouseLeave={e => e.currentTarget.style.opacity = '0.5'}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="#999" strokeWidth="1.8" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" stroke="#999" strokeWidth="1.8" />
+      </svg>
+    </button>
+  );
 
   return (
     <div style={{

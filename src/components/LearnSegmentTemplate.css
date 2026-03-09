@@ -730,6 +730,7 @@
   .ls-nav-spacer { display: block; height: 66px; flex-shrink: 0; }
   .ls-article-meta { flex-direction: column; align-items: flex-start; gap: 6px; }
   .ls-article-meta-divider { display: none; }
+  .dme-gear-btn { bottom: calc(66px + 16px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 
 @media (max-width: 600px) {
