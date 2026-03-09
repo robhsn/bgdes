@@ -574,7 +574,7 @@ function removeAllOverrides() {
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function TokenEditor({ visible, onToggle, onClose, states, onStateToggle }) {
+export default function TokenEditor({ visible, onToggle, onClose, states, onStateChange }) {
   const [tab, setTab]                 = useState('l2');
   const [topTab, setTopTab]           = useState('tokens');
   const [side, setSide]               = useState('right');
@@ -955,7 +955,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
         /* ── States panel ─────────────────────────────────────── */
         <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
-          <StatesView states={states} onStateToggle={onStateToggle} />
+          <StatesView states={states} onStateChange={onStateChange} />
         </div>
 
       ) : (<>
@@ -1036,10 +1036,10 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
 /* ── DME States UI ─────────────────────────────────────────────── */
 
-function StatesView({ states, onStateToggle }) {
+function StatesView({ states, onStateChange }) {
   const grouped = {};
   STATE_DEFINITIONS.forEach(def => {
-    const group = def.type === 'global' ? 'Global' : `Page: ${def.type}`;
+    const group = (def.type === 'global' || def.type === 'select') ? 'Global' : `Page: ${def.type}`;
     if (!grouped[group]) grouped[group] = [];
     grouped[group].push(def);
   });
@@ -1060,7 +1060,7 @@ function StatesView({ states, onStateToggle }) {
               key={def.key}
               def={def}
               value={states?.[def.key] ?? def.defaultValue}
-              onToggle={() => onStateToggle(def.key)}
+              onStateChange={onStateChange}
             />
           ))}
         </div>
@@ -1069,13 +1069,13 @@ function StatesView({ states, onStateToggle }) {
   );
 }
 
-function StateToggleRow({ def, value, onToggle }) {
+function StateToggleRow({ def, value, onStateChange }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '10px 0', borderBottom: '1px solid #242424',
     }}>
-      <div>
+      <div style={{ flex: 1, minWidth: 0, paddingRight: 12 }}>
         <div style={{ fontSize: 12, fontWeight: 600, color: '#e0e0e0', marginBottom: 2 }}>
           {def.label}
         </div>
@@ -1083,7 +1083,23 @@ function StateToggleRow({ def, value, onToggle }) {
           <div style={{ fontSize: 10, color: '#555' }}>{def.description}</div>
         )}
       </div>
-      <DmeToggle value={value} onChange={onToggle} />
+      {def.type === 'select' ? (
+        <select
+          value={value}
+          onChange={e => onStateChange(def.key, e.target.value)}
+          style={{
+            background: '#222', border: '1px solid #444', borderRadius: 6,
+            color: '#e0e0e0', fontSize: 11, padding: '4px 8px', cursor: 'pointer',
+            flexShrink: 0,
+          }}
+        >
+          {def.options.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      ) : (
+        <DmeToggle value={value} onChange={() => onStateChange(def.key, !value)} />
+      )}
     </div>
   );
 }

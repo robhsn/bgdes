@@ -70,7 +70,7 @@ const SOCIAL_LINKS = [
 
 /* ─── Site Header ─────────────────────────────────────────────── */
 
-export function SiteHeader({ onLogoClick }) {
+export function SiteHeader({ onLogoClick, onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const loggedIn = useDMEState('auth.loggedIn', true);
 
@@ -101,7 +101,13 @@ export function SiteHeader({ onLogoClick }) {
       </div>
 
       {loggedIn ? (
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
+        <div
+          onClick={() => onNavigate?.('profile-me')}
+          style={{
+            display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0,
+            cursor: onNavigate ? 'pointer' : 'default',
+          }}
+        >
           <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
             Christopher
           </span>

@@ -67,15 +67,23 @@ const NAV_ITEMS = [
   { label: 'Profile',    Icon: IconProfile,   active: false },
 ];
 
-function MobileNav() {
+function MobileNav({ onNavigate, currentPageId }) {
+  const isProfileActive = currentPageId === 'profile-me' || currentPageId === 'profile-member';
   return (
     <nav className="ls-mobile-nav">
-      {NAV_ITEMS.map(({ label, Icon, active }) => (
-        <button key={label} className={`ls-nav-item${active ? ' ls-nav-item-active' : ''}`}>
-          <Icon />
-          <span className="ls-nav-label">{label}</span>
-        </button>
-      ))}
+      {NAV_ITEMS.map(({ label, Icon, active }) => {
+        const isActive = label === 'Profile' ? isProfileActive : (label === 'Learning' && !isProfileActive ? active : false);
+        return (
+          <button
+            key={label}
+            className={`ls-nav-item${isActive ? ' ls-nav-item-active' : ''}`}
+            onClick={label === 'Profile' ? () => onNavigate?.('profile-me') : undefined}
+          >
+            <Icon />
+            <span className="ls-nav-label">{label}</span>
+          </button>
+        );
+      })}
     </nav>
   );
 }
@@ -248,7 +256,7 @@ export default function LearnHubPage({ onNavigate }) {
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} />
+      <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
 
       {/* ── Hero section ── */}
       <section className="ls-section lh-hero">
@@ -386,7 +394,7 @@ export default function LearnHubPage({ onNavigate }) {
       <PlayNowCta />
       <SiteFooter />
 
-      <MobileNav />
+      <MobileNav onNavigate={onNavigate} currentPageId="learn-hub" />
       <div className="ls-nav-spacer" />
 
     </div>
