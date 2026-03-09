@@ -524,15 +524,21 @@ function QuizModule() {
                   Learn EXP +1
                 </span>
               </div>
-              {allCorrect && !loggedIn && (
+              {!earned && (
                 <span style={{
                   fontFamily: fb, fontSize: 13, color: 'var(--color-badge-unearned-text)',
                   whiteSpace: 'nowrap', marginTop: 3,
                 }}>
-                  <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>Sign up</strong>
-                  {' or '}
-                  <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>log in</strong>
-                  {' to save your progress'}
+                  {allCorrect && !loggedIn ? (
+                    <>
+                      <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>Sign up</strong>
+                      {' or '}
+                      <strong style={{ color: 'var(--color-heading)', cursor: 'pointer' }}>log in</strong>
+                      {' to save your progress'}
+                    </>
+                  ) : !allCorrect ? (
+                    'Try again to earn this badge'
+                  ) : null}
                 </span>
               )}
             </div>
@@ -697,15 +703,14 @@ function QuizModule() {
         })}
       </div>
 
-      {/* Next button — only rendered once answered */}
-      {isAnswered && (
-        <button
-          onClick={handleNext}
-          style={{ ...quizBtn, marginTop: 16, flexShrink: 0 }}
-        >
-          {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →'}
-        </button>
-      )}
+      {/* Next button — always visible, disabled until answered */}
+      <button
+        onClick={handleNext}
+        disabled={!isAnswered}
+        style={{ ...quizBtn, marginTop: 16, flexShrink: 0, opacity: isAnswered ? 1 : 0.35, cursor: isAnswered ? 'pointer' : 'default' }}
+      >
+        {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →'}
+      </button>
     </div>
   );
 }
