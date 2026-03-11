@@ -531,8 +531,8 @@
 }
 
 .pp-match-result-chip--win {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--color-match-win-chip-bg);
+  color: var(--color-match-win-chip-fg);
 }
 
 .pp-match-result-chip--loss {

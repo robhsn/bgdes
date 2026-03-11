@@ -1,0 +1,450 @@
+/* ═══════════════════════════════════════════════════════════════
+   TokensPage — tok- prefix
+   Design tokens showcase / reference page
+   ═══════════════════════════════════════════════════════════════ */
+
+.tok-page {
+  background: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tok-section {
+  width: 100%;
+  padding: 48px var(--spacing-h);
+  box-sizing: border-box;
+}
+
+.tok-section-inner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.tok-section-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--color-heading);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.tok-section-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-body);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+/* ── Color Swatches ─────────────────────────────────────────── */
+
+.tok-palette-label {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-muted);
+  margin: 20px 0 10px;
+}
+
+.tok-palette-label:first-child {
+  margin-top: 0;
+}
+
+.tok-swatch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tok-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 72px;
+}
+
+.tok-swatch-color {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.tok-swatch-hex {
+  font-family: var(--font-meta);
+  font-size: 9px;
+  color: var(--color-muted);
+  text-align: center;
+  word-break: break-all;
+}
+
+.tok-swatch-name {
+  font-family: var(--font-meta);
+  font-size: 9px;
+  color: var(--color-body);
+  text-align: center;
+  word-break: break-all;
+  font-weight: 600;
+}
+
+/* ── Semantic Color Table ───────────────────────────────────── */
+
+.tok-semantic-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tok-semantic-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.tok-semantic-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.tok-semantic-name {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-heading);
+  min-width: 200px;
+}
+
+.tok-semantic-value {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+/* ── Surface Demo Cards ─────────────────────────────────────── */
+
+.tok-surface-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.tok-surface-card {
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.tok-surface-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-heading);
+}
+
+.tok-surface-body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-body);
+  line-height: 1.5;
+}
+
+.tok-surface-muted {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.tok-surface-link {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.tok-surface-border {
+  height: 1px;
+  background: var(--color-border);
+}
+
+.tok-surface-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-pill);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  border: 2px solid var(--color-heading);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  box-shadow: 0 3px 0 var(--btn-border);
+  align-self: flex-start;
+}
+
+/* ── Typography Specimens ───────────────────────────────────── */
+
+.tok-type-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tok-type-sample {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tok-type-label {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-muted);
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.tok-type-preview {
+  color: var(--color-heading);
+}
+
+.tok-type-meta {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+/* ── Spacing Bars ───────────────────────────────────────────── */
+
+.tok-spacing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tok-spacing-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tok-spacing-label {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-heading);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.tok-spacing-bar {
+  height: 20px;
+  background: var(--color-border-mid);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.tok-spacing-px {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+/* ── Radius Demo ────────────────────────────────────────────── */
+
+.tok-radius-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tok-radius-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.tok-radius-box {
+  width: 64px;
+  height: 64px;
+  background: var(--color-border-mid);
+  flex-shrink: 0;
+}
+
+.tok-radius-label {
+  font-family: var(--font-meta);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-heading);
+  text-align: center;
+}
+
+.tok-radius-value {
+  font-family: var(--font-meta);
+  font-size: 10px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* ── Shadow Demo ────────────────────────────────────────────── */
+
+.tok-shadow-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.tok-shadow-card {
+  width: 120px;
+  height: 80px;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tok-shadow-label {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+/* ── Status Colors ──────────────────────────────────────────── */
+
+.tok-status-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tok-status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+}
+
+.tok-status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tok-status-label {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.tok-status-var {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+/* ── Buttons Demo ───────────────────────────────────────────── */
+
+.tok-btn-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+/* ── Text Tokens ────────────────────────────────────────────── */
+
+.tok-text-group {
+  margin-bottom: 24px;
+}
+
+.tok-text-group:last-child {
+  margin-bottom: 0;
+}
+
+.tok-text-group-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-heading);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tok-text-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tok-text-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 4px 0;
+  flex-wrap: wrap;
+}
+
+.tok-text-path {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+  min-width: 220px;
+  flex-shrink: 0;
+  word-break: break-all;
+}
+
+.tok-text-value {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-heading);
+  flex: 1;
+  min-width: 0;
+}
+
+.tok-text-fn {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 800px) {
+  .tok-section { padding: 32px var(--spacing-h); }
+  .tok-section-title { font-size: 20px; }
+  .tok-swatch { width: 56px; }
+  .tok-swatch-color { width: 40px; height: 40px; }
+  .tok-semantic-name { min-width: 140px; }
+  .tok-type-label { min-width: 80px; }
+}

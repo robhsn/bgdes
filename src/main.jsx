@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import LearnSegmentTemplate from './components/LearnSegmentTemplate'
 import LearnHubPage from './components/LearnHubPage'
 import ProfilePage from './components/ProfilePage'
+import TokensPage from './components/TokensPage'
 import TokenEditor from './components/TokenEditor'
 import { DMEStatesContext } from './context/dme-states'
 import fileDefaults from './tokens/dme-defaults.json'
@@ -15,6 +16,7 @@ const PAGES = [
   { id: 'learn-hub',      label: 'Learn Hub' },
   { id: 'learn-article',  label: 'Lesson 1: How to Play' },
   { id: 'profile',        label: 'Profile' },
+  { id: 'tokens',         label: 'Design Tokens' },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
@@ -58,6 +60,7 @@ function App() {
     if (currentPageId === 'learn-hub') return <LearnHubPage onNavigate={navigateTo} />
     if (currentPageId === 'learn-article') return <LearnSegmentTemplate onNavigate={navigateTo} />
     if (currentPageId === 'profile') return <ProfilePage onNavigate={navigateTo} />
+    if (currentPageId === 'tokens') return <TokensPage onNavigate={navigateTo} />
     return <LearnHubPage onNavigate={navigateTo} />
   }
 

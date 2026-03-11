@@ -247,7 +247,7 @@ export function SiteFooter() {
         flexWrap: 'wrap', justifyContent: 'space-between',
       }}>
         <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
-          © 2026 Backgammon.com
+          &copy; 2026 Backgammon.com
         </span>
         <div style={{ display: 'flex', gap: 24 }}>
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Terms of Service</a>

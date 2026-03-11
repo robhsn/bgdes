@@ -301,7 +301,7 @@ function IconProfileNav() {
 const NAV_ITEMS = [
   { label: 'Challenges', Icon: IconTrophy },
   { label: 'Learning',   Icon: IconLearning },
-  { label: 'New Game',   Icon: IconNewGame },
+  { label: 'New Game',    Icon: IconNewGame },
   { label: 'Friends',    Icon: IconFriends },
   { label: 'Profile',    Icon: IconProfileNav },
 ];
@@ -468,11 +468,11 @@ function BadgeCategorySection({ title, thresholds, statValue, icon, isGated }) {
         <span className="pp-badge-category-name">{title}</span>
         {!isGated && remaining !== null && (
           <span className="pp-badge-progress-hint">
-            {remaining} more {statWord} to unlock {next} badge
+            {`${remaining} more ${statWord} to unlock ${next} badge`}
           </span>
         )}
         {!isGated && remaining === null && earned.length > 0 && (
-          <span className="pp-badge-progress-hint" style={{ color: '#2e7d32' }}>
+          <span className="pp-badge-progress-hint" style={{ color: 'var(--color-status-success)' }}>
             All badges unlocked!
           </span>
         )}
@@ -511,11 +511,11 @@ function StreakCategorySection({ title, thresholds, statValue, icon, isGated }) 
         <span className="pp-badge-category-name">{title}</span>
         {!isGated && remaining !== null && (
           <span className="pp-badge-progress-hint">
-            {remaining} more {statWord} to unlock {next} badge
+            {`${remaining} more ${statWord} to unlock ${next} badge`}
           </span>
         )}
         {!isGated && remaining === null && earned.length > 0 && (
-          <span className="pp-badge-progress-hint" style={{ color: '#2e7d32' }}>
+          <span className="pp-badge-progress-hint" style={{ color: 'var(--color-status-success)' }}>
             All badges unlocked!
           </span>
         )}
@@ -567,9 +567,9 @@ function GatedSection({ isGated, children }) {
 /* ── Match history section ───────────────────────────────────── */
 
 function getErrorRateColor(rate) {
-  if (rate <= 10) return '#2e7d32';
-  if (rate <= 25) return '#f9a825';
-  return '#c62828';
+  if (rate <= 10) return 'var(--color-status-success)';
+  if (rate <= 25) return 'var(--color-status-warning)';
+  return 'var(--color-status-error)';
 }
 
 function MatchHistorySection({ history, isEmpty }) {
@@ -734,13 +734,13 @@ function SettingsPanel({
               maxLength={24}
             />
             {draftName.length < 4 && (
-              <div style={{ fontFamily: fm, fontSize: 11, color: '#c62828', marginTop: 4 }}>
+              <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-status-error)', marginTop: 4 }}>
                 Username must be at least 4 characters
               </div>
             )}
             {draftName.length >= 4 && (
               <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 4 }}>
-                {draftName.length}/24 characters
+                {`${draftName.length}/24 characters`}
               </div>
             )}
           </div>

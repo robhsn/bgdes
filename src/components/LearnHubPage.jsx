@@ -62,7 +62,7 @@ function IconProfile() {
 const NAV_ITEMS = [
   { label: 'Challenges', Icon: IconTrophy,   active: false },
   { label: 'Learning',   Icon: IconLearning,  active: true  },
-  { label: 'New Game',   Icon: IconNewGame,   active: false },
+  { label: 'New Game',    Icon: IconNewGame,   active: false },
   { label: 'Friends',    Icon: IconFriends,   active: false },
   { label: 'Profile',    Icon: IconProfile,   active: false },
 ];

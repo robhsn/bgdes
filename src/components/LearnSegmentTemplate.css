@@ -259,6 +259,52 @@
   --content-max-width: 900px;
   --header-height:     100px;
 
+  /* ── Status / Feedback Colors ──────────────────────────────── */
+  --color-status-success:     #2e7d32;
+  --color-status-warning:     #f9a825;
+  --color-status-error:       #c62828;
+  --color-match-win-chip-bg:  #e8f5e9;
+  --color-match-win-chip-fg:  #2e7d32;
+
+  /* ── Border Radius Scale ───────────────────────────────────── */
+  --radius-sm:    6px;
+  --radius-md:    8px;
+  --radius-lg:   10px;
+  --radius-xl:   14px;
+  --radius-2xl:  20px;
+  --radius-3xl:  24px;
+  --radius-pill: 100px;
+  --radius-full: 50%;
+
+  /* ── Shadow / Elevation Scale ──────────────────────────────── */
+  --shadow-sm:  0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md:  0 2px 12px rgba(0,0,0,0.18);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.18);
+  --shadow-xl:  0 24px 64px rgba(0,0,0,0.3);
+
+  /* ── Z-Index Scale ─────────────────────────────────────────── */
+  --z-cover-actions:   6;
+  --z-avatar:          7;
+  --z-dropdown:       20;
+  --z-header:         50;
+  --z-mobile-nav:    100;
+  --z-modal:        1000;
+  --z-modal-top:    1100;
+
+  /* ── Spacing Scale ─────────────────────────────────────────── */
+  --space-1:    4px;
+  --space-2:    6px;
+  --space-3:    8px;
+  --space-4:   10px;
+  --space-5:   12px;
+  --space-6:   16px;
+  --space-7:   20px;
+  --space-8:   24px;
+  --space-9:   32px;
+  --space-10:  40px;
+  --space-11:  48px;
+  --space-12:  64px;
+
 }
 
 /* ─── Layout ──────────────────────────────────────────────────── */
