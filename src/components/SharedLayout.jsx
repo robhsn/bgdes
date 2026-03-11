@@ -70,7 +70,7 @@ const SOCIAL_LINKS = [
 
 /* ─── Site Header ─────────────────────────────────────────────── */
 
-export function SiteHeader({ onLogoClick, onNavigate }) {
+export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }) {
   const [scrolled, setScrolled] = useState(false);
   const loggedIn = useDMEState('auth.loggedIn', true);
 
@@ -117,9 +117,6 @@ export function SiteHeader({ onLogoClick, onNavigate }) {
               cursor: onNavigate ? 'pointer' : 'default',
             }}
           >
-            <span className="ls-username" style={{ fontFamily: fb, fontWeight: 700, fontSize: 14, color: 'var(--color-heading)' }}>
-              Christopher
-            </span>
             <div style={{
               width: 48, height: 48, borderRadius: '50%',
               border: '2px solid var(--color-border-subtle)',
@@ -127,8 +124,8 @@ export function SiteHeader({ onLogoClick, onNavigate }) {
               flexShrink: 0, overflow: 'hidden', position: 'relative',
             }}>
               <img
-                src={avatarImg}
-                alt="Christopher"
+                src={avatarSrcProp || avatarImg}
+                alt="MyReallyLongCoolUsername"
                 style={{
                   position: 'absolute',
                   width: '105.46%', height: '105.46%',

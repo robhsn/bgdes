@@ -118,6 +118,7 @@ const THEMES = {
       '--color-badge-unearned-stroke': '--prim-mono-500',
       '--color-badge-unearned-text':   '--prim-mono-500',
       '--color-avatar-bg':        '--prim-mono-200',
+      '--color-stat-percentile':  '--prim-orange-500',
       '--color-statement-bg':     '--prim-mono-100',
       '--color-statement-border': '--prim-mono-350',
       '--color-statement-text':   '--prim-mono-700',
@@ -226,6 +227,7 @@ const THEMES = {
       '--color-badge-unearned-stroke': '--prim-sapphire-400',
       '--color-badge-unearned-text':   '--prim-sapphire-400',
       '--color-avatar-bg':        '--prim-sapphire-600',
+      '--color-stat-percentile':  '--prim-orange-500',
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
@@ -334,6 +336,7 @@ const THEMES = {
       '--color-badge-unearned-stroke': '--prim-sapphire-400',
       '--color-badge-unearned-text':   '--prim-sapphire-400',
       '--color-avatar-bg':        '--prim-sapphire-600',
+      '--color-stat-percentile':  '--prim-orange-500',
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
@@ -1008,7 +1011,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
         /* ── States panel ─────────────────────────────────────── */
         <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
-          <StatesView states={states} onStateChange={onStateChange} />
+          <StatesView states={states} onStateChange={onStateChange} currentPageId={currentPageId} />
         </div>
 
       ) : (<>
@@ -1089,35 +1092,39 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
 /* ── DME States UI ─────────────────────────────────────────────── */
 
-function StatesView({ states, onStateChange }) {
-  const grouped = {};
-  STATE_DEFINITIONS.forEach(def => {
-    const group = (def.type === 'global' || def.type === 'select') ? 'Global' : `Page: ${def.type}`;
-    if (!grouped[group]) grouped[group] = [];
-    grouped[group].push(def);
-  });
+function StatesView({ states, onStateChange, currentPageId }) {
+  const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global');
+  const pageDefs = STATE_DEFINITIONS.filter(def =>
+    def.type !== 'global' && (def.type === currentPageId || def.page === currentPageId)
+  );
+
+  function renderGroup(label, defs) {
+    if (defs.length === 0) return null;
+    return (
+      <div style={{ marginBottom: 24 }}>
+        <div style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+          textTransform: 'uppercase', color: '#555', marginBottom: 12,
+          paddingBottom: 6, borderBottom: '1px solid #2a2a2a',
+        }}>
+          {label}
+        </div>
+        {defs.map(def => (
+          <StateToggleRow
+            key={def.key}
+            def={def}
+            value={states?.[def.key] ?? def.defaultValue}
+            onStateChange={onStateChange}
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>
-      {Object.entries(grouped).map(([groupLabel, defs]) => (
-        <div key={groupLabel} style={{ marginBottom: 24 }}>
-          <div style={{
-            fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: '#555', marginBottom: 12,
-            paddingBottom: 6, borderBottom: '1px solid #2a2a2a',
-          }}>
-            {groupLabel}
-          </div>
-          {defs.map(def => (
-            <StateToggleRow
-              key={def.key}
-              def={def}
-              value={states?.[def.key] ?? def.defaultValue}
-              onStateChange={onStateChange}
-            />
-          ))}
-        </div>
-      ))}
+      {renderGroup('Global States', globalDefs)}
+      {renderGroup('Page States', pageDefs)}
     </>
   );
 }
@@ -1136,7 +1143,7 @@ function StateToggleRow({ def, value, onStateChange }) {
           <div style={{ fontSize: 10, color: '#555' }}>{def.description}</div>
         )}
       </div>
-      {def.type === 'select' ? (
+      {def.options ? (
         <select
           value={value}
           onChange={e => onStateChange(def.key, e.target.value)}
@@ -1272,6 +1279,10 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
 
         <SubSect label="Avatar">
           <ColorRow label="Background" name="--color-avatar-bg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
+        <SubSect label="Stats">
+          <ColorRow label="Percentile" name="--color-stat-percentile" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Buttons">

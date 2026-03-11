@@ -208,6 +208,13 @@
   /* ── Avatar ─────────────────────────────────────────────── */
   --color-avatar-bg:              var(--prim-mono-200);
 
+  /* ── Stats ──────────────────────────────────────────────── */
+  --color-stat-percentile:        var(--prim-orange-500);
+
+  /* ── Match history ─────────────────────────────────────── */
+  --color-match-win-border:       var(--prim-orange-500);
+  --color-match-loss-border:      var(--color-border);
+
   /* ── Mobile nav ───────────────────────────────────────────── */
   --color-nav-bg:                 var(--prim-mono-100);
   --color-nav-border:             var(--prim-mono-250);
