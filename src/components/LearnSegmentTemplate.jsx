@@ -944,8 +944,8 @@ export default function LearnSegmentTemplate({ onNavigate }) {
 
           <div className="ls-article-meta">
             <div style={{ fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)' }}>
-              <span style={{ fontFamily: fm, fontWeight: 400 }}>Reviewed by </span>
-              <a href="#" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Masayuki "Mochy" Mochizuki</a>
+              <span style={{ fontFamily: fm, fontWeight: 400 }}>Written by </span>
+              <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Backgammon.com</a>
             </div>
           </div>
 

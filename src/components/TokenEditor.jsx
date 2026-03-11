@@ -599,6 +599,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
   const [canRedo, setCanRedo]         = useState(false);
   const [isDirty, setIsDirty]         = useState(false);
   const [hasSavedState, setHasSavedState] = useState(false);
+  const [collapsed, setCollapsed]       = useState(false);
 
   /* Refs for sync access inside callbacks */
   const l1Ref          = useRef({ ...INIT_L1 });
@@ -926,6 +927,49 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     </button>
   );
 
+  /* ── Collapse tab ─────────────────────────────────────────── */
+  const tabRadius = side === 'right' ? '6px 0 0 6px' : '0 6px 6px 0';
+  const arrowRight = side === 'right' ? !collapsed : collapsed;
+  const tabArrow = (
+    <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+      <path d={arrowRight ? 'M1 1l6 6-6 6' : 'M7 1l-6 6 6 6'} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+  const tabBaseStyle = {
+    background: '#1c1c1c',
+    border: '1px solid #333',
+    [side === 'right' ? 'borderRight' : 'borderLeft']: 'none',
+    borderRadius: tabRadius,
+    color: '#888',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    width: 20,
+    height: 48,
+    transition: 'color 0.2s',
+  };
+
+  if (collapsed) return (
+    <button
+      onClick={() => setCollapsed(false)}
+      title="Expand DME"
+      style={{
+        position: 'fixed',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        [side]: 0,
+        zIndex: 10000,
+        ...tabBaseStyle,
+      }}
+      onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+      onMouseLeave={e => e.currentTarget.style.color = '#888'}
+    >
+      {tabArrow}
+    </button>
+  );
+
   return (
     <div style={{
       position: 'fixed', top: 0,
@@ -938,6 +982,24 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
       display: 'flex', flexDirection: 'column',
       boxShadow: side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)',
     }}>
+
+      {/* ── Collapse tab on outer edge ── */}
+      <button
+        onClick={() => setCollapsed(true)}
+        title="Collapse DME"
+        style={{
+          position: 'absolute',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          [side === 'right' ? 'left' : 'right']: -20,
+          zIndex: 10000,
+          ...tabBaseStyle,
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+        onMouseLeave={e => e.currentTarget.style.color = '#888'}
+      >
+        {tabArrow}
+      </button>
 
       {/* ── Persistent top strip ──────────────────────────────── */}
       <div style={{
