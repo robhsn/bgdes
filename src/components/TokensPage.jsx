@@ -2,72 +2,38 @@ import React, { useState, useEffect } from 'react';
 import './LearnSegmentTemplate.css';
 import './TokensPage.css';
 import { SiteHeader, SiteFooter } from './SharedLayout';
+import fileDefaults from '../tokens/dme-defaults.json';
+
 /* ── Helpers ─────────────────────────────────────────────────── */
 
 function getCSSVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
-function resolveColor(varName) {
-  const el = document.createElement('div');
-  el.style.color = `var(${varName})`;
-  document.body.appendChild(el);
-  const resolved = getComputedStyle(el).color;
-  document.body.removeChild(el);
-  return resolved;
+/* ── Derive active palettes from L2 usage ────────────────────── */
+
+function getActivePalettes() {
+  const l2 = fileDefaults.l2;
+  const l1Colors = fileDefaults.l1Colors;
+  const l1Groups = fileDefaults.l1Groups;
+
+  // Collect all --prim-* tokens referenced in L2 color mappings
+  const usedPrims = new Set();
+  for (const val of Object.values(l2)) {
+    if (typeof val === 'string' && val.startsWith('--prim-')) {
+      usedPrims.add(val);
+    }
+  }
+
+  // Filter groups to only those containing at least one used token
+  return l1Groups.filter(group =>
+    group.tokens.some(token => usedPrims.has(token))
+  );
 }
 
-function rgbToHex(rgb) {
-  if (!rgb || rgb === 'transparent') return '';
-  const match = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  if (!match) return rgb;
-  return '#' + [match[1], match[2], match[3]].map(n => parseInt(n).toString(16).padStart(2, '0')).join('');
-}
+const ACTIVE_PALETTES = getActivePalettes();
 
-/* ── Palette definitions ─────────────────────────────────────── */
-
-const PALETTES = [
-  {
-    name: 'Mono',
-    tokens: [
-      'prim-mono-white', 'prim-mono-50', 'prim-mono-100', 'prim-mono-150',
-      'prim-mono-200', 'prim-mono-250', 'prim-mono-300', 'prim-mono-350',
-      'prim-mono-500', 'prim-mono-550', 'prim-mono-600', 'prim-mono-700',
-      'prim-mono-750', 'prim-mono-900', 'prim-mono-black',
-    ],
-  },
-  {
-    name: 'Sapphire',
-    tokens: [
-      'prim-sapphire-950', 'prim-sapphire-900', 'prim-sapphire-800', 'prim-sapphire-700',
-      'prim-sapphire-600', 'prim-sapphire-500', 'prim-sapphire-400', 'prim-sapphire-300',
-      'prim-sapphire-200', 'prim-sapphire-100', 'prim-sapphire-50',
-    ],
-  },
-  {
-    name: 'Splash',
-    tokens: [
-      'prim-splash-950', 'prim-splash-900', 'prim-splash-800', 'prim-splash-700',
-      'prim-splash-600', 'prim-splash-500', 'prim-splash-400', 'prim-splash-300',
-      'prim-splash-200', 'prim-splash-100', 'prim-splash-50',
-    ],
-  },
-  {
-    name: 'Orange',
-    tokens: [
-      'prim-orange-950', 'prim-orange-900', 'prim-orange-800', 'prim-orange-700',
-      'prim-orange-600', 'prim-orange-500', 'prim-orange-400', 'prim-orange-300',
-      'prim-orange-200', 'prim-orange-100', 'prim-orange-50',
-    ],
-  },
-  {
-    name: 'Butter',
-    tokens: [
-      'prim-butter-950', 'prim-butter-900', 'prim-butter-800', 'prim-butter-700',
-      'prim-butter-600', 'prim-butter-500', 'prim-butter-400',
-    ],
-  },
-];
+/* ── Semantic color definitions ──────────────────────────────── */
 
 const SEMANTIC_COLORS = [
   { name: '--color-bg',             label: 'Background' },
@@ -90,14 +56,85 @@ const SEMANTIC_COLORS = [
   { name: '--color-stat-percentile',label: 'Stat Percentile' },
 ];
 
-const TYPOGRAPHY = [
-  { role: 'Heading',    family: '--font-heading',    size: '--size-h1',   preview: 'Backgammon' },
-  { role: 'Subheading', family: '--font-subheading',  size: '--size-h2',   preview: 'Board Setup' },
-  { role: 'Body',       family: '--font-body',        size: '--size-body', preview: 'The quick brown fox jumps over the lazy dog.' },
-  { role: 'Meta',       family: '--font-meta',        size: '--size-meta', preview: 'Mar 7, 2026 · 5 min read' },
-  { role: 'Pill',       family: '--font-pill',        size: '--size-pill', preview: 'BEGINNER' },
-  { role: 'Logo',       family: '--font-logo',        size: '--size-logo', preview: 'Backgammon.com' },
+/* ── Text style definitions ──────────────────────────────────── */
+
+const TEXT_STYLES = [
+  {
+    role: 'H1',
+    preview: 'Backgammon',
+    family: '--font-heading',
+    size: '--size-h1',
+    weight: '--prim-type-heading-weight',
+    ls: '--prim-type-heading-ls',
+    lh: '--prim-type-heading-lh',
+  },
+  {
+    role: 'H2',
+    preview: 'Board Setup',
+    family: '--font-subheading',
+    size: '--size-h2',
+    weight: '--prim-type-subheading-weight',
+    ls: '--prim-type-subheading-ls',
+    lh: '--prim-type-subheading-lh',
+  },
+  {
+    role: 'Body',
+    preview: 'The quick brown fox jumps over the lazy dog.',
+    family: '--font-body',
+    size: '--size-body',
+    weight: '--prim-type-body-weight',
+    ls: '--prim-type-body-ls',
+    lh: '--prim-type-body-lh',
+  },
+  {
+    role: 'Meta',
+    preview: 'Mar 7, 2026 · 5 min read',
+    family: '--font-meta',
+    size: '--size-meta',
+    weight: '--prim-type-body-weight',
+    ls: '--prim-type-body-ls',
+    lh: '--prim-type-body-lh',
+  },
+  {
+    role: 'Small',
+    preview: 'Fine print and captions',
+    family: '--font-body',
+    size: '--size-small',
+    weight: '--prim-type-body-weight',
+    ls: null,
+    lh: null,
+  },
+  {
+    role: 'Pill',
+    preview: 'BEGINNER',
+    family: '--font-pill',
+    size: '--size-pill',
+    weight: '--prim-type-heading-weight',
+    ls: '--prim-type-heading-ls',
+    lh: null,
+  },
+  {
+    role: 'Logo',
+    preview: 'Backgammon.com',
+    family: '--font-logo',
+    size: '--size-logo',
+    weight: '--prim-type-heading-weight',
+    ls: '--prim-type-heading-ls',
+    lh: null,
+  },
+  {
+    role: 'TOC',
+    preview: 'Table of Contents',
+    family: '--font-toc',
+    size: null,
+    sizeFixed: '12px',
+    weight: null,
+    ls: null,
+    lh: null,
+  },
 ];
+
+/* ── Other token definitions ─────────────────────────────────── */
 
 const SPACING_TOKENS = [
   { name: '--space-1',  px: '4px' },
@@ -141,26 +178,14 @@ const STATUS_TOKENS = [
 /* ── Sections ────────────────────────────────────────────────── */
 
 function ColorPalettesSection() {
-  const [resolved, setResolved] = useState({});
-
-  useEffect(() => {
-    const map = {};
-    PALETTES.forEach(p => {
-      p.tokens.forEach(t => {
-        const varName = `--${t}`;
-        const rgb = resolveColor(varName);
-        map[t] = rgbToHex(rgb);
-      });
-    });
-    setResolved(map);
-  }, []);
+  const l1Colors = fileDefaults.l1Colors;
 
   return (
     <div className="tok-section">
       <div className="tok-section-inner">
         <h2 className="tok-section-title">Color Palettes</h2>
-        <p className="tok-section-desc">L1 primitive color tokens. Theme-agnostic foundation values.</p>
-        {PALETTES.map(palette => (
+        <p className="tok-section-desc">L1 primitive color tokens used by the active theme.</p>
+        {ACTIVE_PALETTES.map(palette => (
           <div key={palette.name}>
             <div className="tok-palette-label">{palette.name}</div>
             <div className="tok-swatch-grid">
@@ -168,10 +193,10 @@ function ColorPalettesSection() {
                 <div key={token} className="tok-swatch">
                   <div
                     className="tok-swatch-color"
-                    style={{ background: `var(--${token})` }}
+                    style={{ background: l1Colors[token] || `var(${token})` }}
                   />
-                  <div className="tok-swatch-hex">{resolved[token] || ''}</div>
-                  <div className="tok-swatch-name">{token.replace('prim-', '')}</div>
+                  <div className="tok-swatch-hex">{l1Colors[token] || ''}</div>
+                  <div className="tok-swatch-name">{token.replace('--prim-', '')}</div>
                 </div>
               ))}
             </div>
@@ -183,16 +208,8 @@ function ColorPalettesSection() {
 }
 
 function SemanticColorsSection() {
-  const [resolved, setResolved] = useState({});
-
-  useEffect(() => {
-    const map = {};
-    SEMANTIC_COLORS.forEach(c => {
-      const rgb = resolveColor(c.name);
-      map[c.name] = rgbToHex(rgb);
-    });
-    setResolved(map);
-  }, []);
+  const l2 = fileDefaults.l2;
+  const l1Colors = fileDefaults.l1Colors;
 
   return (
     <div className="tok-section surface-muted">
@@ -200,13 +217,18 @@ function SemanticColorsSection() {
         <h2 className="tok-section-title">Semantic Colors</h2>
         <p className="tok-section-desc">L2 semantic tokens that map primitives to functional roles. These change per theme.</p>
         <div className="tok-semantic-grid">
-          {SEMANTIC_COLORS.map(c => (
-            <div key={c.name} className="tok-semantic-row">
-              <div className="tok-semantic-swatch" style={{ background: `var(${c.name})` }} />
-              <span className="tok-semantic-name">{c.name}</span>
-              <span className="tok-semantic-value">{resolved[c.name] || ''}</span>
-            </div>
-          ))}
+          {SEMANTIC_COLORS.map(c => {
+            const primToken = l2[c.name]; // e.g. "--prim-mint-500"
+            const hex = primToken ? (l1Colors[primToken] || '') : '';
+            return (
+              <div key={c.name} className="tok-semantic-row">
+                <div className="tok-semantic-swatch" style={{ background: hex || `var(${c.name})` }} />
+                <span className="tok-semantic-name">{c.name}</span>
+                <span className="tok-semantic-prim">{primToken || ''}</span>
+                <span className="tok-semantic-value">{hex}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -243,25 +265,53 @@ function SurfacesSection() {
   );
 }
 
-function TypographySection() {
+function TextStylesSection() {
+  const [resolved, setResolved] = useState({});
+
+  useEffect(() => {
+    const map = {};
+    TEXT_STYLES.forEach(t => {
+      const vars = [t.family, t.size, t.weight, t.ls, t.lh].filter(Boolean);
+      vars.forEach(v => {
+        if (!map[v]) map[v] = getCSSVar(v);
+      });
+    });
+    setResolved(map);
+  }, []);
+
   return (
     <div className="tok-section surface-muted">
       <div className="tok-section-inner">
-        <h2 className="tok-section-title">Typography</h2>
-        <p className="tok-section-desc">Font roles with their default families and sizes.</p>
-        <div className="tok-type-grid">
-          {TYPOGRAPHY.map(t => (
-            <div key={t.role} className="tok-type-sample">
-              <span className="tok-type-label">{t.role}</span>
-              <span
-                className="tok-type-preview"
-                style={{ fontFamily: `var(${t.family})`, fontSize: `var(${t.size})`, fontWeight: t.role === 'Body' ? 400 : 700 }}
-              >
-                {t.preview}
-              </span>
-              <span className="tok-type-meta">{t.size}</span>
-            </div>
-          ))}
+        <h2 className="tok-section-title">Text Styles</h2>
+        <p className="tok-section-desc">Type roles with live previews and resolved property values.</p>
+        <div className="tok-textstyle-grid">
+          {TEXT_STYLES.map(t => {
+            const fontSize = t.sizeFixed || (t.size ? `var(${t.size})` : undefined);
+            const style = {
+              fontFamily: `var(${t.family})`,
+              fontSize,
+              fontWeight: t.weight ? `var(${t.weight})` : undefined,
+              letterSpacing: t.ls ? `calc(var(${t.ls}) * 1px)` : undefined,
+              lineHeight: t.lh ? `calc(1 + var(${t.lh}) / 100)` : undefined,
+              color: 'var(--color-heading)',
+            };
+            return (
+              <div key={t.role} className="tok-textstyle-card">
+                <div className="tok-textstyle-label">{t.role}</div>
+                <div className="tok-textstyle-preview" style={style}>
+                  {t.preview}
+                </div>
+                <div className="tok-textstyle-pills">
+                  {t.family && <span className="tok-pill">{resolved[t.family] || t.family}</span>}
+                  {t.weight && <span className="tok-pill">{resolved[t.weight] || ''}</span>}
+                  {t.size && <span className="tok-pill">{(resolved[t.size] || '') + 'px'}</span>}
+                  {t.sizeFixed && <span className="tok-pill">{t.sizeFixed}</span>}
+                  {t.ls && <span className="tok-pill">ls: {resolved[t.ls] || ''}</span>}
+                  {t.lh && <span className="tok-pill">lh: {resolved[t.lh] || ''}</span>}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -355,12 +405,38 @@ function StatusColorsSection() {
   );
 }
 
+const BUTTON_TOKENS = [
+  { name: '--btn-primary-bg',       label: 'Primary BG' },
+  { name: '--btn-primary-fg',       label: 'Primary Text' },
+  { name: '--btn-primary-border',   label: 'Primary Border' },
+  { name: '--btn-secondary-bg',     label: 'Secondary BG' },
+  { name: '--btn-secondary-fg',     label: 'Secondary Text' },
+  { name: '--btn-secondary-border', label: 'Secondary Border' },
+];
+
 function ButtonsSection() {
+  const l2 = fileDefaults.l2;
+  const l1Colors = fileDefaults.l1Colors;
+
   return (
     <div className="tok-section">
       <div className="tok-section-inner">
         <h2 className="tok-section-title">Buttons</h2>
         <p className="tok-section-desc">Primary and secondary button variants using button tokens.</p>
+        <div className="tok-semantic-grid" style={{ marginBottom: 24 }}>
+          {BUTTON_TOKENS.map(t => {
+            const primToken = l2[t.name];
+            const hex = primToken ? (l1Colors[primToken] || '') : '';
+            return (
+              <div key={t.name} className="tok-semantic-row">
+                <div className="tok-semantic-swatch" style={{ background: hex || `var(${t.name})` }} />
+                <span className="tok-semantic-name">{t.name}</span>
+                <span className="tok-semantic-prim">{primToken || ''}</span>
+                <span className="tok-semantic-value">{hex}</span>
+              </div>
+            );
+          })}
+        </div>
         <div className="tok-btn-grid">
           <button
             className="pp-btn pp-btn--primary"
@@ -396,7 +472,7 @@ export default function TokensPage({ onNavigate }) {
       <ColorPalettesSection />
       <SemanticColorsSection />
       <SurfacesSection />
-      <TypographySection />
+      <TextStylesSection />
       <SpacingSection />
       <RadiusSection />
       <ShadowsSection />

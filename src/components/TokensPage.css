@@ -124,6 +124,13 @@
   min-width: 200px;
 }
 
+.tok-semantic-prim {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-accent);
+  min-width: 160px;
+}
+
 .tok-semantic-value {
   font-family: var(--font-meta);
   font-size: 11px;
@@ -189,48 +196,57 @@
   font-size: 11px;
   letter-spacing: 0.03em;
   cursor: pointer;
-  border: 2px solid var(--color-heading);
+  border: 2px solid var(--btn-primary-border);
   background: var(--btn-primary-bg);
   color: var(--btn-primary-fg);
-  box-shadow: 0 3px 0 var(--btn-border);
+  box-shadow: 0 3px 0 var(--btn-primary-border);
   align-self: flex-start;
 }
 
-/* ── Typography Specimens ───────────────────────────────────── */
+/* ── Text Styles ───────────────────────────────────────────── */
 
-.tok-type-grid {
+.tok-textstyle-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 }
 
-.tok-type-sample {
+.tok-textstyle-card {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.tok-type-label {
+.tok-textstyle-label {
   font-family: var(--font-meta);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--color-muted);
-  min-width: 100px;
-  flex-shrink: 0;
 }
 
-.tok-type-preview {
-  color: var(--color-heading);
+.tok-textstyle-preview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.tok-type-meta {
+.tok-textstyle-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tok-pill {
   font-family: var(--font-meta);
-  font-size: 11px;
-  color: var(--color-muted);
-  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-heading);
+  background: var(--color-border-light);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
 /* ── Spacing Bars ───────────────────────────────────────────── */

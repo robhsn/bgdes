@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import fileDefaults from '../tokens/dme-defaults.json';
-import { STATE_DEFINITIONS } from '../context/dme-states';
 
 /* ─── Shortcut sequences ─────────────────────────────────────── */
 const TOKENS_SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown'];
-const STATES_SEQ = ['ArrowLeft','ArrowLeft','ArrowRight','ArrowRight'];
 
 /* ─── Fonts ──────────────────────────────────────────────────── */
 const FONT_OPTIONS = [
@@ -139,7 +137,12 @@ const THEMES = {
       '--btn-primary-fg':         '--prim-mono-900',
       '--btn-secondary-bg':       '--prim-mono-white',
       '--btn-secondary-fg':       '--prim-mono-900',
-      '--btn-border':             '--prim-mono-900',
+      '--btn-primary-border':     '--prim-mono-900',
+      '--btn-secondary-border':   '--prim-mono-900',
+      '--color-match-win-border':   '--prim-orange-500',
+      '--color-match-loss-border':  '--prim-mono-250',
+      '--color-match-win-chip-bg':  '--prim-mint-100',
+      '--color-match-win-chip-fg':  '--prim-mint-500',
     },
     surfaces: {
       default: {
@@ -248,7 +251,12 @@ const THEMES = {
       '--btn-primary-fg':         '--prim-sapphire-500',
       '--btn-secondary-bg':       '--prim-mono-white',
       '--btn-secondary-fg':       '--prim-sapphire-500',
-      '--btn-border':             '--prim-sapphire-500',
+      '--btn-primary-border':     '--prim-sapphire-500',
+      '--btn-secondary-border':   '--prim-sapphire-500',
+      '--color-match-win-border':   '--prim-orange-500',
+      '--color-match-loss-border':  '--prim-mono-250',
+      '--color-match-win-chip-bg':  '--prim-mint-100',
+      '--color-match-win-chip-fg':  '--prim-mint-500',
     },
     surfaces: {
       default: {
@@ -357,7 +365,12 @@ const THEMES = {
       '--btn-primary-fg':         '--prim-sapphire-500',
       '--btn-secondary-bg':       '--prim-mono-white',
       '--btn-secondary-fg':       '--prim-sapphire-500',
-      '--btn-border':             '--prim-sapphire-500',
+      '--btn-primary-border':     '--prim-sapphire-500',
+      '--btn-secondary-border':   '--prim-sapphire-500',
+      '--color-match-win-border':   '--prim-orange-500',
+      '--color-match-loss-border':  '--prim-mono-250',
+      '--color-match-win-chip-bg':  '--prim-mint-100',
+      '--color-match-win-chip-fg':  '--prim-mint-500',
     },
     surfaces: {
       default: {
@@ -466,7 +479,12 @@ const THEMES = {
       '--btn-primary-fg':         '--prim-mono-white',
       '--btn-secondary-bg':       '--prim-mono-white',
       '--btn-secondary-fg':       '--prim-mint-700',
-      '--btn-border':             '--prim-mint-700',
+      '--btn-primary-border':     '--prim-mint-700',
+      '--btn-secondary-border':   '--prim-mint-700',
+      '--color-match-win-border':   '--prim-fall-500',
+      '--color-match-loss-border':  '--prim-mint-300',
+      '--color-match-win-chip-bg':  '--prim-mint-100',
+      '--color-match-win-chip-fg':  '--prim-mint-500',
     },
     surfaces: {
       default: {
@@ -772,9 +790,8 @@ const DMEDockIcon = () => (
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function TokenEditor({ visible, onToggle, onClose, states, onStateChange, pages, currentPageId, onNavigate }) {
+export default function TokenEditor({ visible, onClose, states, onStateChange, pages, currentPageId, onNavigate }) {
   const [tab, setTab]                 = useState('l2');
-  const [topTab, setTopTab]           = useState('tokens');
   const [side, setSide]               = useState('right');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
@@ -786,6 +803,25 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
   const [isDirty, setIsDirty]         = useState(false);
   const [hasSavedState, setHasSavedState] = useState(false);
   const [collapsed, setCollapsed]       = useState(false);
+  const [sectResetKey, setSectResetKey] = useState(0);
+
+  /* localStorage keys for all Sect/SubSect groups per tab */
+  const L2_SECT_KEYS = [
+    'dme-sect-Colors', 'dme-sect-Typography', 'dme-sect-Spacing & Layout',
+    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Navigation',
+    'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats', 'dme-sub-Buttons',
+  ];
+  const L1_SECT_KEYS = [
+    'dme-sect-Type Roles', 'dme-sect-Color Palettes',
+  ];
+
+  const toggleAllSections = useCallback((expand) => {
+    const keys = tab === 'l2' ? L2_SECT_KEYS : L1_SECT_KEYS;
+    const val = expand ? 'open' : 'closed';
+    keys.forEach(k => localStorage.setItem(k, val));
+    setSectResetKey(n => n + 1);
+  }, [tab]);
+
   const panel = useDetachablePanel(
     { x: Math.round(window.innerWidth / 2 - 200), y: 40 },
     { w: 420, h: 650 },
@@ -858,38 +894,16 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     restoreSnapshot(histRef.current[idxRef.current]);
   }, [restoreSnapshot]);
 
-  /* ── Refs for fresh values inside keyboard handler ───────── */
-  const visibleRef = useRef(visible);
-  useEffect(() => { visibleRef.current = visible; }, [visible]);
-  const topTabRef  = useRef(topTab);
-  useEffect(() => { topTabRef.current = topTab; }, [topTab]);
-
-  /* openTo(tab): open panel to tab, switch if open, close if already there */
-  const openTo = useCallback((tab) => {
-    if (!visibleRef.current) { setTopTab(tab); onToggle(); }
-    else if (topTabRef.current !== tab) { setTopTab(tab); }
-    else { onToggle(); }
-  }, [onToggle]);
-
-  /* ── Shortcut + undo/redo keyboard listeners ──────────────── */
+  /* ── Undo/redo keyboard listeners ────────────────────────── */
   useEffect(() => {
-    let ti = 0; // tokens sequence index
-    let si = 0; // states sequence index
     const handler = (e) => {
-      /* Undo/redo — don't fire when typing in DME inputs */
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') { e.preventDefault(); undo(); return; }
       if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); redo(); return; }
-      /* ↑↑↓↓ → tokens tab */
-      if (e.key === TOKENS_SEQ[ti]) { ti++; if (ti === TOKENS_SEQ.length) { openTo('tokens'); ti = 0; } }
-      else { ti = e.key === TOKENS_SEQ[0] ? 1 : 0; }
-      /* ←←→→ → states tab */
-      if (e.key === STATES_SEQ[si]) { si++; if (si === STATES_SEQ.length) { openTo('states'); si = 0; } }
-      else { si = e.key === STATES_SEQ[0] ? 1 : 0; }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [undo, redo, openTo]);
+  }, [undo, redo]);
 
   /* ── Token setters ────────────────────────────────────────── */
   const setL2Token = useCallback((name, rawVal) => {
@@ -1094,33 +1108,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     refreshHistoryState();
   }, []);
 
-  /* ── Gear button — always rendered ─────────────────────────── */
-  const gearButton = (
-    <button
-      className="dme-gear-btn"
-      data-devmode-ignore
-      onClick={onToggle}
-      aria-label="Open Design Matrix Editor"
-      style={{
-        position: 'fixed', bottom: 16, right: 16, zIndex: 9998,
-        width: 45, height: 45, borderRadius: '50%',
-        background: visible ? 'rgba(28,28,28,1)' : 'rgba(28,28,28,0.85)',
-        border: visible ? '1px solid rgba(255,255,255,0.25)' : '1px solid rgba(255,255,255,0.1)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        cursor: 'pointer', opacity: visible ? 1 : 0.5, transition: 'opacity 0.2s',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-      }}
-      onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-      onMouseLeave={e => { if (!visible) e.currentTarget.style.opacity = '0.5'; }}
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke={visible ? '#e0e0e0' : '#999'} strokeWidth="1.8" />
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" stroke={visible ? '#e0e0e0' : '#999'} strokeWidth="1.8" />
-      </svg>
-    </button>
-  );
-
-  if (!visible) return gearButton;
+  if (!visible) return null;
 
   /* ── Collapse tab ─────────────────────────────────────────── */
   const tabRadius = side === 'right' ? '6px 0 0 6px' : '0 6px 6px 0';
@@ -1148,7 +1136,6 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
   if (collapsed && !panel.detached) return (
     <>
-      {gearButton}
       <button
         onClick={() => setCollapsed(false)}
         title="Expand DME"
@@ -1185,7 +1172,6 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
 
   return (
     <>
-    {gearButton}
     <div data-devmode-ignore style={{
       ...panelStyle,
       background: '#1c1c1c', color: '#e0e0e0',
@@ -1232,7 +1218,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
           <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#999' }}>
             Design Matrix Editor
           </span>
-          {!panel.detached && <span style={{ fontSize: 10, color: '#777' }}>↑↑↓↓ tokens · ←←→→ states</span>}
+          {!panel.detached && <span style={{ fontSize: 10, color: '#777' }}>↑↑↓↓</span>}
         </div>
         <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
           {/* Dock left/right — only when docked */}
@@ -1294,30 +1280,6 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
         </div>
       )}
 
-      {/* ── Top-level tab bar ─────────────────────────────────── */}
-      <div style={{ display: 'flex', flexShrink: 0, borderBottom: '1px solid #2a2a2a', background: '#141414' }}>
-        {[['tokens', 'Tokens'], ['states', 'States']].map(([key, label]) => (
-          <button key={key} onClick={() => setTopTab(key)} style={{
-            flex: 1, padding: '11px 4px', background: 'none', border: 'none',
-            color: topTab === key ? '#fff' : '#555', fontSize: 11, cursor: 'pointer',
-            borderBottom: topTab === key ? '2px solid #e0e0e0' : '2px solid transparent',
-            fontWeight: topTab === key ? 700 : 400,
-            letterSpacing: '0.06em', textTransform: 'uppercase',
-          }}>
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {topTab === 'states' ? (
-
-        /* ── States panel ─────────────────────────────────────── */
-        <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
-          <StatesView states={states} onStateChange={onStateChange} currentPageId={currentPageId} />
-        </div>
-
-      ) : (<>
-
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid #2a2a2a', flexShrink: 0 }}>
 
@@ -1375,115 +1337,32 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
         ))}
       </div>
 
+      {/* ── Expand / Collapse All ─────────────────────────────── */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 4, padding: '5px 16px 4px', flexShrink: 0, borderBottom: '1px solid #222', background: '#181818' }}>
+        <button onClick={() => toggleAllSections(true)} style={{ background: 'none', border: 'none', color: '#777', fontSize: 10, cursor: 'pointer', padding: '2px 4px', letterSpacing: '0.03em' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#ccc'} onMouseLeave={e => e.currentTarget.style.color = '#777'}>
+          Expand All
+        </button>
+        <span style={{ color: '#333', fontSize: 10 }}>|</span>
+        <button onClick={() => toggleAllSections(false)} style={{ background: 'none', border: 'none', color: '#777', fontSize: 10, cursor: 'pointer', padding: '2px 4px', letterSpacing: '0.03em' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#ccc'} onMouseLeave={e => e.currentTarget.style.color = '#777'}>
+          Collapse All
+        </button>
+      </div>
+
       {/* ── Scrollable body ───────────────────────────────────── */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {tab === 'l2'
-          ? <L2View l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-          : <L1View l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+          ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          : <L1View key={sectResetKey} l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
               setL1ColorHex={setL1ColorHex} addL1Color={addL1Color} deleteL1Color={deleteL1Color}
               moveL1Color={moveL1Color} addL1Group={addL1Group} deleteL1Group={deleteL1Group}
               sortL1Group={sortL1Group} renameL1Color={renameL1Color} />
         }
       </div>
 
-      </>)}
-
     </div>
     </>
-  );
-}
-
-/* ── DME States UI ─────────────────────────────────────────────── */
-
-function StatesView({ states, onStateChange, currentPageId }) {
-  const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global');
-  const pageDefs = STATE_DEFINITIONS.filter(def =>
-    def.type !== 'global' && (def.type === currentPageId || def.page === currentPageId)
-  );
-
-  function renderGroup(label, defs) {
-    if (defs.length === 0) return null;
-    return (
-      <div style={{ marginBottom: 24 }}>
-        <div style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-          textTransform: 'uppercase', color: '#999', marginBottom: 12,
-          paddingBottom: 6, borderBottom: '1px solid #333',
-        }}>
-          {label}
-        </div>
-        {defs.map(def => (
-          <StateToggleRow
-            key={def.key}
-            def={def}
-            value={states?.[def.key] ?? def.defaultValue}
-            onStateChange={onStateChange}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {renderGroup('Global States', globalDefs)}
-      {renderGroup('Page States', pageDefs)}
-    </>
-  );
-}
-
-function StateToggleRow({ def, value, onStateChange }) {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '10px 0', borderBottom: '1px solid #242424',
-    }}>
-      <div style={{ flex: 1, minWidth: 0, paddingRight: 12 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: '#e0e0e0', marginBottom: 2 }}>
-          {def.label}
-        </div>
-        {def.description && (
-          <div style={{ fontSize: 10, color: '#999' }}>{def.description}</div>
-        )}
-      </div>
-      {def.options ? (
-        <select
-          value={value}
-          onChange={e => onStateChange(def.key, e.target.value)}
-          style={{
-            background: '#222', border: '1px solid #444', borderRadius: 6,
-            color: '#e0e0e0', fontSize: 11, padding: '4px 8px', cursor: 'pointer',
-            flexShrink: 0,
-          }}
-        >
-          {def.options.map(opt => (
-            <option key={opt} value={opt}>{opt}</option>
-          ))}
-        </select>
-      ) : (
-        <DmeToggle value={value} onChange={() => onStateChange(def.key, !value)} />
-      )}
-    </div>
-  );
-}
-
-function DmeToggle({ value, onChange }) {
-  return (
-    <button
-      onClick={onChange}
-      style={{
-        position: 'relative', width: 36, height: 20, borderRadius: 10,
-        background: value ? '#4caf82' : '#333',
-        border: 'none', cursor: 'pointer', padding: 0,
-        transition: 'background 0.2s ease', flexShrink: 0, marginLeft: 12,
-      }}
-    >
-      <div style={{
-        position: 'absolute', top: 3, left: value ? 19 : 3,
-        width: 14, height: 14, borderRadius: '50%', background: '#fff',
-        transition: 'left 0.2s ease',
-      }} />
-    </button>
   );
 }
 
@@ -1658,12 +1537,20 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
           <ColorRow label="Percentile" name="--color-stat-percentile" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
+        <SubSect label="Match History">
+          <ColorRow label="Win border"      name="--color-match-win-border"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Loss border"     name="--color-match-loss-border"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Win chip bg"     name="--color-match-win-chip-bg"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Win chip text"   name="--color-match-win-chip-fg"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
         <SubSect label="Buttons">
           <ColorRow label="Primary bg"      name="--btn-primary-bg"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Primary text"    name="--btn-primary-fg"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Secondary bg"    name="--btn-secondary-bg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Secondary text"  name="--btn-secondary-fg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-          <ColorRow label="Border / shadow" name="--btn-border"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Primary border"   name="--btn-primary-border"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Secondary border" name="--btn-secondary-border" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
       </Sect>
       <Sect label="Typography">

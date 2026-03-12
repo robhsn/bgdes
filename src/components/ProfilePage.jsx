@@ -106,16 +106,26 @@ const MOCK_GUEST = {
 };
 
 const MATCH_HISTORY = [
-  { id: 1, opponent: 'MarinaD',   result: 'win',  score: '5–3', date: 'Today',  errorRate: 8  },
-  { id: 2, opponent: 'Felix_B',   result: 'win',  score: '5–1', date: 'Today',  errorRate: 12 },
-  { id: 3, opponent: 'Kowalski22',result: 'loss', score: '2–5', date: 'Mar 7',  errorRate: 31 },
-  { id: 4, opponent: 'TommyV',    result: 'win',  score: '5–4', date: 'Mar 7',  errorRate: 18 },
-  { id: 5, opponent: 'AIPlayer',  result: 'win',  score: '5–0', date: 'Mar 6',  errorRate: 5  },
-  { id: 6, opponent: 'MarinaD',   result: 'loss', score: '3–5', date: 'Mar 5',  errorRate: 27 },
-  { id: 7, opponent: 'Kowalski22',result: 'win',  score: '5–2', date: 'Mar 4',  errorRate: 14 },
-  { id: 8, opponent: 'SarahM',    result: 'loss', score: '1–5', date: 'Mar 3',  errorRate: 35 },
-  { id: 9, opponent: 'Felix_B',   result: 'win',  score: '5–3', date: 'Mar 2',  errorRate: 9  },
-  { id: 10,opponent: 'AIPlayer',  result: 'win',  score: '5–2', date: 'Mar 1',  errorRate: 7  },
+  { id: 1,  opponent: 'MarinaD',    result: 'win',  score: '5–3', date: 'Today',  duration: '12m', errorRate: 8,  improvement: 8  },
+  { id: 2,  opponent: 'Felix_B',    result: 'win',  score: '5–1', date: 'Today',  duration: '8m',  errorRate: 12, improvement: null },
+  { id: 3,  opponent: 'Kowalski22', result: 'loss', score: '2–5', date: 'Mar 7',  duration: '18m', errorRate: 31, improvement: null },
+  { id: 4,  opponent: 'TommyV',     result: 'win',  score: '5–4', date: 'Mar 7',  duration: '22m', errorRate: 18, improvement: 3  },
+  { id: 5,  opponent: 'AIPlayer',   result: 'win',  score: '5–0', date: 'Mar 6',  duration: '6m',  errorRate: 5,  improvement: 12 },
+  { id: 6,  opponent: 'MarinaD',    result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 27, improvement: null },
+  { id: 7,  opponent: 'Kowalski22', result: 'win',  score: '5–2', date: 'Mar 4',  duration: '14m', errorRate: 14, improvement: null },
+  { id: 8,  opponent: 'SarahM',     result: 'loss', score: '1–5', date: 'Mar 3',  duration: '9m',  errorRate: 35, improvement: null },
+  { id: 9,  opponent: 'Felix_B',    result: 'win',  score: '5–3', date: 'Mar 2',  duration: '17m', errorRate: 9,  improvement: 5  },
+  { id: 10, opponent: 'AIPlayer',   result: 'win',  score: '5–2', date: 'Mar 1',  duration: '7m',  errorRate: 7,  improvement: null },
+  { id: 11, opponent: 'TommyV',     result: 'loss', score: '4–5', date: 'Feb 28', duration: '20m', errorRate: 22, improvement: null },
+  { id: 12, opponent: 'MarinaD',    result: 'win',  score: '5–1', date: 'Feb 27', duration: '10m', errorRate: 6,  improvement: 9  },
+  { id: 13, opponent: 'SarahM',     result: 'win',  score: '5–4', date: 'Feb 26', duration: '19m', errorRate: 15, improvement: null },
+  { id: 14, opponent: 'Felix_B',    result: 'loss', score: '2–5', date: 'Feb 25', duration: '11m', errorRate: 29, improvement: null },
+  { id: 15, opponent: 'Kowalski22', result: 'win',  score: '5–0', date: 'Feb 24', duration: '5m',  errorRate: 4,  improvement: 7  },
+  { id: 16, opponent: 'AIPlayer',   result: 'win',  score: '5–3', date: 'Feb 23', duration: '13m', errorRate: 11, improvement: null },
+  { id: 17, opponent: 'TommyV',     result: 'win',  score: '5–2', date: 'Feb 22', duration: '16m', errorRate: 13, improvement: 2  },
+  { id: 18, opponent: 'MarinaD',    result: 'loss', score: '3–5', date: 'Feb 21', duration: '14m', errorRate: 33, improvement: null },
+  { id: 19, opponent: 'SarahM',     result: 'win',  score: '5–1', date: 'Feb 20', duration: '8m',  errorRate: 8,  improvement: 6  },
+  { id: 20, opponent: 'Felix_B',    result: 'win',  score: '5–4', date: 'Feb 19', duration: '21m', errorRate: 16, improvement: null },
 ];
 
 const BADGE_THRESHOLDS = {
@@ -572,8 +582,11 @@ function getErrorRateColor(rate) {
   return 'var(--color-status-error)';
 }
 
+const MATCHES_PER_PAGE = 10;
+
 function MatchHistorySection({ history, isEmpty }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
 
   if (isEmpty) {
     return (
@@ -589,6 +602,10 @@ function MatchHistorySection({ history, isEmpty }) {
     ? history.filter(m => m.opponent.toLowerCase().includes(searchQuery.toLowerCase()))
     : history;
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / MATCHES_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages - 1);
+  const pageItems = filtered.slice(safePage * MATCHES_PER_PAGE, (safePage + 1) * MATCHES_PER_PAGE);
+
   return (
     <>
       <div className="pp-match-header-row">
@@ -601,12 +618,27 @@ function MatchHistorySection({ history, isEmpty }) {
             className="pp-match-search"
             placeholder="Search opponents..."
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={e => { setSearchQuery(e.target.value); setCurrentPage(0); }}
           />
         </div>
       </div>
       <div className="pp-match-list">
-        {filtered.map(m => (
+        {/* Table header */}
+        <div className="pp-match-table-header">
+          <span className="pp-match-th pp-match-th--player">Player</span>
+          <span className="pp-match-th pp-match-th--result">Result</span>
+          <span className="pp-match-th pp-match-th--improvement">
+            Improvement
+            <span className="pp-info-tooltip">
+              <span className="pp-info-tooltip-icon">i</span>
+              <span className="pp-info-tooltip-text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
+            </span>
+          </span>
+          <span className="pp-match-th pp-match-th--score">Score</span>
+          <span className="pp-match-th pp-match-th--time">Time</span>
+          <span className="pp-match-th pp-match-th--date">Date</span>
+        </div>
+        {pageItems.map(m => (
           <div key={m.id} className={`pp-match-row pp-match-row--${m.result}`}>
             <div className="pp-match-opponent-avatar">
               <img src={avatarImg} alt={m.opponent} />
@@ -615,20 +647,201 @@ function MatchHistorySection({ history, isEmpty }) {
             <span className={`pp-match-result-chip pp-match-result-chip--${m.result}`}>
               {m.result === 'win' ? 'Won' : 'Lost'}
             </span>
-            <span className="pp-match-error-rate" style={{ color: getErrorRateColor(m.errorRate) }}>
+            {/* Error rate — hidden, kept for data preservation */}
+            <span className="pp-match-error-rate" style={{ display: 'none', color: getErrorRateColor(m.errorRate) }}>
               {m.errorRate}%
             </span>
+            <span className="pp-match-improvement">
+              {m.improvement ? (
+                <span className="pp-match-improvement-value">
+                  {m.improvement}%↑
+                  <span className="pp-info-tooltip pp-info-tooltip--row">
+                    <span className="pp-info-tooltip-icon">i</span>
+                    <span className="pp-info-tooltip-text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
+                  </span>
+                </span>
+              ) : '–'}
+            </span>
             <span className="pp-match-score">{m.score}</span>
+            <span className="pp-match-time">{m.duration}</span>
             <span className="pp-match-date">{m.date}</span>
           </div>
         ))}
-        {filtered.length === 0 && (
+        {pageItems.length === 0 && (
           <div style={{ padding: '24px 20px', textAlign: 'center', fontFamily: fm, fontSize: 13, color: 'var(--color-muted)' }}>
             No matches found
           </div>
         )}
       </div>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="pp-match-pagination">
+          <span className="pp-match-page-info">
+            Page {safePage + 1} of {totalPages}
+          </span>
+          <button
+            className="pp-btn pp-btn--secondary"
+            style={{ fontSize: 12, padding: '6px 14px', opacity: safePage === 0 ? 0.4 : 1, pointerEvents: safePage === 0 ? 'none' : 'auto' }}
+            onClick={() => setCurrentPage(p => p - 1)}
+          >
+            ← Previous
+          </button>
+          <button
+            className="pp-btn pp-btn--secondary"
+            style={{ fontSize: 12, padding: '6px 14px', opacity: safePage >= totalPages - 1 ? 0.4 : 1, pointerEvents: safePage >= totalPages - 1 ? 'none' : 'auto' }}
+            onClick={() => setCurrentPage(p => p + 1)}
+          >
+            Next →
+          </button>
+        </div>
+      )}
     </>
+  );
+}
+
+/* ── Trophy Case ─────────────────────────────────────────────── */
+
+const INITIAL_TROPHY_CASE = [
+  { category: 'win', threshold: 50 },
+  { category: 'streak', threshold: 20 },
+  { category: 'games', threshold: 100 },
+];
+
+function TrophyCaseSection({ selected, isOwn, onEdit }) {
+  if (selected.length === 0 && !isOwn) return null;
+
+  return (
+    <>
+      <div className="pp-trophy-header-row">
+        <h2 className="pp-section-title">Trophy Case</h2>
+        {isOwn && (
+          <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={onEdit}>
+            <IconPencil size={14} />
+            Edit Trophy Case
+          </button>
+        )}
+      </div>
+      <div className="pp-trophy-case">
+        {selected.length > 0 ? (
+          selected.map((s) => (
+            <div key={`${s.category}-${s.threshold}`} className="pp-trophy-item">
+              <div className="pp-trophy-badge-wrap">
+                <img src={badgePlaceholder} alt="" className="pp-trophy-badge" />
+                <div className="pp-trophy-shine" />
+              </div>
+              <span className="pp-trophy-label">
+                {s.threshold} {s.category === 'win' ? 'Wins' : s.category === 'streak' ? 'Streak' : 'Games'}
+              </span>
+            </div>
+          ))
+        ) : (
+          <div className="pp-trophy-empty">
+            Select up to 3 badges to showcase in your trophy case.
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+function TrophyCaseEditor({ stats, selected, onSave, onClose }) {
+  const [draft, setDraft] = useState(selected);
+  const MAX = 3;
+
+  const winState = getBadgeState(BADGE_THRESHOLDS.win, stats.wins);
+  const streakState = getBadgeState(BADGE_THRESHOLDS.streak, stats.highestStreak);
+  const gamesState = getBadgeState(BADGE_THRESHOLDS.games, stats.gamesPlayed);
+
+  const categories = [
+    { key: 'win',    title: 'Win Badges',          earned: winState.earned,    icon: 'win' },
+    { key: 'streak', title: 'Streak Badges',       earned: streakState.earned, icon: 'streak' },
+    { key: 'games',  title: 'Games Played Badges',  earned: gamesState.earned,  icon: 'games' },
+  ];
+
+  function isSelected(category, threshold) {
+    return draft.some(s => s.category === category && s.threshold === threshold);
+  }
+
+  function toggle(category, threshold) {
+    if (isSelected(category, threshold)) {
+      setDraft(d => d.filter(s => !(s.category === category && s.threshold === threshold)));
+    } else if (draft.length < MAX) {
+      setDraft(d => [...d, { category, threshold }]);
+    }
+  }
+
+  return (
+    <div className="pp-settings-overlay" onClick={onClose}>
+      <div className="pp-trophy-editor surface-muted" onClick={e => e.stopPropagation()}>
+        <div className="pp-settings-header">
+          <h2 className="pp-settings-title">Edit Trophy Case</h2>
+          <button className="pp-settings-close" onClick={onClose}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        {/* Selected slots preview */}
+        <div className="pp-trophy-editor-slots">
+          {Array.from({ length: MAX }, (_, i) => (
+            <div key={i} className={`pp-trophy-slot${draft[i] ? ' pp-trophy-slot--filled' : ''}`}>
+              {draft[i] ? (
+                <>
+                  <img src={badgePlaceholder} alt="" className="pp-trophy-slot-img" />
+                  <span className="pp-trophy-slot-label">
+                    {draft[i].threshold}
+                  </span>
+                </>
+              ) : (
+                <span className="pp-trophy-slot-num">{i + 1}</span>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="pp-trophy-editor-count">{draft.length}/{MAX} selected</div>
+        <div className="pp-settings-body">
+          {categories.map(cat => (
+            <div key={cat.key} className="pp-trophy-editor-category">
+              <div className="pp-badge-category-name" style={{ marginBottom: 10 }}>{cat.title}</div>
+              {cat.earned.length > 0 ? (
+                <div className="pp-trophy-editor-grid">
+                  {cat.earned.map(t => {
+                    const sel = isSelected(cat.key, t);
+                    const full = draft.length >= MAX && !sel;
+                    return (
+                      <button
+                        key={t}
+                        className={`pp-trophy-pick${sel ? ' pp-trophy-pick--selected' : ''}${full ? ' pp-trophy-pick--disabled' : ''}`}
+                        onClick={() => toggle(cat.key, t)}
+                      >
+                        <img src={badgePlaceholder} alt="" className="pp-trophy-pick-img" />
+                        <span className="pp-trophy-pick-label">{t}</span>
+                        {sel && (
+                          <div className="pp-trophy-pick-check">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
+                              <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div style={{ fontFamily: fm, fontSize: 13, color: 'var(--color-muted)', padding: '8px 0' }}>
+                  No badges earned yet in this category.
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="pp-settings-footer">
+          <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onClose}>Cancel</button>
+          <button className="pp-btn pp-btn--primary" style={{ fontSize: 13 }} onClick={() => { onSave(draft); onClose(); }}>Save</button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1619,6 +1832,10 @@ export default function ProfilePage({ onNavigate }) {
   /* Settings panel state */
   const [showSettings, setShowSettings] = useState(false);
 
+  /* Trophy case state */
+  const [trophyCase, setTrophyCase] = useState(INITIAL_TROPHY_CASE);
+  const [showTrophyEditor, setShowTrophyEditor] = useState(false);
+
   /* Watch DME celebration toggle */
   useEffect(() => {
     if (dmeCelebration && !prevDmeCelebration) {
@@ -1795,20 +2012,7 @@ export default function ProfilePage({ onNavigate }) {
             <IconPencil size={32} />
           </button>
         )}
-        {showActions && !editMode && (
-          <div className="pp-cover-actions">
-            <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={enterEditMode}>
-              <IconPencil size={14} />
-              Edit Profile
-            </button>
-            <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={() => setShowSettings(true)}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-              </svg>
-              Settings
-            </button>
-          </div>
-        )}
+        {/* Edit Profile / Settings buttons moved to trophy header row below */}
         {editMode && (
           <div className="pp-cover-actions">
             <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={cancelEdit}>
@@ -1848,6 +2052,22 @@ export default function ProfilePage({ onNavigate }) {
                 </button>
               )}
             </div>
+            {/* Trophy case — right side of avatar row */}
+            {!isNewPlayer && !isUnregistered && trophyCase.length > 0 && (
+              <div className="pp-trophy-inline">
+                {trophyCase.map((s) => (
+                  <div key={`${s.category}-${s.threshold}`} className="pp-trophy-item">
+                    <div className="pp-trophy-badge-wrap">
+                      <img src={badgePlaceholder} alt="" className="pp-trophy-badge" />
+                      <div className="pp-trophy-shine" />
+                    </div>
+                    <span className="pp-trophy-label">
+                      {s.threshold} {s.category === 'win' ? 'Wins' : s.category === 'streak' ? 'Streak' : 'Games'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="pp-bio-stats-row">
@@ -1933,6 +2153,25 @@ export default function ProfilePage({ onNavigate }) {
               </GatedSection>
             </div>
           </div>
+          {/* ── Action buttons row ── */}
+          {isOwn && !editMode && !isNewPlayer && !isUnregistered && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 16, flexWrap: 'wrap' }}>
+              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={enterEditMode}>
+                <IconPencil size={14} />
+                Edit Profile
+              </button>
+              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={() => setShowSettings(true)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                Settings
+              </button>
+              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={() => setShowTrophyEditor(true)}>
+                <IconPencil size={14} />
+                Edit Trophy Case
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -2060,6 +2299,16 @@ export default function ProfilePage({ onNavigate }) {
           }}
           onChangeAvatar={() => { setShowSettings(false); setShowAvatarModal(true); }}
           onClose={() => setShowSettings(false)}
+        />
+      )}
+
+      {/* ── Trophy case editor ── */}
+      {showTrophyEditor && (
+        <TrophyCaseEditor
+          stats={stats}
+          selected={trophyCase}
+          onSave={setTrophyCase}
+          onClose={() => setShowTrophyEditor(false)}
         />
       )}
 

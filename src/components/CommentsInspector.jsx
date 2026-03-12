@@ -165,15 +165,15 @@ function ChatIcon({ color }) {
 }
 
 /* ─── Marker colors ──────────────────────────────────────────── */
-const MARKER_BG = '#4caf82';
-const MARKER_BG_HOVER = '#5dd696';
+const MARKER_BG = '#e53935';
+const MARKER_BG_HOVER = '#ef5350';
 const MARKER_SIZE = 22;
 
 /* ═══════════════════════════════════════════════════════════════
    CommentsInspector — main component
    ═══════════════════════════════════════════════════════════════ */
 export default function CommentsInspector({
-  visible, onToggle, onClose,
+  visible, onClose,
   comments, onCommentsChange,
   states, onStateChange,
 }) {
@@ -436,30 +436,7 @@ export default function CommentsInspector({
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, []);
 
-  /* ═══ Floating toggle button — always visible ═══════════════ */
-  const floatingButton = (
-    <button
-      className="comments-toggle-btn"
-      data-devmode-ignore
-      onClick={onToggle}
-      aria-label="Toggle Comments"
-      style={{
-        position: 'fixed', bottom: 134, right: 16, zIndex: 9998,
-        width: 45, height: 45, borderRadius: '50%',
-        background: visible ? '#1a3d2a' : 'rgba(28,28,28,0.85)',
-        border: visible ? '1px solid rgba(76,175,130,0.4)' : '1px solid rgba(255,255,255,0.15)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        cursor: 'pointer', opacity: visible ? 1 : 0.6, transition: 'opacity 0.2s, background 0.2s',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-      }}
-      onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-      onMouseLeave={e => { if (!visible) e.currentTarget.style.opacity = '0.6'; }}
-    >
-      <ChatIcon color={visible ? '#4caf82' : '#bbb'} />
-    </button>
-  );
-
-  if (!visible) return floatingButton;
+  if (!visible) return null;
 
   /* ═══ Panel positioning ═══════════════════════════════════════ */
   const panelStyle = panel.detached
@@ -523,7 +500,7 @@ export default function CommentsInspector({
   if (collapsed && !panel.detached) {
     return (
       <>
-        {floatingButton}
+  
         {collapseTab}
         {/* Still show markers when collapsed */}
         <PageMarkers
@@ -539,7 +516,7 @@ export default function CommentsInspector({
 
   return (
     <>
-      {floatingButton}
+
       {collapseTab}
 
       {/* ── Page markers ────────────────────────────────────────── */}
@@ -651,7 +628,7 @@ export default function CommentsInspector({
             fontWeight: 700, fontSize: 10, letterSpacing: '0.1em',
             textTransform: 'uppercase', color: '#4caf82',
           }}>
-            Comments
+            Handoff Notes
             {comments.length > 0 && (
               <span style={{ marginLeft: 6, color: '#999', fontWeight: 400 }}>
                 ({comments.length})
@@ -858,8 +835,8 @@ export default function CommentsInspector({
 
           <div style={{ flex: 1 }} />
 
-          {/* ── Add Comment button ───────────────────────────────── */}
-          {!draftTarget && !picking && (
+          {/* ── Add Comment button (hidden on heath.co) ────────── */}
+          {!draftTarget && !picking && !window.location.hostname.endsWith('heath.co') && (
             <div style={{ padding: 12, borderTop: '1px solid #333' }}>
               <button
                 onClick={handleStartPick}

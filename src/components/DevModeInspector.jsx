@@ -226,7 +226,7 @@ const COLOR_PROPS = new Set(['color','background-color','border-color']);
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function DevModeInspector({ visible, onToggle, onClose }) {
+export default function DevModeInspector({ visible, onClose }) {
   const [layersOpen, setLayersOpen] = useState(true);
   const [cssOpen, setCssOpen] = useState(true);
   const layersPanel = useDetachablePanel({ x: 40, y: 40 }, { w: 280, h: 500 });
@@ -346,38 +346,12 @@ export default function DevModeInspector({ visible, onToggle, onClose }) {
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, []);
 
-  /* ── Floating button — always visible ───────────────────────── */
-  const floatingButton = (
-    <button
-      className="devmode-toggle-btn"
-      data-devmode-ignore
-      onClick={onToggle}
-      aria-label="Toggle Dev Mode"
-      style={{
-        position: 'fixed', bottom: 75, right: 16, zIndex: 9998,
-        width: 45, height: 45, borderRadius: '50%',
-        background: visible ? '#0c3775' : 'rgba(28,28,28,0.85)',
-        border: visible ? '1px solid rgba(88,221,255,0.3)' : '1px solid rgba(255,255,255,0.1)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        cursor: 'pointer', opacity: visible ? 1 : 0.5, transition: 'opacity 0.2s, background 0.2s',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-        color: visible ? '#58ddff' : '#999',
-        fontSize: 15, fontWeight: 700, fontFamily: 'monospace',
-      }}
-      onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-      onMouseLeave={e => { if (!visible) e.currentTarget.style.opacity = '0.5'; }}
-    >
-      {'</>'}
-    </button>
-  );
-
-  if (!visible) return floatingButton;
+  if (!visible) return null;
 
   const computed = selectedEl ? window.getComputedStyle(selectedEl) : null;
 
   return (
     <>
-      {floatingButton}
       <Overlays overlayRect={overlayRect} selectedRect={selectedRect} selectedEl={selectedEl} />
 
       {/* ── Layers panel (LEFT) ──────────────────────────────── */}

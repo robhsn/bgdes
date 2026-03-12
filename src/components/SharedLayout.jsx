@@ -172,17 +172,17 @@ export function PlayNowCta() {
           style={{
             display: 'inline-flex', alignItems: 'center',
             background: 'var(--btn-secondary-bg)',
-            border: '2px solid var(--btn-border)',
-            boxShadow: '0 4px 0 var(--btn-border)',
+            border: '2px solid var(--btn-secondary-border)',
+            boxShadow: '0 4px 0 var(--btn-secondary-border)',
             borderRadius: 10,
             padding: '10px 24px', fontFamily: fp, fontWeight: 700, fontSize: 15,
             color: 'var(--btn-secondary-fg)', cursor: 'pointer', letterSpacing: '0.04em', flexShrink: 0,
             textDecoration: 'none',
             transition: 'transform 0.1s ease, box-shadow 0.1s ease',
           }}
-          onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = '0 1px 0 var(--btn-border)'; }}
-          onMouseUp={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 0 var(--btn-border)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 0 var(--btn-border)'; }}
+          onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = '0 1px 0 var(--btn-secondary-border)'; }}
+          onMouseUp={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 0 var(--btn-secondary-border)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 0 var(--btn-secondary-border)'; }}
         >
           Play Now
         </a>
