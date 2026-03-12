@@ -283,6 +283,7 @@ export default function CommentsInspector({
       e.preventDefault();
       e.stopPropagation();
       const el = e.target;
+      keyPickRef.current = false;
       setDraftTarget({
         el,
         selector: buildSelector(el),
@@ -303,6 +304,45 @@ export default function CommentsInspector({
       return () => { document.body.style.cursor = ''; };
     }
   }, [picking]);
+
+  /* ── Ctrl+Cmd held → temporary pick mode ─────────────────────── */
+  const keyPickRef = useRef(false);
+  useEffect(() => {
+    if (!visible) return;
+    const check = (e) => {
+      const held = e.ctrlKey && e.metaKey;
+      if (held && !keyPickRef.current && !picking && !draftTarget) {
+        keyPickRef.current = true;
+        setPicking(true);
+      } else if (!held && keyPickRef.current) {
+        keyPickRef.current = false;
+        if (!draftTarget) {
+          setPicking(false);
+          setOverlayRect(null);
+          setHoveredEl(null);
+        }
+      }
+    };
+    document.addEventListener('keydown', check, true);
+    document.addEventListener('keyup', check, true);
+    // Also cancel on blur (e.g. user switches windows while held)
+    const blur = () => {
+      if (keyPickRef.current) {
+        keyPickRef.current = false;
+        if (!draftTarget) {
+          setPicking(false);
+          setOverlayRect(null);
+          setHoveredEl(null);
+        }
+      }
+    };
+    window.addEventListener('blur', blur);
+    return () => {
+      document.removeEventListener('keydown', check, true);
+      document.removeEventListener('keyup', check, true);
+      window.removeEventListener('blur', blur);
+    };
+  }, [visible, picking, draftTarget]);
 
   /* ── Save a comment ──────────────────────────────────────────── */
   const handleSave = useCallback(() => {
@@ -1010,11 +1050,16 @@ function CommentCard({
         <div style={{ paddingLeft: 24 }}>
           <div
             ref={expanded ? undefined : textRef}
-            onClick={expanded ? () => setExpanded(false) : (canNavigate ? onClick : undefined)}
+            onClick={expanded
+              ? () => setExpanded(false)
+              : isClamped
+                ? () => setExpanded(true)
+                : (canNavigate ? onClick : undefined)
+            }
             style={{
               fontSize: 12, color: '#ddd', lineHeight: 1.5,
               whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-              cursor: expanded ? 'pointer' : (canNavigate ? 'pointer' : 'default'),
+              cursor: (expanded || isClamped || canNavigate) ? 'pointer' : 'default',
               ...(!expanded ? {
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
