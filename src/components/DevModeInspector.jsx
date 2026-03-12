@@ -452,8 +452,8 @@ function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayer
         height: 48,
         transition: 'left 0.15s ease, color 0.2s',
       }}
-      onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-      onMouseLeave={e => e.currentTarget.style.color = '#888'}
+      onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
+      onMouseLeave={e => e.currentTarget.style.color = '#aaa'}
     >
       <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
         <path d={open ? 'M7 1l-6 6 6 6' : 'M1 1l6 6-6 6'} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -513,11 +513,11 @@ function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayer
               title="Collapse all"
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: '#666', padding: '2px 4px', borderRadius: 3,
+                color: '#888', padding: '2px 4px', borderRadius: 3,
                 fontSize: 9, fontFamily: 'monospace', display: 'flex', alignItems: 'center',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
-              onMouseLeave={e => e.currentTarget.style.color = '#666'}
+              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+              onMouseLeave={e => e.currentTarget.style.color = '#888'}
             >
               <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 6l4 4 4-4"/>
@@ -529,11 +529,11 @@ function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayer
               title="Expand all"
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: '#666', padding: '2px 4px', borderRadius: 3,
+                color: '#888', padding: '2px 4px', borderRadius: 3,
                 fontSize: 9, fontFamily: 'monospace', display: 'flex', alignItems: 'center',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
-              onMouseLeave={e => e.currentTarget.style.color = '#666'}
+              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+              onMouseLeave={e => e.currentTarget.style.color = '#888'}
             >
               <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 10l4-4 4 4"/>
@@ -546,11 +546,11 @@ function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayer
               title={panel.detached ? 'Dock panel' : 'Detach panel'}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: '#666', padding: '2px 4px', borderRadius: 3,
+                color: '#888', padding: '2px 4px', borderRadius: 3,
                 display: 'flex', alignItems: 'center',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
-              onMouseLeave={e => e.currentTarget.style.color = '#666'}
+              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+              onMouseLeave={e => e.currentTarget.style.color = '#888'}
             >
               {panel.detached ? <DockIcon /> : <DetachIcon />}
             </button>
@@ -560,7 +560,7 @@ function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayer
         {/* Tree */}
         <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
           {layers.length === 0 && (
-            <div style={{ padding: '16px 12px', color: '#555', fontSize: 11 }}>
+            <div style={{ padding: '16px 12px', color: '#999', fontSize: 11 }}>
               Hover over the page to inspect
             </div>
           )}
@@ -589,8 +589,8 @@ function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayer
 
 /* ── Single layer row with tree connector lines ──────────────── */
 const INDENT = 18;
-const LINE_COLOR = '#333';
-const LINE_ACTIVE = '#555';
+const LINE_COLOR = '#444';
+const LINE_ACTIVE = '#666';
 
 const LayerRow = React.forwardRef(function LayerRow({ layer, isSelected, isCollapsed, onClick, onDoubleClick, onMouseEnter, onMouseLeave }, ref) {
   const { depth, label, guides, hasChildren } = layer;
@@ -646,7 +646,7 @@ const LayerRow = React.forwardRef(function LayerRow({ layer, isSelected, isColla
       {/* Label with chevron for parents */}
       <span style={{
         paddingLeft: totalIndent,
-        color: isSelected ? '#58ddff' : '#aaa',
+        color: isSelected ? '#58ddff' : '#ccc',
         fontSize: 11, fontFamily: 'monospace',
         whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         flex: 1,
@@ -657,7 +657,7 @@ const LayerRow = React.forwardRef(function LayerRow({ layer, isSelected, isColla
       }}>
         {hasChildren && (
           <span style={{
-            fontSize: 8, color: isSelected ? '#58ddff' : '#555',
+            fontSize: 8, color: isSelected ? '#58ddff' : '#888',
             flexShrink: 0, width: 8, textAlign: 'center',
           }}>
             {isCollapsed ? '▸' : '▾'}
@@ -709,8 +709,8 @@ function CSSPanel({ open, onToggle, onClose, selectedEl, computed }) {
         transition: 'right 0.15s ease, color 0.2s',
         minWidth: 20,
       }}
-      onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-      onMouseLeave={e => e.currentTarget.style.color = '#888'}
+      onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
+      onMouseLeave={e => e.currentTarget.style.color = '#aaa'}
     >
       <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
         <path d={open ? 'M1 1l6 6-6 6' : 'M7 1l-6 6 6 6'} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -776,7 +776,7 @@ function CSSPanel({ open, onToggle, onClose, selectedEl, computed }) {
                   style={{
                     background: colorMode === m.key ? '#3a3a3a' : 'transparent',
                     border: 'none', cursor: 'pointer',
-                    color: colorMode === m.key ? '#e0e0e0' : '#666',
+                    color: colorMode === m.key ? '#e0e0e0' : '#999',
                     fontSize: 9, fontWeight: colorMode === m.key ? 700 : 400,
                     padding: '3px 7px', fontFamily: 'monospace',
                   }}
@@ -792,16 +792,16 @@ function CSSPanel({ open, onToggle, onClose, selectedEl, computed }) {
               title={panel.detached ? 'Dock panel' : 'Detach panel'}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: '#666', padding: '2px 4px', borderRadius: 3,
+                color: '#888', padding: '2px 4px', borderRadius: 3,
                 display: 'flex', alignItems: 'center',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
-              onMouseLeave={e => e.currentTarget.style.color = '#666'}
+              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+              onMouseLeave={e => e.currentTarget.style.color = '#888'}
             >
               {panel.detached ? <DockIcon /> : <DetachIcon />}
             </button>
             <button onClick={onClose} style={{
-              background: 'none', border: 'none', color: '#666',
+              background: 'none', border: 'none', color: '#888',
               fontSize: 22, cursor: 'pointer', lineHeight: 1, padding: '0 3px',
             }}>×</button>
           </div>
@@ -810,7 +810,7 @@ function CSSPanel({ open, onToggle, onClose, selectedEl, computed }) {
         {/* Scrollable body */}
         <div style={{ flex: 1, overflowY: 'auto' }}>
           {!selectedEl ? (
-            <div style={{ padding: '16px 12px', color: '#555', fontSize: 11 }}>
+            <div style={{ padding: '16px 12px', color: '#999', fontSize: 11 }}>
               Click an element to inspect its CSS
             </div>
           ) : (() => {
@@ -853,7 +853,7 @@ function CollapsibleSection({ label, defaultOpen, children }) {
         }}
       >
         <span style={{ fontSize: 11, fontWeight: 600 }}>{label}</span>
-        <span style={{ color: '#555', fontSize: 9 }}>{open ? '▾' : '▸'}</span>
+        <span style={{ color: '#888', fontSize: 9 }}>{open ? '▾' : '▸'}</span>
       </button>
       {open && children}
     </div>
@@ -892,7 +892,7 @@ function BoxModelDiagram({ computed }) {
   const boxLabel = (text, style) => (
     <span style={{
       position: 'absolute', fontSize: 9, fontWeight: 600,
-      color: '#777', letterSpacing: '0.04em', ...style,
+      color: '#999', letterSpacing: '0.04em', ...style,
     }}>
       {text}
     </span>
@@ -907,11 +907,11 @@ function BoxModelDiagram({ computed }) {
         fontFamily: 'monospace', fontSize: 10, color: '#999',
       }}>
         {/* Margin top value */}
-        <div style={{ textAlign: 'center', padding: '8px 0 2px', color: '#666' }}>{dimLabel(mt)}</div>
+        <div style={{ textAlign: 'center', padding: '8px 0 2px', color: '#999' }}>{dimLabel(mt)}</div>
 
         {/* Margin left + right on the row */}
         <div style={{ display: 'flex', alignItems: 'stretch' }}>
-          <div style={{ width: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>
+          <div style={{ width: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999' }}>
             {dimLabel(ml)}
           </div>
 
@@ -922,10 +922,10 @@ function BoxModelDiagram({ computed }) {
           }}>
             {boxLabel('Border', { top: 6, left: 8 })}
             {/* Border values */}
-            <div style={{ textAlign: 'center', padding: '6px 0 2px', color: '#666', fontSize: 9 }}>{dimLabel(bt)}</div>
+            <div style={{ textAlign: 'center', padding: '6px 0 2px', color: '#999', fontSize: 9 }}>{dimLabel(bt)}</div>
 
             <div style={{ display: 'flex', alignItems: 'stretch' }}>
-              <div style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: 9 }}>
+              <div style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: 9 }}>
                 {dimLabel(blw)}
               </div>
 
@@ -935,10 +935,10 @@ function BoxModelDiagram({ computed }) {
                 borderRadius: 3, position: 'relative',
               }}>
                 {boxLabel('Padding', { top: 4, left: 6 })}
-                <div style={{ textAlign: 'center', padding: '4px 0 2px', color: '#888', fontSize: 9 }}>{dimLabel(pt)}</div>
+                <div style={{ textAlign: 'center', padding: '4px 0 2px', color: '#aaa', fontSize: 9 }}>{dimLabel(pt)}</div>
 
                 <div style={{ display: 'flex', alignItems: 'stretch' }}>
-                  <div style={{ width: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: 9 }}>
+                  <div style={{ width: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa', fontSize: 9 }}>
                     {dimLabel(plv)}
                   </div>
 
@@ -953,20 +953,20 @@ function BoxModelDiagram({ computed }) {
                     {w} × {h}
                   </div>
 
-                  <div style={{ width: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: 9 }}>
+                  <div style={{ width: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa', fontSize: 9 }}>
                     {dimLabel(pr)}
                   </div>
                 </div>
 
-                <div style={{ textAlign: 'center', padding: '2px 0 4px', color: '#888', fontSize: 9 }}>{dimLabel(pb)}</div>
+                <div style={{ textAlign: 'center', padding: '2px 0 4px', color: '#aaa', fontSize: 9 }}>{dimLabel(pb)}</div>
               </div>
 
-              <div style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: 9 }}>
+              <div style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: 9 }}>
                 {dimLabel(br)}
               </div>
             </div>
 
-            <div style={{ textAlign: 'center', padding: '2px 0 6px', color: '#666', fontSize: 9 }}>{dimLabel(bb)}</div>
+            <div style={{ textAlign: 'center', padding: '2px 0 6px', color: '#999', fontSize: 9 }}>{dimLabel(bb)}</div>
           </div>
 
           <div style={{ width: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>

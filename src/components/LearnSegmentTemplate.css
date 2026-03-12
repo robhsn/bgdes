@@ -804,6 +804,7 @@
   .ls-article-meta-divider { display: none; }
   .dme-gear-btn { bottom: calc(66px + 16px + env(safe-area-inset-bottom, 0px)) !important; }
   .devmode-toggle-btn { bottom: calc(66px + 75px + env(safe-area-inset-bottom, 0px)) !important; }
+  .comments-toggle-btn { bottom: calc(66px + 134px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 
 @media (max-width: 600px) {

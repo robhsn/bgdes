@@ -1132,10 +1132,10 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
   );
   const tabBaseStyle = {
     background: '#1c1c1c',
-    border: '1px solid #333',
+    border: '1px solid #444',
     [side === 'right' ? 'borderRight' : 'borderLeft']: 'none',
     borderRadius: tabRadius,
-    color: '#888',
+    color: '#aaa',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
@@ -1160,8 +1160,8 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
           zIndex: 10000,
           ...tabBaseStyle,
         }}
-        onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-        onMouseLeave={e => e.currentTarget.style.color = '#888'}
+        onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
+        onMouseLeave={e => e.currentTarget.style.color = '#aaa'}
       >
         {tabArrow}
       </button>
@@ -1210,8 +1210,8 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
           zIndex: 10000,
           ...tabBaseStyle,
         }}
-        onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-        onMouseLeave={e => e.currentTarget.style.color = '#888'}
+        onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
+        onMouseLeave={e => e.currentTarget.style.color = '#aaa'}
       >
         {tabArrow}
       </button>
@@ -1229,10 +1229,10 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-          <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555' }}>
+          <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#999' }}>
             Design Matrix Editor
           </span>
-          {!panel.detached && <span style={{ fontSize: 10, color: '#444' }}>↑↑↓↓ tokens · ←←→→ states</span>}
+          {!panel.detached && <span style={{ fontSize: 10, color: '#777' }}>↑↑↓↓ tokens · ←←→→ states</span>}
         </div>
         <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
           {/* Dock left/right — only when docked */}
@@ -1258,16 +1258,16 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
             title={panel.detached ? 'Dock panel' : 'Detach panel'}
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              color: '#666', padding: '2px 4px', borderRadius: 3,
+              color: '#888', padding: '2px 4px', borderRadius: 3,
               display: 'flex', alignItems: 'center',
             }}
-            onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
-            onMouseLeave={e => e.currentTarget.style.color = '#666'}
+            onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+            onMouseLeave={e => e.currentTarget.style.color = '#888'}
           >
             {panel.detached ? <DMEDockIcon /> : <DMEDetachIcon />}
           </button>
-          <div style={{ width: 1, height: 14, background: '#333', margin: '0 3px' }} />
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#666', fontSize: 22, cursor: 'pointer', lineHeight: 1, padding: '0 3px' }}>×</button>
+          <div style={{ width: 1, height: 14, background: '#444', margin: '0 3px' }} />
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#888', fontSize: 22, cursor: 'pointer', lineHeight: 1, padding: '0 3px' }}>×</button>
         </div>
       </div>
 
@@ -1407,8 +1407,8 @@ function StatesView({ states, onStateChange, currentPageId }) {
       <div style={{ marginBottom: 24 }}>
         <div style={{
           fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-          textTransform: 'uppercase', color: '#555', marginBottom: 12,
-          paddingBottom: 6, borderBottom: '1px solid #2a2a2a',
+          textTransform: 'uppercase', color: '#999', marginBottom: 12,
+          paddingBottom: 6, borderBottom: '1px solid #333',
         }}>
           {label}
         </div>
@@ -1443,7 +1443,7 @@ function StateToggleRow({ def, value, onStateChange }) {
           {def.label}
         </div>
         {def.description && (
-          <div style={{ fontSize: 10, color: '#555' }}>{def.description}</div>
+          <div style={{ fontSize: 10, color: '#999' }}>{def.description}</div>
         )}
       </div>
       {def.options ? (
@@ -1504,8 +1504,8 @@ function BreakpointsView({ activeBreakpoint, onBreakpointChange }) {
     <div>
       <div style={{
         fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-        textTransform: 'uppercase', color: '#555', marginBottom: 12,
-        paddingBottom: 6, borderBottom: '1px solid #2a2a2a',
+        textTransform: 'uppercase', color: '#999', marginBottom: 12,
+        paddingBottom: 6, borderBottom: '1px solid #333',
       }}>
         Viewport Width
       </div>
@@ -1534,7 +1534,7 @@ function BreakpointRadioRow({ option, active, onSelect }) {
       {/* Radio circle */}
       <div style={{
         width: 16, height: 16, borderRadius: '50%', flexShrink: 0,
-        border: active ? '2px solid #4caf82' : '2px solid #555',
+        border: active ? '2px solid #4caf82' : '2px solid #777',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
         {active && (
@@ -1551,7 +1551,7 @@ function BreakpointRadioRow({ option, active, onSelect }) {
             </span>
           )}
         </div>
-        <div style={{ fontSize: 10, color: '#555', marginTop: 1 }}>{option.description}</div>
+        <div style={{ fontSize: 10, color: '#999', marginTop: 1 }}>{option.description}</div>
       </div>
     </button>
   );
@@ -1731,7 +1731,7 @@ function L1RoleGroup({ roleKey, roleLabel, l1, setRole }) {
             value={l1[lsKey] ?? '0'}
             onChange={e => setRole(lsKey, e.target.value)}
             style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
-          <span style={{ color: '#555', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
+          <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
             {(Number(l1[lsKey] ?? 0) / 100).toFixed(2)}em
           </span>
         </div>
@@ -1743,7 +1743,7 @@ function L1RoleGroup({ roleKey, roleLabel, l1, setRole }) {
             value={l1[lhKey] ?? '16'}
             onChange={e => setRole(lhKey, e.target.value)}
             style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
-          <span style={{ color: '#555', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
+          <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
             {(Number(l1[lhKey] ?? 16) / 10).toFixed(1)}
           </span>
         </div>
@@ -1914,7 +1914,7 @@ function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, 
               />
               <button onClick={handleAddPalette} style={ghostBtn}>Add</button>
               <button onClick={() => { setAddingPalette(false); setNewPaletteName(''); }}
-                style={{ background: 'none', border: 'none', color: '#555', cursor: 'pointer', fontSize: 16, padding: '0 2px' }}>×</button>
+                style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', fontSize: 16, padding: '0 2px' }}>×</button>
             </div>
           ) : (
             <button onClick={() => setAddingPalette(true)}
@@ -1946,7 +1946,7 @@ function SubSect({ label, children }) {
         }}
       >
         <span>{label}</span>
-        <span style={{ color: '#555', fontSize: 9, marginRight: 2 }}>{open ? '▾' : '▸'}</span>
+        <span style={{ color: '#999', fontSize: 9, marginRight: 2 }}>{open ? '▾' : '▸'}</span>
       </div>
       {open && children}
     </div>
@@ -1970,7 +1970,7 @@ function Sect({ label, children }) {
         }}
       >
         <span>{label}</span>
-        <span style={{ color: '#555', fontSize: 11 }}>{open ? '▾' : '▸'}</span>
+        <span style={{ color: '#999', fontSize: 11 }}>{open ? '▾' : '▸'}</span>
       </div>
       {open && <div style={{ padding: '4px 0 8px' }}>{children}</div>}
     </div>
@@ -2096,7 +2096,7 @@ function SliderRow({ label, name, l2, set, min, max, unit }) {
         <input type="range" min={min} max={max} value={l2[name]}
           onChange={e => set(name, e.target.value)}
           style={{ width: 90, accentColor: '#666', cursor: 'pointer' }} />
-        <span style={{ color: '#555', fontSize: 11, minWidth: 42, textAlign: 'right', fontFamily: 'monospace' }}>
+        <span style={{ color: '#999', fontSize: 11, minWidth: 42, textAlign: 'right', fontFamily: 'monospace' }}>
           {l2[name]}{unit}
         </span>
       </div>
@@ -2115,11 +2115,11 @@ const ghostBtn = {
 };
 const iconBtn = (enabled) => ({
   background: 'none', border: 'none', padding: '5px 6px',
-  color: enabled ? '#888' : '#333', cursor: enabled ? 'pointer' : 'default',
+  color: enabled ? '#aaa' : '#444', cursor: enabled ? 'pointer' : 'default',
   display: 'flex', alignItems: 'center', borderRadius: 3,
 });
 const dockBtn = (active) => ({
-  background: active ? '#2a2a2a' : 'none', border: 'none', padding: '4px 6px',
-  color: active ? '#e0e0e0' : '#555', cursor: 'pointer',
+  background: active ? '#333' : 'none', border: 'none', padding: '4px 6px',
+  color: active ? '#e0e0e0' : '#888', cursor: 'pointer',
   display: 'flex', alignItems: 'center', borderRadius: 3,
 });

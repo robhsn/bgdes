@@ -6,6 +6,7 @@ import ProfilePage from './components/ProfilePage'
 import TokensPage from './components/TokensPage'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
+import CommentsInspector from './components/CommentsInspector'
 import { DMEStatesContext } from './context/dme-states'
 import fileDefaults from './tokens/dme-defaults.json'
 
@@ -34,8 +35,14 @@ const INIT_STATES = fileDefaults.states ?? { 'auth.loggedIn': true }
 
 function App() {
   const [currentPageId, setCurrentPageId] = useState(getInitialPage)
-  const [activePanel, setActivePanel] = useState(null) // null | 'dme' | 'devmode'
+  const [activePanel, setActivePanel] = useState(null) // null | 'dme' | 'devmode' | 'comments'
   const [dmeStates, setDmeStates] = useState(INIT_STATES)
+  const [commentsByPage, setCommentsByPage] = useState({})
+
+  const currentComments = commentsByPage[currentPageId] || []
+  const handleCommentsChange = useCallback((next) => {
+    setCommentsByPage(prev => ({ ...prev, [currentPageId]: next }))
+  }, [currentPageId])
 
   const navigateTo = useCallback((id) => {
     setCurrentPageId(id)
@@ -82,6 +89,15 @@ function App() {
         visible={activePanel === 'devmode'}
         onToggle={() => setActivePanel(p => p === 'devmode' ? null : 'devmode')}
         onClose={() => setActivePanel(null)}
+      />
+      <CommentsInspector
+        visible={activePanel === 'comments'}
+        onToggle={() => setActivePanel(p => p === 'comments' ? null : 'comments')}
+        onClose={() => setActivePanel(null)}
+        comments={currentComments}
+        onCommentsChange={handleCommentsChange}
+        states={dmeStates}
+        onStateChange={handleStateChange}
       />
     </DMEStatesContext.Provider>
   )
