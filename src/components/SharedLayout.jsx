@@ -101,7 +101,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
       </div>
 
       {loggedIn ? (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+        <div className="ls-header-auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <button
             className="ls-login-btn"
             onClick={() => window.open('https://www.backgammon.com', '_blank')}

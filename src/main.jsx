@@ -5,6 +5,7 @@ import LearnHubPage from './components/LearnHubPage'
 import ProfilePage from './components/ProfilePage'
 import TokensPage from './components/TokensPage'
 import TokenEditor from './components/TokenEditor'
+import DevModeInspector from './components/DevModeInspector'
 import { DMEStatesContext } from './context/dme-states'
 import fileDefaults from './tokens/dme-defaults.json'
 
@@ -33,7 +34,7 @@ const INIT_STATES = fileDefaults.states ?? { 'auth.loggedIn': true }
 
 function App() {
   const [currentPageId, setCurrentPageId] = useState(getInitialPage)
-  const [dmeVisible, setDmeVisible] = useState(false)
+  const [activePanel, setActivePanel] = useState(null) // null | 'dme' | 'devmode'
   const [dmeStates, setDmeStates] = useState(INIT_STATES)
 
   const navigateTo = useCallback((id) => {
@@ -68,14 +69,19 @@ function App() {
     <DMEStatesContext.Provider value={dmeStates}>
       {renderPage()}
       <TokenEditor
-        visible={dmeVisible}
-        onToggle={() => setDmeVisible(v => !v)}
-        onClose={() => setDmeVisible(false)}
+        visible={activePanel === 'dme'}
+        onToggle={() => setActivePanel(p => p === 'dme' ? null : 'dme')}
+        onClose={() => setActivePanel(null)}
         states={dmeStates}
         onStateChange={handleStateChange}
         pages={PAGES}
         currentPageId={currentPageId}
         onNavigate={navigateTo}
+      />
+      <DevModeInspector
+        visible={activePanel === 'devmode'}
+        onToggle={() => setActivePanel(p => p === 'devmode' ? null : 'devmode')}
+        onClose={() => setActivePanel(null)}
       />
     </DMEStatesContext.Provider>
   )

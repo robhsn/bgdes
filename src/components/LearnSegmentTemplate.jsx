@@ -452,6 +452,7 @@ const LETTERS = ['A', 'B', 'C'];
 
 function QuizModule() {
   const loggedIn = useDMEState('auth.loggedIn', true);
+  const launchMvp = useDMEState('learnArticle.launchMvp', false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected]     = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
@@ -508,6 +509,7 @@ function QuizModule() {
               {allCorrect ? 'Perfect score!' : score === 0 ? "Keep studying — you've got this!" : 'Good effort — review below.'}
             </div>
           </div>
+          {!launchMvp && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
             {earned ? (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', whiteSpace: 'nowrap' }}>
@@ -558,6 +560,7 @@ function QuizModule() {
               )}
             </div>
           </div>
+          )}
         </div>
 
         {/* Compact question breakdown */}
@@ -907,6 +910,7 @@ function TableOfContents() {
 /* ─── Main template ───────────────────────────────────────────── */
 
 export default function LearnSegmentTemplate({ onNavigate }) {
+  const launchMvp = useDMEState('learnArticle.launchMvp', false);
   return (
     <div style={{
       background: 'var(--color-bg)',
@@ -929,13 +933,15 @@ export default function LearnSegmentTemplate({ onNavigate }) {
             <div className="ls-breadcrumb-row">
               <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
             </div>
-            <div className="ls-badge">
-              <BadgeIcon />
-              {/* EXP pip + tooltip hidden for now
-              <div className="ls-badge-dot">1</div>
-              <div className="ls-badge-tooltip">Learn EXP +1</div>
-              */}
-            </div>
+            {!launchMvp && (
+              <div className="ls-badge">
+                <BadgeIcon />
+                {/* EXP pip + tooltip hidden for now
+                <div className="ls-badge-dot">1</div>
+                <div className="ls-badge-tooltip">Learn EXP +1</div>
+                */}
+              </div>
+            )}
           </div>
 
           <h1 className="ls-h1" style={{ fontFamily: fh, color: 'var(--color-heading)' }}>

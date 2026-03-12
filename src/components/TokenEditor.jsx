@@ -61,7 +61,7 @@ loadGoogleFont('Inter');
 loadGoogleFont('Georgia');
 
 /* ─── L1 colour map — token name → hex (mirrors CSS :root L1 block) ── */
-const L1_COLOR_MAP = {
+export const L1_COLOR_MAP = {
   '--prim-mono-white': '#ffffff', '--prim-mono-50':  '#efefef',
   '--prim-mono-100':   '#dddddd', '--prim-mono-150': '#e0e0e0',
   '--prim-mono-200':   '#d9d9d9', '--prim-mono-250': '#cccccc',
@@ -92,6 +92,14 @@ const L1_COLOR_MAP = {
   '--prim-butter-800': '#f1de9b', '--prim-butter-700': '#f3ecac',
   '--prim-butter-600': '#f8f4ca', '--prim-butter-500': '#fefce9',
   '--prim-butter-400': '#fefdf4',
+  '--prim-mint-900':   '#051f18', '--prim-mint-800':   '#072e23',
+  '--prim-mint-700':   '#0d3529', '--prim-mint-600':   '#11533f',
+  '--prim-mint-500':   '#196951', '--prim-mint-400':   '#23a57e',
+  '--prim-mint-300':   '#8cb2a7', '--prim-mint-200':   '#bce4d9',
+  '--prim-mint-100':   '#e9f4f3',
+  '--prim-fall-900':   '#2d4941', '--prim-fall-700':   '#415f56',
+  '--prim-fall-500':   '#507268', '--prim-fall-300':   '#6e9b8e',
+  '--prim-fall-100':   '#8fcbba',
 };
 
 /* Palette groups for the picker UI */
@@ -101,6 +109,8 @@ const L1_COLOR_PALETTES = [
   { name: 'Splash',   tokens: ['--prim-splash-50','--prim-splash-100','--prim-splash-200','--prim-splash-300','--prim-splash-400','--prim-splash-500','--prim-splash-600','--prim-splash-700','--prim-splash-800','--prim-splash-900','--prim-splash-950'] },
   { name: 'Orange',   tokens: ['--prim-orange-50','--prim-orange-100','--prim-orange-200','--prim-orange-300','--prim-orange-400','--prim-orange-500','--prim-orange-600','--prim-orange-700','--prim-orange-800','--prim-orange-900','--prim-orange-950'] },
   { name: 'Butter',   tokens: ['--prim-butter-400','--prim-butter-500','--prim-butter-600','--prim-butter-700','--prim-butter-800','--prim-butter-900','--prim-butter-950'] },
+  { name: 'Mint',     tokens: ['--prim-mint-100','--prim-mint-200','--prim-mint-300','--prim-mint-400','--prim-mint-500','--prim-mint-600','--prim-mint-700','--prim-mint-800','--prim-mint-900'] },
+  { name: 'Fall Green', tokens: ['--prim-fall-100','--prim-fall-300','--prim-fall-500','--prim-fall-700','--prim-fall-900'] },
 ];
 
 /* ─── Themes — L2 colors reference L1 token names ────────────── */
@@ -432,6 +442,115 @@ const THEMES = {
       },
     },
   },
+  'mvp-green': {
+    label: 'MVP Green',
+    globals: {
+      '--color-toc-pip':          '--prim-mint-300',
+      '--color-toc-pip-active':   '--prim-mint-600',
+      '--color-dot-active':       '--prim-mint-500',
+      '--color-badge-from':       '--prim-mint-600',
+      '--color-badge-to':         '--prim-mint-800',
+      '--color-badge-icon':       '--prim-mint-700',
+      '--color-badge-icon-inner': '--prim-mint-200',
+      '--color-badge-unearned-stroke': '--prim-fall-500',
+      '--color-badge-unearned-text':   '--prim-fall-500',
+      '--color-avatar-bg':        '--prim-mint-200',
+      '--color-stat-percentile':  '--prim-mint-400',
+      '--color-statement-bg':     '--prim-mint-100',
+      '--color-statement-border': '--prim-fall-300',
+      '--color-statement-text':   '--prim-mint-700',
+      '--color-nav-bg':           '--prim-mono-white',
+      '--color-nav-border':       '--prim-mint-200',
+      '--color-nav-icon':         '--prim-mint-700',
+      '--btn-primary-bg':         '--prim-mint-700',
+      '--btn-primary-fg':         '--prim-mono-white',
+      '--btn-secondary-bg':       '--prim-mono-white',
+      '--btn-secondary-fg':       '--prim-mint-700',
+      '--btn-border':             '--prim-mint-700',
+    },
+    surfaces: {
+      default: {
+        '--color-bg':             '--prim-mono-white',
+        '--color-heading':        '--prim-mint-900',
+        '--color-body':           '--prim-fall-900',
+        '--color-muted':          '--prim-fall-700',
+        '--color-border':         '--prim-mint-100',
+        '--color-border-light':   '--prim-mint-200',
+        '--color-border-mid':     '--prim-fall-300',
+        '--color-border-subtle':  '--prim-fall-500',
+        '--color-callout-border': '--prim-mint-500',
+        '--color-placeholder':    '--prim-mint-200',
+        '--color-logo':           '--prim-mint-900',
+        '--color-link':           '--prim-mint-600',
+        '--color-pill':           '--prim-mint-700',
+        '--color-accent':         '--prim-mint-500',
+      },
+      muted: {
+        '--sf-muted-bg':             '--prim-mint-100',
+        '--sf-muted-heading':        '--prim-mint-900',
+        '--sf-muted-body':           '--prim-fall-900',
+        '--sf-muted-text-muted':     '--prim-fall-700',
+        '--sf-muted-border':         '--prim-mint-200',
+        '--sf-muted-border-light':   '--prim-mint-200',
+        '--sf-muted-border-mid':     '--prim-fall-300',
+        '--sf-muted-border-subtle':  '--prim-fall-500',
+        '--sf-muted-callout-border': '--prim-mint-500',
+        '--sf-muted-placeholder':    '--prim-mint-300',
+        '--sf-muted-logo':           '--prim-mint-900',
+        '--sf-muted-link':           '--prim-mint-600',
+        '--sf-muted-pill':           '--prim-mint-900',
+        '--sf-muted-accent':         '--prim-mint-500',
+      },
+      inverse: {
+        '--sf-inverse-bg':             '--prim-mint-800',
+        '--sf-inverse-heading':        '--prim-mono-white',
+        '--sf-inverse-body':           '--prim-mint-200',
+        '--sf-inverse-text-muted':     '--prim-mint-300',
+        '--sf-inverse-border':         '--prim-mint-700',
+        '--sf-inverse-border-light':   '--prim-mint-700',
+        '--sf-inverse-border-mid':     '--prim-mint-600',
+        '--sf-inverse-border-subtle':  '--prim-mint-500',
+        '--sf-inverse-callout-border': '--prim-fall-300',
+        '--sf-inverse-placeholder':    '--prim-mint-700',
+        '--sf-inverse-logo':           '--prim-mono-white',
+        '--sf-inverse-link':           '--prim-mint-300',
+        '--sf-inverse-pill':           '--prim-mono-white',
+        '--sf-inverse-accent':         '--prim-mint-400',
+      },
+      accent: {
+        '--sf-accent-bg':             '--prim-mint-700',
+        '--sf-accent-heading':        '--prim-mono-white',
+        '--sf-accent-body':           '--prim-mint-200',
+        '--sf-accent-text-muted':     '--prim-mint-300',
+        '--sf-accent-border':         '--prim-mint-600',
+        '--sf-accent-border-light':   '--prim-mint-600',
+        '--sf-accent-border-mid':     '--prim-mint-500',
+        '--sf-accent-border-subtle':  '--prim-mint-400',
+        '--sf-accent-callout-border': '--prim-fall-300',
+        '--sf-accent-placeholder':    '--prim-mint-600',
+        '--sf-accent-logo':           '--prim-mono-white',
+        '--sf-accent-link':           '--prim-mint-200',
+        '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-accent':         '--prim-mint-400',
+      },
+      tertiary: {
+        '--sf-tertiary-bg':             '--prim-mint-900',
+        '--sf-tertiary-heading':        '--prim-mono-white',
+        '--sf-tertiary-body':           '--prim-mint-200',
+        '--sf-tertiary-text-muted':     '--prim-mint-300',
+        '--sf-tertiary-border':         '--prim-mint-700',
+        '--sf-tertiary-border-light':   '--prim-mint-800',
+        '--sf-tertiary-border-mid':     '--prim-mint-600',
+        '--sf-tertiary-border-subtle':  '--prim-mint-500',
+        '--sf-tertiary-callout-border': '--prim-fall-300',
+        '--sf-tertiary-placeholder':    '--prim-mint-700',
+        '--sf-tertiary-logo':           '--prim-mono-white',
+        '--sf-tertiary-link':           '--prim-mint-200',
+        '--sf-tertiary-pill':           '--prim-mono-white',
+        '--sf-tertiary-accent':         '--prim-mint-400',
+      },
+    },
+  },
 };
 
 /* Flatten globals + all surfaces into a single token map for a given theme */
@@ -583,6 +702,73 @@ function removeAllOverrides() {
   });
 }
 
+/* ─── Detachable / draggable panel hook (shared with DevModeInspector) ── */
+function useDetachablePanel(defaultPos, defaultSize) {
+  const [detached, setDetached] = useState(false);
+  const [pos, setPos] = useState(defaultPos);
+  const [size, setSize] = useState(defaultSize);
+
+  const onDragStart = useCallback((e) => {
+    if (!detached) return;
+    e.preventDefault();
+    const startX = e.clientX - pos.x;
+    const startY = e.clientY - pos.y;
+    const onMove = (ev) => setPos({ x: ev.clientX - startX, y: ev.clientY - startY });
+    const onUp = () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }, [detached, pos]);
+
+  const onResizeStart = useCallback((e) => {
+    if (!detached) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX, startY = e.clientY;
+    const startW = size.w, startH = size.h;
+    const onMove = (ev) => setSize({
+      w: Math.max(320, startW + ev.clientX - startX),
+      h: Math.max(300, startH + ev.clientY - startY),
+    });
+    const onUp = () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }, [detached, size]);
+
+  const detach = useCallback(() => setDetached(true), []);
+  const dock = useCallback(() => setDetached(false), []);
+
+  return { detached, pos, size, onDragStart, onResizeStart, detach, dock };
+}
+
+function DMEResizeHandle({ onMouseDown }) {
+  return (
+    <div
+      onMouseDown={onMouseDown}
+      style={{
+        position: 'absolute', bottom: 0, right: 0,
+        width: 16, height: 16, cursor: 'nwse-resize', zIndex: 2,
+      }}
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" style={{ position: 'absolute', bottom: 2, right: 2 }}>
+        <path d="M14 4l-10 10M14 8l-6 6M14 12l-2 2" stroke="#555" strokeWidth="1.2"/>
+      </svg>
+    </div>
+  );
+}
+
+const DMEDetachIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="8" height="8" rx="1.5"/>
+    <path d="M6 10v4h8V6h-4"/>
+  </svg>
+);
+const DMEDockIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="1" y="1" width="14" height="14" rx="2"/>
+    <rect x="1" y="1" width="6" height="14" rx="2" fill="currentColor" opacity="0.3"/>
+  </svg>
+);
+
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
@@ -600,6 +786,10 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
   const [isDirty, setIsDirty]         = useState(false);
   const [hasSavedState, setHasSavedState] = useState(false);
   const [collapsed, setCollapsed]       = useState(false);
+  const panel = useDetachablePanel(
+    { x: Math.round(window.innerWidth / 2 - 200), y: 40 },
+    { w: 420, h: 650 },
+  );
 
   /* Refs for sync access inside callbacks */
   const l1Ref          = useRef({ ...INIT_L1 });
@@ -904,28 +1094,33 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     refreshHistoryState();
   }, []);
 
-  if (!visible) return (
+  /* ── Gear button — always rendered ─────────────────────────── */
+  const gearButton = (
     <button
       className="dme-gear-btn"
-      onClick={() => { setTopTab('states'); onToggle(); }}
+      data-devmode-ignore
+      onClick={onToggle}
       aria-label="Open Design Matrix Editor"
       style={{
         position: 'fixed', bottom: 16, right: 16, zIndex: 9998,
         width: 45, height: 45, borderRadius: '50%',
-        background: 'rgba(28,28,28,0.85)', border: '1px solid rgba(255,255,255,0.1)',
+        background: visible ? 'rgba(28,28,28,1)' : 'rgba(28,28,28,0.85)',
+        border: visible ? '1px solid rgba(255,255,255,0.25)' : '1px solid rgba(255,255,255,0.1)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        cursor: 'pointer', opacity: 0.5, transition: 'opacity 0.2s',
+        cursor: 'pointer', opacity: visible ? 1 : 0.5, transition: 'opacity 0.2s',
         boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
       }}
       onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-      onMouseLeave={e => e.currentTarget.style.opacity = '0.5'}
+      onMouseLeave={e => { if (!visible) e.currentTarget.style.opacity = '0.5'; }}
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="#999" strokeWidth="1.8" />
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" stroke="#999" strokeWidth="1.8" />
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke={visible ? '#e0e0e0' : '#999'} strokeWidth="1.8" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" stroke={visible ? '#e0e0e0' : '#999'} strokeWidth="1.8" />
       </svg>
     </button>
   );
+
+  if (!visible) return gearButton;
 
   /* ── Collapse tab ─────────────────────────────────────────── */
   const tabRadius = side === 'right' ? '6px 0 0 6px' : '0 6px 6px 0';
@@ -951,39 +1146,59 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
     transition: 'color 0.2s',
   };
 
-  if (collapsed) return (
-    <button
-      onClick={() => setCollapsed(false)}
-      title="Expand DME"
-      style={{
-        position: 'fixed',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        [side]: 0,
-        zIndex: 10000,
-        ...tabBaseStyle,
-      }}
-      onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-      onMouseLeave={e => e.currentTarget.style.color = '#888'}
-    >
-      {tabArrow}
-    </button>
+  if (collapsed && !panel.detached) return (
+    <>
+      {gearButton}
+      <button
+        onClick={() => setCollapsed(false)}
+        title="Expand DME"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          [side]: 0,
+          zIndex: 10000,
+          ...tabBaseStyle,
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+        onMouseLeave={e => e.currentTarget.style.color = '#888'}
+      >
+        {tabArrow}
+      </button>
+    </>
   );
 
+  /* Panel positioning: docked or floating */
+  const panelStyle = panel.detached
+    ? {
+        position: 'fixed',
+        top: panel.pos.y, left: panel.pos.x,
+        width: panel.size.w, height: panel.size.h,
+        borderRadius: 8, border: '1px solid #444',
+      }
+    : {
+        position: 'fixed', top: 0,
+        right: side === 'right' ? 0 : 'auto',
+        left:  side === 'left'  ? 0 : 'auto',
+        height: '100vh', width: '30vw', minWidth: 380,
+      };
+
   return (
-    <div style={{
-      position: 'fixed', top: 0,
-      right: side === 'right' ? 0 : 'auto',
-      left:  side === 'left'  ? 0 : 'auto',
-      height: '100vh', width: '30vw', minWidth: 380,
+    <>
+    {gearButton}
+    <div data-devmode-ignore style={{
+      ...panelStyle,
       background: '#1c1c1c', color: '#e0e0e0',
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontSize: 12, zIndex: 9999,
       display: 'flex', flexDirection: 'column',
-      boxShadow: side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)',
+      boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)'),
+      overflow: 'hidden',
     }}>
+      {panel.detached && <DMEResizeHandle onMouseDown={panel.onResizeStart} />}
 
-      {/* ── Collapse tab on outer edge ── */}
+      {/* ── Collapse tab on outer edge (docked only) ── */}
+      {!panel.detached && (
       <button
         onClick={() => setCollapsed(true)}
         title="Collapse DME"
@@ -1000,31 +1215,56 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
       >
         {tabArrow}
       </button>
+      )}
 
-      {/* ── Persistent top strip ──────────────────────────────── */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '8px 12px', borderBottom: '1px solid #222',
-        flexShrink: 0, background: '#111',
-      }}>
+      {/* ── Persistent top strip — draggable when detached ───── */}
+      <div
+        onMouseDown={panel.detached ? panel.onDragStart : undefined}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '8px 12px', borderBottom: '1px solid #222',
+          flexShrink: 0, background: '#111',
+          cursor: panel.detached ? 'grab' : 'default',
+          userSelect: 'none',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
           <span style={{ fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555' }}>
             Design Matrix Editor
           </span>
-          <span style={{ fontSize: 10, color: '#444' }}>↑↑↓↓ tokens · ←←→→ states</span>
+          {!panel.detached && <span style={{ fontSize: 10, color: '#444' }}>↑↑↓↓ tokens · ←←→→ states</span>}
         </div>
         <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-          <button title="Dock left"  onClick={() => setSide('left')}  style={dockBtn(side === 'left')}>
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-              <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
-              <rect x="1" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
-            </svg>
-          </button>
-          <button title="Dock right" onClick={() => setSide('right')} style={dockBtn(side === 'right')}>
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-              <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
-              <rect x="9" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
-            </svg>
+          {/* Dock left/right — only when docked */}
+          {!panel.detached && (
+            <>
+              <button title="Dock left"  onClick={() => setSide('left')}  style={dockBtn(side === 'left')}>
+                <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+                  <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
+                  <rect x="1" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
+                </svg>
+              </button>
+              <button title="Dock right" onClick={() => setSide('right')} style={dockBtn(side === 'right')}>
+                <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+                  <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
+                  <rect x="9" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
+                </svg>
+              </button>
+            </>
+          )}
+          {/* Detach / dock toggle */}
+          <button
+            onClick={panel.detached ? panel.dock : panel.detach}
+            title={panel.detached ? 'Dock panel' : 'Detach panel'}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: '#666', padding: '2px 4px', borderRadius: 3,
+              display: 'flex', alignItems: 'center',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
+            onMouseLeave={e => e.currentTarget.style.color = '#666'}
+          >
+            {panel.detached ? <DMEDockIcon /> : <DMEDetachIcon />}
           </button>
           <div style={{ width: 1, height: 14, background: '#333', margin: '0 3px' }} />
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#666', fontSize: 22, cursor: 'pointer', lineHeight: 1, padding: '0 3px' }}>×</button>
@@ -1149,6 +1389,7 @@ export default function TokenEditor({ visible, onToggle, onClose, states, onStat
       </>)}
 
     </div>
+    </>
   );
 }
 
@@ -1242,6 +1483,76 @@ function DmeToggle({ value, onChange }) {
         width: 14, height: 14, borderRadius: '50%', background: '#fff',
         transition: 'left 0.2s ease',
       }} />
+    </button>
+  );
+}
+
+/* ── DME Breakpoints UI ───────────────────────────────────────────── */
+
+const BREAKPOINT_OPTIONS = [
+  { key: null,   label: 'Full Width', px: null,  description: 'No constraint — uses browser viewport' },
+  { key: '2xl',  label: '2xl',        px: 1536,  description: 'Large desktop' },
+  { key: 'xl',   label: 'xl',         px: 1280,  description: 'Laptop / desktop' },
+  { key: 'lg',   label: 'lg',         px: 1024,  description: 'Tablet / small laptop' },
+  { key: 'md',   label: 'md',         px: 768,   description: 'Large phone / small tablet' },
+  { key: 'sm',   label: 'sm',         px: 640,   description: 'Small phone' },
+  { key: 'xsm',  label: 'xsm',       px: 375,   description: 'Extra small phone' },
+];
+
+function BreakpointsView({ activeBreakpoint, onBreakpointChange }) {
+  return (
+    <div>
+      <div style={{
+        fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+        textTransform: 'uppercase', color: '#555', marginBottom: 12,
+        paddingBottom: 6, borderBottom: '1px solid #2a2a2a',
+      }}>
+        Viewport Width
+      </div>
+      {BREAKPOINT_OPTIONS.map(opt => (
+        <BreakpointRadioRow
+          key={opt.label}
+          option={opt}
+          active={activeBreakpoint === opt.key}
+          onSelect={() => onBreakpointChange(opt.key)}
+        />
+      ))}
+    </div>
+  );
+}
+
+function BreakpointRadioRow({ option, active, onSelect }) {
+  return (
+    <button
+      onClick={onSelect}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        width: '100%', padding: '10px 0', background: 'none', border: 'none',
+        borderBottom: '1px solid #242424', cursor: 'pointer', textAlign: 'left',
+      }}
+    >
+      {/* Radio circle */}
+      <div style={{
+        width: 16, height: 16, borderRadius: '50%', flexShrink: 0,
+        border: active ? '2px solid #4caf82' : '2px solid #555',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {active && (
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#4caf82' }} />
+        )}
+      </div>
+      {/* Label + description */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: '#e0e0e0' }}>
+          {option.label}
+          {option.px && (
+            <span style={{ fontWeight: 400, color: '#777', marginLeft: 6, fontSize: 11 }}>
+              {option.px}px
+            </span>
+          )}
+        </div>
+        <div style={{ fontSize: 10, color: '#555', marginTop: 1 }}>{option.description}</div>
+      </div>
     </button>
   );
 }

@@ -51,4 +51,11 @@ export const STATE_DEFINITIONS = [
     type: 'profile',
     defaultValue: true,
   },
+  {
+    key: 'learnArticle.launchMvp',
+    label: 'Launch MVP',
+    description: 'Hide badge/achievement visuals from article page',
+    type: 'learn-article',
+    defaultValue: false,
+  },
 ];

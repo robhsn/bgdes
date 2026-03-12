@@ -83,6 +83,24 @@
   --prim-butter-500: #fefce9;
   --prim-butter-400: #fefdf4;
 
+  /* ── Mint ── */
+  --prim-mint-900: #051f18;
+  --prim-mint-800: #072e23;
+  --prim-mint-700: #0d3529;
+  --prim-mint-600: #11533f;
+  --prim-mint-500: #196951;
+  --prim-mint-400: #23a57e;
+  --prim-mint-300: #8cb2a7;
+  --prim-mint-200: #bce4d9;
+  --prim-mint-100: #e9f4f3;
+
+  /* ── Fall Green ── */
+  --prim-fall-900: #2d4941;
+  --prim-fall-700: #415f56;
+  --prim-fall-500: #507268;
+  --prim-fall-300: #6e9b8e;
+  --prim-fall-100: #8fcbba;
+
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -779,11 +797,13 @@
   .ls-image-col { width: 100%; }
   .ls-section { padding-top: 40px; padding-bottom: 40px; }
   .ls-header { height: 68px; }
+  .ls-header-auth { display: none !important; }
   .ls-mobile-nav { display: flex; }
   .ls-nav-spacer { display: block; height: 66px; flex-shrink: 0; }
   .ls-article-meta { flex-direction: column; align-items: flex-start; gap: 6px; }
   .ls-article-meta-divider { display: none; }
   .dme-gear-btn { bottom: calc(66px + 16px + env(safe-area-inset-bottom, 0px)) !important; }
+  .devmode-toggle-btn { bottom: calc(66px + 75px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 
 @media (max-width: 600px) {
