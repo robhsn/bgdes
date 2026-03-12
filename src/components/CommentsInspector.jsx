@@ -883,6 +883,15 @@ function CommentCard({
   const el = findElement(comment.elementSelector);
   const canNavigate = !!el;
   const timeAgo = formatTimeAgo(comment.createdAt);
+  const [expanded, setExpanded] = useState(false);
+  const textRef = useRef(null);
+  const [isClamped, setIsClamped] = useState(false);
+
+  useEffect(() => {
+    if (!textRef.current) return;
+    setIsClamped(textRef.current.scrollHeight > textRef.current.clientHeight + 1);
+  }, [comment.text, expanded]);
+
   const isEven = index % 2 === 0;
   const baseBg = isEven ? '#1c1c1c' : '#212121';
   const focusBg = '#1a2e24';
@@ -998,16 +1007,38 @@ function CommentCard({
           </div>
         </div>
       ) : (
-        <div
-          onClick={canNavigate ? onClick : undefined}
-          style={{
-            fontSize: 12, color: '#ddd', lineHeight: 1.5,
-            whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-            cursor: canNavigate ? 'pointer' : 'default',
-            paddingLeft: 24,
-          }}
-        >
-          {comment.text}
+        <div style={{ paddingLeft: 24 }}>
+          <div
+            ref={expanded ? undefined : textRef}
+            onClick={expanded ? () => setExpanded(false) : (canNavigate ? onClick : undefined)}
+            style={{
+              fontSize: 12, color: '#ddd', lineHeight: 1.5,
+              whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+              cursor: expanded ? 'pointer' : (canNavigate ? 'pointer' : 'default'),
+              ...(!expanded ? {
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              } : {}),
+            }}
+          >
+            {comment.text}
+          </div>
+          {!expanded && isClamped && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setExpanded(true); }}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: '#5cd89a', fontSize: 10, padding: '2px 0 0', marginTop: 2,
+                display: 'block',
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = '#7ee8b5'}
+              onMouseLeave={e => e.currentTarget.style.color = '#5cd89a'}
+            >
+              Show more
+            </button>
+          )}
         </div>
       )}
 
