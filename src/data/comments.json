@@ -1,0 +1,20 @@
+{
+  "learn-article": [
+    {
+      "id": "ef0d75a9-c6ac-4f76-b738-e2b75452d2b9",
+      "elementSelector": "#root > div:nth-of-type(1) > section.ls-section:nth-of-type(1) > div.ls-content > h1.ls-h1",
+      "elementLabel": "h1.ls-h1",
+      "text": "Still more, for the ample fins, I here saw but a few disordered joints; and in place of the weighty and How vain and foolish, then, thought I, for timid untravelled man to try to comprehend aright this wondrous whale, by merely poring over his dead attenuated skeleton, stretched in this peaceful wood. It looks more like the tapering tail of an anaconda, than the broad palms But go to the old Galleries, and look now at a great Christian painter's portrait of this fish; for he succeeds no better than the antediluvian Hindoo. Turn to!' and \"'Sink the ship?' cried Steelkilt. In this foreshadowing interval too, all humor, forced or natural, vanished.",
+      "stateKey": "auth.loggedIn",
+      "createdAt": 1773332885346
+    },
+    {
+      "id": "44ef3fe3-3675-4fe2-82e0-baeaa81bb5a4",
+      "elementSelector": "#section-setup > div.ls-image-col > img.ls-image-placeholder",
+      "elementLabel": "img.ls-image-placeholder",
+      "text": "This will be replaced",
+      "stateKey": null,
+      "createdAt": 1773333390291
+    }
+  ]
+}

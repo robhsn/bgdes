@@ -9,6 +9,7 @@ import DevModeInspector from './components/DevModeInspector'
 import CommentsInspector from './components/CommentsInspector'
 import { DMEStatesContext } from './context/dme-states'
 import fileDefaults from './tokens/dme-defaults.json'
+import savedComments from './data/comments.json'
 
 /*
  * Page registry — add new pages here as the project grows.
@@ -37,11 +38,20 @@ function App() {
   const [currentPageId, setCurrentPageId] = useState(getInitialPage)
   const [activePanel, setActivePanel] = useState(null) // null | 'dme' | 'devmode' | 'comments'
   const [dmeStates, setDmeStates] = useState(INIT_STATES)
-  const [commentsByPage, setCommentsByPage] = useState({})
+  const [commentsByPage, setCommentsByPage] = useState(() => savedComments || {})
 
   const currentComments = commentsByPage[currentPageId] || []
   const handleCommentsChange = useCallback((next) => {
-    setCommentsByPage(prev => ({ ...prev, [currentPageId]: next }))
+    setCommentsByPage(prev => {
+      const updated = { ...prev, [currentPageId]: next }
+      // Persist to JSON file via dev middleware
+      fetch('/__comments_save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated),
+      }).catch(() => {})
+      return updated
+    })
   }, [currentPageId])
 
   const navigateTo = useCallback((id) => {

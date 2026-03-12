@@ -229,6 +229,8 @@ const COLOR_PROPS = new Set(['color','background-color','border-color']);
 export default function DevModeInspector({ visible, onToggle, onClose }) {
   const [layersOpen, setLayersOpen] = useState(true);
   const [cssOpen, setCssOpen] = useState(true);
+  const layersPanel = useDetachablePanel({ x: 40, y: 40 }, { w: 280, h: 500 });
+  const cssPanel = useDetachablePanel({ x: window.innerWidth - 440, y: 40 }, { w: 400, h: 600 });
   const [hoveredEl, setHoveredEl] = useState(null);
   const [selectedEl, setSelectedEl] = useState(null);
   const [layers, setLayers] = useState([]);
@@ -380,6 +382,7 @@ export default function DevModeInspector({ visible, onToggle, onClose }) {
 
       {/* ── Layers panel (LEFT) ──────────────────────────────── */}
       <LayersPanel
+        panel={layersPanel}
         open={layersOpen}
         onToggle={() => setLayersOpen(o => !o)}
         layers={layers}
@@ -394,6 +397,7 @@ export default function DevModeInspector({ visible, onToggle, onClose }) {
 
       {/* ── CSS panel (RIGHT) ────────────────────────────────── */}
       <CSSPanel
+        panel={cssPanel}
         open={cssOpen}
         onToggle={() => setCssOpen(o => !o)}
         onClose={onClose}
@@ -407,10 +411,9 @@ export default function DevModeInspector({ visible, onToggle, onClose }) {
 /* ═══════════════════════════════════════════════════════════════
    Layers Panel — LEFT side
    ═══════════════════════════════════════════════════════════════ */
-function LayersPanel({ open, onToggle, layers, selectedEl, onLayerClick, onLayerHover, collapsedSet, onToggleCollapsed, onCollapseAll, onExpandAll }) {
+function LayersPanel({ panel, open, onToggle, layers, selectedEl, onLayerClick, onLayerHover, collapsedSet, onToggleCollapsed, onCollapseAll, onExpandAll }) {
   const scrollRef = useRef(null);
   const selectedRowRef = useRef(null);
-  const panel = useDetachablePanel({ x: 40, y: 40 }, { w: 280, h: 500 });
 
   /* Auto-scroll to the selected layer when selectedEl changes */
   useEffect(() => {
@@ -678,9 +681,8 @@ const COLOR_MODES = [
   { key: 'rgba', label: 'RGBA' },
 ];
 
-function CSSPanel({ open, onToggle, onClose, selectedEl, computed }) {
+function CSSPanel({ panel, open, onToggle, onClose, selectedEl, computed }) {
   const [colorMode, setColorMode] = useState('var');
-  const panel = useDetachablePanel({ x: window.innerWidth - 440, y: 40 }, { w: 400, h: 600 });
 
   /* Collapse tab — only shown when docked */
   const collapseTab = !panel.detached ? (

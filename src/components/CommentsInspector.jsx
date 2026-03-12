@@ -194,6 +194,7 @@ export default function CommentsInspector({
   );
   const [collapsed, setCollapsed] = useState(false);
   const [side, setSide] = useState('right');
+  const [sortNewest, setSortNewest] = useState(false);
 
   /* ── Focused comment element + rect ──────────────────────────── */
   const focusedComment = useMemo(
@@ -393,21 +394,30 @@ export default function CommentsInspector({
     setEditText('');
   }, []);
 
-  /* ── Focus a comment (hover in panel or marker) ──────────────── */
+  /* ── Focus a comment (click-based, persistent) ────────────────── */
   const handleFocusComment = useCallback((id) => {
-    setFocusedCommentId(id);
+    setFocusedCommentId(prev => prev === id ? null : id);
   }, []);
 
-  const handleUnfocusComment = useCallback(() => {
-    setFocusedCommentId(null);
-  }, []);
-
-  /* ── Click a saved comment → scroll to element ───────────────── */
+  /* ── Click a saved comment → focus + scroll to element ───────── */
   const handleCommentClick = useCallback((comment) => {
+    setFocusedCommentId(comment.id);
     const el = findElement(comment.elementSelector);
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, []);
+
+  /* ── Click outside → clear focus ─────────────────────────────── */
+  useEffect(() => {
+    if (!visible || !focusedCommentId) return;
+    const handler = (e) => {
+      const target = e.target;
+      if (target.closest('[data-devmode-panel]') || target.closest('[data-devmode-ignore]')) return;
+      setFocusedCommentId(null);
+    };
+    document.addEventListener('mousedown', handler, true);
+    return () => document.removeEventListener('mousedown', handler, true);
+  }, [visible, focusedCommentId]);
 
   /* ── Start add comment ───────────────────────────────────────── */
   const handleStartPick = useCallback(() => {
@@ -520,8 +530,7 @@ export default function CommentsInspector({
           comments={comments}
           markerRects={markerRects}
           focusedCommentId={focusedCommentId}
-          onHover={handleFocusComment}
-          onLeave={handleUnfocusComment}
+          onFocus={handleFocusComment}
           onClick={handleMarkerClick}
         />
       </>
@@ -538,8 +547,7 @@ export default function CommentsInspector({
         comments={comments}
         markerRects={markerRects}
         focusedCommentId={focusedCommentId}
-        onHover={handleFocusComment}
-        onLeave={handleUnfocusComment}
+        onFocus={handleFocusComment}
         onClick={handleMarkerClick}
       />
 
@@ -651,6 +659,24 @@ export default function CommentsInspector({
             )}
           </span>
           <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
+            <button
+              onClick={() => setSortNewest(s => !s)}
+              title={sortNewest ? 'Sorted: newest first' : 'Sorted: oldest first'}
+              style={{
+                background: sortNewest ? '#333' : 'none', border: 'none', cursor: 'pointer',
+                color: sortNewest ? '#e0e0e0' : '#888', padding: '3px 6px', borderRadius: 3,
+                display: 'flex', alignItems: 'center', gap: 3,
+                fontSize: 9, fontWeight: 600, letterSpacing: '0.03em',
+              }}
+              onMouseEnter={e => { if (!sortNewest) e.currentTarget.style.color = '#ccc'; }}
+              onMouseLeave={e => { if (!sortNewest) e.currentTarget.style.color = '#888'; }}
+            >
+              <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <path d={sortNewest ? 'M8 12V4M5 7l3-3 3 3' : 'M8 4v8M5 9l3 3 3-3'} />
+              </svg>
+              Date
+            </button>
+            <div style={{ width: 1, height: 14, background: '#444', margin: '0 2px' }} />
             {!panel.detached && (
               <>
                 <button title="Dock left" onClick={() => setSide('left')} style={{
@@ -810,7 +836,7 @@ export default function CommentsInspector({
             </div>
           )}
 
-          {comments.map((comment, index) => (
+          {(sortNewest ? [...comments].sort((a, b) => b.createdAt - a.createdAt) : comments).map((comment, index) => (
             <CommentCard
               key={comment.id}
               comment={comment}
@@ -820,8 +846,7 @@ export default function CommentsInspector({
               onClick={() => handleCommentClick(comment)}
               onDelete={() => handleDelete(comment.id)}
               isFocused={focusedCommentId === comment.id}
-              onMouseEnter={() => handleFocusComment(comment.id)}
-              onMouseLeave={handleUnfocusComment}
+              onFocusComment={() => handleFocusComment(comment.id)}
               isEditing={editingId === comment.id}
               editText={editingId === comment.id ? editText : ''}
               onEditTextChange={setEditText}
@@ -869,7 +894,7 @@ export default function CommentsInspector({
 /* ═══════════════════════════════════════════════════════════════
    PageMarkers — numbered pins on the page
    ═══════════════════════════════════════════════════════════════ */
-function PageMarkers({ comments, markerRects, focusedCommentId, onHover, onLeave, onClick }) {
+function PageMarkers({ comments, markerRects, focusedCommentId, onFocus, onClick }) {
   return comments.map((comment, i) => {
     const rect = markerRects[comment.id];
     if (!rect) return null;
@@ -878,9 +903,7 @@ function PageMarkers({ comments, markerRects, focusedCommentId, onHover, onLeave
       <div
         key={comment.id}
         data-devmode-ignore
-        onClick={(e) => { e.stopPropagation(); onClick(comment); }}
-        onMouseEnter={() => onHover(comment.id)}
-        onMouseLeave={onLeave}
+        onClick={(e) => { e.stopPropagation(); onFocus(comment.id); onClick(comment); }}
         style={{
           position: 'fixed',
           top: rect.top - MARKER_SIZE / 2 + 2,
@@ -913,7 +936,7 @@ function PageMarkers({ comments, markerRects, focusedCommentId, onHover, onLeave
    ═══════════════════════════════════════════════════════════════ */
 function CommentCard({
   comment, index, states, onStateChange, onClick, onDelete,
-  isFocused, onMouseEnter, onMouseLeave,
+  isFocused, onFocusComment,
   isEditing, editText, onEditTextChange, onStartEdit, onSaveEdit, onCancelEdit,
 }) {
   const stateDef = comment.stateKey
@@ -928,7 +951,7 @@ function CommentCard({
   const [isClamped, setIsClamped] = useState(false);
 
   useEffect(() => {
-    if (!textRef.current) return;
+    if (expanded || !textRef.current) return;
     setIsClamped(textRef.current.scrollHeight > textRef.current.clientHeight + 1);
   }, [comment.text, expanded]);
 
@@ -939,12 +962,12 @@ function CommentCard({
 
   return (
     <div
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onClick={onFocusComment}
       style={{
         padding: '10px 12px',
         borderBottom: '1px solid #2e2e2e',
         background: isFocused ? focusBg : baseBg,
+        cursor: 'pointer',
         transition: 'background 0.12s ease',
       }}
     >
@@ -1050,16 +1073,9 @@ function CommentCard({
         <div style={{ paddingLeft: 24 }}>
           <div
             ref={expanded ? undefined : textRef}
-            onClick={expanded
-              ? () => setExpanded(false)
-              : isClamped
-                ? () => setExpanded(true)
-                : (canNavigate ? onClick : undefined)
-            }
             style={{
               fontSize: 12, color: '#ddd', lineHeight: 1.5,
               whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-              cursor: (expanded || isClamped || canNavigate) ? 'pointer' : 'default',
               ...(!expanded ? {
                 display: '-webkit-box',
                 WebkitLineClamp: 3,
@@ -1070,18 +1086,18 @@ function CommentCard({
           >
             {comment.text}
           </div>
-          {!expanded && isClamped && (
+          {isClamped && (
             <button
-              onClick={(e) => { e.stopPropagation(); setExpanded(true); }}
+              onClick={(e) => { e.stopPropagation(); setExpanded(v => !v); }}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: '#5cd89a', fontSize: 10, padding: '2px 0 0', marginTop: 2,
-                display: 'block',
+                color: '#5cd89a', fontSize: 10, padding: '10px 0',
+                display: 'block', width: '100%', textAlign: 'left',
               }}
               onMouseEnter={e => e.currentTarget.style.color = '#7ee8b5'}
               onMouseLeave={e => e.currentTarget.style.color = '#5cd89a'}
             >
-              Show more
+              {expanded ? 'Show less' : 'Show more'}
             </button>
           )}
         </div>
@@ -1089,7 +1105,7 @@ function CommentCard({
 
       {/* State toggle (if attached) — label only, no key */}
       {stateDef && stateDef.type !== 'select' && (
-        <div style={{
+        <div onClick={e => e.stopPropagation()} style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginTop: 8, padding: '6px 8px', marginLeft: 24,
           background: '#191919', borderRadius: 4,
@@ -1105,7 +1121,7 @@ function CommentCard({
 
       {/* State select */}
       {stateDef && stateDef.type === 'select' && (
-        <div style={{
+        <div onClick={e => e.stopPropagation()} style={{
           marginTop: 8, padding: '6px 8px', marginLeft: 24,
           background: '#191919', borderRadius: 4,
           border: '1px solid #333',

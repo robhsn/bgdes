@@ -39,10 +39,13 @@ function devSavePlugin() {
       server.middlewares.use('/__profile_save', jsonPostHandler(
         resolve(process.cwd(), 'src/tokens/profile-data.json')
       ));
+      server.middlewares.use('/__comments_save', jsonPostHandler(
+        resolve(process.cwd(), 'src/data/comments.json')
+      ));
     },
     /* Suppress HMR reload when persisted JSON files are saved */
     handleHotUpdate({ file }) {
-      if (file.endsWith('dme-defaults.json') || file.endsWith('profile-data.json')) return [];
+      if (file.endsWith('dme-defaults.json') || file.endsWith('profile-data.json') || file.endsWith('comments.json')) return [];
     },
   };
 }

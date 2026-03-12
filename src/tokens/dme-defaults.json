@@ -40,15 +40,15 @@
     "--color-bg": "--prim-mint-500",
     "--color-heading": "--prim-mint-000",
     "--color-body": "--prim-mint-100",
-    "--color-muted": "--prim-fall-700",
-    "--color-border": "--prim-mint-100",
+    "--color-muted": "--prim-mint-000",
+    "--color-border": "--prim-mint-400",
     "--color-border-light": "--prim-mint-200",
     "--color-border-mid": "--prim-fall-300",
     "--color-border-subtle": "--prim-fall-500",
     "--color-callout-border": "--prim-mint-500",
     "--color-placeholder": "--prim-mint-200",
     "--color-logo": "--prim-mint-000",
-    "--color-link": "--prim-mint-600",
+    "--color-link": "--prim-mint-000",
     "--color-pill": "--prim-mint-700",
     "--color-accent": "--prim-mint-400",
     "--sf-muted-bg": "--prim-mint-100",
@@ -667,15 +667,15 @@
       "--color-bg": "--prim-mint-500",
       "--color-heading": "--prim-mint-000",
       "--color-body": "--prim-mint-100",
-      "--color-muted": "--prim-fall-700",
-      "--color-border": "--prim-mint-100",
+      "--color-muted": "--prim-mint-000",
+      "--color-border": "--prim-mint-400",
       "--color-border-light": "--prim-mint-200",
       "--color-border-mid": "--prim-fall-300",
       "--color-border-subtle": "--prim-fall-500",
       "--color-callout-border": "--prim-mint-500",
       "--color-placeholder": "--prim-mint-200",
       "--color-logo": "--prim-mint-000",
-      "--color-link": "--prim-mint-600",
+      "--color-link": "--prim-mint-000",
       "--color-pill": "--prim-mint-700",
       "--color-accent": "--prim-mint-400",
       "--sf-muted-bg": "--prim-mint-100",
@@ -755,6 +755,7 @@
     }
   },
   "states": {
-    "auth.loggedIn": true
+    "auth.loggedIn": true,
+    "profile.celebration": true
   }
 }
