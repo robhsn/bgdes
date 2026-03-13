@@ -382,7 +382,7 @@ function GlossaryTerm({ term }) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
       <strong
-        style={{ fontWeight: 700, color: 'var(--color-heading)', borderBottom: '1px dashed var(--color-glossary-underline)', cursor: 'help' }}
+        style={{ fontWeight: 600, color: 'var(--color-heading)', borderBottom: '1px dashed var(--color-glossary-underline)', cursor: 'help' }}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
       >
@@ -842,7 +842,7 @@ function TocItem({ label, sectionId, active = false }) {
           fontWeight: active ? 700 : 400,
           fontSize: 'var(--size-toc)',
           lineHeight: 1,
-          color: active ? 'var(--color-toc-pip-active)' : 'var(--color-muted)',
+          color: active ? 'var(--color-toc-text-active)' : 'var(--color-toc-text)',
         }}
       >
         {label}
@@ -854,6 +854,7 @@ function TocItem({ label, sectionId, active = false }) {
 function TableOfContents() {
   const tocRef = useRef(null);
   const [activeSection, setActiveSection] = useState(-1);
+  const tocExpanded = useDMEState('learnArticle.tocExpanded', false);
   const STICKY_TOP = 94;
 
   useLayoutEffect(() => {
@@ -892,7 +893,7 @@ function TableOfContents() {
   return (
     <div
       ref={tocRef}
-      className="ls-toc"
+      className={`ls-toc${tocExpanded ? ' ls-toc--expanded' : ''}`}
     >
       <span className="ls-toc-heading">Table of Contents</span>
       {TOC_ITEMS.map((item, i) => (

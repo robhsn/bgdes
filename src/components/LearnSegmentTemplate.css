@@ -125,6 +125,9 @@
   --color-placeholder:    var(--prim-mono-200);
   --color-toc-pip:        var(--prim-mono-300);
   --color-toc-pip-active: var(--prim-mono-550);
+  --color-toc-heading:    var(--prim-mono-550);
+  --color-toc-text:       var(--prim-mono-750);
+  --color-toc-text-active:var(--prim-mono-550);
   --color-dot-active:     var(--prim-orange-500);
   --color-logo:           var(--prim-mono-900);
   --color-link:           var(--prim-mono-700);
@@ -238,6 +241,15 @@
   --color-nav-bg:                 var(--prim-mono-100);
   --color-nav-border:             var(--prim-mono-250);
   --color-nav-icon:               var(--prim-mono-900);
+
+  /* ── Header dropdown ──────────────────────────────────────── */
+  --color-dropdown-bg:            var(--prim-mono-white);
+  --color-dropdown-border:        var(--prim-mono-350);
+  --color-dropdown-text:          var(--prim-mono-900);
+  --color-dropdown-icon:          var(--prim-mono-500);
+  --color-dropdown-soon-bg:       var(--prim-mono-200);
+  --color-dropdown-soon-fg:       var(--prim-mono-600);
+  --color-dropdown-separator:     var(--prim-mono-100);
 
   /* ── Glossary ─────────────────────────────────────────────── */
   --color-glossary-underline:     var(--prim-mono-350);
@@ -662,8 +674,13 @@
   z-index: 10;
 }
 
-.ls-toc:hover {
-  width: 214px;
+.ls-toc:hover,
+.ls-toc--expanded {
+  width: 170px;
+  background: var(--sf-muted-bg);
+  box-shadow: 0 0 20px 20px var(--sf-muted-bg);
+  border-radius: 8px;
+  padding: 12px 14px 12px 10px;
 }
 
 .ls-toc-heading {
@@ -675,13 +692,14 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-toc-pip-active);
+  color: var(--color-toc-heading);
   padding: 0 0 6px 0;
   transition: opacity 0.18s ease 0.08s;
   pointer-events: none;
 }
 
-.ls-toc:hover .ls-toc-heading {
+.ls-toc:hover .ls-toc-heading,
+.ls-toc--expanded .ls-toc-heading {
   opacity: 1;
 }
 
@@ -691,7 +709,8 @@
   transition: opacity 0.18s ease 0.08s;
 }
 
-.ls-toc:hover .ls-toc-label {
+.ls-toc:hover .ls-toc-label,
+.ls-toc--expanded .ls-toc-label {
   opacity: 1;
 }
 
@@ -707,7 +726,9 @@
 }
 
 .ls-toc:hover .ls-toc-pip,
-.ls-toc:hover .ls-toc-pip-active {
+.ls-toc:hover .ls-toc-pip-active,
+.ls-toc--expanded .ls-toc-pip,
+.ls-toc--expanded .ls-toc-pip-active {
   width: 8px;
 }
 

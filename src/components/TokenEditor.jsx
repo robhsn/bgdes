@@ -118,6 +118,9 @@ const THEMES = {
     globals: {
       '--color-toc-pip':        '--prim-mono-300',
       '--color-toc-pip-active': '--prim-mono-550',
+      '--color-toc-heading':    '--prim-mono-550',
+      '--color-toc-text':       '--prim-mono-750',
+      '--color-toc-text-active':'--prim-mono-550',
       '--color-dot-active':     '--prim-orange-500',
       '--color-badge-from':     '--prim-mono-700',
       '--color-badge-to':       '--prim-mono-900',
@@ -130,6 +133,13 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mono-100',
       '--color-statement-border': '--prim-mono-350',
       '--color-statement-text':   '--prim-mono-700',
+      '--color-dropdown-bg':         '--prim-mono-white',
+      '--color-dropdown-border':     '--prim-mono-350',
+      '--color-dropdown-text':       '--prim-mono-900',
+      '--color-dropdown-icon':       '--prim-mono-500',
+      '--color-dropdown-soon-bg':    '--prim-mono-200',
+      '--color-dropdown-soon-fg':    '--prim-mono-600',
+      '--color-dropdown-separator':  '--prim-mono-100',
       '--color-nav-bg':           '--prim-mono-100',
       '--color-nav-border':       '--prim-mono-250',
       '--color-nav-icon':         '--prim-mono-900',
@@ -232,6 +242,9 @@ const THEMES = {
     globals: {
       '--color-toc-pip':          '--prim-sapphire-50',
       '--color-toc-pip-active':   '--prim-orange-500',
+      '--color-toc-heading':      '--prim-orange-500',
+      '--color-toc-text':         '--prim-sapphire-500',
+      '--color-toc-text-active':  '--prim-orange-500',
       '--color-dot-active':       '--prim-orange-500',
       '--color-badge-from':       '--prim-sapphire-500',
       '--color-badge-to':         '--prim-sapphire-50',
@@ -244,6 +257,13 @@ const THEMES = {
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-dropdown-bg':         '--prim-mono-white',
+      '--color-dropdown-border':     '--prim-splash-300',
+      '--color-dropdown-text':       '--prim-sapphire-500',
+      '--color-dropdown-icon':       '--prim-sapphire-300',
+      '--color-dropdown-soon-bg':    '--prim-butter-700',
+      '--color-dropdown-soon-fg':    '--prim-sapphire-500',
+      '--color-dropdown-separator':  '--prim-orange-50',
       '--color-nav-bg':           '--prim-butter-500',
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
@@ -346,6 +366,9 @@ const THEMES = {
     globals: {
       '--color-toc-pip':          '--prim-sapphire-50',
       '--color-toc-pip-active':   '--prim-orange-500',
+      '--color-toc-heading':      '--prim-orange-500',
+      '--color-toc-text':         '--prim-sapphire-500',
+      '--color-toc-text-active':  '--prim-orange-500',
       '--color-dot-active':       '--prim-orange-500',
       '--color-badge-from':       '--prim-sapphire-500',
       '--color-badge-to':         '--prim-sapphire-50',
@@ -358,6 +381,13 @@ const THEMES = {
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-dropdown-bg':         '--prim-mono-white',
+      '--color-dropdown-border':     '--prim-splash-300',
+      '--color-dropdown-text':       '--prim-sapphire-500',
+      '--color-dropdown-icon':       '--prim-sapphire-300',
+      '--color-dropdown-soon-bg':    '--prim-butter-700',
+      '--color-dropdown-soon-fg':    '--prim-sapphire-500',
+      '--color-dropdown-separator':  '--prim-orange-50',
       '--color-nav-bg':           '--prim-butter-500',
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
@@ -460,6 +490,9 @@ const THEMES = {
     globals: {
       '--color-toc-pip':          '--prim-mint-300',
       '--color-toc-pip-active':   '--prim-mint-600',
+      '--color-toc-heading':      '--prim-mint-600',
+      '--color-toc-text':         '--prim-fall-700',
+      '--color-toc-text-active':  '--prim-mint-600',
       '--color-dot-active':       '--prim-mint-500',
       '--color-badge-from':       '--prim-mint-600',
       '--color-badge-to':         '--prim-mint-800',
@@ -472,6 +505,13 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mint-100',
       '--color-statement-border': '--prim-fall-300',
       '--color-statement-text':   '--prim-mint-700',
+      '--color-dropdown-bg':         '--prim-mono-white',
+      '--color-dropdown-border':     '--prim-mint-300',
+      '--color-dropdown-text':       '--prim-mint-900',
+      '--color-dropdown-icon':       '--prim-fall-500',
+      '--color-dropdown-soon-bg':    '--prim-mint-200',
+      '--color-dropdown-soon-fg':    '--prim-mint-700',
+      '--color-dropdown-separator':  '--prim-mint-200',
       '--color-nav-bg':           '--prim-mono-white',
       '--color-nav-border':       '--prim-mint-200',
       '--color-nav-icon':         '--prim-mint-700',
@@ -1510,9 +1550,22 @@ function L2View({ l2, set, l1ColorMap, l1Groups }) {
           <ColorRow label="Text"         name="--color-statement-text"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
+        <SubSect label="Header Dropdown">
+          <ColorRow label="Background"  name="--color-dropdown-bg"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Border"      name="--color-dropdown-border"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Text"        name="--color-dropdown-text"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Icon"        name="--color-dropdown-icon"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Soon pill bg"   name="--color-dropdown-soon-bg"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Soon pill text" name="--color-dropdown-soon-fg"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Separator"   name="--color-dropdown-separator" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
         <SubSect label="Navigation">
           <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="TOC heading"      name="--color-toc-heading"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="TOC text"         name="--color-toc-text"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="TOC active text"  name="--color-toc-text-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Progress dot active" name="--color-dot-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Mobile nav bg"    name="--color-nav-bg"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Mobile nav border" name="--color-nav-border"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />

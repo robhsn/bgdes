@@ -233,8 +233,8 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
     <div className="lh-course">
       <button className="lh-course-header" onClick={() => setOpen(v => !v)} aria-expanded={open}>
         <div className="lh-course-header-left">
-          <span className="lh-course-title">{title}</span>
           <ProgressDots total={progressTotal} filled={progressFilled} />
+          <span className="lh-course-title">{title}</span>
         </div>
         <p className="lh-course-desc">{description}</p>
         <div className="lh-course-toggle"><IconPlusMinus open={open} /></div>
@@ -277,8 +277,6 @@ export default function LearnHubPage({ onNavigate }) {
           <p className="lh-hero-body">
             From your first game to advanced strategy. 15 structured guides that take you from complete beginner to confident, competitive player.
           </p>
-
-          <HRule />
 
           {/* CTA row */}
           <div className="lh-cta-row">
@@ -326,9 +324,6 @@ export default function LearnHubPage({ onNavigate }) {
             </div>
           </div>
 
-          <HRule />
-
-
           {/* Course list */}
           <div className="lh-course-list">
 
@@ -375,17 +370,79 @@ export default function LearnHubPage({ onNavigate }) {
 
             <CourseAccordion
               title="Beginner Strategy"
-              description="For absolute beginners, this course will teach you the fundamentals"
+              description="Build on the basics with opening moves, racing concepts, and early-game tactics"
               progressFilled={0}
               progressTotal={5}
-            />
+            >
+              <LessonRow
+                number={1}
+                title="Opening Moves &amp; Priorities"
+                duration={10}
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt."
+              />
+              <LessonRow
+                number={2}
+                title="Building a Blockade"
+                duration={12}
+                description="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip."
+              />
+              <LessonRow
+                number={3}
+                title="The Running Game"
+                duration={9}
+                description="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat."
+              />
+              <LessonRow
+                number={4}
+                title="Safe vs. Bold Play"
+                duration={11}
+                description="Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit."
+              />
+              <LessonRow
+                number={5}
+                title="When to Double"
+                duration={7}
+                description="Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia."
+              />
+            </CourseAccordion>
 
             <CourseAccordion
               title="Intermediate Strategy"
-              description="For absolute beginners, this course will teach you the fundamentals"
+              description="Sharpen your game with positional play, anchor strategy, and pip-count techniques"
               progressFilled={0}
               progressTotal={5}
-            />
+            >
+              <LessonRow
+                number={1}
+                title="Positional vs. Racing Play"
+                duration={14}
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel urna vitae nisi."
+              />
+              <LessonRow
+                number={2}
+                title="Anchor Strategy"
+                duration={11}
+                description="Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis."
+              />
+              <LessonRow
+                number={3}
+                title="Pip Count &amp; Probability"
+                duration={15}
+                description="Curabitur pretium tincidunt lacus nulla gravida orci a odio. Nullam varius dolor."
+              />
+              <LessonRow
+                number={4}
+                title="Back Game Fundamentals"
+                duration={13}
+                description="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum."
+              />
+              <LessonRow
+                number={5}
+                title="Doubling Cube Tactics"
+                duration={10}
+                description="Maecenas sed diam eget risus varius blandit sit amet non magna donec id elit non mi."
+              />
+            </CourseAccordion>
 
           </div>
         </div>

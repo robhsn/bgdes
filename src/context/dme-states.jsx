@@ -52,6 +52,13 @@ export const STATE_DEFINITIONS = [
     defaultValue: true,
   },
   {
+    key: 'learnArticle.tocExpanded',
+    label: 'ToC Expanded',
+    description: 'Keep the Table of Contents permanently expanded',
+    type: 'learn-article',
+    defaultValue: false,
+  },
+  {
     key: 'learnArticle.launchMvp',
     label: 'Launch MVP',
     description: 'Hide badge/achievement visuals from article page',

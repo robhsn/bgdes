@@ -46,7 +46,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: var(--spacing-content-gap-lg);
   position: relative; /* sits above decorative bg */
 }
 
@@ -210,7 +210,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--spacing-section-v);
 }
 
 .lh-section-intro {
@@ -287,8 +287,9 @@
 
 .lh-course-header-left {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   flex-shrink: 0;
 }
 

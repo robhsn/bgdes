@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import avatarImg from '../imgs/avatar-dink.png';
 import { useDMEState } from '../context/dme-states';
 
@@ -68,6 +68,222 @@ const SOCIAL_LINKS = [
   { label: 'Bluesky',   Icon: IconBSky      },
 ];
 
+/* ─── Dropdown menu icons ────────────────────────────────────── */
+
+function IconProfile() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  );
+}
+
+function IconSettings() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  );
+}
+
+function IconPalette() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/>
+      <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/>
+      <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/>
+      <circle cx="6.5" cy="12" r="0.5" fill="currentColor"/>
+      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+    </svg>
+  );
+}
+
+function IconHistory() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+}
+
+function IconLearn() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  );
+}
+
+function IconLogout() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+  );
+}
+
+function IconChevronDown({ size = 16 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  );
+}
+
+/* ─── Avatar dropdown menu ───────────────────────────────────── */
+
+const MENU_ITEMS = [
+  { id: 'profile',  label: 'Profile',           Icon: IconProfile,  nav: 'profile' },
+  { id: 'settings', label: 'Settings',           Icon: IconSettings },
+  { id: 'learn',    label: 'Learn to play',       Icon: IconLearn,    nav: 'learn-hub' },
+  { id: 'boards',   label: 'Boards & themes',    Icon: IconPalette,  soon: true },
+  { id: 'history',  label: 'Game history',        Icon: IconHistory,  soon: true },
+];
+
+function AvatarDropdown({ avatarSrc, onNavigate }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [open]);
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <div
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'flex', gap: 10, alignItems: 'center',
+          cursor: 'pointer', userSelect: 'none',
+        }}
+      >
+        <div style={{
+          width: 48, height: 48, borderRadius: '50%',
+          border: '2px solid var(--color-border-subtle)',
+          background: 'var(--color-avatar-bg)',
+          flexShrink: 0, overflow: 'hidden', position: 'relative',
+        }}>
+          <img
+            src={avatarSrc || avatarImg}
+            alt="Avatar"
+            style={{
+              position: 'absolute',
+              width: '105.46%', height: '105.46%',
+              left: '-2.73%', top: '6.2%',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+        <span style={{
+          fontFamily: fh, fontWeight: 600, fontSize: 15,
+          color: 'var(--color-heading)', lineHeight: 1,
+        }}>Robbbb</span>
+        <span style={{
+          color: 'var(--color-heading)', opacity: 0.4,
+          display: 'flex', alignItems: 'center',
+          transition: 'transform 0.2s',
+          transform: open ? 'rotate(180deg)' : 'rotate(0)',
+        }}>
+          <IconChevronDown />
+        </span>
+      </div>
+
+      {open && (
+        <div style={{
+          position: 'absolute',
+          top: 'calc(100% + 8px)',
+          right: 0,
+          background: 'var(--color-dropdown-bg)',
+          borderRadius: 14,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)',
+          border: '1px solid var(--color-dropdown-border)',
+          padding: '6px 0',
+          minWidth: 220,
+          zIndex: 9999,
+          overflow: 'hidden',
+        }}>
+          {MENU_ITEMS.map(({ id, label, Icon, soon, nav }) => (
+            <div
+              key={id}
+              onClick={() => {
+                setOpen(false);
+                if (nav) onNavigate?.(nav);
+              }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12,
+                padding: '12px 18px',
+                cursor: nav ? 'pointer' : 'default',
+                transition: 'background 0.1s',
+                fontFamily: fh, fontWeight: 600, fontSize: 15,
+                color: 'var(--color-dropdown-text)',
+                lineHeight: 1,
+                opacity: soon && !nav ? 0.55 : 1,
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.04)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', color: 'var(--color-dropdown-icon)' }}>
+                <Icon />
+              </span>
+              <span style={{ flex: 1 }}>{label}</span>
+              {soon && (
+                <span style={{
+                  fontFamily: fp, fontWeight: 700, fontSize: 10,
+                  textTransform: 'uppercase', letterSpacing: '0.05em',
+                  background: 'var(--color-dropdown-soon-bg)',
+                  color: 'var(--color-dropdown-soon-fg)',
+                  padding: '3px 7px',
+                  borderRadius: 100,
+                  lineHeight: 1,
+                }}>Soon</span>
+              )}
+            </div>
+          ))}
+
+          {/* Separator */}
+          <div style={{
+            height: 1,
+            background: 'var(--color-dropdown-separator)',
+            margin: '6px 18px',
+          }} />
+
+          {/* Log out */}
+          <div
+            onClick={() => setOpen(false)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '12px 18px',
+              cursor: 'pointer',
+              transition: 'background 0.1s',
+              fontFamily: fh, fontWeight: 600, fontSize: 15,
+              color: 'var(--color-dropdown-text)',
+              lineHeight: 1,
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.04)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', color: 'var(--color-dropdown-icon)' }}>
+              <IconLogout />
+            </span>
+            <span>Log out</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── Site Header ─────────────────────────────────────────────── */
 
 export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }) {
@@ -83,8 +299,10 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
   return (
     <>
     <header className={`ls-header${scrolled ? ' ls-header--scrolled' : ''}`}>
-      <div
-        onClick={onLogoClick}
+      <a
+        href="https://www.backgammon.com"
+        target="_blank"
+        rel="noopener noreferrer"
         style={{
           display: 'flex',
           alignItems: 'flex-end',
@@ -93,12 +311,13 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           color: 'var(--color-logo)',
           letterSpacing: '-0.5px',
           lineHeight: 1,
-          cursor: onLogoClick ? 'pointer' : 'default',
+          textDecoration: 'none',
+          cursor: 'pointer',
         }}
       >
         <span className="ls-logo-text">Backgammon</span>
         <span className="ls-logo-dot" style={{ opacity: 0.4 }}>.com</span>
-      </div>
+      </a>
 
       {loggedIn ? (
         <div className="ls-header-auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
@@ -110,31 +329,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
             New Game
           </button>
           <div style={{ width: 1, height: 28, background: 'var(--color-border)', flexShrink: 0 }} />
-          <div
-            onClick={() => onNavigate?.('profile')}
-            style={{
-              display: 'flex', gap: 10, alignItems: 'center',
-              cursor: onNavigate ? 'pointer' : 'default',
-            }}
-          >
-            <div style={{
-              width: 48, height: 48, borderRadius: '50%',
-              border: '2px solid var(--color-border-subtle)',
-              background: 'var(--color-avatar-bg)',
-              flexShrink: 0, overflow: 'hidden', position: 'relative',
-            }}>
-              <img
-                src={avatarSrcProp || avatarImg}
-                alt="MyReallyLongCoolUsername"
-                style={{
-                  position: 'absolute',
-                  width: '105.46%', height: '105.46%',
-                  left: '-2.73%', top: '6.2%',
-                  objectFit: 'cover',
-                }}
-              />
-            </div>
-          </div>
+          <AvatarDropdown avatarSrc={avatarSrcProp} onNavigate={onNavigate} />
         </div>
       ) : (
         <button className="ls-login-btn">Log In / Sign Up</button>
