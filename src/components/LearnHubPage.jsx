@@ -281,7 +281,7 @@ export default function LearnHubPage({ onNavigate }) {
           {/* CTA row */}
           <div className="lh-cta-row">
             <div className="lh-cta-buttons">
-              <button className="lh-btn lh-btn--primary" onClick={() => onNavigate?.('learn-article')}>
+              <button className="com-btn com-btn--primary com-btn--lg" onClick={() => onNavigate?.('learn-article')}>
                 {loggedIn ? 'Continue: Lesson 2' : 'Start Your First Lesson'}
                 <svg width="11" height="15" viewBox="0 0 11 15" fill="currentColor" aria-hidden>
                   <path d="M1.5 1.5L9.5 7.5L1.5 13.5" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>

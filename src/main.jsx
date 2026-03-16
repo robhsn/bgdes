@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import LearnSegmentTemplate from './components/LearnSegmentTemplate'
 import LearnHubPage from './components/LearnHubPage'
+import IndexPage from './components/IndexPage'
 import ProfilePage from './components/ProfilePage'
 import TokensPage from './components/TokensPage'
 import TokenEditor from './components/TokenEditor'
@@ -11,6 +12,7 @@ import PageNavigator from './components/PageNavigator'
 import RadialFAB from './components/RadialFAB'
 import StatesPanel from './components/StatesPanel'
 import { DMEStatesContext } from './context/dme-states'
+import './components/ComButtons.css'
 import fileDefaults from './tokens/dme-defaults.json'
 import savedComments from './data/comments.json'
 
@@ -19,6 +21,7 @@ import savedComments from './data/comments.json'
  * Each entry: { id: string, label: string }
  */
 const PAGES = [
+  { id: 'index',           label: 'Index' },
   { id: 'learn-hub',      label: 'Learn Hub' },
   { id: 'learn-article',  label: 'Lesson 1: How to Play' },
   { id: 'profile',        label: 'Profile' },
@@ -112,6 +115,7 @@ function App() {
   }, [])
 
   function renderPage() {
+    if (currentPageId === 'index') return <IndexPage onNavigate={navigateTo} />
     if (currentPageId === 'learn-hub') return <LearnHubPage onNavigate={navigateTo} />
     if (currentPageId === 'learn-article') return <LearnSegmentTemplate onNavigate={navigateTo} />
     if (currentPageId === 'profile') return <ProfilePage onNavigate={navigateTo} />

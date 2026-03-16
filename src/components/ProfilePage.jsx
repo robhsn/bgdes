@@ -409,7 +409,7 @@ function BadgeCelebration({ queue, onDismiss }) {
             : 'Keep playing to unlock more badges.'}
         </div>
         <button
-          className="pp-btn pp-btn--primary pp-celebration-dismiss"
+          className="com-btn com-btn--primary com-btn--sm pp-celebration-dismiss"
           onClick={handleDismiss}
         >
           {idx < queue.length - 1 ? 'Next Badge →' : 'Awesome!'}
@@ -566,7 +566,7 @@ function GatedSection({ isGated, children }) {
         <div className="pp-gated-body">
           Create an account to track your stats, earn badges, and build your profile.
         </div>
-        <button className="pp-btn pp-btn--primary" style={{ pointerEvents: 'all' }}>
+        <button className="com-btn com-btn--primary com-btn--sm" style={{ pointerEvents: 'all' }}>
           Create Account
         </button>
       </div>
@@ -680,15 +680,15 @@ function MatchHistorySection({ history, isEmpty }) {
             Page {safePage + 1} of {totalPages}
           </span>
           <button
-            className="pp-btn pp-btn--secondary"
-            style={{ fontSize: 12, padding: '6px 14px', opacity: safePage === 0 ? 0.4 : 1, pointerEvents: safePage === 0 ? 'none' : 'auto' }}
+            className="com-btn com-btn--outline com-btn--sm"
+            style={{ opacity: safePage === 0 ? 0.4 : 1, pointerEvents: safePage === 0 ? 'none' : 'auto' }}
             onClick={() => setCurrentPage(p => p - 1)}
           >
             ← Previous
           </button>
           <button
-            className="pp-btn pp-btn--secondary"
-            style={{ fontSize: 12, padding: '6px 14px', opacity: safePage >= totalPages - 1 ? 0.4 : 1, pointerEvents: safePage >= totalPages - 1 ? 'none' : 'auto' }}
+            className="com-btn com-btn--outline com-btn--sm"
+            style={{ opacity: safePage >= totalPages - 1 ? 0.4 : 1, pointerEvents: safePage >= totalPages - 1 ? 'none' : 'auto' }}
             onClick={() => setCurrentPage(p => p + 1)}
           >
             Next →
@@ -715,7 +715,7 @@ function TrophyCaseSection({ selected, isOwn, onEdit }) {
       <div className="pp-trophy-header-row">
         <h2 className="pp-section-title">Trophy Case</h2>
         {isOwn && (
-          <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={onEdit}>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onEdit}>
             <IconPencil size={14} />
             Edit Trophy Case
           </button>
@@ -837,8 +837,8 @@ function TrophyCaseEditor({ stats, selected, onSave, onClose }) {
           ))}
         </div>
         <div className="pp-settings-footer">
-          <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onClose}>Cancel</button>
-          <button className="pp-btn pp-btn--primary" style={{ fontSize: 13 }} onClick={() => { onSave(draft); onClose(); }}>Save</button>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+          <button className="com-btn com-btn--primary com-btn--sm" onClick={() => { onSave(draft); onClose(); }}>Save</button>
         </div>
       </div>
     </div>
@@ -887,8 +887,8 @@ function SocialLinksModal({ socialLinks, onSave, onCancel }) {
           ))}
         </div>
         <div className="pp-social-actions">
-          <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onCancel}>Cancel</button>
-          <button className="pp-btn pp-btn--primary" style={{ fontSize: 13 }} onClick={handleSave}>Save</button>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+          <button className="com-btn com-btn--primary com-btn--sm" onClick={handleSave}>Save</button>
         </div>
       </div>
     </div>
@@ -1060,10 +1060,10 @@ function SettingsPanel({
 
         {/* Sticky footer */}
         <div className="pp-settings-footer">
-          <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onClose}>Cancel</button>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
           <button
-            className="pp-btn pp-btn--primary"
-            style={{ fontSize: 13, opacity: draftName.length < 4 ? 0.5 : 1 }}
+            className="com-btn com-btn--primary com-btn--sm"
+            style={{ opacity: draftName.length < 4 ? 0.5 : 1 }}
             onClick={handleSave}
             disabled={draftName.length < 4}
           >Save Changes</button>
@@ -1493,7 +1493,7 @@ function PlayerCardModal({ player, coverImg, avatarImg: avatarSrc, onClose }) {
           <span className="pp-card-logo-text">Backgammon</span>
           <span className="pp-card-logo-dot">.com</span>
         </div>
-        <button className="pp-btn pp-btn--primary pp-card-download" onClick={handleDownload}>
+        <button className="com-btn com-btn--primary com-btn--sm pp-card-download" onClick={handleDownload}>
           Download Player Card
         </button>
       </div>
@@ -1681,13 +1681,13 @@ function ImageCropModal({ src, aspectRatio, circular, initialCropParams, onSave,
         <div className="pp-crop-actions">
           <div>
             <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleReplace} />
-            <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={() => fileInputRef.current?.click()}>
+            <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileInputRef.current?.click()}>
               Replace image
             </button>
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onCancel}>Cancel</button>
-            <button className="pp-btn pp-btn--primary" style={{ fontSize: 13 }} onClick={handleSave}>Save</button>
+            <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+            <button className="com-btn com-btn--primary com-btn--sm" onClick={handleSave}>Save</button>
           </div>
         </div>
       </div>
@@ -1753,10 +1753,10 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onClose })
               ))}
             </div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onClose}>Cancel</button>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
               <button
-                className="pp-btn pp-btn--primary"
-                style={{ fontSize: 13, opacity: hasPresetChange ? 1 : 0.5, pointerEvents: hasPresetChange ? 'auto' : 'none' }}
+                className="com-btn com-btn--primary com-btn--sm"
+                style={{ opacity: hasPresetChange ? 1 : 0.5, pointerEvents: hasPresetChange ? 'auto' : 'none' }}
                 onClick={() => { if (pendingPreset) onSelectPreset(pendingPreset); }}
               >Save</button>
             </div>
@@ -1771,10 +1771,10 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onClose })
               }
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={() => fileRef.current?.click()}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
                 {hasCustomAvatar ? 'Upload New Avatar' : 'Upload Avatar'}
               </button>
-              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={onClose}>Cancel</button>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
             </div>
           </div>
         )}
@@ -2015,10 +2015,10 @@ export default function ProfilePage({ onNavigate }) {
         {/* Edit Profile / Settings buttons moved to trophy header row below */}
         {editMode && (
           <div className="pp-cover-actions">
-            <button className="pp-btn pp-btn--secondary" style={{ fontSize: 13 }} onClick={cancelEdit}>
+            <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
               Cancel
             </button>
-            <button className="pp-btn pp-btn--primary" style={{ fontSize: 13 }} onClick={saveEdit}>
+            <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
               Save Profile Changes
             </button>
           </div>
@@ -2156,17 +2156,17 @@ export default function ProfilePage({ onNavigate }) {
           {/* ── Action buttons row ── */}
           {isOwn && !editMode && !isNewPlayer && !isUnregistered && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 16, flexWrap: 'wrap' }}>
-              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={enterEditMode}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={enterEditMode}>
                 <IconPencil size={14} />
                 Edit Profile
               </button>
-              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={() => setShowSettings(true)}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                 </svg>
                 Settings
               </button>
-              <button className="pp-btn pp-btn--secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={() => setShowTrophyEditor(true)}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowTrophyEditor(true)}>
                 <IconPencil size={14} />
                 Edit Trophy Case
               </button>

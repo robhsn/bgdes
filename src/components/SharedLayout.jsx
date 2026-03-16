@@ -322,9 +322,8 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
       {loggedIn ? (
         <div className="ls-header-auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <button
-            className="ls-login-btn"
+            className="com-btn com-btn--primary com-btn--sm"
             onClick={() => window.open('https://www.backgammon.com', '_blank')}
-            style={{ padding: '7px 14px', fontSize: 12 }}
           >
             New Game
           </button>
@@ -332,7 +331,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           <AvatarDropdown avatarSrc={avatarSrcProp} onNavigate={onNavigate} />
         </div>
       ) : (
-        <button className="ls-login-btn">Log In / Sign Up</button>
+        <button className="com-btn com-btn--primary com-btn--sm">Log In / Sign Up</button>
       )}
     </header>
     <div aria-hidden="true" className={`ls-header-spacer${scrolled ? ' ls-header-spacer--scrolled' : ''}`} />

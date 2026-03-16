@@ -256,7 +256,7 @@ function SurfacesSection() {
               <div className="tok-surface-muted">Muted text</div>
               <span className="tok-surface-link">Link text</span>
               <div className="tok-surface-border" />
-              <button className="tok-surface-btn">Button</button>
+              <button className="com-btn com-btn--primary com-btn--sm">Button</button>
             </div>
           ))}
         </div>
@@ -405,6 +405,65 @@ function StatusColorsSection() {
   );
 }
 
+/* ── .com Buttons showcase ──────────────────────────────────── */
+
+const COM_VARIANTS = [
+  { cls: 'com-btn--primary',    label: 'Primary' },
+  { cls: 'com-btn--dark',       label: 'Dark' },
+  { cls: 'com-btn--outline',    label: 'Outline' },
+  { cls: 'com-btn--tertiary',   label: 'Tertiary' },
+  { cls: 'com-btn--quaternary', label: 'Quaternary' },
+  { cls: 'com-btn--ghost',      label: 'Ghost' },
+];
+
+const COM_SIZES = [
+  { cls: '',            label: 'Default (48 px)' },
+  { cls: 'com-btn--sm', label: 'Small (36 px)' },
+  { cls: 'com-btn--lg', label: 'Large (auto)' },
+];
+
+function ComButtonsSection() {
+  return (
+    <div className="tok-section">
+      <div className="tok-section-inner">
+        <h2 className="tok-section-title">.com Buttons</h2>
+        <p className="tok-section-desc">Shared button system matching backgammon.com production styles. Pill shapes, Inter 700, brand-colored 3D shadows.</p>
+
+        {/* Variants showcase */}
+        <div className="tok-com-btn-grid">
+          <div className="tok-com-btn-row">
+            <div className="tok-com-btn-row-label">Light background</div>
+            <div className="tok-com-btn-row-buttons">
+              {COM_VARIANTS.map(v => (
+                <button key={v.cls} className={`com-btn ${v.cls}`}>{v.label}</button>
+              ))}
+            </div>
+          </div>
+          <div className="tok-com-btn-row tok-com-btn-row--dark">
+            <div className="tok-com-btn-row-label">Dark background</div>
+            <div className="tok-com-btn-row-buttons">
+              {COM_VARIANTS.map(v => (
+                <button key={v.cls} className={`com-btn ${v.cls}`}>{v.label}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Sizes showcase */}
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 16, color: 'var(--color-heading)', margin: '32px 0 12px' }}>Sizes</h3>
+        <div className="tok-com-btn-row-buttons" style={{ gap: 16 }}>
+          {COM_SIZES.map(s => (
+            <div key={s.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
+              <button className={`com-btn com-btn--primary ${s.cls}`}>Button</button>
+              <span style={{ fontFamily: 'var(--font-meta)', fontSize: 11, color: 'var(--color-muted)' }}>{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const BUTTON_TOKENS = [
   { name: '--btn-primary-bg',       label: 'Primary BG' },
   { name: '--btn-primary-fg',       label: 'Primary Text' },
@@ -414,15 +473,15 @@ const BUTTON_TOKENS = [
   { name: '--btn-secondary-border', label: 'Secondary Border' },
 ];
 
-function ButtonsSection() {
+function LegacyButtonsSection() {
   const l2 = fileDefaults.l2;
   const l1Colors = fileDefaults.l1Colors;
 
   return (
     <div className="tok-section">
       <div className="tok-section-inner">
-        <h2 className="tok-section-title">Buttons</h2>
-        <p className="tok-section-desc">Primary and secondary button variants using button tokens.</p>
+        <h2 className="tok-section-title">Buttons (Legacy)</h2>
+        <p className="tok-section-desc">Primary and secondary button variants using legacy button tokens. Preserved for future design updates.</p>
         <div className="tok-semantic-grid" style={{ marginBottom: 24 }}>
           {BUTTON_TOKENS.map(t => {
             const primToken = l2[t.name];
@@ -477,7 +536,8 @@ export default function TokensPage({ onNavigate }) {
       <RadiusSection />
       <ShadowsSection />
       <StatusColorsSection />
-      <ButtonsSection />
+      <ComButtonsSection />
+      <LegacyButtonsSection />
       <SiteFooter />
     </div>
   );

@@ -1,0 +1,136 @@
+/* ═══════════════════════════════════════════════════════════════
+   .com Buttons — com-btn prefix
+   Shared button system matching backgammon.com production styles.
+   Imported once in main.jsx for global availability.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --com-green: #23a57e;
+  --com-green-shadow: #16cc96;
+  --com-dark-green: #0d3529;
+  --com-sage-light: #c0d8d1;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+
+.com-btn {
+  height: 48px;
+  padding: 8px 32px;
+  font-family: 'Inter', var(--font-body), sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.com-btn:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.com-btn:active {
+  transform: scale(0.98);
+}
+
+/* ── Primary (green pill with 3D shadow) ────────────────────── */
+
+.com-btn--primary {
+  background: var(--com-green);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--com-green-shadow);
+}
+
+.com-btn--primary:hover {
+  transform: scale(1.02);
+}
+
+.com-btn--primary:active {
+  transform: translateY(3px) scale(1);
+  box-shadow: 0 1px 0 var(--com-green-shadow);
+}
+
+/* ── Dark (black pill) ──────────────────────────────────────── */
+
+.com-btn--dark {
+  background: #000;
+  color: #fff;
+  box-shadow: 0 4px 0 #333;
+}
+
+.com-btn--dark:hover {
+  transform: scale(1.02);
+}
+
+.com-btn--dark:active {
+  transform: translateY(3px) scale(1);
+  box-shadow: 0 1px 0 #333;
+}
+
+/* ── Outline (transparent pill, border) ─────────────────────── */
+
+.com-btn--outline {
+  background: transparent;
+  color: currentColor;
+  border: 2px solid currentColor;
+  box-shadow: none;
+}
+
+/* ── Tertiary (dark-green rounded-lg) ──────────────────────── */
+
+.com-btn--tertiary {
+  background: var(--com-dark-green);
+  color: var(--com-sage-light);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+/* ── Quaternary (white rounded-lg) ─────────────────────────── */
+
+.com-btn--quaternary {
+  background: #fff;
+  color: #000;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+/* ── Ghost (transparent pill, no border) ───────────────────── */
+
+.com-btn--ghost {
+  background: transparent;
+  color: currentColor;
+  box-shadow: none;
+}
+
+/* ── Size: Small ────────────────────────────────────────────── */
+
+.com-btn--sm {
+  height: 36px;
+  font-size: 13px;
+  padding: 6px 16px;
+}
+
+/* ── Size: Large ────────────────────────────────────────────── */
+
+.com-btn--lg {
+  height: auto;
+  font-size: 20px;
+  padding: 16px 40px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 800px) {
+  .com-btn--lg {
+    width: 100%;
+  }
+}
