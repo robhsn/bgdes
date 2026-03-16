@@ -1,0 +1,339 @@
+/* ═══════════════════════════════════════════════════════════════
+   L1 — PRIMITIVE DEFINITIONS  (theme-agnostic)
+   Edit via DME → Level 1 tab
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Type Roles — family, weight, letter-spacing, line-height ── */
+  --prim-type-heading:           'Raleway', sans-serif;
+  --prim-type-heading-weight:    700;
+  --prim-type-heading-ls:        -0.02em;
+  --prim-type-heading-lh:        1.05;
+
+  --prim-type-subheading:        Georgia, serif;
+  --prim-type-subheading-weight: 700;
+  --prim-type-subheading-ls:     -0.02em;
+  --prim-type-subheading-lh:     1.1;
+
+  --prim-type-body:              'Inter', sans-serif;
+  --prim-type-body-weight:       400;
+  --prim-type-body-ls:           0em;
+  --prim-type-body-lh:           1.9;
+
+  /* ── Mono Palette ────────────────────────────────────────────── */
+  --prim-mono-white: #ffffff;
+  --prim-mono-50:    #efefef;
+  --prim-mono-100:   #dddddd;
+  --prim-mono-150:   #e0e0e0;
+  --prim-mono-200:   #d9d9d9;
+  --prim-mono-250:   #cccccc;
+  --prim-mono-300:   #bbbbbb;
+  --prim-mono-350:   #aaaaaa;
+  --prim-mono-500:   #7b7b7b;
+  --prim-mono-550:   #777777;
+  --prim-mono-600:   #585858;
+  --prim-mono-700:   #444444;
+  --prim-mono-750:   #2e2e2e;
+  --prim-mono-900:   #111111;
+  --prim-mono-black: #000000;
+
+  /* ── Coral Tide Palette ──────────────────────────────────────── */
+  --prim-sapphire-950: #000b1a;
+  --prim-sapphire-900: #001635;
+  --prim-sapphire-800: #001d46;
+  --prim-sapphire-700: #002458;
+  --prim-sapphire-600: #062d66;
+  --prim-sapphire-500: #0c3775;
+  --prim-sapphire-400: #104188;
+  --prim-sapphire-300: #134b9b;
+  --prim-sapphire-200: #2158a7;
+  --prim-sapphire-100: #2f65b3;
+  --prim-sapphire-50:  #97b2d9;
+
+  --prim-splash-950: #0082a7;
+  --prim-splash-900: #0094b9;
+  --prim-splash-800: #13a5ca;
+  --prim-splash-700: #26b7dc;
+  --prim-splash-600: #3fcaed;
+  --prim-splash-500: #58ddff;
+  --prim-splash-400: #70e2ff;
+  --prim-splash-300: #88e7ff;
+  --prim-splash-200: #9eebff;
+  --prim-splash-100: #b4f0ff;
+  --prim-splash-50:  #ebfbff;
+
+  --prim-orange-950: #511702;
+  --prim-orange-900: #a22e05;
+  --prim-orange-800: #b6380c;
+  --prim-orange-700: #ca4313;
+  --prim-orange-600: #dd4e1c;
+  --prim-orange-500: #f05a25;
+  --prim-orange-400: #f7794c;
+  --prim-orange-300: #ff9874;
+  --prim-orange-200: #ffaa8d;
+  --prim-orange-100: #ffbda6;
+  --prim-orange-50:  #ffded2;
+
+  --prim-butter-950: #edb668;
+  --prim-butter-900: #f0d18a;
+  --prim-butter-800: #f1de9b;
+  --prim-butter-700: #f3ecac;
+  --prim-butter-600: #f8f4ca;
+  --prim-butter-500: #fefce9;
+  --prim-butter-400: #fefdf4;
+
+  /* ── Mint ── */
+  --prim-mint-900: #051f18;
+  --prim-mint-800: #072e23;
+  --prim-mint-700: #0d3529;
+  --prim-mint-600: #11533f;
+  --prim-mint-500: #196951;
+  --prim-mint-400: #23a57e;
+  --prim-mint-300: #8cb2a7;
+  --prim-mint-200: #bce4d9;
+  --prim-mint-100: #e9f4f3;
+
+  /* ── Fall Green ── */
+  --prim-fall-900: #2d4941;
+  --prim-fall-700: #415f56;
+  --prim-fall-500: #507268;
+  --prim-fall-300: #6e9b8e;
+  --prim-fall-100: #8fcbba;
+
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   L2 — SEMANTIC TOKENS  (default: Mono theme)
+   Controlled by DME → Level 2 tab + theme selector
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Colors ──────────────────────────────────────────────────── */
+  --color-bg:             var(--prim-mono-white);
+  --color-heading:        var(--prim-mono-900);
+  --color-pill:           var(--prim-mono-900); /* primary (dark) pill half */
+  --color-accent:         var(--prim-mono-700);
+  --color-body:           var(--prim-mono-600);
+  --color-muted:          var(--prim-mono-750);
+  --color-border:         var(--prim-mono-100);
+  --color-border-light:   var(--prim-mono-150);
+  --color-border-mid:     var(--prim-mono-250);
+  --color-border-subtle:  var(--prim-mono-350);
+  --color-callout-border: var(--prim-mono-500);
+  --color-placeholder:    var(--prim-mono-200);
+  --color-toc-pip:        var(--prim-mono-300);
+  --color-toc-pip-active: var(--prim-mono-550);
+  --color-toc-heading:    var(--prim-mono-550);
+  --color-toc-text:       var(--prim-mono-750);
+  --color-toc-text-active:var(--prim-mono-550);
+  --color-dot-active:     var(--prim-orange-500);
+  --color-logo:           var(--prim-mono-900);
+  --color-link:           var(--prim-mono-700);
+  --color-white:          var(--prim-mono-white);
+
+  /* ── Button tokens ────────────────────────────────────────────── */
+  --btn-primary-bg: var(--color-border-mid);
+  --btn-primary-fg: var(--color-heading);
+  --btn-secondary-bg: var(--color-bg);
+  --btn-secondary-fg: var(--color-heading);
+  --btn-primary-border: var(--color-heading);
+  --btn-secondary-border: var(--color-heading);
+
+  /* ── Statement component tokens ──────────────────────────────── */
+  --color-statement-bg:     var(--prim-mono-100);
+  --color-statement-border: var(--prim-mono-350);
+  --color-statement-text:   var(--prim-mono-700);
+
+  /* ── Surface-specific logo / link / pill / accent ────────────── */
+  --sf-muted-logo:    var(--prim-mono-900);
+  --sf-muted-link:    var(--prim-mono-700);
+  --sf-muted-pill:    var(--prim-mono-900);
+  --sf-muted-accent:  var(--prim-mono-700);
+
+  --sf-inverse-logo:    var(--prim-mono-white);
+  --sf-inverse-link:    var(--prim-mono-300);
+  --sf-inverse-pill:    var(--prim-mono-white);
+  --sf-inverse-accent:  var(--prim-mono-500);
+
+  --sf-accent-logo:    var(--prim-mono-white);
+  --sf-accent-link:    var(--prim-mono-300);
+  --sf-accent-pill:    var(--prim-mono-white);
+  --sf-accent-accent:  var(--prim-mono-900);
+
+  /* ── Muted surface ──────────────────────────────────────────── */
+  --sf-muted-bg:             var(--prim-mono-50);
+  --sf-muted-heading:        var(--prim-mono-900);
+  --sf-muted-body:           var(--prim-mono-600);
+  --sf-muted-text-muted:     var(--prim-mono-750);
+  --sf-muted-border:         var(--prim-mono-100);
+  --sf-muted-border-light:   var(--prim-mono-150);
+  --sf-muted-border-mid:     var(--prim-mono-250);
+  --sf-muted-border-subtle:  var(--prim-mono-350);
+  --sf-muted-callout-border: var(--prim-mono-500);
+  --sf-muted-placeholder:    var(--prim-mono-200);
+
+  /* ── Inverse surface ────────────────────────────────────────── */
+  --sf-inverse-bg:             var(--prim-mono-900);
+  --sf-inverse-heading:        var(--prim-mono-white);
+  --sf-inverse-body:           var(--prim-mono-200);
+  --sf-inverse-text-muted:     var(--prim-mono-350);
+  --sf-inverse-border:         var(--prim-mono-700);
+  --sf-inverse-border-light:   var(--prim-mono-750);
+  --sf-inverse-border-mid:     var(--prim-mono-550);
+  --sf-inverse-border-subtle:  var(--prim-mono-500);
+  --sf-inverse-callout-border: var(--prim-mono-350);
+  --sf-inverse-placeholder:    var(--prim-mono-700);
+
+  /* ── Accent surface ─────────────────────────────────────────── */
+  --sf-accent-bg:             var(--prim-mono-700);
+  --sf-accent-heading:        var(--prim-mono-white);
+  --sf-accent-body:           var(--prim-mono-100);
+  --sf-accent-text-muted:     var(--prim-mono-250);
+  --sf-accent-border:         var(--prim-mono-550);
+  --sf-accent-border-light:   var(--prim-mono-600);
+  --sf-accent-border-mid:     var(--prim-mono-400);
+  --sf-accent-border-subtle:  var(--prim-mono-350);
+  --sf-accent-callout-border: var(--prim-mono-250);
+  --sf-accent-placeholder:    var(--prim-mono-600);
+
+  /* ── Tertiary surface ────────────────────────────────────────── */
+  --sf-tertiary-bg:             var(--prim-mono-750);
+  --sf-tertiary-heading:        var(--prim-mono-white);
+  --sf-tertiary-body:           var(--prim-mono-200);
+  --sf-tertiary-text-muted:     var(--prim-mono-350);
+  --sf-tertiary-border:         var(--prim-mono-600);
+  --sf-tertiary-border-light:   var(--prim-mono-700);
+  --sf-tertiary-border-mid:     var(--prim-mono-550);
+  --sf-tertiary-border-subtle:  var(--prim-mono-500);
+  --sf-tertiary-callout-border: var(--prim-mono-300);
+  --sf-tertiary-placeholder:    var(--prim-mono-600);
+  --sf-tertiary-logo:           var(--prim-mono-white);
+  --sf-tertiary-link:           var(--prim-mono-200);
+  --sf-tertiary-pill:           var(--prim-mono-white);
+  --sf-tertiary-accent:         var(--prim-mono-500);
+
+  /* ── Badge gradient ───────────────────────────────────────── */
+  --color-badge-from: var(--prim-mono-700);
+  --color-badge-to:   var(--prim-mono-900);
+  --badge-angle:      135deg;
+
+  /* ── Badge icon (earned) ──────────────────────────────────── */
+  --color-badge-icon:             var(--prim-mono-750);
+  --color-badge-icon-inner:       var(--prim-mono-100);
+
+  /* ── Badge (unearned / outline) ─────────────────────────── */
+  --color-badge-unearned-stroke:  var(--prim-mono-500);
+  --color-badge-unearned-text:    var(--prim-mono-500);
+
+  /* ── Avatar ─────────────────────────────────────────────── */
+  --color-avatar-bg:              var(--prim-mono-200);
+
+  /* ── Stats ──────────────────────────────────────────────── */
+  --color-stat-percentile:        var(--prim-orange-500);
+
+  /* ── Match history ─────────────────────────────────────── */
+  --color-match-win-border:       var(--prim-orange-500);
+  --color-match-loss-border:      var(--color-border);
+
+  /* ── Mobile nav ───────────────────────────────────────────── */
+  --color-nav-bg:                 var(--prim-mono-100);
+  --color-nav-border:             var(--prim-mono-250);
+  --color-nav-icon:               var(--prim-mono-900);
+
+  /* ── Header dropdown ──────────────────────────────────────── */
+  --color-dropdown-bg:            var(--prim-mono-white);
+  --color-dropdown-border:        var(--prim-mono-350);
+  --color-dropdown-text:          var(--prim-mono-900);
+  --color-dropdown-icon:          var(--prim-mono-500);
+  --color-dropdown-soon-bg:       var(--prim-mono-200);
+  --color-dropdown-soon-fg:       var(--prim-mono-600);
+  --color-dropdown-separator:     var(--prim-mono-100);
+
+  /* ── Glossary ─────────────────────────────────────────────── */
+  --color-glossary-underline:     var(--prim-mono-350);
+
+  /* ── Guide nav CTAs ───────────────────────────────────────── */
+  --color-guide-nav-bg:           var(--prim-mono-white);
+  --color-guide-nav-border:       var(--prim-mono-250);
+  --color-guide-nav-label:        var(--prim-mono-500);
+  --color-guide-nav-title:        var(--prim-mono-900);
+
+  /* ── Typography ──────────────────────────────────────────────── */
+  --font-heading:    var(--prim-type-heading);    /* H1                 */
+  --font-subheading: var(--prim-type-subheading); /* H2                 */
+  --font-body:       var(--prim-type-body);       /* body paragraphs    */
+  --font-logo:       var(--prim-type-heading);    /* site logo          */
+  --font-pill:       var(--prim-type-heading);    /* breadcrumb pills   */
+  --font-toc:        var(--prim-type-body);       /* TOC labels         */
+  --font-meta:       var(--prim-type-body);       /* meta (author/time) */
+
+  --size-h1:   70px;
+  --size-h2:   36px;
+  --size-body: 18px;
+  --size-small: 12px;
+  --size-logo:  30px;
+  --size-pill:  18px;
+  --size-toc:   12px;
+  --size-meta:  14px;
+
+  --lh-body: 1.9;
+
+  /* ── Spacing ─────────────────────────────────────────────────── */
+  --spacing-section-v:      64px;
+  --spacing-content-gap:    24px;
+  --spacing-content-gap-lg: 32px;
+  --spacing-h:              clamp(24px, 6.6vw, 100px);
+
+  /* ── Layout ──────────────────────────────────────────────────── */
+  --content-max-width: 900px;
+  --header-height:     100px;
+
+  /* ── Status / Feedback Colors ──────────────────────────────── */
+  --color-status-success:     #2e7d32;
+  --color-status-warning:     #f9a825;
+  --color-status-error:       #c62828;
+  --color-match-win-chip-bg:  var(--prim-mint-100, #e8f5e9);
+  --color-match-win-chip-fg:  var(--prim-mint-500, #2e7d32);
+
+  /* ── Border Radius Scale ───────────────────────────────────── */
+  --radius-sm:    6px;
+  --radius-md:    8px;
+  --radius-lg:   10px;
+  --radius-xl:   14px;
+  --radius-2xl:  20px;
+  --radius-3xl:  24px;
+  --radius-pill: 100px;
+  --radius-full: 50%;
+
+  /* ── Shadow / Elevation Scale ──────────────────────────────── */
+  --shadow-sm:  0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md:  0 2px 12px rgba(0,0,0,0.18);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.18);
+  --shadow-xl:  0 24px 64px rgba(0,0,0,0.3);
+
+  /* ── Z-Index Scale ─────────────────────────────────────────── */
+  --z-cover-actions:   6;
+  --z-avatar:          7;
+  --z-dropdown:       20;
+  --z-header:         50;
+  --z-mobile-nav:    100;
+  --z-modal:        1000;
+  --z-modal-top:    1100;
+
+  /* ── Spacing Scale ─────────────────────────────────────────── */
+  --space-1:    4px;
+  --space-2:    6px;
+  --space-3:    8px;
+  --space-4:   10px;
+  --space-5:   12px;
+  --space-6:   16px;
+  --space-7:   20px;
+  --space-8:   24px;
+  --space-9:   32px;
+  --space-10:  40px;
+  --space-11:  48px;
+  --space-12:  64px;
+
+}

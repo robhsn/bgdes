@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './LearnSegmentTemplate.css';
-import './TokensPage.css';
 import { SiteHeader, SiteFooter } from './SharedLayout';
 import fileDefaults from '../tokens/dme-defaults.json';
 
@@ -181,22 +179,22 @@ function ColorPalettesSection() {
   const l1Colors = fileDefaults.l1Colors;
 
   return (
-    <div className="tok-section">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Color Palettes</h2>
-        <p className="tok-section-desc">L1 primitive color tokens used by the active theme.</p>
+    <div className="section">
+      <div className="section__inner">
+        <h2 className="section__title">Color Palettes</h2>
+        <p className="section__desc">L1 primitive color tokens used by the active theme.</p>
         {ACTIVE_PALETTES.map(palette => (
           <div key={palette.name}>
-            <div className="tok-palette-label">{palette.name}</div>
-            <div className="tok-swatch-grid">
+            <div className="swatch-grid__label">{palette.name}</div>
+            <div className="swatch-grid">
               {palette.tokens.map(token => (
-                <div key={token} className="tok-swatch">
+                <div key={token} className="swatch-grid__item">
                   <div
-                    className="tok-swatch-color"
+                    className="swatch-grid__color"
                     style={{ background: l1Colors[token] || `var(${token})` }}
                   />
-                  <div className="tok-swatch-hex">{l1Colors[token] || ''}</div>
-                  <div className="tok-swatch-name">{token.replace('--prim-', '')}</div>
+                  <div className="swatch-grid__hex">{l1Colors[token] || ''}</div>
+                  <div className="swatch-grid__name">{token.replace('--prim-', '')}</div>
                 </div>
               ))}
             </div>
@@ -212,20 +210,20 @@ function SemanticColorsSection() {
   const l1Colors = fileDefaults.l1Colors;
 
   return (
-    <div className="tok-section surface-muted">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Semantic Colors</h2>
-        <p className="tok-section-desc">L2 semantic tokens that map primitives to functional roles. These change per theme.</p>
-        <div className="tok-semantic-grid">
+    <div className="section surface-muted">
+      <div className="section__inner">
+        <h2 className="section__title">Semantic Colors</h2>
+        <p className="section__desc">L2 semantic tokens that map primitives to functional roles. These change per theme.</p>
+        <div className="semantic-table">
           {SEMANTIC_COLORS.map(c => {
             const primToken = l2[c.name]; // e.g. "--prim-mint-500"
             const hex = primToken ? (l1Colors[primToken] || '') : '';
             return (
-              <div key={c.name} className="tok-semantic-row">
-                <div className="tok-semantic-swatch" style={{ background: hex || `var(${c.name})` }} />
-                <span className="tok-semantic-name">{c.name}</span>
-                <span className="tok-semantic-prim">{primToken || ''}</span>
-                <span className="tok-semantic-value">{hex}</span>
+              <div key={c.name} className="semantic-table__row">
+                <div className="semantic-table__swatch" style={{ background: hex || `var(${c.name})` }} />
+                <span className="semantic-table__name">{c.name}</span>
+                <span className="semantic-table__primitive">{primToken || ''}</span>
+                <span className="semantic-table__value">{hex}</span>
               </div>
             );
           })}
@@ -244,18 +242,18 @@ function SurfacesSection() {
   ];
 
   return (
-    <div className="tok-section">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Surface Classes</h2>
-        <p className="tok-section-desc">Each surface re-maps semantic tokens to create a distinct color contract for its descendants.</p>
-        <div className="tok-surface-grid">
+    <div className="section">
+      <div className="section__inner">
+        <h2 className="section__title">Surface Classes</h2>
+        <p className="section__desc">Each surface re-maps semantic tokens to create a distinct color contract for its descendants.</p>
+        <div className="surface-demo">
           {surfaces.map(s => (
-            <div key={s.cls} className={`tok-surface-card ${s.cls}`}>
-              <div className="tok-surface-heading">{s.label}</div>
-              <div className="tok-surface-body">Body text on this surface uses the remapped --color-body token.</div>
-              <div className="tok-surface-muted">Muted text</div>
-              <span className="tok-surface-link">Link text</span>
-              <div className="tok-surface-border" />
+            <div key={s.cls} className={`surface-demo__card ${s.cls}`}>
+              <div className="surface-demo__heading">{s.label}</div>
+              <div className="surface-demo__body">Body text on this surface uses the remapped --color-body token.</div>
+              <div className="surface-demo__muted">Muted text</div>
+              <span className="surface-demo__link">Link text</span>
+              <div className="surface-demo__border" />
               <button className="com-btn com-btn--primary com-btn--sm">Button</button>
             </div>
           ))}
@@ -280,11 +278,11 @@ function TextStylesSection() {
   }, []);
 
   return (
-    <div className="tok-section surface-muted">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Text Styles</h2>
-        <p className="tok-section-desc">Type roles with live previews and resolved property values.</p>
-        <div className="tok-textstyle-grid">
+    <div className="section surface-muted">
+      <div className="section__inner">
+        <h2 className="section__title">Text Styles</h2>
+        <p className="section__desc">Type roles with live previews and resolved property values.</p>
+        <div className="type-specimen">
           {TEXT_STYLES.map(t => {
             const fontSize = t.sizeFixed || (t.size ? `var(${t.size})` : undefined);
             const style = {
@@ -296,18 +294,18 @@ function TextStylesSection() {
               color: 'var(--color-heading)',
             };
             return (
-              <div key={t.role} className="tok-textstyle-card">
-                <div className="tok-textstyle-label">{t.role}</div>
-                <div className="tok-textstyle-preview" style={style}>
+              <div key={t.role} className="type-specimen__card">
+                <div className="type-specimen__label">{t.role}</div>
+                <div className="type-specimen__preview" style={style}>
                   {t.preview}
                 </div>
-                <div className="tok-textstyle-pills">
-                  {t.family && <span className="tok-pill">{resolved[t.family] || t.family}</span>}
-                  {t.weight && <span className="tok-pill">{resolved[t.weight] || ''}</span>}
-                  {t.size && <span className="tok-pill">{(resolved[t.size] || '') + 'px'}</span>}
-                  {t.sizeFixed && <span className="tok-pill">{t.sizeFixed}</span>}
-                  {t.ls && <span className="tok-pill">ls: {resolved[t.ls] || ''}</span>}
-                  {t.lh && <span className="tok-pill">lh: {resolved[t.lh] || ''}</span>}
+                <div className="type-specimen__pills">
+                  {t.family && <span className="type-specimen__pill">{resolved[t.family] || t.family}</span>}
+                  {t.weight && <span className="type-specimen__pill">{resolved[t.weight] || ''}</span>}
+                  {t.size && <span className="type-specimen__pill">{(resolved[t.size] || '') + 'px'}</span>}
+                  {t.sizeFixed && <span className="type-specimen__pill">{t.sizeFixed}</span>}
+                  {t.ls && <span className="type-specimen__pill">ls: {resolved[t.ls] || ''}</span>}
+                  {t.lh && <span className="type-specimen__pill">lh: {resolved[t.lh] || ''}</span>}
                 </div>
               </div>
             );
@@ -320,16 +318,16 @@ function TextStylesSection() {
 
 function SpacingSection() {
   return (
-    <div className="tok-section">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Spacing Scale</h2>
-        <p className="tok-section-desc">Consistent spacing values used across the system.</p>
-        <div className="tok-spacing-grid">
+    <div className="section">
+      <div className="section__inner">
+        <h2 className="section__title">Spacing Scale</h2>
+        <p className="section__desc">Consistent spacing values used across the system.</p>
+        <div className="spacing-demo">
           {SPACING_TOKENS.map(s => (
-            <div key={s.name} className="tok-spacing-row">
-              <span className="tok-spacing-label">{s.name}</span>
-              <div className="tok-spacing-bar" style={{ width: `var(${s.name})` }} />
-              <span className="tok-spacing-px">{s.px}</span>
+            <div key={s.name} className="spacing-demo__row">
+              <span className="spacing-demo__label">{s.name}</span>
+              <div className="spacing-demo__bar" style={{ width: `var(${s.name})` }} />
+              <span className="spacing-demo__value">{s.px}</span>
             </div>
           ))}
         </div>
@@ -340,16 +338,16 @@ function SpacingSection() {
 
 function RadiusSection() {
   return (
-    <div className="tok-section surface-muted">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Border Radius</h2>
-        <p className="tok-section-desc">Radius scale for consistent corner rounding.</p>
-        <div className="tok-radius-grid">
+    <div className="section surface-muted">
+      <div className="section__inner">
+        <h2 className="section__title">Border Radius</h2>
+        <p className="section__desc">Radius scale for consistent corner rounding.</p>
+        <div className="radius-demo">
           {RADIUS_TOKENS.map(r => (
-            <div key={r.name} className="tok-radius-demo">
-              <div className="tok-radius-box" style={{ borderRadius: `var(${r.name})` }} />
-              <div className="tok-radius-label">{r.name.replace('--radius-', '')}</div>
-              <div className="tok-radius-value">{r.value}</div>
+            <div key={r.name} className="radius-demo__item">
+              <div className="radius-demo__box" style={{ borderRadius: `var(${r.name})` }} />
+              <div className="radius-demo__label">{r.name.replace('--radius-', '')}</div>
+              <div className="radius-demo__value">{r.value}</div>
             </div>
           ))}
         </div>
@@ -360,14 +358,14 @@ function RadiusSection() {
 
 function ShadowsSection() {
   return (
-    <div className="tok-section">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Shadows</h2>
-        <p className="tok-section-desc">Elevation levels for depth and hierarchy.</p>
-        <div className="tok-shadow-grid">
+    <div className="section">
+      <div className="section__inner">
+        <h2 className="section__title">Shadows</h2>
+        <p className="section__desc">Elevation levels for depth and hierarchy.</p>
+        <div className="shadow-demo">
           {SHADOW_TOKENS.map(s => (
-            <div key={s.name} className="tok-shadow-card" style={{ boxShadow: `var(${s.name})` }}>
-              <span className="tok-shadow-label">{s.label}</span>
+            <div key={s.name} className="shadow-demo__card" style={{ boxShadow: `var(${s.name})` }}>
+              <span className="shadow-demo__label">{s.label}</span>
             </div>
           ))}
         </div>
@@ -378,25 +376,25 @@ function ShadowsSection() {
 
 function StatusColorsSection() {
   return (
-    <div className="tok-section surface-muted">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Status Colors</h2>
-        <p className="tok-section-desc">Feedback and status indicators.</p>
-        <div className="tok-status-grid">
+    <div className="section surface-muted">
+      <div className="section__inner">
+        <h2 className="section__title">Status Colors</h2>
+        <p className="section__desc">Feedback and status indicators.</p>
+        <div className="status-demo">
           {STATUS_TOKENS.map(s => (
-            <div key={s.name} className="tok-status-item">
-              <div className="tok-status-dot" style={{ background: `var(${s.name})` }} />
+            <div key={s.name} className="status-demo__item">
+              <div className="status-demo__dot" style={{ background: `var(${s.name})` }} />
               <div>
-                <div className="tok-status-label">{s.label}</div>
-                <div className="tok-status-var">{s.name}</div>
+                <div className="status-demo__label">{s.label}</div>
+                <div className="status-demo__var">{s.name}</div>
               </div>
             </div>
           ))}
-          <div className="tok-status-item">
-            <div className="tok-status-dot" style={{ background: 'var(--color-match-win-chip-bg)', border: '1px solid var(--color-match-win-chip-fg)' }} />
+          <div className="status-demo__item">
+            <div className="status-demo__dot" style={{ background: 'var(--color-match-win-chip-bg)', border: '1px solid var(--color-match-win-chip-fg)' }} />
             <div>
-              <div className="tok-status-label" style={{ color: 'var(--color-match-win-chip-fg)' }}>Win Chip</div>
-              <div className="tok-status-var">--color-match-win-chip-*</div>
+              <div className="status-demo__label" style={{ color: 'var(--color-match-win-chip-fg)' }}>Win Chip</div>
+              <div className="status-demo__var">--color-match-win-chip-*</div>
             </div>
           </div>
         </div>
@@ -424,24 +422,24 @@ const COM_SIZES = [
 
 function ComButtonsSection() {
   return (
-    <div className="tok-section">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">.com Buttons</h2>
-        <p className="tok-section-desc">Shared button system matching backgammon.com production styles. Pill shapes, Inter 700, brand-colored 3D shadows.</p>
+    <div className="section">
+      <div className="section__inner">
+        <h2 className="section__title">.com Buttons</h2>
+        <p className="section__desc">Shared button system matching backgammon.com production styles. Pill shapes, Inter 700, brand-colored 3D shadows.</p>
 
         {/* Variants showcase */}
-        <div className="tok-com-btn-grid">
-          <div className="tok-com-btn-row">
-            <div className="tok-com-btn-row-label">Light background</div>
-            <div className="tok-com-btn-row-buttons">
+        <div className="btn-showcase">
+          <div className="btn-showcase__row">
+            <div className="btn-showcase__label">Light background</div>
+            <div className="btn-showcase__buttons">
               {COM_VARIANTS.map(v => (
                 <button key={v.cls} className={`com-btn ${v.cls}`}>{v.label}</button>
               ))}
             </div>
           </div>
-          <div className="tok-com-btn-row tok-com-btn-row--dark">
-            <div className="tok-com-btn-row-label">Dark background</div>
-            <div className="tok-com-btn-row-buttons">
+          <div className="btn-showcase__row btn-showcase__row--dark">
+            <div className="btn-showcase__label">Dark background</div>
+            <div className="btn-showcase__buttons">
               {COM_VARIANTS.map(v => (
                 <button key={v.cls} className={`com-btn ${v.cls}`}>{v.label}</button>
               ))}
@@ -451,7 +449,7 @@ function ComButtonsSection() {
 
         {/* Sizes showcase */}
         <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 16, color: 'var(--color-heading)', margin: '32px 0 12px' }}>Sizes</h3>
-        <div className="tok-com-btn-row-buttons" style={{ gap: 16 }}>
+        <div className="btn-showcase__buttons" style={{ gap: 16 }}>
           {COM_SIZES.map(s => (
             <div key={s.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
               <button className={`com-btn com-btn--primary ${s.cls}`}>Button</button>
@@ -478,40 +476,40 @@ function LegacyButtonsSection() {
   const l1Colors = fileDefaults.l1Colors;
 
   return (
-    <div className="tok-section">
-      <div className="tok-section-inner">
-        <h2 className="tok-section-title">Buttons (Legacy)</h2>
-        <p className="tok-section-desc">Primary and secondary button variants using legacy button tokens. Preserved for future design updates.</p>
-        <div className="tok-semantic-grid" style={{ marginBottom: 24 }}>
+    <div className="section">
+      <div className="section__inner">
+        <h2 className="section__title">Buttons (Legacy)</h2>
+        <p className="section__desc">Primary and secondary button variants using legacy button tokens. Preserved for future design updates.</p>
+        <div className="semantic-table" style={{ marginBottom: 24 }}>
           {BUTTON_TOKENS.map(t => {
             const primToken = l2[t.name];
             const hex = primToken ? (l1Colors[primToken] || '') : '';
             return (
-              <div key={t.name} className="tok-semantic-row">
-                <div className="tok-semantic-swatch" style={{ background: hex || `var(${t.name})` }} />
-                <span className="tok-semantic-name">{t.name}</span>
-                <span className="tok-semantic-prim">{primToken || ''}</span>
-                <span className="tok-semantic-value">{hex}</span>
+              <div key={t.name} className="semantic-table__row">
+                <div className="semantic-table__swatch" style={{ background: hex || `var(${t.name})` }} />
+                <span className="semantic-table__name">{t.name}</span>
+                <span className="semantic-table__primitive">{primToken || ''}</span>
+                <span className="semantic-table__value">{hex}</span>
               </div>
             );
           })}
         </div>
-        <div className="tok-btn-grid">
+        <div className="btn-showcase__grid">
           <button
-            className="pp-btn pp-btn--primary"
+            className="idp-btn idp-btn--primary"
             style={{ fontSize: 13 }}
             onClick={e => e.preventDefault()}
           >
             Primary Button
           </button>
           <button
-            className="pp-btn pp-btn--secondary"
+            className="idp-btn idp-btn--secondary"
             style={{ fontSize: 13 }}
             onClick={e => e.preventDefault()}
           >
             Secondary Button
           </button>
-          <button className="ls-login-btn">
+          <button className="idp-btn--login">
             Login Style
           </button>
         </div>
@@ -525,7 +523,7 @@ function LegacyButtonsSection() {
 
 export default function TokensPage({ onNavigate }) {
   return (
-    <div className="tok-page">
+    <div className="token-showcase">
       <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
 
       <ColorPalettesSection />

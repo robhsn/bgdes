@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './LearnSegmentTemplate.css';
-import './ProfilePage.css';
 import { SiteHeader, SiteFooter } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import avatarImg from '../imgs/avatar-dink.png';
@@ -318,15 +316,15 @@ const NAV_ITEMS = [
 
 function MobileNav({ onNavigate }) {
   return (
-    <nav className="ls-mobile-nav">
+    <nav className="mobile-nav">
       {NAV_ITEMS.map(({ label, Icon }) => (
         <button
           key={label}
-          className={`ls-nav-item${label === 'Profile' ? ' ls-nav-item-active' : ''}`}
+          className={`mobile-nav__item${label === 'Profile' ? ' mobile-nav__item--active' : ''}`}
           onClick={label === 'Learning' ? () => onNavigate?.('learn-hub') : undefined}
         >
           <Icon />
-          <span className="ls-nav-label">{label}</span>
+          <span className="mobile-nav__label">{label}</span>
         </button>
       ))}
     </nav>
@@ -347,11 +345,11 @@ const CONFETTI_ANGLES = [
 
 function Confetti() {
   return (
-    <div className="pp-confetti-container">
+    <div className="confetti">
       {CONFETTI_ANGLES.map((end, i) => (
         <div
           key={i}
-          className="pp-confetti-piece"
+          className="confetti__piece"
           style={{
             '--confetti-end': `translate(${end.x}, ${end.y}) rotate(${360 + i * 30}deg)`,
             background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
@@ -390,26 +388,26 @@ function BadgeCelebration({ queue, onDismiss }) {
 
   return (
     <div
-      className="pp-celebration-overlay"
+      className="overlay overlay--dark"
       style={{ opacity: fading ? 0 : 1, transition: 'opacity 0.3s ease' }}
       onClick={handleDismiss}
     >
-      <div className="pp-celebration-modal" onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
         <Confetti />
-        <div className="pp-celebration-badge-wrap">
-          <div className="pp-celebration-badge">
+        <div className="celebration__badge-wrap">
+          <div className="celebration__badge">
             <BadgeIconSvg type={badge.icon} size={52} color="var(--color-badge-icon-inner)" />
           </div>
         </div>
-        <div className="pp-celebration-category">{badge.category}</div>
-        <div className="pp-celebration-title">{badge.label}!</div>
-        <div className="pp-celebration-body">
+        <div className="celebration__category">{badge.category}</div>
+        <div className="celebration__title">{badge.label}!</div>
+        <div className="celebration__body">
           {idx < queue.length - 1
             ? `${queue.length - idx - 1} more badge${queue.length - idx - 1 > 1 ? 's' : ''} to celebrate!`
             : 'Keep playing to unlock more badges.'}
         </div>
         <button
-          className="com-btn com-btn--primary com-btn--sm pp-celebration-dismiss"
+          className="com-btn com-btn--primary com-btn--sm celebration__dismiss"
           onClick={handleDismiss}
         >
           {idx < queue.length - 1 ? 'Next Badge →' : 'Awesome!'}
@@ -451,16 +449,16 @@ function HexOutline({ size = 64, dashed = false }) {
 
 function BadgeItem({ threshold, state, icon }) {
   return (
-    <div className="pp-badge" title={
+    <div className="milestone" title={
       state === 'earned' ? `${threshold} ${icon === 'win' ? 'Wins' : icon === 'streak' ? 'Streak' : 'Games'} — Earned` :
       state === 'next'   ? `Next: ${threshold}` : `Locked: ${threshold}`
     }>
       <img
         src={badgePlaceholder}
         alt=""
-        className={`pp-badge-placeholder${state !== 'earned' ? ' pp-badge-placeholder--unearned' : ''}`}
+        className={`milestone__placeholder${state !== 'earned' ? ' milestone__placeholder--unearned' : ''}`}
       />
-      <span className={`pp-badge-label pp-badge-label--${state}`}>{threshold}</span>
+      <span className={`milestone__label milestone__label--${state}`}>{threshold}</span>
     </div>
   );
 }
@@ -473,27 +471,27 @@ function BadgeCategorySection({ title, thresholds, statValue, icon, isGated }) {
   const statWord = icon === 'win' ? 'wins' : icon === 'streak' ? 'streak' : 'games';
 
   return (
-    <div className="pp-badge-category">
-      <div className="pp-badge-category-header">
-        <span className="pp-badge-category-name">{title}</span>
+    <div className="milestone-category">
+      <div className="milestone-category__header">
+        <span className="milestone-category__name">{title}</span>
         {!isGated && remaining !== null && (
-          <span className="pp-badge-progress-hint">
+          <span className="milestone-category__hint">
             {`${remaining} more ${statWord} to unlock ${next} badge`}
           </span>
         )}
         {!isGated && remaining === null && earned.length > 0 && (
-          <span className="pp-badge-progress-hint" style={{ color: 'var(--color-status-success)' }}>
+          <span className="milestone-category__hint" style={{ color: 'var(--color-status-success)' }}>
             All badges unlocked!
           </span>
         )}
       </div>
-      <div className="pp-badge-grid">
+      <div className="milestone-category__grid">
         {earned.map(t  => <BadgeItem key={t} threshold={t} state="earned" icon={icon} />)}
         {next !== null && <BadgeItem threshold={next}  state="next"   icon={icon} />}
         {locked.slice(0, 6).map(t => <BadgeItem key={t} threshold={t} state="locked" icon={icon} />)}
         {locked.length > 6 && (
-          <div className="pp-badge" style={{ opacity: 0.4 }}>
-            <div className="pp-badge-icon pp-badge-icon--locked" style={{ fontSize: 13, fontFamily: fm, color: 'var(--color-muted)' }}>
+          <div className="milestone" style={{ opacity: 0.4 }}>
+            <div className="milestone__icon milestone__icon--locked" style={{ fontSize: 13, fontFamily: fm, color: 'var(--color-muted)' }}>
               +{locked.length - 6}
             </div>
           </div>
@@ -516,32 +514,32 @@ function StreakCategorySection({ title, thresholds, statValue, icon, isGated }) 
   ];
 
   return (
-    <div className="pp-badge-category">
-      <div className="pp-badge-category-header">
-        <span className="pp-badge-category-name">{title}</span>
+    <div className="milestone-category">
+      <div className="milestone-category__header">
+        <span className="milestone-category__name">{title}</span>
         {!isGated && remaining !== null && (
-          <span className="pp-badge-progress-hint">
+          <span className="milestone-category__hint">
             {`${remaining} more ${statWord} to unlock ${next} badge`}
           </span>
         )}
         {!isGated && remaining === null && earned.length > 0 && (
-          <span className="pp-badge-progress-hint" style={{ color: 'var(--color-status-success)' }}>
+          <span className="milestone-category__hint" style={{ color: 'var(--color-status-success)' }}>
             All badges unlocked!
           </span>
         )}
       </div>
-      <div className="pp-badge-grid">
+      <div className="milestone-category__grid">
         {allItems.map((item) => (
           <BadgeItem key={item.threshold} threshold={item.threshold} state={item.state} icon={icon} />
         ))}
         {locked.length > 6 && (
-          <div className="pp-badge" style={{ opacity: 0.4 }}>
+          <div className="milestone" style={{ opacity: 0.4 }}>
             <img
               src={badgePlaceholder}
               alt=""
-              className="pp-badge-placeholder pp-badge-placeholder--unearned"
+              className="milestone__placeholder milestone__placeholder--unearned"
             />
-            <span className="pp-badge-label" style={{ fontSize: 13, fontFamily: fm, color: 'var(--color-muted)' }}>
+            <span className="milestone__label" style={{ fontSize: 13, fontFamily: fm, color: 'var(--color-muted)' }}>
               +{locked.length - 6}
             </span>
           </div>
@@ -556,14 +554,14 @@ function StreakCategorySection({ title, thresholds, statValue, icon, isGated }) 
 function GatedSection({ isGated, children }) {
   if (!isGated) return children;
   return (
-    <div className="pp-gated-wrap" style={{ position: 'relative' }}>
+    <div className="gated" style={{ position: 'relative' }}>
       <div style={{ userSelect: 'none', pointerEvents: 'none' }}>
         {children}
       </div>
-      <div className="pp-gated-overlay">
+      <div className="gated__overlay">
         <IconLock size={36} />
-        <div className="pp-gated-title">See your full stats</div>
-        <div className="pp-gated-body">
+        <div className="gated__title">See your full stats</div>
+        <div className="gated__desc">
           Create an account to track your stats, earn badges, and build your profile.
         </div>
         <button className="com-btn com-btn--primary com-btn--sm" style={{ pointerEvents: 'all' }}>
@@ -590,10 +588,10 @@ function MatchHistorySection({ history, isEmpty }) {
 
   if (isEmpty) {
     return (
-      <div className="pp-empty-state">
+      <div className="empty-state">
         <IconGames size={40} color="var(--color-border-mid)" />
-        <div className="pp-empty-title">No matches yet</div>
-        <div className="pp-empty-body">Play your first game to start building your match history.</div>
+        <div className="empty-state__title">No matches yet</div>
+        <div className="empty-state__desc">Play your first game to start building your match history.</div>
       </div>
     );
   }
@@ -608,63 +606,63 @@ function MatchHistorySection({ history, isEmpty }) {
 
   return (
     <>
-      <div className="pp-match-header-row">
-        <h2 className="pp-section-title">Match History</h2>
-        <div className="pp-match-search-wrap">
-          <svg className="pp-match-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <div className="match-history__header">
+        <h2 className="section-title">Match History</h2>
+        <div className="match-search">
+          <svg className="match-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
           </svg>
           <input
-            className="pp-match-search"
+            className="match-search__input"
             placeholder="Search opponents..."
             value={searchQuery}
             onChange={e => { setSearchQuery(e.target.value); setCurrentPage(0); }}
           />
         </div>
       </div>
-      <div className="pp-match-list">
+      <div className="match-history">
         {/* Table header */}
-        <div className="pp-match-table-header">
-          <span className="pp-match-th pp-match-th--player">Player</span>
-          <span className="pp-match-th pp-match-th--result">Result</span>
-          <span className="pp-match-th pp-match-th--improvement">
+        <div className="match-history__table-header">
+          <span className="match-history__th match-history__th--player">Player</span>
+          <span className="match-history__th match-history__th--result">Result</span>
+          <span className="match-history__th match-history__th--improvement">
             Improvement
-            <span className="pp-info-tooltip">
-              <span className="pp-info-tooltip-icon">i</span>
-              <span className="pp-info-tooltip-text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
+            <span className="info-tip">
+              <span className="info-tip__icon">i</span>
+              <span className="info-tip__text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
             </span>
           </span>
-          <span className="pp-match-th pp-match-th--score">Score</span>
-          <span className="pp-match-th pp-match-th--time">Time</span>
-          <span className="pp-match-th pp-match-th--date">Date</span>
+          <span className="match-history__th match-history__th--score">Score</span>
+          <span className="match-history__th match-history__th--time">Time</span>
+          <span className="match-history__th match-history__th--date">Date</span>
         </div>
         {pageItems.map(m => (
-          <div key={m.id} className={`pp-match-row pp-match-row--${m.result}`}>
-            <div className="pp-match-opponent-avatar">
+          <div key={m.id} className={`match-row match-row--${m.result}`}>
+            <div className="match-row__avatar">
               <img src={avatarImg} alt={m.opponent} />
             </div>
-            <span className="pp-match-name">{m.opponent}</span>
-            <span className={`pp-match-result-chip pp-match-result-chip--${m.result}`}>
+            <span className="match-row__name">{m.opponent}</span>
+            <span className={`match-row__result match-row__result--${m.result}`}>
               {m.result === 'win' ? 'Won' : 'Lost'}
             </span>
             {/* Error rate — hidden, kept for data preservation */}
-            <span className="pp-match-error-rate" style={{ display: 'none', color: getErrorRateColor(m.errorRate) }}>
+            <span className="match-row__error-rate" style={{ display: 'none', color: getErrorRateColor(m.errorRate) }}>
               {m.errorRate}%
             </span>
-            <span className="pp-match-improvement">
+            <span className="match-row__improvement">
               {m.improvement ? (
-                <span className="pp-match-improvement-value">
+                <span className="match-row__improvement-value">
                   {m.improvement}%↑
-                  <span className="pp-info-tooltip pp-info-tooltip--row">
-                    <span className="pp-info-tooltip-icon">i</span>
-                    <span className="pp-info-tooltip-text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
+                  <span className="info-tip info-tip--compact">
+                    <span className="info-tip__icon">i</span>
+                    <span className="info-tip__text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
                   </span>
                 </span>
               ) : '–'}
             </span>
-            <span className="pp-match-score">{m.score}</span>
-            <span className="pp-match-time">{m.duration}</span>
-            <span className="pp-match-date">{m.date}</span>
+            <span className="match-row__score">{m.score}</span>
+            <span className="match-row__time">{m.duration}</span>
+            <span className="match-row__date">{m.date}</span>
           </div>
         ))}
         {pageItems.length === 0 && (
@@ -675,8 +673,8 @@ function MatchHistorySection({ history, isEmpty }) {
       </div>
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="pp-match-pagination">
-          <span className="pp-match-page-info">
+        <div className="match-history__pagination">
+          <span className="match-history__page-info">
             Page {safePage + 1} of {totalPages}
           </span>
           <button
@@ -712,8 +710,8 @@ function TrophyCaseSection({ selected, isOwn, onEdit }) {
 
   return (
     <>
-      <div className="pp-trophy-header-row">
-        <h2 className="pp-section-title">Trophy Case</h2>
+      <div className="trophy-case__header">
+        <h2 className="section-title">Trophy Case</h2>
         {isOwn && (
           <button className="com-btn com-btn--outline com-btn--sm" onClick={onEdit}>
             <IconPencil size={14} />
@@ -721,21 +719,21 @@ function TrophyCaseSection({ selected, isOwn, onEdit }) {
           </button>
         )}
       </div>
-      <div className="pp-trophy-case">
+      <div className="trophy-case">
         {selected.length > 0 ? (
           selected.map((s) => (
-            <div key={`${s.category}-${s.threshold}`} className="pp-trophy-item">
-              <div className="pp-trophy-badge-wrap">
-                <img src={badgePlaceholder} alt="" className="pp-trophy-badge" />
-                <div className="pp-trophy-shine" />
+            <div key={`${s.category}-${s.threshold}`} className="trophy-item">
+              <div className="trophy-item__image-wrap">
+                <img src={badgePlaceholder} alt="" className="trophy-item__image" />
+                <div className="trophy-item__shine" />
               </div>
-              <span className="pp-trophy-label">
+              <span className="trophy-item__label">
                 {s.threshold} {s.category === 'win' ? 'Wins' : s.category === 'streak' ? 'Streak' : 'Games'}
               </span>
             </div>
           ))
         ) : (
-          <div className="pp-trophy-empty">
+          <div className="trophy-case__empty">
             Select up to 3 badges to showcase in your trophy case.
           </div>
         )}
@@ -771,53 +769,53 @@ function TrophyCaseEditor({ stats, selected, onSave, onClose }) {
   }
 
   return (
-    <div className="pp-settings-overlay" onClick={onClose}>
-      <div className="pp-trophy-editor surface-muted" onClick={e => e.stopPropagation()}>
-        <div className="pp-settings-header">
-          <h2 className="pp-settings-title">Edit Trophy Case</h2>
-          <button className="pp-settings-close" onClick={onClose}>
+    <div className="overlay overlay--top" onClick={onClose}>
+      <div className="trophy-editor surface-muted" onClick={e => e.stopPropagation()}>
+        <div className="side-panel__header">
+          <h2 className="side-panel__title">Edit Trophy Case</h2>
+          <button className="side-panel__close" onClick={onClose}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
         {/* Selected slots preview */}
-        <div className="pp-trophy-editor-slots">
+        <div className="trophy-editor__slots">
           {Array.from({ length: MAX }, (_, i) => (
-            <div key={i} className={`pp-trophy-slot${draft[i] ? ' pp-trophy-slot--filled' : ''}`}>
+            <div key={i} className={`trophy-slot${draft[i] ? ' trophy-slot--filled' : ''}`}>
               {draft[i] ? (
                 <>
-                  <img src={badgePlaceholder} alt="" className="pp-trophy-slot-img" />
-                  <span className="pp-trophy-slot-label">
+                  <img src={badgePlaceholder} alt="" className="trophy-slot__image" />
+                  <span className="trophy-slot__label">
                     {draft[i].threshold}
                   </span>
                 </>
               ) : (
-                <span className="pp-trophy-slot-num">{i + 1}</span>
+                <span className="trophy-slot__number">{i + 1}</span>
               )}
             </div>
           ))}
         </div>
-        <div className="pp-trophy-editor-count">{draft.length}/{MAX} selected</div>
-        <div className="pp-settings-body">
+        <div className="trophy-editor__count">{draft.length}/{MAX} selected</div>
+        <div className="side-panel__body">
           {categories.map(cat => (
-            <div key={cat.key} className="pp-trophy-editor-category">
-              <div className="pp-badge-category-name" style={{ marginBottom: 10 }}>{cat.title}</div>
+            <div key={cat.key} className="trophy-editor__category">
+              <div className="milestone-category__name" style={{ marginBottom: 10 }}>{cat.title}</div>
               {cat.earned.length > 0 ? (
-                <div className="pp-trophy-editor-grid">
+                <div className="trophy-editor__grid">
                   {cat.earned.map(t => {
                     const sel = isSelected(cat.key, t);
                     const full = draft.length >= MAX && !sel;
                     return (
                       <button
                         key={t}
-                        className={`pp-trophy-pick${sel ? ' pp-trophy-pick--selected' : ''}${full ? ' pp-trophy-pick--disabled' : ''}`}
+                        className={`trophy-pick${sel ? ' trophy-pick--selected' : ''}${full ? ' trophy-pick--disabled' : ''}`}
                         onClick={() => toggle(cat.key, t)}
                       >
-                        <img src={badgePlaceholder} alt="" className="pp-trophy-pick-img" />
-                        <span className="pp-trophy-pick-label">{t}</span>
+                        <img src={badgePlaceholder} alt="" className="trophy-pick__image" />
+                        <span className="trophy-pick__label">{t}</span>
                         {sel && (
-                          <div className="pp-trophy-pick-check">
+                          <div className="trophy-pick__check">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                               <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
                               <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -836,7 +834,7 @@ function TrophyCaseEditor({ stats, selected, onSave, onClose }) {
             </div>
           ))}
         </div>
-        <div className="pp-settings-footer">
+        <div className="side-panel__footer">
           <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
           <button className="com-btn com-btn--primary com-btn--sm" onClick={() => { onSave(draft); onClose(); }}>Save</button>
         </div>
@@ -864,20 +862,20 @@ function SocialLinksModal({ socialLinks, onSave, onCancel }) {
   }
 
   return (
-    <div className="pp-card-overlay" onClick={onCancel}>
-      <div className="pp-social-modal" onClick={e => e.stopPropagation()}>
-        <div className="pp-social-modal-title">Social Profiles</div>
-        <div className="pp-social-list">
+    <div className="overlay overlay--top" onClick={onCancel}>
+      <div className="modal modal--md" onClick={e => e.stopPropagation()}>
+        <div className="modal__title">Social Profiles</div>
+        <div className="social-editor">
           {SOCIALS.map(s => (
-            <div key={s.key} className="pp-social-row">
-              <div className="pp-social-row-label">
+            <div key={s.key} className="social-editor__row">
+              <div className="social-editor__label">
                 <s.Icon />
                 <span>{s.label}</span>
               </div>
-              <div className="pp-social-input-wrap">
-                <span className="pp-social-input-prefix">{s.baseUrl}</span>
+              <div className="social-editor__input-wrap">
+                <span className="social-editor__input-prefix">{s.baseUrl}</span>
                 <input
-                  className="pp-social-input"
+                  className="social-editor__input"
                   value={draft[s.key]}
                   onChange={e => setDraft(prev => ({ ...prev, [s.key]: e.target.value }))}
                   placeholder={s.placeholder}
@@ -886,7 +884,7 @@ function SocialLinksModal({ socialLinks, onSave, onCancel }) {
             </div>
           ))}
         </div>
-        <div className="pp-social-actions">
+        <div className="modal__footer">
           <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
           <button className="com-btn com-btn--primary com-btn--sm" onClick={handleSave}>Save</button>
         </div>
@@ -923,23 +921,23 @@ function SettingsPanel({
   const countryFlag = draftCountry ? FLAG_LIST.find(f => f.key === draftCountry) : null;
 
   return (
-    <div className="pp-settings-overlay" onClick={onClose}>
-      <div className="pp-settings-panel surface-muted" onClick={e => e.stopPropagation()}>
-        <div className="pp-settings-header">
-          <h2 className="pp-settings-title">Settings</h2>
-          <button className="pp-settings-close" onClick={onClose}>
+    <div className="overlay overlay--top" onClick={onClose}>
+      <div className="side-panel surface-muted" onClick={e => e.stopPropagation()}>
+        <div className="side-panel__header">
+          <h2 className="side-panel__title">Settings</h2>
+          <button className="side-panel__close" onClick={onClose}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <div className="pp-settings-body">
+        <div className="side-panel__body">
           {/* Username */}
-          <div className="pp-settings-section">
-            <div className="pp-settings-section-label">Username</div>
+          <div className="settings-row">
+            <div className="settings-row__label">Username</div>
             <input
-              className="pp-edit-name-input"
+              className="profile-header__name-input"
               style={{ fontSize: 16, marginBottom: 0 }}
               value={draftName}
               onChange={e => { if (e.target.value.length <= 24) setDraftName(e.target.value); }}
@@ -959,10 +957,10 @@ function SettingsPanel({
           </div>
 
           {/* Bio */}
-          <div className="pp-settings-section">
-            <div className="pp-settings-section-label">Intro / Bio</div>
+          <div className="settings-row">
+            <div className="settings-row__label">Intro / Bio</div>
             <textarea
-              className="pp-edit-bio-input"
+              className="profile-header__bio-input"
               value={draftBio}
               onChange={e => setDraftBio(e.target.value)}
               placeholder="Write something about yourself..."
@@ -971,18 +969,18 @@ function SettingsPanel({
           </div>
 
           {/* Social Links */}
-          <div className="pp-settings-section">
-            <div className="pp-settings-section-label">Social Links</div>
+          <div className="settings-row">
+            <div className="settings-row__label">Social Links</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {SOCIALS.map(s => (
-                <div key={s.key} className="pp-social-row" style={{ gap: 8 }}>
-                  <div className="pp-social-row-label" style={{ minWidth: 90 }}>
+                <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
+                  <div className="social-editor__label" style={{ minWidth: 90 }}>
                     <s.Icon />
                     <span style={{ fontSize: 12 }}>{s.label}</span>
                   </div>
-                  <div className="pp-social-input-wrap">
+                  <div className="social-editor__input-wrap">
                     <input
-                      className="pp-social-input"
+                      className="social-editor__input"
                       value={draftSocials[s.key]}
                       onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
                       placeholder={s.placeholder}
@@ -994,12 +992,12 @@ function SettingsPanel({
           </div>
 
           {/* Country */}
-          <div className="pp-settings-section" style={{ position: 'relative' }}>
-            <div className="pp-settings-section-label">Country</div>
-            <button className="pp-settings-picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
+          <div className="settings-row" style={{ position: 'relative' }}>
+            <div className="settings-row__label">Country</div>
+            <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
               {countryFlag ? (
                 <>
-                  <img src={countryFlag.src} alt={countryFlag.label} className="pp-flag-inline" />
+                  <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
                   <span>{countryFlag.label}</span>
                 </>
               ) : (
@@ -1019,9 +1017,9 @@ function SettingsPanel({
           </div>
 
           {/* Avatar */}
-          <div className="pp-settings-section">
-            <div className="pp-settings-section-label">Avatar</div>
-            <button className="pp-settings-picker-btn" onClick={() => onChangeAvatar()}>
+          <div className="settings-row">
+            <div className="settings-row__label">Avatar</div>
+            <button className="settings-row__picker-btn" onClick={() => onChangeAvatar()}>
               <div style={{
                 width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
                 border: '2px solid var(--color-border)', flexShrink: 0,
@@ -1040,26 +1038,26 @@ function SettingsPanel({
           <div style={{ height: 1, background: 'var(--color-border)', margin: '8px 0' }} />
 
           {/* Email */}
-          <div className="pp-settings-section">
-            <div className="pp-settings-section-label">Email</div>
-            <div className="pp-settings-value-row">
+          <div className="settings-row">
+            <div className="settings-row__label">Email</div>
+            <div className="settings-row__value">
               <span>user@example.com</span>
-              <button className="pp-settings-change-btn">Change</button>
+              <button className="settings-row__change-btn">Change</button>
             </div>
           </div>
 
           {/* Password */}
-          <div className="pp-settings-section">
-            <div className="pp-settings-section-label">Password</div>
-            <div className="pp-settings-value-row">
+          <div className="settings-row">
+            <div className="settings-row__label">Password</div>
+            <div className="settings-row__value">
               <span>••••••••</span>
-              <button className="pp-settings-change-btn">Change</button>
+              <button className="settings-row__change-btn">Change</button>
             </div>
           </div>
         </div>
 
         {/* Sticky footer */}
-        <div className="pp-settings-footer">
+        <div className="side-panel__footer">
           <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
           <button
             className="com-btn com-btn--primary com-btn--sm"
@@ -1093,8 +1091,8 @@ function CountryFlagDropdown({ currentCountry, onSelect, onClose }) {
   }, [onClose]);
 
   return (
-    <div className="pp-flag-dropdown" ref={wrapRef}>
-      <div className="pp-flag-dropdown-search">
+    <div className="flag-picker__dropdown" ref={wrapRef}>
+      <div className="flag-picker__search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
         </svg>
@@ -1105,16 +1103,16 @@ function CountryFlagDropdown({ currentCountry, onSelect, onClose }) {
           autoFocus
         />
       </div>
-      <div className="pp-flag-dropdown-list" ref={listRef}>
+      <div className="flag-picker__list" ref={listRef}>
         {currentCountry && (
-          <button className="pp-flag-dropdown-item pp-flag-dropdown-item--remove" onClick={() => onSelect(null)}>
+          <button className="flag-picker__item flag-picker__item--remove" onClick={() => onSelect(null)}>
             <span style={{ fontSize: 12 }}>Remove flag</span>
           </button>
         )}
         {filtered.map(f => (
           <button
             key={f.key}
-            className={`pp-flag-dropdown-item${currentCountry === f.key ? ' pp-flag-dropdown-item--selected' : ''}`}
+            className={`flag-picker__item${currentCountry === f.key ? ' flag-picker__item--selected' : ''}`}
             onClick={() => onSelect(f.key)}
           >
             <img src={f.src} alt={f.label} />
@@ -1460,40 +1458,40 @@ function PlayerCardModal({ player, coverImg, avatarImg: avatarSrc, onClose }) {
   }
 
   return (
-    <div className="pp-card-overlay" onClick={onClose}>
-      <div className="pp-card-modal" onClick={e => e.stopPropagation()} ref={cardRef}>
-        <img src={coverImg} alt="" className="pp-card-cover" crossOrigin="anonymous" />
-        <div className="pp-card-avatar-wrap">
-          <div className="pp-card-avatar">
+    <div className="overlay overlay--top" onClick={onClose}>
+      <div className="player-card" onClick={e => e.stopPropagation()} ref={cardRef}>
+        <img src={coverImg} alt="" className="player-card__cover" crossOrigin="anonymous" />
+        <div className="player-card__avatar-wrap">
+          <div className="player-card__avatar">
             {avatarSrc
               ? <img src={avatarSrc} alt={player.displayName} crossOrigin="anonymous" />
-              : <div className="pp-card-avatar-fallback">{player.displayName[0].toUpperCase()}</div>
+              : <div className="player-card__avatar-fallback">{player.displayName[0].toUpperCase()}</div>
             }
           </div>
         </div>
-        <div className="pp-card-name">{player.displayName}</div>
-        <div className="pp-card-date">{player.joinDate}</div>
-        <div className="pp-card-stats">
+        <div className="player-card__name">{player.displayName}</div>
+        <div className="player-card__date">{player.joinDate}</div>
+        <div className="player-card__stats">
           {CARD_STATS.map((s, i) => (
             <React.Fragment key={s.label}>
-              <div className="pp-card-stat">
-                <div className="pp-card-stat-number">{s.value.toLocaleString()}</div>
-                <div className="pp-card-stat-label">{s.label}</div>
+              <div className="player-card__stat">
+                <div className="player-card__stat-number">{s.value.toLocaleString()}</div>
+                <div className="player-card__stat-label">{s.label}</div>
               </div>
-              {i < CARD_STATS.length - 1 && <div className="pp-card-stat-divider" />}
+              {i < CARD_STATS.length - 1 && <div className="player-card__stat-divider" />}
             </React.Fragment>
           ))}
         </div>
-        <div className="pp-card-url">{profileUrl}</div>
-        <div className="pp-card-qr">
+        <div className="player-card__url">{profileUrl}</div>
+        <div className="player-card__qr">
           <QRCodeSvg text={challengeUrl} size={100} />
-          <span className="pp-card-qr-label">Scan to challenge</span>
+          <span className="player-card__qr-label">Scan to challenge</span>
         </div>
-        <div className="pp-card-logo">
-          <span className="pp-card-logo-text">Backgammon</span>
-          <span className="pp-card-logo-dot">.com</span>
+        <div className="player-card__logo">
+          <span className="player-card__logo-text">Backgammon</span>
+          <span className="player-card__logo-dot">.com</span>
         </div>
-        <button className="com-btn com-btn--primary com-btn--sm pp-card-download" onClick={handleDownload}>
+        <button className="com-btn com-btn--primary com-btn--sm player-card__download" onClick={handleDownload}>
           Download Player Card
         </button>
       </div>
@@ -1637,15 +1635,15 @@ function ImageCropModal({ src, aspectRatio, circular, initialCropParams, onSave,
   const maxScale = Math.max(minScale * 4, 3);
 
   return (
-    <div className="pp-crop-overlay" onClick={onCancel}>
-      <div className={`pp-crop-modal${!circular ? ' pp-crop-modal--wide' : ''}`} onClick={e => e.stopPropagation()}>
-        <div className="pp-crop-modal-title">
+    <div className="overlay overlay--top" onClick={onCancel}>
+      <div className={`modal modal--md${!circular ? ' modal--wide' : ''}`} onClick={e => e.stopPropagation()}>
+        <div className="modal__title">
           {circular ? 'Crop Avatar' : 'Crop Cover Image'}
         </div>
 
         <div
           ref={viewportRef}
-          className={`pp-crop-viewport${circular ? ' pp-crop-viewport--circular' : ''}`}
+          className={`image-crop${circular ? ' image-crop--circular' : ''}`}
           style={{ width: viewportW, height: viewportH, margin: '0 auto', borderRadius: circular ? '50%' : 12 }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -1666,7 +1664,7 @@ function ImageCropModal({ src, aspectRatio, circular, initialCropParams, onSave,
           />
         </div>
 
-        <div className="pp-crop-controls">
+        <div className="image-crop__controls">
           <label>Zoom</label>
           <input
             type="range"
@@ -1678,7 +1676,7 @@ function ImageCropModal({ src, aspectRatio, circular, initialCropParams, onSave,
           />
         </div>
 
-        <div className="pp-crop-actions">
+        <div className="image-crop__actions">
           <div>
             <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleReplace} />
             <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileInputRef.current?.click()}>
@@ -1717,32 +1715,32 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onClose })
   const hasCustomAvatar = currentAvatar?.type === 'custom' && currentAvatar.cropped;
 
   return (
-    <div className="pp-card-overlay" onClick={onClose}>
-      <div className="pp-avatar-modal" onClick={e => e.stopPropagation()}>
-        <div className="pp-avatar-modal-title">Choose Avatar</div>
-        <div className="pp-avatar-modal-tabs">
+    <div className="overlay overlay--top" onClick={onClose}>
+      <div className="modal modal--md" onClick={e => e.stopPropagation()}>
+        <div className="modal__title">Choose Avatar</div>
+        <div className="avatar-picker__tabs">
           <button
-            className={`pp-avatar-modal-tab${tab === 'select' ? ' pp-avatar-modal-tab--active' : ''}`}
+            className={`avatar-picker__tab${tab === 'select' ? ' avatar-picker__tab--active' : ''}`}
             onClick={() => setTab('select')}
           >Select</button>
           <button
-            className={`pp-avatar-modal-tab${tab === 'custom' ? ' pp-avatar-modal-tab--active' : ''}`}
+            className={`avatar-picker__tab${tab === 'custom' ? ' avatar-picker__tab--active' : ''}`}
             onClick={() => setTab('custom')}
           >Custom</button>
         </div>
         {tab === 'select' ? (
           <>
-            <div className="pp-avatar-grid">
+            <div className="avatar-picker__grid">
               {PRESET_AVATARS.map(p => (
                 <button
                   key={p.key}
-                  className={`pp-avatar-grid-item${selectedKey === p.key ? ' pp-avatar-grid-item--selected' : ''}`}
+                  className={`avatar-picker__item${selectedKey === p.key ? ' avatar-picker__item--selected' : ''}`}
                   onClick={() => setPendingPreset(p)}
                   title={p.key}
                 >
                   <img src={p.src} alt={p.key} />
                   {selectedKey === p.key && (
-                    <div className="pp-avatar-grid-check">
+                    <div className="avatar-picker__check">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
                         <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -1762,12 +1760,12 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onClose })
             </div>
           </>
         ) : (
-          <div className="pp-avatar-custom">
+          <div className="avatar-picker__custom">
             <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileSelect} />
-            <div className="pp-avatar-custom-preview">
+            <div className="avatar-picker__preview">
               {currentAvatar?.cropped
                 ? <img src={currentAvatar.cropped} alt="Current avatar" />
-                : <div className="pp-avatar-custom-empty">No custom avatar</div>
+                : <div className="avatar-picker__empty">No custom avatar</div>
               }
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -2005,16 +2003,16 @@ export default function ProfilePage({ onNavigate }) {
       <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverFileSelect} />
 
       {/* ── Cover image ── */}
-      <div className={`pp-cover-wrap${editMode ? ' pp-cover-wrap--editable' : ''}`}>
-        <img src={coverEdit?.cropped || coverDefault} alt="" className="pp-cover" aria-hidden="true" />
+      <div className={`profile-cover${editMode ? ' profile-cover--editable' : ''}`}>
+        <img src={coverEdit?.cropped || coverDefault} alt="" className="profile-cover__image" aria-hidden="true" />
         {editMode && (
-          <button className="pp-edit-pencil pp-edit-pencil--cover" onClick={handleCoverPencilClick}>
+          <button className="edit-pencil edit-pencil--cover" onClick={handleCoverPencilClick}>
             <IconPencil size={32} />
           </button>
         )}
         {/* Edit Profile / Settings buttons moved to trophy header row below */}
         {editMode && (
-          <div className="pp-cover-actions">
+          <div className="profile-cover__actions">
             <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
               Cancel
             </button>
@@ -2026,11 +2024,11 @@ export default function ProfilePage({ onNavigate }) {
       </div>
 
       {/* ── Profile header ── */}
-      <div className="pp-header-wrap">
-        <div className="pp-header-inner">
-          <div className="pp-avatar-row">
-            <div className="pp-avatar-wrap">
-              <div className={`pp-avatar${editMode ? ' pp-avatar--editable' : ''}`}>
+      <div className="profile-header">
+        <div className="profile-header__inner">
+          <div className="profile-header__avatar-row">
+            <div className="profile-header__avatar-wrap">
+              <div className={`avatar${editMode ? ' avatar--editable' : ''}`}>
                 {(avatarEdit?.cropped || player.avatar)
                   ? <img src={avatarEdit?.cropped || player.avatar} alt={displayName} />
                   : (
@@ -2047,21 +2045,21 @@ export default function ProfilePage({ onNavigate }) {
                 }
               </div>
               {editMode && (
-                <button className="pp-edit-pencil pp-edit-pencil--avatar" onClick={handleAvatarPencilClick}>
+                <button className="edit-pencil edit-pencil--avatar" onClick={handleAvatarPencilClick}>
                   <IconPencil size={32} />
                 </button>
               )}
             </div>
             {/* Trophy case — right side of avatar row */}
             {!isNewPlayer && !isUnregistered && trophyCase.length > 0 && (
-              <div className="pp-trophy-inline">
+              <div className="trophy-case--inline">
                 {trophyCase.map((s) => (
-                  <div key={`${s.category}-${s.threshold}`} className="pp-trophy-item">
-                    <div className="pp-trophy-badge-wrap">
-                      <img src={badgePlaceholder} alt="" className="pp-trophy-badge" />
-                      <div className="pp-trophy-shine" />
+                  <div key={`${s.category}-${s.threshold}`} className="trophy-item">
+                    <div className="trophy-item__image-wrap">
+                      <img src={badgePlaceholder} alt="" className="trophy-item__image" />
+                      <div className="trophy-item__shine" />
                     </div>
-                    <span className="pp-trophy-label">
+                    <span className="trophy-item__label">
                       {s.threshold} {s.category === 'win' ? 'Wins' : s.category === 'streak' ? 'Streak' : 'Games'}
                     </span>
                   </div>
@@ -2070,36 +2068,36 @@ export default function ProfilePage({ onNavigate }) {
             )}
           </div>
 
-          <div className="pp-bio-stats-row">
-            <div className="pp-bio-col">
-              <div className="pp-join-date">{player.joinDate}</div>
-              <div className="pp-name-row">
-                <h1 className="pp-display-name">{displayName}</h1>
+          <div className="profile-header__body-row">
+            <div className="profile-header__bio-col">
+              <div className="profile-header__date">{player.joinDate}</div>
+              <div className="profile-header__name-row">
+                <h1 className="profile-header__name">{displayName}</h1>
               </div>
               {editMode ? (
                 <textarea
-                  className="pp-edit-bio-input"
+                  className="profile-header__bio-input"
                   value={editBio}
                   onChange={e => setEditBio(e.target.value)}
                   placeholder="Write something about yourself..."
                   rows={3}
                 />
               ) : (
-                bio && <p className="pp-bio" style={{ margin: 0 }}>{bio}</p>
+                bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
               )}
-              <div className="pp-toolbar-row">
+              <div className="toolbar">
                 {countryFlag && (
                   <>
-                    <img src={countryFlag.src} alt={countryFlag.label} className="pp-flag-inline" title={countryFlag.label} />
-                    <div className="pp-toolbar-sep" />
+                    <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
+                    <div className="toolbar__separator" />
                   </>
                 )}
                 {showActions && (
                   <>
-                    <button className="pp-share-icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
+                    <button className="icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
                       <IconBaseballCard size={22} />
                     </button>
-                    <div className="pp-toolbar-sep" />
+                    <div className="toolbar__separator" />
                   </>
                 )}
                 {SOCIALS.filter(s => socialLinks[s.key]).map(s => (
@@ -2108,7 +2106,7 @@ export default function ProfilePage({ onNavigate }) {
                     href={socialLinks[s.key]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pp-social-icon"
+                    className="social-links__icon"
                     title={s.label}
                   >
                     <s.Icon />
@@ -2117,7 +2115,7 @@ export default function ProfilePage({ onNavigate }) {
                 {editMode && SOCIALS.filter(s => !socialLinks[s.key]).map(s => (
                   <button
                     key={s.key}
-                    className="pp-social-icon pp-social-icon--unlinked"
+                    className="social-links__icon social-links__icon--unlinked"
                     onClick={() => setShowSocialModal(true)}
                     title={s.label}
                   >
@@ -2126,27 +2124,27 @@ export default function ProfilePage({ onNavigate }) {
                 ))}
               </div>
             </div>
-            <div className="pp-stats-col">
+            <div className="profile-header__stats-col">
               {isNewPlayer && (
-                <span className="pp-badge-progress-hint" style={{ marginBottom: 8, display: 'block' }}>Play your first game to start tracking!</span>
+                <span className="milestone-category__hint" style={{ marginBottom: 8, display: 'block' }}>Play your first game to start tracking!</span>
               )}
               <GatedSection isGated={isGated}>
-                <div className="pp-stats-grid">
+                <div className="stat-grid">
                   {[
                     { label: 'Total Wins',      value: stats.wins          },
                     { label: 'Games Played',    value: stats.gamesPlayed   },
                     { label: 'Current Streak',  value: stats.currentStreak },
                     { label: 'Highest Streak',  value: stats.highestStreak, percentile: 'Top 5%' },
                   ].map(s => (
-                    <div key={s.label} className="pp-stat-card">
+                    <div key={s.label} className="stat-card">
                       {s.percentile && (
-                        <div className="pp-stat-percentile">
+                        <div className="stat-card__percentile">
                           <IconTrophy16 />
                           <span>{s.percentile}</span>
                         </div>
                       )}
-                      <div className="pp-stat-number">{s.value.toLocaleString()}</div>
-                      <div className="pp-stat-label">{s.label}</div>
+                      <div className="stat-card__number">{s.value.toLocaleString()}</div>
+                      <div className="stat-card__label">{s.label}</div>
                     </div>
                   ))}
                 </div>
@@ -2176,19 +2174,19 @@ export default function ProfilePage({ onNavigate }) {
       </div>
 
       {/* ── Achievements section ── */}
-      <div className="pp-section surface-muted">
-        <div className="pp-section-inner">
-          <h2 className="pp-section-title">Achievements</h2>
+      <div className="section section--flush surface-muted">
+        <div className="section__inner">
+          <h2 className="section-header__title">Achievements</h2>
           <GatedSection isGated={isGated}>
             {isNewPlayer ? (
-              <div className="pp-empty-state">
+              <div className="empty-state">
                 <div style={{ display: 'flex', gap: 8 }}>
                   {[0,1,2].map(i => (
-                    <img key={i} src={badgePlaceholder} alt="" className="pp-badge-placeholder pp-badge-placeholder--unearned" />
+                    <img key={i} src={badgePlaceholder} alt="" className="milestone__placeholder milestone__placeholder--unearned" />
                   ))}
                 </div>
-                <div className="pp-empty-title">No badges yet</div>
-                <div className="pp-empty-body">Win your first 10 games to unlock your first badge.</div>
+                <div className="empty-state__title">No badges yet</div>
+                <div className="empty-state__desc">Win your first 10 games to unlock your first badge.</div>
               </div>
             ) : (
               <>
@@ -2220,8 +2218,8 @@ export default function ProfilePage({ onNavigate }) {
       </div>
 
       {/* ── Match history section ── */}
-      <div className="pp-section surface-tertiary" style={{ paddingBottom: 64 }}>
-        <div className="pp-section-inner">
+      <div className="section section--flush surface-tertiary" style={{ paddingBottom: 64 }}>
+        <div className="section__inner">
           <GatedSection isGated={isGated}>
             <MatchHistorySection
               history={MATCH_HISTORY}
@@ -2233,7 +2231,7 @@ export default function ProfilePage({ onNavigate }) {
 
       <SiteFooter />
       <MobileNav onNavigate={onNavigate} />
-      <div className="ls-nav-spacer" />
+      <div className="mobile-nav__spacer" />
 
       {/* ── Badge celebration ── */}
       {celebrating && (
@@ -2314,7 +2312,7 @@ export default function ProfilePage({ onNavigate }) {
 
       {/* ── Country flag dropdown overlay ── */}
       {showFlagModal && (
-        <div className="pp-card-overlay" onClick={() => setShowFlagModal(false)}>
+        <div className="overlay overlay--top" onClick={() => setShowFlagModal(false)}>
           <div onClick={e => e.stopPropagation()} style={{ width: 320 }}>
             <CountryFlagDropdown
               currentCountry={country}

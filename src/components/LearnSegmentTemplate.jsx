@@ -1,5 +1,4 @@
 import React, { useRef, useState, useLayoutEffect } from 'react';
-import './LearnSegmentTemplate.css';
 import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import boardSample from '../imgs/board-sample.png';
@@ -67,17 +66,17 @@ const NAV_ITEMS = [
 function MobileNav({ onNavigate, currentPageId }) {
   const isProfileActive = currentPageId === 'profile';
   return (
-    <nav className="ls-mobile-nav">
+    <nav className="mobile-nav">
       {NAV_ITEMS.map(({ label, Icon, active }) => {
         const isActive = label === 'Profile' ? isProfileActive : (label === 'Learning' && !isProfileActive ? active : false);
         return (
           <button
             key={label}
-            className={`ls-nav-item${isActive ? ' ls-nav-item-active' : ''}`}
+            className={`mobile-nav__item${isActive ? ' mobile-nav__item--active' : ''}`}
             onClick={label === 'Profile' ? () => onNavigate?.('profile') : undefined}
           >
             <Icon />
-            <span className="ls-nav-label">{label}</span>
+            <span className="mobile-nav__label">{label}</span>
           </button>
         );
       })}
@@ -162,7 +161,7 @@ function BreadcrumbPills({ course, lesson }) {
     margin: 0,
   };
   return (
-    <div className="ls-pills">
+    <div className="pill-row">
       <div style={{ ...pillBase, background: 'var(--color-pill)', paddingLeft: 16, paddingRight: 12 }}>
         <span style={pillText}>{course}</span>
       </div>
@@ -183,8 +182,8 @@ function SectionBreak() {
 
 function ImageWithCaption({ caption }) {
   return (
-    <div className="ls-image-col">
-      <img src={boardSample} alt="Backgammon board" className="ls-image-placeholder" />
+    <div className="media-row__column">
+      <img src={boardSample} alt="Backgammon board" className="media-row__image" />
       {caption && (
         <div style={{
           background: 'var(--color-statement-bg)',
@@ -243,7 +242,7 @@ function Callout({ children }) {
 function H2({ children }) {
   return (
     <h2
-      className="ls-h2"
+      className="article-heading--h2"
       style={{
         fontFamily: fs,
         color: 'var(--color-heading)',
@@ -550,7 +549,7 @@ function QuizModule() {
             <div style={{ position: 'relative', width: 100, height: 100, flexShrink: 0 }}>
               {allCorrect && <div className="quiz-sunburst-wrap" />}
               {allCorrect ? (
-                <div className="ls-badge" style={{ width: 100, height: 100 }}>
+                <div className="xp-badge" style={{ width: 100, height: 100 }}>
                   <BadgeIcon />
                 </div>
               ) : (
@@ -832,11 +831,11 @@ function TocItem({ label, sectionId, active = false }) {
       style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0, cursor: 'pointer' }}
     >
       <div
-        className={`ls-toc-pip${active ? ' ls-toc-pip-active' : ''}`}
+        className={`toc__pip${active ? ' toc__pip--active' : ''}`}
         style={{ background: active ? 'var(--color-toc-pip-active)' : 'var(--color-toc-pip)' }}
       />
       <span
-        className="ls-toc-label"
+        className="toc__label"
         style={{
           fontFamily: ft,
           fontWeight: active ? 700 : 400,
@@ -862,7 +861,7 @@ function TableOfContents() {
     if (!el) return;
 
     // Align TOC top with the start of the article text content
-    const contentSection = document.querySelector('.ls-section.surface-muted');
+    const contentSection = document.querySelector('.section.surface-muted');
     const initialTop = contentSection
       ? Math.round(contentSection.getBoundingClientRect().top + window.scrollY) + 64
       : Math.round(el.getBoundingClientRect().top + window.scrollY);
@@ -893,9 +892,9 @@ function TableOfContents() {
   return (
     <div
       ref={tocRef}
-      className={`ls-toc${tocExpanded ? ' ls-toc--expanded' : ''}`}
+      className={`toc${tocExpanded ? ' toc--expanded' : ''}`}
     >
-      <span className="ls-toc-heading">Table of Contents</span>
+      <span className="toc__heading">Table of Contents</span>
       {TOC_ITEMS.map((item, i) => (
         <TocItem
           key={item.id}
@@ -927,29 +926,29 @@ export default function LearnSegmentTemplate({ onNavigate }) {
       <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
 
       {/* ── HERO / INTRO ── */}
-      <section className="ls-section">
-        <div className="ls-content">
+      <section className="section">
+        <div className="article-content">
 
-          <div className="ls-breadcrumb-wrap">
-            <div className="ls-breadcrumb-row">
+          <div className="breadcrumb">
+            <div className="breadcrumb__trail">
               <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
             </div>
             {!launchMvp && (
-              <div className="ls-badge">
+              <div className="xp-badge">
                 <BadgeIcon />
                 {/* EXP pip + tooltip hidden for now
-                <div className="ls-badge-dot">1</div>
-                <div className="ls-badge-tooltip">Learn EXP +1</div>
+                <div className="xp-badge__dot">1</div>
+                <div className="xp-badge__tooltip">Learn EXP +1</div>
                 */}
               </div>
             )}
           </div>
 
-          <h1 className="ls-h1" style={{ fontFamily: fh, color: 'var(--color-heading)' }}>
+          <h1 className="article-heading--h1" style={{ fontFamily: fh, color: 'var(--color-heading)' }}>
             How to Play Backgammon
           </h1>
 
-          <div className="ls-article-meta">
+          <div className="article-meta">
             <div style={{ fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)' }}>
               <span style={{ fontFamily: fm, fontWeight: 400 }}>Written by </span>
               <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Backgammon.com</a>
@@ -968,8 +967,8 @@ export default function LearnSegmentTemplate({ onNavigate }) {
       </section>
 
       {/* ── CONTENT BODY ── */}
-      <section className="ls-section surface-muted">
-        <div className="ls-content ls-content-gap-lg">
+      <section className="section surface-muted">
+        <div className="article-content article-content--gap-lg">
 
           {/* 1. Board Layout */}
           <div id="section-layout" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
@@ -987,7 +986,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
           <SectionBreak />
 
           {/* 2. How to Set Up */}
-          <div id="section-setup" className="ls-image-row">
+          <div id="section-setup" className="media-row">
             <ImageWithCaption caption="Top-down diagram of a standard backgammon board setup. Checkers are highlighted in groups with labels: Runners, Mid-point, Builders, Defenders." />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flex: '1 0 0', justifyContent: 'center' }}>
               <H2>2. How to Set Up</H2>
@@ -1066,7 +1065,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
           <SectionBreak />
 
           {/* 5. Hitting */}
-          <div id="section-hitting" className="ls-image-row">
+          <div id="section-hitting" className="media-row">
             <ImageWithCaption caption="A checker landing on a single opponent checker (Blot), with an arrow showing the opponent's checker moving to the Bar." />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flex: '1 0 0' }}>
               <H2>5. Hitting</H2>
@@ -1146,7 +1145,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
           {/* Guide navigation */}
           <GuideCTAs />
 
-          <div className="ls-nav-spacer" />
+          <div className="mobile-nav__spacer" />
 
         </div>
       </section>

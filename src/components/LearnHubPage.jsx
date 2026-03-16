@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import './LearnSegmentTemplate.css';  /* shared tokens, surface classes, layout */
-import './LearnHubPage.css';
 import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import wbfLogo from '../imgs/wbf-logo.png';
@@ -70,17 +68,17 @@ const NAV_ITEMS = [
 function MobileNav({ onNavigate, currentPageId }) {
   const isProfileActive = currentPageId === 'profile';
   return (
-    <nav className="ls-mobile-nav">
+    <nav className="mobile-nav">
       {NAV_ITEMS.map(({ label, Icon, active }) => {
         const isActive = label === 'Profile' ? isProfileActive : (label === 'Learning' && !isProfileActive ? active : false);
         return (
           <button
             key={label}
-            className={`ls-nav-item${isActive ? ' ls-nav-item-active' : ''}`}
+            className={`mobile-nav__item${isActive ? ' mobile-nav__item--active' : ''}`}
             onClick={label === 'Profile' ? () => onNavigate?.('profile') : undefined}
           >
             <Icon />
-            <span className="ls-nav-label">{label}</span>
+            <span className="mobile-nav__label">{label}</span>
           </button>
         );
       })}
@@ -197,27 +195,27 @@ function IconCheck() {
 
 function LessonRow({ number, title, duration, description, completed = false, upNext = false }) {
   return (
-    <div className="lh-lesson-row">
-      <div className="lh-lesson-info">
-        <div className="lh-lesson-title-row">
-          <span className="lh-lesson-number">{number}.</span>
-          <span className="lh-lesson-title">{title}</span>
+    <div className="lesson-row">
+      <div className="lesson-row__info">
+        <div className="lesson-row__title-row">
+          <span className="lesson-row__number">{number}.</span>
+          <span className="lesson-row__title">{title}</span>
         </div>
-        <p className="lh-lesson-desc">{description}</p>
+        <p className="lesson-row__desc">{description}</p>
       </div>
-      <div className="lh-lesson-badges">
+      <div className="lesson-row__tags">
         {completed && (
-          <div className="lh-badge lh-badge--completed">
+          <div className="status-tag status-tag--completed">
             <IconCheck />
             <span>Completed</span>
           </div>
         )}
         {upNext && (
-          <div className="lh-badge lh-badge--continue">
+          <div className="status-tag status-tag--continue">
             <span>Continue</span>
           </div>
         )}
-        <div className="lh-chevron">
+        <div className="lesson-row__chevron">
           <IconChevronRight />
         </div>
       </div>
@@ -230,18 +228,18 @@ function LessonRow({ number, title, duration, description, completed = false, up
 function CourseAccordion({ title, description, progressFilled = 0, progressTotal = 5, defaultOpen = false, children }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="lh-course">
-      <button className="lh-course-header" onClick={() => setOpen(v => !v)} aria-expanded={open}>
-        <div className="lh-course-header-left">
+    <div className="course">
+      <button className="course__header" onClick={() => setOpen(v => !v)} aria-expanded={open}>
+        <div className="course__header-left">
           <ProgressDots total={progressTotal} filled={progressFilled} />
-          <span className="lh-course-title">{title}</span>
+          <span className="course__title">{title}</span>
         </div>
-        <p className="lh-course-desc">{description}</p>
-        <div className="lh-course-toggle"><IconPlusMinus open={open} /></div>
+        <p className="course__desc">{description}</p>
+        <div className="course__toggle"><IconPlusMinus open={open} /></div>
       </button>
-      <div className="lh-course-divider" />
+      <div className="course__divider" />
       {open && children && (
-        <div className="lh-course-lessons">
+        <div className="course__lessons">
           {children}
         </div>
       )}
@@ -259,14 +257,14 @@ export default function LearnHubPage({ onNavigate }) {
       <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
 
       {/* ── Hero section ── */}
-      <section className="ls-section lh-hero">
-        <div className="lh-hero-content">
+      <section className="section learn-hero">
+        <div className="learn-hero__content">
 
           {/* Title + Stats */}
-          <div className="lh-title-stats">
-            <h1 className="ls-h1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-heading)' }}>
+          <div className="learn-hero__title-stats">
+            <h1 className="article-heading--h1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-heading)' }}>
               <span>Learn </span>
-              <span className="lh-hero-title--light">&amp;</span>
+              <span className="learn-hero__title--light">&amp;</span>
               <span> Master</span>
               <br />
               <span>Backgammon</span>
@@ -274,13 +272,13 @@ export default function LearnHubPage({ onNavigate }) {
           </div>
 
           {/* Body */}
-          <p className="lh-hero-body">
+          <p className="learn-hero__body">
             From your first game to advanced strategy. 15 structured guides that take you from complete beginner to confident, competitive player.
           </p>
 
           {/* CTA row */}
-          <div className="lh-cta-row">
-            <div className="lh-cta-buttons">
+          <div className="learn-hero__cta-row">
+            <div className="learn-hero__cta-buttons">
               <button className="com-btn com-btn--primary com-btn--lg" onClick={() => onNavigate?.('learn-article')}>
                 {loggedIn ? 'Continue: Lesson 2' : 'Start Your First Lesson'}
                 <svg width="11" height="15" viewBox="0 0 11 15" fill="currentColor" aria-hidden>
@@ -288,13 +286,13 @@ export default function LearnHubPage({ onNavigate }) {
                 </svg>
               </button>
             </div>
-            <div className="lh-sanctioned" style={{ display: 'none' }}>
-              <p className="lh-sanctioned-text">
+            <div className="learn-hero__sanctioned" style={{ display: 'none' }}>
+              <p className="learn-hero__sanctioned-text">
                 Officially Sanctioned by<br />
                 The World Backgammon Federation
               </p>
               {/* WBF badge — visible when Figma plugin is running */}
-              <div className="lh-sanctioned-badge">
+              <div className="learn-hero__sanctioned-badge">
                 <img
                   src={wbfLogo}
                   alt="World Backgammon Federation"
@@ -308,24 +306,24 @@ export default function LearnHubPage({ onNavigate }) {
       </section>
 
       {/* ── Lessons section ── */}
-      <section className="ls-section surface-muted">
-        <div className="lh-lessons-content">
+      <section className="section surface-muted">
+        <div className="course-section">
 
           {/* Section intro */}
-          <div className="lh-section-intro">
+          <div className="course-section__intro">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <h2 className="lh-section-title">
+              <h2 className="course-section__title">
                 Lessons to take you<br />
                 from Beginner to Pro
               </h2>
-              <p className="lh-section-body">
+              <p className="course-section__body">
                 Designed by Backgammon Grandmasters for Beginners and Intermediate players alike
               </p>
             </div>
           </div>
 
           {/* Course list */}
-          <div className="lh-course-list">
+          <div className="course-list">
 
             <CourseAccordion
               title="Intro to Backgammon"
@@ -452,7 +450,7 @@ export default function LearnHubPage({ onNavigate }) {
       <SiteFooter />
 
       <MobileNav onNavigate={onNavigate} currentPageId="learn-hub" />
-      <div className="ls-nav-spacer" />
+      <div className="mobile-nav__spacer" />
 
     </div>
   );

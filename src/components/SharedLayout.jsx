@@ -298,7 +298,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
 
   return (
     <>
-    <header className={`ls-header${scrolled ? ' ls-header--scrolled' : ''}`}>
+    <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <a
         href="https://www.backgammon.com"
         target="_blank"
@@ -315,12 +315,12 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           cursor: 'pointer',
         }}
       >
-        <span className="ls-logo-text">Backgammon</span>
-        <span className="ls-logo-dot" style={{ opacity: 0.4 }}>.com</span>
+        <span className="site-header__logo-text">Backgammon</span>
+        <span className="site-header__logo-dot" style={{ opacity: 0.4 }}>.com</span>
       </a>
 
       {loggedIn ? (
-        <div className="ls-header-auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+        <div className="site-header__auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <button
             className="com-btn com-btn--primary com-btn--sm"
             onClick={() => window.open('https://www.backgammon.com', '_blank')}
@@ -334,7 +334,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
         <button className="com-btn com-btn--primary com-btn--sm">Log In / Sign Up</button>
       )}
     </header>
-    <div aria-hidden="true" className={`ls-header-spacer${scrolled ? ' ls-header-spacer--scrolled' : ''}`} />
+    <div aria-hidden="true" className={`site-header__spacer${scrolled ? ' site-header__spacer--scrolled' : ''}`} />
     </>
   );
 }

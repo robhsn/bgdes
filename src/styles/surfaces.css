@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════════════════════════════
+   Surface classes — each is a "color contract" for descendants
+   ═══════════════════════════════════════════════════════════════ */
+
+.surface-muted {
+  background:             var(--sf-muted-bg);
+  --color-bg:             var(--sf-muted-bg);
+  --color-heading:        var(--sf-muted-heading);
+  --color-body:           var(--sf-muted-body);
+  --color-muted:          var(--sf-muted-text-muted);
+  --color-border:         var(--sf-muted-border);
+  --color-border-light:   var(--sf-muted-border-light);
+  --color-border-mid:     var(--sf-muted-border-mid);
+  --color-border-subtle:  var(--sf-muted-border-subtle);
+  --color-callout-border: var(--sf-muted-callout-border);
+  --color-placeholder:    var(--sf-muted-placeholder);
+  --color-logo:           var(--sf-muted-logo);
+  --color-link:           var(--sf-muted-link);
+  --color-pill:           var(--sf-muted-pill);
+  --color-accent:         var(--sf-muted-accent);
+  --color-glossary-underline: var(--prim-mono-350);
+  --color-guide-nav-bg:       var(--prim-mono-white);
+  --color-guide-nav-border:   var(--prim-mono-250);
+  --color-guide-nav-label:    var(--prim-mono-500);
+  --color-guide-nav-title:    var(--prim-mono-900);
+}
+
+.surface-inverse {
+  background:             var(--sf-inverse-bg);
+  --color-bg:             var(--sf-inverse-bg);
+  --color-heading:        var(--sf-inverse-heading);
+  --color-body:           var(--sf-inverse-body);
+  --color-muted:          var(--sf-inverse-text-muted);
+  --color-border:         var(--sf-inverse-border);
+  --color-border-light:   var(--sf-inverse-border-light);
+  --color-border-mid:     var(--sf-inverse-border-mid);
+  --color-border-subtle:  var(--sf-inverse-border-subtle);
+  --color-callout-border: var(--sf-inverse-callout-border);
+  --color-placeholder:    var(--sf-inverse-placeholder);
+  --color-logo:           var(--sf-inverse-logo);
+  --color-link:           var(--sf-inverse-link);
+  --color-pill:           var(--sf-inverse-pill);
+  --color-accent:         var(--sf-inverse-accent);
+  --color-glossary-underline: var(--prim-mono-550);
+  --color-guide-nav-bg:       var(--prim-mono-750);
+  --color-guide-nav-border:   var(--prim-mono-550);
+  --color-guide-nav-label:    var(--prim-mono-350);
+  --color-guide-nav-title:    var(--prim-mono-white);
+}
+
+.surface-accent {
+  background:             var(--sf-accent-bg);
+  --color-bg:             var(--sf-accent-bg);
+  --color-heading:        var(--sf-accent-heading);
+  --color-body:           var(--sf-accent-body);
+  --color-muted:          var(--sf-accent-text-muted);
+  --color-border:         var(--sf-accent-border);
+  --color-border-light:   var(--sf-accent-border-light);
+  --color-border-mid:     var(--sf-accent-border-mid);
+  --color-border-subtle:  var(--sf-accent-border-subtle);
+  --color-callout-border: var(--sf-accent-callout-border);
+  --color-placeholder:    var(--sf-accent-placeholder);
+  --color-logo:           var(--sf-accent-logo);
+  --color-link:           var(--sf-accent-link);
+  --color-pill:           var(--sf-accent-pill);
+  --color-accent:         var(--sf-accent-accent);
+  --color-glossary-underline: var(--prim-mono-500);
+  --color-guide-nav-bg:       var(--prim-mono-600);
+  --color-guide-nav-border:   var(--prim-mono-500);
+  --color-guide-nav-label:    var(--prim-mono-250);
+  --color-guide-nav-title:    var(--prim-mono-white);
+}
+
+.surface-tertiary {
+  background:             var(--sf-tertiary-bg);
+  --color-bg:             var(--sf-tertiary-bg);
+  --color-heading:        var(--sf-tertiary-heading);
+  --color-body:           var(--sf-tertiary-body);
+  --color-muted:          var(--sf-tertiary-text-muted);
+  --color-border:         var(--sf-tertiary-border);
+  --color-border-light:   var(--sf-tertiary-border-light);
+  --color-border-mid:     var(--sf-tertiary-border-mid);
+  --color-border-subtle:  var(--sf-tertiary-border-subtle);
+  --color-callout-border: var(--sf-tertiary-callout-border);
+  --color-placeholder:    var(--sf-tertiary-placeholder);
+  --color-logo:           var(--sf-tertiary-logo);
+  --color-link:           var(--sf-tertiary-link);
+  --color-pill:           var(--sf-tertiary-pill);
+  --color-accent:         var(--sf-tertiary-accent);
+  --color-glossary-underline: var(--prim-mono-550);
+  --color-guide-nav-bg:       var(--prim-mono-700);
+  --color-guide-nav-border:   var(--prim-mono-550);
+  --color-guide-nav-label:    var(--prim-mono-350);
+  --color-guide-nav-title:    var(--prim-mono-white);
+}
