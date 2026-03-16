@@ -1993,7 +1993,7 @@ export default function ProfilePage({ onNavigate }) {
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
       <SiteHeader
-        onLogoClick={() => onNavigate?.('learn-hub')}
+        onLogoClick={() => onNavigate?.('index')}
         onNavigate={onNavigate}
         avatarSrc={avatarEdit?.cropped || player.avatar}
       />

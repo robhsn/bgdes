@@ -235,6 +235,7 @@ function SemanticColorsSection() {
 
 function SurfacesSection() {
   const surfaces = [
+    { cls: '',                 label: 'Default (:root)' },
     { cls: 'surface-muted',    label: '.surface-muted' },
     { cls: 'surface-inverse',  label: '.surface-inverse' },
     { cls: 'surface-accent',   label: '.surface-accent' },
@@ -248,13 +249,21 @@ function SurfacesSection() {
         <p className="section__desc">Each surface re-maps semantic tokens to create a distinct color contract for its descendants.</p>
         <div className="surface-demo">
           {surfaces.map(s => (
-            <div key={s.cls} className={`surface-demo__card ${s.cls}`}>
+            <div key={s.cls || '_default'} className={`surface-demo__card ${s.cls}`}>
               <div className="surface-demo__heading">{s.label}</div>
               <div className="surface-demo__body">Body text on this surface uses the remapped --color-body token.</div>
               <div className="surface-demo__muted">Muted text</div>
               <span className="surface-demo__link">Link text</span>
               <div className="surface-demo__border" />
-              <button className="com-btn com-btn--primary com-btn--sm">Button</button>
+              <div className="surface-demo__buttons">
+                <button className="com-btn com-btn--dark com-btn--sm">Dark</button>
+                <button className="com-btn com-btn--ghost com-btn--sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--com-btn-ghost-icon)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                  Ghost
+                </button>
+                <button className="com-btn com-btn--primary com-btn--sm">Primary</button>
+                <button className="com-btn com-btn--outline com-btn--sm">Outline</button>
+              </div>
             </div>
           ))}
         </div>
@@ -403,65 +412,6 @@ function StatusColorsSection() {
   );
 }
 
-/* ── .com Buttons showcase ──────────────────────────────────── */
-
-const COM_VARIANTS = [
-  { cls: 'com-btn--primary',    label: 'Primary' },
-  { cls: 'com-btn--dark',       label: 'Dark' },
-  { cls: 'com-btn--outline',    label: 'Outline' },
-  { cls: 'com-btn--tertiary',   label: 'Tertiary' },
-  { cls: 'com-btn--quaternary', label: 'Quaternary' },
-  { cls: 'com-btn--ghost',      label: 'Ghost' },
-];
-
-const COM_SIZES = [
-  { cls: '',            label: 'Default (48 px)' },
-  { cls: 'com-btn--sm', label: 'Small (36 px)' },
-  { cls: 'com-btn--lg', label: 'Large (auto)' },
-];
-
-function ComButtonsSection() {
-  return (
-    <div className="section">
-      <div className="section__inner">
-        <h2 className="section__title">.com Buttons</h2>
-        <p className="section__desc">Shared button system matching backgammon.com production styles. Pill shapes, Inter 700, brand-colored 3D shadows.</p>
-
-        {/* Variants showcase */}
-        <div className="btn-showcase">
-          <div className="btn-showcase__row">
-            <div className="btn-showcase__label">Light background</div>
-            <div className="btn-showcase__buttons">
-              {COM_VARIANTS.map(v => (
-                <button key={v.cls} className={`com-btn ${v.cls}`}>{v.label}</button>
-              ))}
-            </div>
-          </div>
-          <div className="btn-showcase__row btn-showcase__row--dark">
-            <div className="btn-showcase__label">Dark background</div>
-            <div className="btn-showcase__buttons">
-              {COM_VARIANTS.map(v => (
-                <button key={v.cls} className={`com-btn ${v.cls}`}>{v.label}</button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Sizes showcase */}
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 16, color: 'var(--color-heading)', margin: '32px 0 12px' }}>Sizes</h3>
-        <div className="btn-showcase__buttons" style={{ gap: 16 }}>
-          {COM_SIZES.map(s => (
-            <div key={s.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
-              <button className={`com-btn com-btn--primary ${s.cls}`}>Button</button>
-              <span style={{ fontFamily: 'var(--font-meta)', fontSize: 11, color: 'var(--color-muted)' }}>{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const BUTTON_TOKENS = [
   { name: '--btn-primary-bg',       label: 'Primary BG' },
   { name: '--btn-primary-fg',       label: 'Primary Text' },
@@ -524,7 +474,7 @@ function LegacyButtonsSection() {
 export default function TokensPage({ onNavigate }) {
   return (
     <div className="token-showcase">
-      <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
+      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
       <ColorPalettesSection />
       <SemanticColorsSection />
@@ -534,7 +484,6 @@ export default function TokensPage({ onNavigate }) {
       <RadiusSection />
       <ShadowsSection />
       <StatusColorsSection />
-      <ComButtonsSection />
       <LegacyButtonsSection />
       <SiteFooter />
     </div>

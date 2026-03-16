@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDMEState } from '../context/dme-states';
+import { AvatarDropdown } from './SharedLayout';
 import welcomeLogo from '../imgs/welcome_logo.svg';
 import diceDecoration from '../imgs/dice-decoration.png';
 import './IndexPage.css';
@@ -134,7 +135,9 @@ export default function IndexPage({ onNavigate }) {
             </a>
             <div className="ix-header-actions">
               {loggedIn ? (
-                <button className="ix-btn ix-btn--dashboard">Go to Dashboard</button>
+                <div style={{ '--color-heading': '#fff', '--color-border-subtle': 'rgba(255,255,255,0.2)', '--color-avatar-bg': '#0d3529' }}>
+                  <AvatarDropdown onNavigate={onNavigate} />
+                </div>
               ) : (
                 <>
                   <button className="ix-btn ix-btn--login">Log In</button>

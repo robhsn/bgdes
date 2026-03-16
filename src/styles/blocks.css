@@ -629,6 +629,13 @@
   background: var(--color-border);
 }
 
+.surface-demo__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
 .surface-demo__btn {
   display: inline-flex;
   align-items: center;

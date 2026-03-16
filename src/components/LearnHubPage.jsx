@@ -254,7 +254,7 @@ export default function LearnHubPage({ onNavigate }) {
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
+      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
       {/* ── Hero section ── */}
       <section className="section learn-hero">

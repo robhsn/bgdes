@@ -491,7 +491,7 @@ function QuizModule() {
     const earned = allCorrect && loggedIn;
 
     return (
-      <div key="quiz-results" className="surface-tertiary" style={{ ...quizCard, paddingTop: 14 }}>
+      <div key="quiz-results" className="surface-tertiary" style={{ ...quizCard, paddingTop: 14, '--com-btn-outline-fg': '#fff', '--com-btn-outline-border': 'rgba(255,255,255,0.35)' }}>
         {/* Score header + badge row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -609,10 +609,10 @@ function QuizModule() {
 
         {/* Try again + Play Now — pinned to bottom */}
         <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
-          <button onClick={handleRestart} style={{ ...quizBtn, flex: 1, background: 'transparent', border: '1px solid var(--color-heading)', color: 'var(--color-heading)' }}>
+          <button onClick={handleRestart} className="com-btn com-btn--outline" style={{ flex: 1, borderRadius: 8, fontSize: 15, letterSpacing: '0.03em' }}>
             Try Again
           </button>
-          <button onClick={() => window.open('https://www.backgammon.com', '_blank')} style={{ ...quizBtn, flex: 3 }}>
+          <button onClick={() => window.open('https://www.backgammon.com', '_blank')} className="com-btn com-btn--outline" style={{ flex: 3, borderRadius: 8, fontSize: 15, letterSpacing: '0.03em' }}>
             Play Now
           </button>
         </div>
@@ -622,7 +622,7 @@ function QuizModule() {
 
   /* ── Active question ─────────────────────────────── */
   return (
-    <div key="quiz-active" className="surface-tertiary" style={quizCard}>
+    <div key="quiz-active" className="surface-tertiary" style={{ ...quizCard, '--com-btn-outline-fg': '#fff', '--com-btn-outline-border': 'rgba(255,255,255,0.35)' }}>
       {/* Progress bar */}
       <div style={{ marginBottom: 20, flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
@@ -712,7 +712,8 @@ function QuizModule() {
       <button
         onClick={handleNext}
         disabled={!isAnswered}
-        style={{ ...quizBtn, marginTop: 16, flexShrink: 0, opacity: isAnswered ? 1 : 0.35, cursor: isAnswered ? 'pointer' : 'default' }}
+        className="com-btn com-btn--outline"
+        style={{ width: '100%', borderRadius: 8, fontSize: 15, letterSpacing: '0.03em', marginTop: 16, flexShrink: 0, opacity: isAnswered ? 1 : 0.35, cursor: isAnswered ? 'pointer' : 'default' }}
       >
         {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →'}
       </button>
@@ -923,7 +924,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
     }}>
 
       {/* ── HEADER ── */}
-      <SiteHeader onLogoClick={() => onNavigate?.('learn-hub')} onNavigate={onNavigate} />
+      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
       {/* ── HERO / INTRO ── */}
       <section className="section">

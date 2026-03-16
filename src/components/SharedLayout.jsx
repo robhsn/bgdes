@@ -146,7 +146,7 @@ const MENU_ITEMS = [
   { id: 'history',  label: 'Game history',        Icon: IconHistory,  soon: true },
 ];
 
-function AvatarDropdown({ avatarSrc, onNavigate }) {
+export function AvatarDropdown({ avatarSrc, onNavigate }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -299,10 +299,11 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
   return (
     <>
     <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
-      <a
-        href="https://www.backgammon.com"
-        target="_blank"
-        rel="noopener noreferrer"
+      <span
+        role="link"
+        tabIndex={0}
+        onClick={onLogoClick}
+        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onLogoClick?.()}
         style={{
           display: 'flex',
           alignItems: 'flex-end',
@@ -317,7 +318,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
       >
         <span className="site-header__logo-text">Backgammon</span>
         <span className="site-header__logo-dot" style={{ opacity: 0.4 }}>.com</span>
-      </a>
+      </span>
 
       {loggedIn ? (
         <div className="site-header__auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
@@ -367,16 +368,11 @@ export function PlayNowCta() {
             display: 'inline-flex', alignItems: 'center',
             background: 'var(--btn-secondary-bg)',
             border: '2px solid var(--btn-secondary-border)',
-            boxShadow: '0 4px 0 var(--btn-secondary-border)',
             borderRadius: 10,
             padding: '10px 24px', fontFamily: fp, fontWeight: 700, fontSize: 15,
             color: 'var(--btn-secondary-fg)', cursor: 'pointer', letterSpacing: '0.04em', flexShrink: 0,
             textDecoration: 'none',
-            transition: 'transform 0.1s ease, box-shadow 0.1s ease',
           }}
-          onMouseDown={e => { e.currentTarget.style.transform = 'translateY(3px)'; e.currentTarget.style.boxShadow = '0 1px 0 var(--btn-secondary-border)'; }}
-          onMouseUp={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 0 var(--btn-secondary-border)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 0 var(--btn-secondary-border)'; }}
         >
           Play Now
         </a>

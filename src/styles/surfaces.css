@@ -23,6 +23,18 @@
   --color-guide-nav-border:   var(--prim-mono-250);
   --color-guide-nav-label:    var(--prim-mono-500);
   --color-guide-nav-title:    var(--prim-mono-900);
+  --com-btn-primary-bg:       var(--sf-muted-btn-primary-bg);
+  --com-btn-primary-fg:       var(--sf-muted-btn-primary-fg);
+  --com-btn-dark-bg:          var(--sf-muted-btn-dark-bg);
+  --com-btn-dark-fg:          var(--sf-muted-btn-dark-fg);
+  --com-btn-ghost-fg:         var(--sf-muted-btn-ghost-fg);
+  --com-btn-ghost-icon:       var(--sf-muted-btn-ghost-icon);
+  --com-btn-outline-fg:       var(--sf-muted-btn-outline-fg);
+  --com-btn-outline-border:   var(--sf-muted-btn-outline-border);
+  --com-btn-tertiary-bg:      var(--prim-mint-700);
+  --com-btn-tertiary-fg:      var(--prim-mint-150);
+  --com-btn-quaternary-bg:    var(--prim-mono-white);
+  --com-btn-quaternary-fg:    var(--prim-mono-black);
 }
 
 .surface-inverse {
@@ -46,6 +58,18 @@
   --color-guide-nav-border:   var(--prim-mono-550);
   --color-guide-nav-label:    var(--prim-mono-350);
   --color-guide-nav-title:    var(--prim-mono-white);
+  --com-btn-primary-bg:       var(--sf-inverse-btn-primary-bg);
+  --com-btn-primary-fg:       var(--sf-inverse-btn-primary-fg);
+  --com-btn-dark-bg:          var(--sf-inverse-btn-dark-bg);
+  --com-btn-dark-fg:          var(--sf-inverse-btn-dark-fg);
+  --com-btn-ghost-fg:         var(--sf-inverse-btn-ghost-fg);
+  --com-btn-ghost-icon:       var(--sf-inverse-btn-ghost-icon);
+  --com-btn-outline-fg:       var(--sf-inverse-btn-outline-fg);
+  --com-btn-outline-border:   var(--sf-inverse-btn-outline-border);
+  --com-btn-tertiary-bg:      var(--prim-mint-700);
+  --com-btn-tertiary-fg:      var(--prim-mint-150);
+  --com-btn-quaternary-bg:    var(--prim-mono-white);
+  --com-btn-quaternary-fg:    var(--prim-mono-black);
 }
 
 .surface-accent {
@@ -69,6 +93,18 @@
   --color-guide-nav-border:   var(--prim-mono-500);
   --color-guide-nav-label:    var(--prim-mono-250);
   --color-guide-nav-title:    var(--prim-mono-white);
+  --com-btn-primary-bg:       var(--sf-accent-btn-primary-bg);
+  --com-btn-primary-fg:       var(--sf-accent-btn-primary-fg);
+  --com-btn-dark-bg:          var(--sf-accent-btn-dark-bg);
+  --com-btn-dark-fg:          var(--sf-accent-btn-dark-fg);
+  --com-btn-ghost-fg:         var(--sf-accent-btn-ghost-fg);
+  --com-btn-ghost-icon:       var(--sf-accent-btn-ghost-icon);
+  --com-btn-outline-fg:       var(--sf-accent-btn-outline-fg);
+  --com-btn-outline-border:   var(--sf-accent-btn-outline-border);
+  --com-btn-tertiary-bg:      var(--prim-mint-700);
+  --com-btn-tertiary-fg:      var(--prim-mint-150);
+  --com-btn-quaternary-bg:    var(--prim-mono-white);
+  --com-btn-quaternary-fg:    var(--prim-mono-black);
 }
 
 .surface-tertiary {
@@ -92,4 +128,16 @@
   --color-guide-nav-border:   var(--prim-mono-550);
   --color-guide-nav-label:    var(--prim-mono-350);
   --color-guide-nav-title:    var(--prim-mono-white);
+  --com-btn-primary-bg:       var(--sf-tertiary-btn-primary-bg);
+  --com-btn-primary-fg:       var(--sf-tertiary-btn-primary-fg);
+  --com-btn-dark-bg:          var(--sf-tertiary-btn-dark-bg);
+  --com-btn-dark-fg:          var(--sf-tertiary-btn-dark-fg);
+  --com-btn-ghost-fg:         var(--sf-tertiary-btn-ghost-fg);
+  --com-btn-ghost-icon:       var(--sf-tertiary-btn-ghost-icon);
+  --com-btn-outline-fg:       var(--sf-tertiary-btn-outline-fg);
+  --com-btn-outline-border:   var(--sf-tertiary-btn-outline-border);
+  --com-btn-tertiary-bg:      var(--prim-mint-700);
+  --com-btn-tertiary-fg:      var(--prim-mint-150);
+  --com-btn-quaternary-bg:    var(--prim-mono-white);
+  --com-btn-quaternary-fg:    var(--prim-mono-black);
 }

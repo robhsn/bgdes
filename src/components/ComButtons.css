@@ -4,13 +4,6 @@
    Imported once in main.jsx for global availability.
    ═══════════════════════════════════════════════════════════════ */
 
-:root {
-  --com-green: #23a57e;
-  --com-green-shadow: #16cc96;
-  --com-dark-green: #0d3529;
-  --com-sage-light: #c0d8d1;
-}
-
 /* ── Base ───────────────────────────────────────────────────── */
 
 .com-btn {
@@ -42,54 +35,34 @@
   transform: scale(0.98);
 }
 
-/* ── Primary (green pill with 3D shadow) ────────────────────── */
+/* ── Primary (green pill) ─────────────────────────────────────── */
 
 .com-btn--primary {
-  background: var(--com-green);
-  color: #fff;
-  box-shadow: 0 4px 0 var(--com-green-shadow);
-}
-
-.com-btn--primary:hover {
-  transform: scale(1.02);
-}
-
-.com-btn--primary:active {
-  transform: translateY(3px) scale(1);
-  box-shadow: 0 1px 0 var(--com-green-shadow);
+  background: var(--com-btn-primary-bg);
+  color: var(--com-btn-primary-fg);
 }
 
 /* ── Dark (black pill) ──────────────────────────────────────── */
 
 .com-btn--dark {
-  background: #000;
-  color: #fff;
-  box-shadow: 0 4px 0 #333;
-}
-
-.com-btn--dark:hover {
-  transform: scale(1.02);
-}
-
-.com-btn--dark:active {
-  transform: translateY(3px) scale(1);
-  box-shadow: 0 1px 0 #333;
+  background: var(--com-btn-dark-bg);
+  color: var(--com-btn-dark-fg);
 }
 
 /* ── Outline (transparent pill, border) ─────────────────────── */
 
 .com-btn--outline {
   background: transparent;
-  color: currentColor;
-  border: 2px solid currentColor;
+  color: var(--com-btn-outline-fg);
+  border: 2px solid var(--com-btn-outline-border);
   box-shadow: none;
 }
 
 /* ── Tertiary (dark-green rounded-lg) ──────────────────────── */
 
 .com-btn--tertiary {
-  background: var(--com-dark-green);
-  color: var(--com-sage-light);
+  background: var(--com-btn-tertiary-bg);
+  color: var(--com-btn-tertiary-fg);
   border-radius: 8px;
   box-shadow: none;
 }
@@ -97,8 +70,8 @@
 /* ── Quaternary (white rounded-lg) ─────────────────────────── */
 
 .com-btn--quaternary {
-  background: #fff;
-  color: #000;
+  background: var(--com-btn-quaternary-bg);
+  color: var(--com-btn-quaternary-fg);
   border-radius: 8px;
   box-shadow: none;
 }
@@ -107,7 +80,7 @@
 
 .com-btn--ghost {
   background: transparent;
-  color: currentColor;
+  color: var(--com-btn-ghost-fg);
   box-shadow: none;
 }
 

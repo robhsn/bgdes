@@ -92,6 +92,7 @@
   --prim-mint-400: #23a57e;
   --prim-mint-300: #8cb2a7;
   --prim-mint-200: #bce4d9;
+  --prim-mint-150: #c0d8d1;
   --prim-mint-100: #e9f4f3;
 
   /* ── Fall Green ── */
@@ -133,13 +134,29 @@
   --color-link:           var(--prim-mono-700);
   --color-white:          var(--prim-mono-white);
 
-  /* ── Button tokens ────────────────────────────────────────────── */
+  /* ── Legacy IDP button tokens ──────────────────────────────────── */
   --btn-primary-bg: var(--color-border-mid);
   --btn-primary-fg: var(--color-heading);
   --btn-secondary-bg: var(--color-bg);
   --btn-secondary-fg: var(--color-heading);
   --btn-primary-border: var(--color-heading);
   --btn-secondary-border: var(--color-heading);
+
+  /* ── Pathway Button tokens ───────────────────────────────────── */
+  --com-btn-primary-bg:      var(--prim-mint-400);
+  --com-btn-primary-fg:      var(--prim-mono-white);
+  --com-btn-dark-bg:         var(--prim-mono-900);
+  --com-btn-dark-fg:         var(--prim-mono-white);
+  --com-btn-ghost-fg:        var(--prim-mono-900);
+  --com-btn-ghost-icon:      var(--prim-mint-400);
+  --com-btn-outline-fg:      var(--prim-mono-900);
+  --com-btn-outline-border:  var(--prim-mono-300);
+
+  /* ── UI Button tokens (index page header) ────────────────────── */
+  --com-btn-tertiary-bg:   var(--prim-mint-700);
+  --com-btn-tertiary-fg:   var(--prim-mint-150);
+  --com-btn-quaternary-bg: var(--prim-mono-white);
+  --com-btn-quaternary-fg: var(--prim-mono-black);
 
   /* ── Statement component tokens ──────────────────────────────── */
   --color-statement-bg:     var(--prim-mono-100);
@@ -173,6 +190,14 @@
   --sf-muted-border-subtle:  var(--prim-mono-350);
   --sf-muted-callout-border: var(--prim-mono-500);
   --sf-muted-placeholder:    var(--prim-mono-200);
+  --sf-muted-btn-primary-bg:     var(--prim-mint-400);
+  --sf-muted-btn-primary-fg:     var(--prim-mono-white);
+  --sf-muted-btn-dark-bg:        var(--prim-mono-900);
+  --sf-muted-btn-dark-fg:        var(--prim-mono-white);
+  --sf-muted-btn-ghost-fg:       var(--prim-mono-900);
+  --sf-muted-btn-ghost-icon:     var(--prim-mint-400);
+  --sf-muted-btn-outline-fg:     var(--prim-mono-900);
+  --sf-muted-btn-outline-border: var(--prim-mono-300);
 
   /* ── Inverse surface ────────────────────────────────────────── */
   --sf-inverse-bg:             var(--prim-mono-900);
@@ -185,6 +210,14 @@
   --sf-inverse-border-subtle:  var(--prim-mono-500);
   --sf-inverse-callout-border: var(--prim-mono-350);
   --sf-inverse-placeholder:    var(--prim-mono-700);
+  --sf-inverse-btn-primary-bg:     var(--prim-fall-100);
+  --sf-inverse-btn-primary-fg:     var(--prim-mono-white);
+  --sf-inverse-btn-dark-bg:        var(--prim-mono-600);
+  --sf-inverse-btn-dark-fg:        var(--prim-mono-white);
+  --sf-inverse-btn-ghost-fg:       var(--prim-mono-300);
+  --sf-inverse-btn-ghost-icon:     var(--prim-mono-350);
+  --sf-inverse-btn-outline-fg:     var(--prim-mono-350);
+  --sf-inverse-btn-outline-border: var(--prim-mono-500);
 
   /* ── Accent surface ─────────────────────────────────────────── */
   --sf-accent-bg:             var(--prim-mono-700);
@@ -197,6 +230,14 @@
   --sf-accent-border-subtle:  var(--prim-mono-350);
   --sf-accent-callout-border: var(--prim-mono-250);
   --sf-accent-placeholder:    var(--prim-mono-600);
+  --sf-accent-btn-primary-bg:     var(--prim-fall-100);
+  --sf-accent-btn-primary-fg:     var(--prim-mono-white);
+  --sf-accent-btn-dark-bg:        var(--prim-mono-600);
+  --sf-accent-btn-dark-fg:        var(--prim-mono-white);
+  --sf-accent-btn-ghost-fg:       var(--prim-mono-300);
+  --sf-accent-btn-ghost-icon:     var(--prim-mono-350);
+  --sf-accent-btn-outline-fg:     var(--prim-mono-350);
+  --sf-accent-btn-outline-border: var(--prim-mono-500);
 
   /* ── Tertiary surface ────────────────────────────────────────── */
   --sf-tertiary-bg:             var(--prim-mono-750);
@@ -213,6 +254,14 @@
   --sf-tertiary-link:           var(--prim-mono-200);
   --sf-tertiary-pill:           var(--prim-mono-white);
   --sf-tertiary-accent:         var(--prim-mono-500);
+  --sf-tertiary-btn-primary-bg:     var(--prim-fall-100);
+  --sf-tertiary-btn-primary-fg:     var(--prim-mono-white);
+  --sf-tertiary-btn-dark-bg:        var(--prim-mono-600);
+  --sf-tertiary-btn-dark-fg:        var(--prim-mono-white);
+  --sf-tertiary-btn-ghost-fg:       var(--prim-mono-300);
+  --sf-tertiary-btn-ghost-icon:     var(--prim-mono-350);
+  --sf-tertiary-btn-outline-fg:     var(--prim-mono-350);
+  --sf-tertiary-btn-outline-border: var(--prim-mono-500);
 
   /* ── Badge gradient ───────────────────────────────────────── */
   --color-badge-from: var(--prim-mono-700);

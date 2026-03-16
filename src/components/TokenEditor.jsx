@@ -111,6 +111,60 @@ const L1_COLOR_PALETTES = [
   { name: 'Fall Green', tokens: ['--prim-fall-100','--prim-fall-300','--prim-fall-500','--prim-fall-700','--prim-fall-900'] },
 ];
 
+/* Default-surface uses different names for some semantic tokens */
+const DEFAULT_SURFACE_TOKEN_MAP = {
+  'bg':            '--color-bg',
+  'heading':       '--color-heading',
+  'body':          '--color-body',
+  'text-muted':    '--color-muted',
+  'border':        '--color-border',
+  'border-light':  '--color-border-light',
+  'border-mid':    '--color-border-mid',
+  'border-subtle': '--color-border-subtle',
+  'callout-border':'--color-callout-border',
+  'placeholder':   '--color-placeholder',
+  'logo':          '--color-logo',
+  'link':          '--color-link',
+  'pill':              '--color-pill',
+  'accent':            '--color-accent',
+  'btn-primary-bg':    '--com-btn-primary-bg',
+  'btn-primary-fg':    '--com-btn-primary-fg',
+  'btn-dark-bg':       '--com-btn-dark-bg',
+  'btn-dark-fg':       '--com-btn-dark-fg',
+  'btn-ghost-fg':      '--com-btn-ghost-fg',
+  'btn-ghost-icon':    '--com-btn-ghost-icon',
+  'btn-outline-fg':    '--com-btn-outline-fg',
+  'btn-outline-border':'--com-btn-outline-border',
+};
+
+/* ─── Pathway button defaults — light & dark surface variants ── */
+const BTN_LIGHT = {
+  'btn-primary-bg': '--prim-mint-400',  'btn-primary-fg': '--prim-mono-white',
+  'btn-dark-bg':    '--prim-mono-900',  'btn-dark-fg':    '--prim-mono-white',
+  'btn-ghost-fg':   '--prim-mono-900',  'btn-ghost-icon': '--prim-mint-400',
+  'btn-outline-fg': '--prim-mono-900',  'btn-outline-border': '--prim-mono-300',
+};
+const BTN_DARK = {
+  'btn-primary-bg': '--prim-fall-100',  'btn-primary-fg': '--prim-mono-white',
+  'btn-dark-bg':    '--prim-mono-600',  'btn-dark-fg':    '--prim-mono-white',
+  'btn-ghost-fg':   '--prim-mono-300',  'btn-ghost-icon': '--prim-mono-350',
+  'btn-outline-fg': '--prim-mono-350',  'btn-outline-border': '--prim-mono-500',
+};
+function btnSurfaceTokens(prefix, suffixMap) {
+  const out = {};
+  for (const [suffix, val] of Object.entries(suffixMap)) {
+    out[`${prefix}${suffix}`] = val;
+  }
+  return out;
+}
+function btnDefaultTokens(map) {
+  const out = {};
+  for (const [suffix, val] of Object.entries(map)) {
+    out[DEFAULT_SURFACE_TOKEN_MAP[suffix]] = val;
+  }
+  return out;
+}
+
 /* ─── Themes — L2 colors reference L1 token names ────────────── */
 const THEMES = {
   mono: {
@@ -170,6 +224,7 @@ const THEMES = {
         '--color-link':           '--prim-mono-700',
         '--color-pill':           '--prim-mono-900',
         '--color-accent':         '--prim-mono-700',
+      ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
         '--sf-muted-bg':             '--prim-mono-50',
@@ -186,6 +241,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-mono-700',
         '--sf-muted-pill':           '--prim-mono-900',
         '--sf-muted-accent':         '--prim-mono-700',
+        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mono-900',
@@ -202,6 +258,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-mono-300',
         '--sf-inverse-pill':           '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mono-500',
+        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mono-700',
@@ -218,6 +275,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-mono-300',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mono-900',
+        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mono-750',
@@ -234,6 +292,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-mono-200',
         '--sf-tertiary-pill':           '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mono-500',
+        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
   },
@@ -294,6 +353,7 @@ const THEMES = {
         '--color-link':           '--prim-splash-700',
         '--color-pill':           '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
+      ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
         '--sf-muted-bg':             '--prim-splash-50',
@@ -310,6 +370,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-splash-700',
         '--sf-muted-pill':           '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
+        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -326,6 +387,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-splash-500',
         '--sf-inverse-pill':           '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
+        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -342,6 +404,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-splash-300',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
+        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-sapphire-800',
@@ -358,6 +421,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
+        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
   },
@@ -418,6 +482,7 @@ const THEMES = {
         '--color-link':           '--prim-splash-700',
         '--color-pill':           '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
+      ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
         '--sf-muted-bg':             '--prim-splash-50',
@@ -434,6 +499,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-splash-700',
         '--sf-muted-pill':           '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
+        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -450,6 +516,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-splash-500',
         '--sf-inverse-pill':           '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
+        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -466,6 +533,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-splash-300',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
+        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-sapphire-800',
@@ -482,6 +550,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
+        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
   },
@@ -542,6 +611,7 @@ const THEMES = {
         '--color-link':           '--prim-mint-600',
         '--color-pill':           '--prim-mint-700',
         '--color-accent':         '--prim-mint-500',
+      ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
         '--sf-muted-bg':             '--prim-mint-100',
@@ -558,6 +628,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-mint-600',
         '--sf-muted-pill':           '--prim-mint-900',
         '--sf-muted-accent':         '--prim-mint-500',
+        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mint-800',
@@ -574,6 +645,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-mint-300',
         '--sf-inverse-pill':           '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mint-400',
+        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mint-700',
@@ -590,6 +662,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-mint-200',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mint-400',
+        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mint-900',
@@ -606,6 +679,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-mint-200',
         '--sf-tertiary-pill':           '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mint-400',
+        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
   },
@@ -626,6 +700,7 @@ function themeAllColorTokens(key) {
 
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
 const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent'];
+const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border'];
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
   { key: 'muted',    label: 'Secondary', prefix: '--sf-muted-',     bgToken: '--sf-muted-bg'       },
@@ -633,24 +708,6 @@ const SURFACE_DEFS = [
   { key: 'accent',   label: 'Accent',    prefix: '--sf-accent-',    bgToken: '--sf-accent-bg'      },
   { key: 'tertiary', label: 'Tertiary',  prefix: '--sf-tertiary-',  bgToken: '--sf-tertiary-bg'    },
 ];
-/* Default-surface uses different names for some semantic tokens */
-const DEFAULT_SURFACE_TOKEN_MAP = {
-  'bg':            '--color-bg',
-  'heading':       '--color-heading',
-  'body':          '--color-body',
-  'text-muted':    '--color-muted',
-  'border':        '--color-border',
-  'border-light':  '--color-border-light',
-  'border-mid':    '--color-border-mid',
-  'border-subtle': '--color-border-subtle',
-  'callout-border':'--color-callout-border',
-  'placeholder':   '--color-placeholder',
-  'logo':          '--color-logo',
-  'link':          '--color-link',
-  'pill':          '--color-pill',
-  'accent':        '--color-accent',
-};
-
 /* ─── L1 defaults ────────────────────────────────────────────── */
 const DEFAULT_L1 = {
   /* font families */
@@ -1503,6 +1560,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
   const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)' };
+  const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border' };
   return (
     <>
       {/* Surface tab bar */}
@@ -1525,6 +1583,18 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
         <ColorRow
           key={suffix}
           label={LABELS[suffix]}
+          name={tokenFor(suffix)}
+          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+        />
+      ))}
+      {/* Pathway button tokens per surface */}
+      <div style={{ padding: '8px 16px 2px', color: '#999', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', borderTop: '1px solid #2a2a2a', marginTop: 4 }}>
+        Pathway Buttons
+      </div>
+      {BTN_SURFACE_TOKENS.map(suffix => (
+        <ColorRow
+          key={suffix}
+          label={BTN_LABELS[suffix]}
           name={tokenFor(suffix)}
           l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
         />

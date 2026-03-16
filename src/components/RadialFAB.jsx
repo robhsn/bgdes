@@ -121,10 +121,10 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
         bottom: 16,
         right: 16,
         zIndex: 9998,
-        /* Cover the vertical stack so mouse can travel between buttons */
-        width: 50,
-        height: CHILDREN.length * CHILD_GAP + 50,
-        pointerEvents: 'none',
+        /* Cover the vertical stack + 20px safe area so mouse can travel between buttons */
+        width: open ? 70 : 50,
+        height: open ? CHILDREN.length * CHILD_GAP + 70 : CHILDREN.length * CHILD_GAP + 50,
+        pointerEvents: open ? 'auto' : 'none',
       }}
     >
       {/* Child buttons */}

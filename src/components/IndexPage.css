@@ -102,20 +102,20 @@
 /* Header auth buttons (tertiary / quaternary) */
 .ix-btn--login {
   border-radius: 8px;
-  background: var(--ix-dark-green);
-  color: var(--ix-sage-light);
+  background: var(--com-btn-tertiary-bg);
+  color: var(--com-btn-tertiary-fg);
 }
 
 .ix-btn--signup {
   border-radius: 8px;
-  background: white;
-  color: black;
+  background: var(--com-btn-quaternary-bg);
+  color: var(--com-btn-quaternary-fg);
 }
 
 .ix-btn--dashboard {
   border-radius: 8px;
-  background: var(--ix-teal-ai);
-  color: white;
+  background: var(--com-btn-primary-bg);
+  color: var(--com-btn-primary-fg);
 }
 
 /* ─── Hero text ──────────────────────────────────────────────── */
@@ -196,13 +196,13 @@
 }
 
 .ix-cta--ai {
-  background: var(--ix-teal-ai);
-  color: white;
+  background: var(--com-btn-tertiary-bg);
+  color: var(--com-btn-tertiary-fg);
 }
 
 .ix-cta--friend {
-  background: black;
-  color: white;
+  background: var(--com-btn-quaternary-bg);
+  color: var(--com-btn-quaternary-fg);
   border: 2px solid transparent;
 }
 
@@ -305,13 +305,13 @@
 }
 
 .ix-card-cta--ai {
-  background: var(--ix-teal-ai);
-  color: white;
+  background: var(--com-btn-tertiary-bg);
+  color: var(--com-btn-tertiary-fg);
 }
 
 .ix-card-cta--friend {
-  background: black;
-  color: white;
+  background: var(--com-btn-quaternary-bg);
+  color: var(--com-btn-quaternary-fg);
   border: 2px solid transparent;
 }
 
