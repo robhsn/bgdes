@@ -1,0 +1,1011 @@
+/* ═══════════════════════════════════════════════════════════════
+   PlayPage — gp- prefix
+   Backgammon.com game board — matched to .com production layout
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base color tokens (from .com theme: default) ───────────── */
+
+.gp-page {
+  --gp-board-bg: #196951;
+  --gp-board-border: #0d3529;
+  --gp-triangle-odd: rgba(255,255,255,0.5);
+  --gp-triangle-even: rgba(0,0,0,0.5);
+  --gp-bar-bg: #4f8d7b;
+  --gp-number-text: #fff;
+  --gp-checker-p1-outer: linear-gradient(267.63deg, #b7b4a5 -2.95%, #ecebd2 99.93%);
+  --gp-checker-p1-inner: linear-gradient(129.93deg, #eeece0 50%, #fff 85.5%);
+  --gp-checker-p2-outer: linear-gradient(256.51deg, #151515 6.73%, gray 99.25%);
+  --gp-checker-p2-inner: linear-gradient(94.09deg, #080808 10.91%, #4d4d4d 97.52%);
+  --gp-bearoff-bg-p1: #0b3025;
+  --gp-bearoff-bg-p2: #fff;
+  --gp-bearoff-placeholder-p1: #347b67;
+  --gp-bearoff-placeholder-p2: #b9dad1;
+  --gp-dice-dot-p1: #000;
+  --gp-dice-dot-p2: #fff;
+  --gp-pip-bg-p1: #fff;
+  --gp-pip-bg-p2: #000;
+  --gp-pip-text-p1: #000;
+  --gp-pip-text-p2: #fff;
+  --gp-badge-p1: #fff;
+  --gp-badge-p2: #2e2e2e;
+  --gp-modal-backdrop: #04120d99;
+  --gp-dark-green: #0d3529;
+  --gp-green-toggle: #39b592;
+  --gp-red-resign: #ac2c2c;
+  --gp-effective-w: min(100vw, calc((100dvh - 140px) * 1.8));
+  --gp-checker-size: clamp(24px, calc(var(--gp-effective-w) * 0.055), 64px);
+  --gp-checker-offset: clamp(19px, calc(var(--gp-effective-w) * 0.044), 51px);
+  --gp-bar-width: clamp(16px, calc(var(--gp-effective-w) * 0.035), 48px);
+  --gp-sidebar-width: clamp(32px, calc(var(--gp-effective-w) * 0.05), 56px);
+}
+
+/* ── Page shell ─────────────────────────────────────────────── */
+
+.gp-page {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--gp-board-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #fff;
+  user-select: none;
+}
+
+.gp-page-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TopBar — white header with player info
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-topbar {
+  background: #fff;
+  color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.gp-topbar-left,
+.gp-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.gp-topbar-left { justify-content: flex-start; }
+.gp-topbar-right { justify-content: flex-end; }
+
+.gp-topbar-center {
+  position: absolute;
+  left: 0;
+  right: calc(var(--gp-sidebar-width) + 8px);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.gp-topbar-logo {
+  height: 24px;
+  width: auto;
+  display: block;
+}
+
+/* ── Player block ───────────────────────────────────────────── */
+
+.gp-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.gp-player-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gp-player-meta--right {
+  align-items: flex-end;
+}
+
+.gp-player-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* ── Player badge pill (color label) ────────────────────────── */
+
+.gp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 6px;
+  border-radius: 9999px;
+  border: 1px solid;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.gp-badge--white {
+  background: var(--gp-badge-p1);
+  color: #000;
+  border-color: #d6d3d1;
+}
+
+.gp-badge--black {
+  background: var(--gp-badge-p2);
+  color: #fff;
+  border-color: transparent;
+}
+
+.gp-badge-checker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  padding: 3.5%;
+  overflow: hidden;
+}
+
+.gp-badge-checker--white { background-image: var(--gp-checker-p1-outer); }
+.gp-badge-checker--black { background-image: var(--gp-checker-p2-outer); }
+
+.gp-badge-checker-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+}
+
+.gp-badge-checker-inner--white { background-image: var(--gp-checker-p1-inner); }
+.gp-badge-checker-inner--black { background-image: var(--gp-checker-p2-inner); }
+
+.gp-badge-label {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* ── Avatar with dashed ring ────────────────────────────────── */
+
+.gp-avatar-wrap {
+  position: relative;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.gp-avatar-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.gp-avatar-ring-bg { color: rgba(107, 114, 128, 0.3); }
+
+@keyframes gp-marching-ants { to { stroke-dashoffset: -16px; } }
+.gp-avatar-ring-ants { animation: gp-marching-ants 1s linear infinite; }
+
+.gp-avatar-img-wrap {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #bcd4d1;
+  width: 64px;
+  height: 64px;
+}
+
+.gp-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.2);
+  margin-top: 2px;
+}
+
+/* ── Menu button ────────────────────────────────────────────── */
+
+.gp-menu-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.gp-menu-dots-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #c4c4c4;
+  color: #1a1a1a;
+}
+
+.gp-menu-btn:hover { background: #f5f5f5; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TimerBar — dark green strip between header and board
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-timerbar {
+  background: var(--gp-dark-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 8px 24px;
+  flex-shrink: 0;
+}
+
+.gp-timer {
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255,255,255,0.8);
+}
+
+.gp-timerbar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.gp-timerbar-score {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.gp-timerbar-dots {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Game Area
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--gp-board-bg);
+  min-height: 0;
+  position: relative;
+  /* Dotted texture — covers game area only, board paints over it */
+  background-image: radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.gp-game-container {
+  width: 100%;
+  max-width: 80rem;
+  max-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  aspect-ratio: 1.8 / 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Board
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: visible;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  padding: 0 4px;
+}
+
+/* ── Main board: 2 half-columns + continuous bar ────────────── */
+
+.gp-board-main {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  min-height: 0;
+  position: relative;
+}
+
+.gp-board-half-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.gp-quadrant {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.gp-quadrant--top {
+  align-items: flex-start;
+}
+
+.gp-quadrant--bottom {
+  align-items: flex-end;
+}
+
+/* ── Point (triangle + checkers) ────────────────────────────── */
+
+.gp-point {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  overflow: visible;
+  height: 100%;
+}
+
+.gp-triangle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-height: 280px;
+  z-index: 1;
+  border-radius: 2px;
+}
+
+.gp-triangle--down {
+  top: 0;
+  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+}
+
+.gp-triangle--up {
+  bottom: 0;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.gp-triangle--odd { background: var(--gp-triangle-odd); }
+.gp-triangle--even { background: var(--gp-triangle-even); }
+
+/* ── Point numbers ──────────────────────────────────────────── */
+
+.gp-point-labels {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  padding: 3px 0;
+}
+
+.gp-point-label {
+  flex: 1;
+  text-align: center;
+}
+
+.gp-point-label-text {
+  font-size: 11px;
+  opacity: 0.6;
+  color: var(--gp-number-text);
+  line-height: 1;
+}
+
+.gp-point-label-bar-gap {
+  width: var(--gp-bar-width);
+  flex-shrink: 0;
+}
+
+/* ── Bar — continuous vertical strip ────────────────────────── */
+
+.gp-bar {
+  width: var(--gp-bar-width);
+  flex-shrink: 0;
+  background: var(--gp-bar-bg);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 4px;
+}
+
+.gp-bar-half {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.gp-bar-half--top { align-items: flex-start; }
+.gp-bar-half--bottom { align-items: flex-end; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Checkers
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-checker-stack {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: var(--gp-checker-size);
+  pointer-events: none;
+}
+
+.gp-checker-stack--top { top: 0; }
+.gp-checker-stack--bottom { bottom: 0; }
+
+.gp-checker-wrapper {
+  position: absolute;
+  left: 0;
+}
+
+.gp-checker {
+  width: var(--gp-checker-size);
+  height: var(--gp-checker-size);
+  border-radius: 50%;
+  flex-shrink: 0;
+  padding: 3px;
+}
+
+.gp-checker--white { background-image: var(--gp-checker-p1-outer); }
+.gp-checker--black { background-image: var(--gp-checker-p2-outer); }
+
+.gp-checker-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+}
+
+.gp-checker-inner--white { background-image: var(--gp-checker-p1-inner); }
+.gp-checker-inner--black { background-image: var(--gp-checker-p2-inner); }
+
+.gp-checker-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 0 6px;
+  line-height: 18px;
+  z-index: 20;
+}
+
+.gp-checker-badge--white {
+  color: #000;
+  background: #fff;
+  border: 1px solid rgba(25, 105, 81, 0.3);
+}
+
+.gp-checker-badge--black {
+  color: #fff;
+  background: #000;
+  border: 1px solid rgba(25, 105, 81, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Dice — positioned in left half of board
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-dice-area {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.gp-dice-row {
+  display: flex;
+  gap: 6px;
+}
+
+.gp-die {
+  width: clamp(24px, calc(var(--gp-effective-w) * 0.035), 48px);
+  height: clamp(24px, calc(var(--gp-effective-w) * 0.035), 48px);
+  border-radius: clamp(3px, calc(var(--gp-effective-w) * 0.005), 6px);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.gp-die--player1 { border: 3px solid #000; }
+.gp-die--player2 { border: 3px solid #000; }
+
+.gp-die-face {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.gp-die--player1 .gp-die-face { background: #fff; }
+.gp-die--player2 .gp-die-face { background: #000; }
+
+.gp-die-dot {
+  position: absolute;
+  width: clamp(4px, calc(var(--gp-effective-w) * 0.006), 8px);
+  height: clamp(4px, calc(var(--gp-effective-w) * 0.006), 8px);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.gp-die-dot--player1 { background: var(--gp-dice-dot-p1); }
+.gp-die-dot--player2 { background: var(--gp-dice-dot-p2); }
+
+.gp-dice-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.gp-dice-action {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.gp-dice-action:hover { background: #f0f0f0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Sidebar — bear-off trays with integrated pip counts
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  width: var(--gp-sidebar-width);
+  height: 100%;
+}
+
+/* ── Bear-off count (outside tray: "0 ●") ─────────────────── */
+
+.gp-bearoff-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding: 2px 0;
+}
+
+.gp-bearoff-count-num {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.gp-bearoff-count-checker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  padding: 3.5%;
+  overflow: hidden;
+}
+
+.gp-bearoff-count-checker--white { background-image: var(--gp-checker-p1-outer); }
+.gp-bearoff-count-checker--black { background-image: var(--gp-checker-p2-outer); }
+
+.gp-bearoff-count-checker-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+}
+
+.gp-bearoff-count-checker-inner--white { background-image: var(--gp-checker-p1-inner); }
+.gp-bearoff-count-checker-inner--black { background-image: var(--gp-checker-p2-inner); }
+
+/* ── Doubling cube placeholder ─────────────────────────────── */
+
+.gp-doubling-cube-space {
+  flex-shrink: 0;
+  height: 48px;
+}
+
+/* ── Bear-off tray card (slots + pip count inside) ─────────── */
+
+.gp-bearoff {
+  flex: 1;
+  min-height: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.gp-bearoff--white { background: #edf5f2; }
+.gp-bearoff--black { background: var(--gp-bearoff-bg-p1); }
+
+/* ── Pip count (embedded inside tray) ──────────────────────── */
+
+.gp-pip-count {
+  padding: 6px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.gp-pip-count--white {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.gp-pip-count--black {
+  background: #1a1a1a;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.gp-pip-count-arrow,
+.gp-pip-count-text {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-pip-count-arrow { font-size: 12px; }
+.gp-pip-count-text { font-size: 14px; }
+
+.gp-pip-count--white .gp-pip-count-arrow,
+.gp-pip-count--white .gp-pip-count-text { color: #1a1a1a; }
+
+.gp-pip-count--black .gp-pip-count-arrow,
+.gp-pip-count--black .gp-pip-count-text { color: #fff; }
+
+/* ── Bear-off slots (2-col grid, fill space) ───────────────── */
+
+.gp-bearoff-slots {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 3px;
+  min-height: 0;
+}
+
+.gp-bearoff-slot {
+  border-radius: 8px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.gp-bearoff-slot--filled.gp-bearoff-slot--white { background-image: var(--gp-checker-p1-outer); }
+.gp-bearoff-slot--filled.gp-bearoff-slot--black { background-image: var(--gp-checker-p2-outer); }
+.gp-bearoff-slot--empty.gp-bearoff-slot--placeholder-white { background: #c8ddd6; }
+.gp-bearoff-slot--empty.gp-bearoff-slot--placeholder-black { background: #1a4d3c; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Modal overlay
+   ═══════════════════════════════════════════════════════════════ */
+
+.gp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--gp-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.gp-modal-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px 24px 32px;
+  min-width: 280px;
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #1a1a1a;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.gp-modal-card--gameover,
+.gp-modal-card--settings {
+  text-align: center;
+  align-items: center;
+}
+
+.gp-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.gp-modal-emoji {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.gp-modal-title {
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0;
+  color: var(--gp-dark-green);
+}
+
+.gp-modal-desc {
+  font-size: 14px;
+  color: #507268;
+  margin: 0 0 4px;
+}
+
+.gp-modal-question {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 8px;
+  color: #507268;
+}
+
+.gp-modal-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #507268;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  text-align: left;
+  width: 100%;
+}
+
+.gp-modal-divider {
+  height: 1px;
+  background: #e5e5e5;
+  width: 100%;
+}
+
+.gp-modal-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.gp-modal-btn--primary { background: var(--gp-dark-green); color: #fff; }
+.gp-modal-btn--outline { background: #fff; color: var(--gp-dark-green); border: 1.5px solid #bcd4d1; }
+.gp-modal-btn--resign { background: var(--gp-red-resign); color: #fff; }
+
+.gp-modal-link {
+  background: none;
+  border: none;
+  color: #507268;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 4px;
+}
+
+.gp-modal-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gp-dark-green);
+}
+
+.gp-toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 13px;
+  background: #8cb4a8;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gp-toggle--on { background: var(--gp-green-toggle); }
+
+.gp-toggle-knob {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.gp-toggle--on .gp-toggle-knob { transform: translateX(18px); }
+
+.gp-settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.gp-settings-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.gp-settings-option {
+  padding: 10px 8px;
+  border-radius: 10px;
+  border: 1.5px solid #bcd4d1;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--gp-dark-green);
+  text-align: center;
+}
+
+.gp-settings-option--active {
+  border-color: var(--gp-dark-green);
+  background: #f0fdf9;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — mobile-first defaults then desktop overrides
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Mobile defaults: logo row visible, players-row logo hidden,
+      menu btn hidden, timerbar menu visible ──────────────────── */
+
+.gp-topbar-logo-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px 4px;
+}
+
+.gp-topbar-players-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 16px 12px;
+  gap: 8px;
+  position: relative;
+}
+
+/* Hide the center logo in players row on mobile */
+.gp-topbar-players-row .gp-topbar-center { display: none; }
+
+/* Hide menu button on mobile (dots are in timer bar) */
+.gp-menu-btn { display: none; }
+
+/* Timer bar menu dots — visible by default (mobile) */
+.gp-timerbar-menu {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+/* ── Small mobile (< 640px) ──────────────────────────────────── */
+
+@media (max-width: 639px) {
+  .gp-topbar-logo-row { padding: 8px 12px 2px; }
+  .gp-topbar-players-row { padding: 2px 12px 8px; }
+
+  .gp-avatar-img-wrap { width: 40px; height: 40px; }
+  .gp-badge-label { font-size: 11px; }
+  .gp-badge { padding: 3px 8px 3px 4px; gap: 4px; }
+  .gp-badge-checker { width: 12px; height: 12px; }
+  .gp-player-name { font-size: 11px; }
+
+  .gp-timerbar { padding: 6px 12px; gap: 12px; }
+
+  .gp-game-container { gap: 4px; padding: 8px 4px; }
+  .gp-board { padding: 0 2px; }
+  .gp-board-half-col { gap: 4px; }
+  .gp-bar { padding: 4px 2px; }
+
+  .gp-point-label-text { font-size: 9px; }
+
+  .gp-doubling-cube-space { height: 24px; }
+  .gp-pip-count { padding: 3px 2px; }
+  .gp-pip-count-text { font-size: 11px; }
+  .gp-pip-count-arrow { font-size: 10px; }
+  .gp-bearoff-count-num { font-size: 11px; }
+  .gp-bearoff-count-checker { width: 12px; height: 12px; }
+
+  .gp-modal-card { min-width: 0; max-width: 300px; padding: 20px 16px; }
+}
+
+/* ── Tablet (640–1023px) ─────────────────────────────────────── */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .gp-avatar-img-wrap { width: 48px; height: 48px; }
+  .gp-game-container { gap: 6px; padding: 8px; }
+}
+
+/* ── Desktop (≥ 1024px): single-row header, menu btn visible ── */
+
+@media (min-width: 1024px) {
+  /* Hide mobile logo row, show center logo in players row */
+  .gp-topbar-logo-row { display: none; }
+  .gp-topbar-players-row .gp-topbar-center { display: flex; }
+
+  /* Single-row header */
+  .gp-topbar-players-row { padding: 8px 16px 12px; }
+
+  /* Show menu button, hide timer bar dots */
+  .gp-menu-btn { display: flex; }
+  .gp-timerbar-menu { display: none; }
+
+  /* Timer bar — offset center to align with board bar */
+  .gp-timerbar { padding-right: calc(24px + var(--gp-sidebar-width) + 8px); }
+
+  .gp-game-container { gap: 16px; padding: 8px 32px; }
+  .gp-board-half-col { gap: 12px; }
+}
+
+/* ── Large desktop (≥ 1280px) ────────────────────────────────── */
+
+@media (min-width: 1280px) {
+  .gp-topbar-players-row { padding: 8px 32px 16px; }
+  .gp-badge-label { font-size: 16px; }
+  .gp-player-name { font-size: 16px; }
+}

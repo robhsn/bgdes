@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDMEState } from '../context/dme-states';
 import { AvatarDropdown } from './SharedLayout';
-import welcomeLogo from '../imgs/welcome_logo.svg';
+import logoBlack from '../imgs/logo/Logo Black.svg';
+import logoWhite from '../imgs/logo/Logo White.svg';
 import diceDecoration from '../imgs/dice-decoration.png';
 import './IndexPage.css';
 
@@ -102,15 +103,15 @@ function Newsletter({ horizontal }) {
 
 /* ─── CTA Buttons sub-component ──────────────────────────────── */
 
-function CTAButtons({ className, cardVariant }) {
+function CTAButtons({ className, cardVariant, onNavigate }) {
   const base = cardVariant ? 'ix-card-cta' : 'ix-cta';
   return (
     <div className={className}>
-      <button className={`${base} ${base}--ai`}>
+      <button className={`${base} ${base}--ai`} onClick={() => onNavigate?.('play')}>
         <span className="ix-cta-icon"><IconRobot /></span>
         <span>Play vs AI</span>
       </button>
-      <button className={`${base} ${base}--friend`}>
+      <button className={`${base} ${base}--friend`} onClick={() => onNavigate?.('play')}>
         <span className="ix-cta-icon"><IconUserPlus /></span>
         <span>Play a friend</span>
       </button>
@@ -122,6 +123,8 @@ function CTAButtons({ className, cardVariant }) {
 
 export default function IndexPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn');
+  const logoVariant = useDMEState('global.logoVariant', 'Black');
+  const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
 
   return (
     <div className="ix-page">
@@ -131,7 +134,7 @@ export default function IndexPage({ onNavigate }) {
           {/* Header */}
           <div className="ix-header">
             <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" className="ix-logo">
-              <img src={welcomeLogo} alt="Backgammon.com" />
+              <img src={logoSrc} alt="Backgammon.com" />
             </a>
             <div className="ix-header-actions">
               {loggedIn ? (
@@ -162,7 +165,7 @@ export default function IndexPage({ onNavigate }) {
           </div>
 
           {/* Mobile CTAs (hidden on lg+) */}
-          <CTAButtons className="ix-mobile-ctas" />
+          <CTAButtons className="ix-mobile-ctas" onNavigate={onNavigate} />
 
           {/* Desktop newsletter (hidden on mobile) */}
           <div className="ix-newsletter-desktop">
@@ -177,7 +180,7 @@ export default function IndexPage({ onNavigate }) {
             <div className="ix-play-card-inner">
               <div className="ix-play-card-content">
                 <p className="ix-play-card-title">Play now</p>
-                <CTAButtons className="ix-play-card-content" cardVariant />
+                <CTAButtons className="ix-play-card-content" cardVariant onNavigate={onNavigate} />
               </div>
             </div>
           </div>

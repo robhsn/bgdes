@@ -65,4 +65,22 @@ export const STATE_DEFINITIONS = [
     type: 'learn-article',
     defaultValue: false,
   },
+  {
+    key: 'play.boardState',
+    label: 'Board State',
+    description: 'Select a preset board position',
+    type: 'select',
+    page: 'play',
+    options: ['Opening', 'Mid-game', 'Bearing Off', 'Bar & Blot', 'Game Over', 'First Roll'],
+    defaultValue: 'Opening',
+  },
+  {
+    key: 'play.modal',
+    label: 'Modal Overlay',
+    description: 'Show a modal dialog over the board',
+    type: 'select',
+    page: 'play',
+    options: ['None', 'Menu', 'Resign', 'Victory', 'Defeat', 'Settings'],
+    defaultValue: 'None',
+  },
 ];

@@ -1242,7 +1242,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
           top: '50%',
           transform: 'translateY(-50%)',
           [side]: 0,
-          zIndex: 10000,
+          zIndex: 2147483647,
           ...tabBaseStyle,
         }}
         onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
@@ -1274,7 +1274,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       ...panelStyle,
       background: '#1c1c1c', color: '#e0e0e0',
       fontFamily: 'system-ui, -apple-system, sans-serif',
-      fontSize: 12, zIndex: 9999,
+      fontSize: 12, zIndex: 2147483646,
       display: 'flex', flexDirection: 'column',
       boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)'),
       overflow: 'hidden',
@@ -1291,7 +1291,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
           top: '50%',
           transform: 'translateY(-50%)',
           [side === 'right' ? 'left' : 'right']: -20,
-          zIndex: 10000,
+          zIndex: 2147483647,
           ...tabBaseStyle,
         }}
         onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
@@ -1456,7 +1456,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       {/* ── Scrollable body ───────────────────────────────────── */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {tab === 'l2'
-          ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={(k, v) => { onStateChange?.(k, v); setIsDirty(true); }} />
           : <L1View key={sectResetKey} l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
               setL1ColorHex={setL1ColorHex} addL1Color={addL1Color} deleteL1Color={deleteL1Color}
               moveL1Color={moveL1Color} addL1Group={addL1Group} deleteL1Group={deleteL1Group}
@@ -1558,7 +1558,7 @@ function SurfaceSwatch({ surfaceDef, l2, l1ColorMap }) {
 }
 
 /* ─── Surface colour panel — tab bar selects one of 4 surfaces ── */
-function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
+function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
   const [activeSurf, setActiveSurf] = React.useState('default');
   const sf = SURFACE_DEFS.find(s => s.key === activeSurf);
   const tokenFor = (suffix) =>
@@ -1585,14 +1585,35 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
         ))}
       </div>
       <SurfaceSwatch surfaceDef={sf} l2={l2} l1ColorMap={l1ColorMap} />
-      {SURFACE_TOKENS.map(suffix => (
-        <ColorRow
-          key={suffix}
-          label={LABELS[suffix]}
-          name={tokenFor(suffix)}
-          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
-        />
-      ))}
+      {SURFACE_TOKENS.map(suffix => {
+        if (suffix === 'logo') {
+          const logoVal = states?.['global.logoVariant'] ?? 'Black';
+          return (
+            <div key={suffix} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 16px' }}>
+              <span style={{ fontSize: 12, color: '#ccc' }}>Logo</span>
+              <select
+                value={logoVal}
+                onChange={e => onStateChange?.('global.logoVariant', e.target.value)}
+                style={{
+                  background: '#222', border: '1px solid #444', borderRadius: 6,
+                  color: '#e0e0e0', fontSize: 11, padding: '4px 8px', cursor: 'pointer',
+                }}
+              >
+                <option value="Black">Black</option>
+                <option value="White">White</option>
+              </select>
+            </div>
+          );
+        }
+        return (
+          <ColorRow
+            key={suffix}
+            label={LABELS[suffix]}
+            name={tokenFor(suffix)}
+            l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+          />
+        );
+      })}
       {/* Pathway button tokens per surface */}
       <div style={{ padding: '8px 16px 2px', color: '#999', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', borderTop: '1px solid #2a2a2a', marginTop: 4 }}>
         Pathway Buttons
@@ -1612,12 +1633,12 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
 /* ═══════════════════════════════════════════════════════════════
    L2 View
    ═══════════════════════════════════════════════════════════════ */
-function L2View({ l2, set, l1ColorMap, l1Groups }) {
+function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
   return (
     <>
       <Sect label="Colors">
         <SubSect label="Surfaces">
-          <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={onStateChange} />
         </SubSect>
 
         <SubSect label="Statement">

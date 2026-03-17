@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import avatarImg from '../imgs/avatar-dink.png';
+import logoBlack from '../imgs/logo/Logo Black.svg';
+import logoWhite from '../imgs/logo/Logo White.svg';
 import { useDMEState } from '../context/dme-states';
 
 /* Token shorthand helpers */
@@ -289,6 +291,8 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
 export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }) {
   const [scrolled, setScrolled] = useState(false);
   const loggedIn = useDMEState('auth.loggedIn', true);
+  const logoVariant = useDMEState('global.logoVariant', 'Black');
+  const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -306,25 +310,18 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
         onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onLogoClick?.()}
         style={{
           display: 'flex',
-          alignItems: 'flex-end',
-          fontFamily: fl,
-          fontWeight: 700,
-          color: 'var(--color-logo)',
-          letterSpacing: '-0.5px',
-          lineHeight: 1,
-          textDecoration: 'none',
+          alignItems: 'center',
           cursor: 'pointer',
         }}
       >
-        <span className="site-header__logo-text">Backgammon</span>
-        <span className="site-header__logo-dot" style={{ opacity: 0.4 }}>.com</span>
+        <img src={logoSrc} alt="Backgammon.com" className="site-header__logo-img" style={{ height: 'var(--size-logo)', width: 'auto' }} />
       </span>
 
       {loggedIn ? (
         <div className="site-header__auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <button
             className="com-btn com-btn--primary com-btn--sm"
-            onClick={() => window.open('https://www.backgammon.com', '_blank')}
+            onClick={() => onNavigate?.('play')}
           >
             New Game
           </button>

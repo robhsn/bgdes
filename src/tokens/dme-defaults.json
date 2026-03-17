@@ -869,6 +869,7 @@
   },
   "states": {
     "auth.loggedIn": true,
-    "profile.celebration": true
+    "profile.celebration": true,
+    "global.logoVariant": "White"
   }
 }
