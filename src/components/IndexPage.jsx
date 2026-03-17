@@ -50,7 +50,7 @@ function IconArrowDown() {
 function IconFeedback() {
   return (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-      <path d="M18 3C9.72 3 3 8.37 3 15c0 3.87 2.55 7.29 6.48 9.45L7.5 30l6.03-3.36c1.44.36 2.94.54 4.47.54 8.28 0 15-5.37 15-12S26.28 3 18 3z" fill="#0D3529" />
+      <path d="M18 3C9.72 3 3 8.37 3 15c0 3.87 2.55 7.29 6.48 9.45L7.5 30l6.03-3.36c1.44.36 2.94.54 4.47.54 8.28 0 15-5.37 15-12S26.28 3 18 3z" fill="var(--prim-mint-700)" />
       <text x="18" y="19" textAnchor="middle" fill="white" fontSize="14" fontWeight="900" fontFamily="Inter">?</text>
     </svg>
   );
@@ -124,10 +124,10 @@ export default function IndexPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn');
 
   return (
-    <div className="ix-page surface-tertiary">
+    <div className="ix-page">
       <main className="ix-main">
         {/* ── Left panel: hero ─────────────────────────────────── */}
-        <section className="ix-left">
+        <section className="ix-left surface-tertiary">
           {/* Header */}
           <div className="ix-header">
             <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" className="ix-logo">
@@ -135,7 +135,7 @@ export default function IndexPage({ onNavigate }) {
             </a>
             <div className="ix-header-actions">
               {loggedIn ? (
-                <div style={{ '--color-heading': '#fff', '--color-border-subtle': 'rgba(255,255,255,0.2)', '--color-avatar-bg': '#0d3529' }}>
+                <div style={{ '--color-avatar-bg': 'var(--prim-mint-700)' }}>
                   <AvatarDropdown onNavigate={onNavigate} />
                 </div>
               ) : (
@@ -171,7 +171,7 @@ export default function IndexPage({ onNavigate }) {
         </section>
 
         {/* ── Right panel: board background ────────────────────── */}
-        <section className="ix-right">
+        <section className="ix-right surface-muted">
           {/* Desktop: Play Now card */}
           <div className="ix-play-card">
             <div className="ix-play-card-inner">

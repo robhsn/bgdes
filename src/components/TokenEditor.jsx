@@ -905,8 +905,9 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   /* localStorage keys for all Sect/SubSect groups per tab */
   const L2_SECT_KEYS = [
     'dme-sect-Colors', 'dme-sect-Typography', 'dme-sect-Spacing & Layout',
-    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Navigation',
-    'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats', 'dme-sub-Buttons',
+    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Header Dropdown',
+    'dme-sub-Navigation', 'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats',
+    'dme-sub-Match History', 'dme-sub-Buttons',
   ];
   const L1_SECT_KEYS = [
     'dme-sect-Type Roles', 'dme-sect-Color Palettes',
@@ -1354,9 +1355,10 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
         </div>
       </div>
 
-      {/* ── Page selector dropdown ───────────────────────────── */}
+      {/* ── Page + Theme selector row ──────────────────────────── */}
       {pages && pages.length > 0 && (
         <div style={{
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6,
           padding: '6px 12px', borderBottom: '1px solid #222',
           background: '#161616', flexShrink: 0,
         }}>
@@ -1371,7 +1373,24 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
             }}
           >
             {pages.map(p => (
-              <option key={p.id} value={p.id}>{p.label}</option>
+              <React.Fragment key={p.id}>
+                {p.id === 'tokens' && <option disabled>{'─'.repeat(20)}</option>}
+                <option value={p.id}>{p.label}</option>
+              </React.Fragment>
+            ))}
+          </select>
+          <select
+            value={activeTheme}
+            onChange={e => switchTheme(e.target.value)}
+            style={{
+              width: '100%', background: '#222', border: '1px solid #333',
+              borderRadius: 6, color: '#e0e0e0', fontSize: 11, fontWeight: 600,
+              padding: '6px 8px', cursor: 'pointer',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+            }}
+          >
+            {Object.entries(THEMES).map(([key, t]) => (
+              <option key={key} value={key}>{t.label}</option>
             ))}
           </select>
         </div>
@@ -1405,19 +1424,6 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
           </div>
         </div>
 
-        {/* Theme selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ color: '#999', fontSize: 11, flexShrink: 0 }}>Theme</span>
-          <select
-            value={activeTheme}
-            onChange={e => switchTheme(e.target.value)}
-            style={{ flex: 1, background: '#262626', border: '1px solid #3a3a3a', color: '#fff', fontSize: 12, padding: '5px 8px', borderRadius: 4, cursor: 'pointer' }}
-          >
-            {Object.entries(THEMES).map(([key, t]) => (
-              <option key={key} value={key}>{t.label}</option>
-            ))}
-          </select>
-        </div>
       </div>
 
       {/* ── Tabs ──────────────────────────────────────────────── */}
@@ -1564,7 +1570,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups }) {
   return (
     <>
       {/* Surface tab bar */}
-      <div style={{ display: 'flex', gap: 2, padding: '4px 16px 0' }}>
+      <div style={{ display: 'flex', gap: 2, padding: '4px 16px', position: 'sticky', top: 0, background: '#1c1c1c', zIndex: 2 }}>
         {SURFACE_DEFS.map(s => (
           <button
             key={s.key}
@@ -1973,8 +1979,8 @@ function Sect({ label, children }) {
         onClick={toggle}
         style={{
           padding: '11px 16px 9px',
-          fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-          color: '#ddd', borderBottom: '1px solid #2a2a2a',
+          fontSize: 15, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+          color: '#ffeb99', borderBottom: '1px solid #2a2a2a',
           position: 'sticky', top: 0, background: '#1c1c1c', zIndex: 1,
           cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}

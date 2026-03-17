@@ -2,17 +2,6 @@
 /* Mirrors backgammon.com landing — Tailwind v4 → semantic BEM  */
 
 .ix-page {
-  --ix-hero-left-bg: #061e17;
-  --ix-signup-bg: #09241c;
-  --ix-dark-green: #0d3529;
-  --ix-green-medium: #154336;
-  --ix-teal-ai: #23a57e;
-  --ix-green-shadow: #16cc96;
-  --ix-sage-light: #c0d8d1;
-  --ix-sage-dark: #4f8d7b;
-  --ix-text-sage: #507268;
-  --ix-dark-green-border: #041e17;
-
   min-height: 100dvh;
   width: 100%;
   min-width: 320px;
@@ -35,11 +24,16 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  background: var(--ix-hero-left-bg);
-  color: white;
+  background: var(--prim-mint-900);
+  color: var(--color-heading);
   align-items: center;
   justify-content: space-between;
   padding: 32px 16px;
+
+  /* Green-tinted overrides (surface-tertiary defaults are mono-gray) */
+  --color-body:       var(--prim-mint-150);
+  --color-muted:      var(--prim-fall-500);
+  --color-border-mid: var(--prim-fall-500);
 }
 
 /* ─── Header ─────────────────────────────────────────────────── */
@@ -143,7 +137,7 @@
   font-size: 20px;
   line-height: 1.375;
   letter-spacing: 0;
-  color: white;
+  color: var(--color-heading);
   margin: 0;
 }
 
@@ -151,7 +145,7 @@
   font-size: 18px;
   line-height: 1.25;
   letter-spacing: 0;
-  color: var(--ix-sage-light);
+  color: var(--color-body);
   margin: 0;
   font-weight: 400;
 }
@@ -225,15 +219,13 @@
 
 /* ─── Right panel (board background) ─────────────────────────── */
 
-.ix-right {
+section.ix-right {
   display: flex;
   flex: 1;
   height: 50%;
   align-items: center;
   justify-content: center;
-  background-image: url('../imgs/welcome_background.png');
-  background-size: cover;
-  background-position: center;
+  background: url('../imgs/welcome_background.png') center / cover no-repeat;
   padding: 16px;
 }
 
@@ -243,9 +235,9 @@
   display: none;
   width: 100%;
   max-width: 100%;
-  border: 2px solid var(--ix-green-medium);
+  border: 2px solid var(--prim-mint-600);
   border-radius: 12px;
-  background: white;
+  background: var(--color-bg);
   box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
   overflow-y: auto;
   padding: 24px;
@@ -270,7 +262,7 @@
   width: 100%;
   font-size: 18px;
   font-weight: 700;
-  color: var(--ix-dark-green);
+  color: var(--color-heading);
   margin: 0;
   text-align: left;
 }
@@ -326,10 +318,10 @@
   align-items: center;
   gap: 24px;
   border-radius: 16px;
-  border-top: 1px solid var(--ix-green-medium);
-  background: var(--ix-signup-bg);
+  border-top: 1px solid var(--prim-mint-600);
+  background: var(--prim-mint-800);
   padding: 24px;
-  color: #ecfdf5; /* emerald-50 */
+  color: var(--color-heading);
 }
 
 .ix-newsletter-dice {
@@ -354,7 +346,7 @@
   line-height: 1;
   letter-spacing: 0;
   font-weight: 700;
-  color: var(--ix-sage-light);
+  color: var(--color-muted);
   margin: 0;
 }
 
@@ -363,7 +355,7 @@
   line-height: 1;
   letter-spacing: 0;
   font-weight: 900;
-  color: #ecfdf5;
+  color: var(--color-heading);
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -387,7 +379,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border-bottom: 2px solid var(--ix-sage-dark);
+  border-bottom: 2px solid var(--color-muted);
   padding-bottom: 4px;
 }
 
@@ -404,7 +396,7 @@
 .ix-newsletter-input-group svg {
   height: 20px;
   width: 20px;
-  color: var(--ix-sage-dark);
+  color: var(--color-muted);
   flex-shrink: 0;
 }
 
@@ -417,12 +409,12 @@
   line-height: 1;
   letter-spacing: 0;
   font-weight: 700;
-  color: var(--ix-sage-dark);
+  color: var(--color-muted);
   outline: none;
 }
 
 .ix-newsletter-input::placeholder {
-  color: var(--ix-sage-dark);
+  color: var(--color-muted);
 }
 
 .ix-newsletter-submit {
@@ -432,7 +424,7 @@
   line-height: 1;
   letter-spacing: 0;
   font-weight: 700;
-  color: var(--ix-sage-dark);
+  color: var(--color-muted);
   cursor: pointer;
   transition: color 0.2s;
   background: none;
@@ -441,26 +433,26 @@
 }
 
 .ix-newsletter-submit:hover {
-  color: #ecfdf5;
+  color: var(--color-heading);
 }
 
 .ix-newsletter-terms {
   font-size: 12px;
   line-height: 1.5;
-  color: var(--ix-sage-dark);
+  color: var(--color-muted);
   margin: 0;
 }
 
 .ix-newsletter-terms a {
   font-weight: 700;
   text-decoration: underline;
-  color: var(--ix-sage-dark);
+  color: var(--color-muted);
   margin: 0 4px;
   transition: color 0.2s;
 }
 
 .ix-newsletter-terms a:hover {
-  color: #ecfdf5;
+  color: var(--color-heading);
 }
 
 /* Newsletter shown in right panel on mobile */
@@ -476,8 +468,8 @@
   height: 54px;
   width: 54px;
   border-radius: 50%;
-  background: white;
-  border: 2px solid rgba(140, 180, 168, 0.5);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -562,7 +554,7 @@
     display: flex;
   }
 
-  .ix-right {
+  section.ix-right {
     flex: 1 1 50%;
     height: auto;
   }
