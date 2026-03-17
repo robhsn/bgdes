@@ -345,12 +345,12 @@ function PlayerBadge({ name, color, avatarSrc, isRight }) {
   );
 }
 
-function TopBar({ logoSrc }) {
+function TopBar({ logoSrc, onNavigate }) {
   return (
     <div className="gp-topbar">
       {/* Row 1: logo (mobile) — hidden on desktop where logo is in center */}
       <div className="gp-topbar-logo-row">
-        <img src={logoSrc} alt="Backgammon.com" className="gp-topbar-logo" />
+        <img src={logoSrc} alt="Backgammon.com" className="gp-topbar-logo" style={{ cursor: 'pointer' }} onClick={() => onNavigate?.('index')} />
       </div>
 
       {/* Row 2 (mobile) / Single row (desktop): players + logo + menu */}
@@ -360,7 +360,7 @@ function TopBar({ logoSrc }) {
         </div>
 
         <div className="gp-topbar-center">
-          <img src={logoSrc} alt="Backgammon.com" className="gp-topbar-logo" />
+          <img src={logoSrc} alt="Backgammon.com" className="gp-topbar-logo" style={{ cursor: 'pointer' }} onClick={() => onNavigate?.('index')} />
         </div>
 
         <div className="gp-topbar-right">
@@ -504,7 +504,7 @@ function ModalOverlay({ modalType }) {
    PlayPage (root)
    ═══════════════════════════════════════════════════════════════ */
 
-export default function PlayPage() {
+export default function PlayPage({ onNavigate }) {
   const boardState = useDMEState('play.boardState', 'Opening');
   const modalState = useDMEState('play.modal', 'None');
   const preset = BOARD_PRESETS[boardState] || BOARD_PRESETS['Opening'];
@@ -516,7 +516,7 @@ export default function PlayPage() {
   return (
     <div className="gp-page">
       <div className="gp-page-inner">
-        <TopBar logoSrc={logoBlack} />
+        <TopBar logoSrc={logoBlack} onNavigate={onNavigate} />
         <TimerBar preset={preset} />
         <div className="gp-game-area">
           <div className="gp-game-container">

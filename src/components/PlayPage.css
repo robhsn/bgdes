@@ -96,6 +96,7 @@
 }
 
 .gp-topbar-logo {
+  pointer-events: auto;
   height: 24px;
   width: auto;
   display: block;
