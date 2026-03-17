@@ -491,7 +491,7 @@ function QuizModule() {
     const earned = allCorrect && loggedIn;
 
     return (
-      <div key="quiz-results" className="surface-tertiary" style={{ ...quizCard, paddingTop: 14, '--com-btn-outline-fg': '#fff', '--com-btn-outline-border': 'rgba(255,255,255,0.35)' }}>
+      <div key="quiz-results" className="surface-tertiary" style={{ ...quizCard, paddingTop: 14 }}>
         {/* Score header + badge row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -622,7 +622,7 @@ function QuizModule() {
 
   /* ── Active question ─────────────────────────────── */
   return (
-    <div key="quiz-active" className="surface-tertiary" style={{ ...quizCard, '--com-btn-outline-fg': '#fff', '--com-btn-outline-border': 'rgba(255,255,255,0.35)' }}>
+    <div key="quiz-active" className="surface-tertiary" style={quizCard}>
       {/* Progress bar */}
       <div style={{ marginBottom: 20, flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>

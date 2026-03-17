@@ -196,13 +196,13 @@
 }
 
 .ix-cta--ai {
-  background: var(--com-btn-tertiary-bg);
-  color: var(--com-btn-tertiary-fg);
+  background: var(--com-btn-primary-bg);
+  color: var(--com-btn-primary-fg);
 }
 
 .ix-cta--friend {
-  background: var(--com-btn-quaternary-bg);
-  color: var(--com-btn-quaternary-fg);
+  background: var(--com-btn-dark-bg);
+  color: var(--com-btn-dark-fg);
   border: 2px solid transparent;
 }
 
@@ -305,13 +305,13 @@
 }
 
 .ix-card-cta--ai {
-  background: var(--com-btn-tertiary-bg);
-  color: var(--com-btn-tertiary-fg);
+  background: var(--com-btn-primary-bg);
+  color: var(--com-btn-primary-fg);
 }
 
 .ix-card-cta--friend {
-  background: var(--com-btn-quaternary-bg);
-  color: var(--com-btn-quaternary-fg);
+  background: var(--com-btn-dark-bg);
+  color: var(--com-btn-dark-fg);
   border: 2px solid transparent;
 }
 
@@ -345,7 +345,7 @@
   flex-basis: 40%;
   flex-direction: column;
   gap: 8px;
-  align-self: flex-start;
+  align-self: center;
   text-align: left;
 }
 
@@ -355,6 +355,7 @@
   letter-spacing: 0;
   font-weight: 700;
   color: var(--ix-sage-light);
+  margin: 0;
 }
 
 .ix-newsletter-cta-text {
@@ -366,6 +367,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin: 0;
 }
 
 .ix-newsletter-right {

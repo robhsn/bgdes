@@ -124,7 +124,7 @@ export default function IndexPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn');
 
   return (
-    <div className="ix-page">
+    <div className="ix-page surface-tertiary">
       <main className="ix-main">
         {/* ── Left panel: hero ─────────────────────────────────── */}
         <section className="ix-left">

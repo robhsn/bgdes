@@ -1178,7 +1178,8 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: 20px;
-  padding: 0 8px 0 0;
+  padding: 12px 8px 12px 10px;
+  margin-top: -12px;
   width: 40px;
   overflow: hidden;
   cursor: default;
