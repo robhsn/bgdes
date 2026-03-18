@@ -113,6 +113,7 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
 
   return (
     <div
+      className="radial-fab"
       data-devmode-ignore
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}

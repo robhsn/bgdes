@@ -59,40 +59,62 @@ function StateToggleRow({ def, value, onStateChange }) {
   );
 }
 
+/* ─── Collapsible group ──────────────────────────────────────── */
+function StateGroup({ label, defs, states, onStateChange, open, onToggle }) {
+  if (defs.length === 0) return null;
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <button
+        onClick={onToggle}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6, width: '100%',
+          background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          paddingBottom: 6, borderBottom: '1px solid #333', marginBottom: open ? 12 : 0,
+        }}
+      >
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+          style={{ transition: 'transform 0.15s', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0 }}>
+          <path d="M3 1l4 4-4 4" stroke="#999" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+          textTransform: 'uppercase', color: '#999',
+        }}>
+          {label}
+        </span>
+        <span style={{ fontSize: 10, color: '#555', marginLeft: 'auto' }}>{defs.length}</span>
+      </button>
+      {open && defs.map(def => (
+        <StateToggleRow
+          key={def.key}
+          def={def}
+          value={states?.[def.key] ?? def.defaultValue}
+          onStateChange={onStateChange}
+        />
+      ))}
+    </div>
+  );
+}
+
 /* ─── States view — grouped by global / page ─────────────────── */
-function StatesView({ states, onStateChange, currentPageId }) {
+function StatesView({ states, onStateChange, currentPageId, expanded, onToggleGroup }) {
   const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global');
   const pageDefs = STATE_DEFINITIONS.filter(def =>
     def.type !== 'global' && (def.type === currentPageId || def.page === currentPageId)
   );
 
-  function renderGroup(label, defs) {
-    if (defs.length === 0) return null;
-    return (
-      <div style={{ marginBottom: 24 }}>
-        <div style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-          textTransform: 'uppercase', color: '#999', marginBottom: 12,
-          paddingBottom: 6, borderBottom: '1px solid #333',
-        }}>
-          {label}
-        </div>
-        {defs.map(def => (
-          <StateToggleRow
-            key={def.key}
-            def={def}
-            value={states?.[def.key] ?? def.defaultValue}
-            onStateChange={onStateChange}
-          />
-        ))}
-      </div>
-    );
-  }
-
   return (
     <>
-      {renderGroup('Global States', globalDefs)}
-      {renderGroup('Page States', pageDefs)}
+      <StateGroup
+        label="Global States" defs={globalDefs}
+        states={states} onStateChange={onStateChange}
+        open={expanded.global} onToggle={() => onToggleGroup('global')}
+      />
+      <StateGroup
+        label="Page States" defs={pageDefs}
+        states={states} onStateChange={onStateChange}
+        open={expanded.page} onToggle={() => onToggleGroup('page')}
+      />
     </>
   );
 }
@@ -107,6 +129,13 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
     'states-panel',
   );
   const [collapsed, setCollapsed] = useState(false);
+  const [expanded, setExpanded] = useState({ global: true, page: true });
+  const allExpanded = expanded.global && expanded.page;
+  const toggleGroup = (key) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
+  const toggleAll = () => {
+    const next = !allExpanded;
+    setExpanded({ global: next, page: next });
+  };
 
   if (!visible) return null;
 
@@ -198,12 +227,37 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
             userSelect: 'none',
           }}
         >
-          <span style={{
-            fontWeight: 700, fontSize: 10, letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: '#999',
-          }}>
-            States
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{
+              fontWeight: 700, fontSize: 10, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: '#999',
+            }}>
+              States
+            </span>
+            <button
+              onClick={toggleAll}
+              title={allExpanded ? 'Collapse all groups' : 'Expand all groups'}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: '#666', padding: '2px 4px', borderRadius: 3,
+                display: 'flex', alignItems: 'center', fontSize: 10,
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+              onMouseLeave={e => e.currentTarget.style.color = '#666'}
+            >
+              {allExpanded ? (
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 6l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 10l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 3l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 13l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </button>
+          </div>
           <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
             {/* Dock left/right — only when docked */}
             {!panel.detached && (
@@ -259,7 +313,7 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
 
         {/* ── Scrollable body ─────────────────────────────────── */}
         <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
-          <StatesView states={states} onStateChange={onStateChange} currentPageId={currentPageId} />
+          <StatesView states={states} onStateChange={onStateChange} currentPageId={currentPageId} expanded={expanded} onToggleGroup={toggleGroup} />
         </div>
       </div>
     </>

@@ -365,8 +365,8 @@ export default function DevModeInspector({ visible, onClose }) {
         onLayerHover={setHoveredLayerEl}
         collapsedSet={collapsedSet}
         onToggleCollapsed={toggleCollapsed}
-        onCollapseAll={collapseAll}
-        onExpandAll={expandAll}
+        allExpanded={collapsedSet.size === 0}
+        onToggleAll={collapsedSet.size === 0 ? collapseAll : expandAll}
       />
 
       {/* ── CSS panel (RIGHT) ────────────────────────────────── */}
@@ -385,7 +385,7 @@ export default function DevModeInspector({ visible, onClose }) {
 /* ═══════════════════════════════════════════════════════════════
    Layers Panel — LEFT side
    ═══════════════════════════════════════════════════════════════ */
-function LayersPanel({ panel, open, onToggle, layers, selectedEl, onLayerClick, onLayerHover, collapsedSet, onToggleCollapsed, onCollapseAll, onExpandAll }) {
+function LayersPanel({ panel, open, onToggle, layers, selectedEl, onLayerClick, onLayerHover, collapsedSet, onToggleCollapsed, allExpanded, onToggleAll }) {
   const scrollRef = useRef(null);
   const selectedRowRef = useRef(null);
 
@@ -484,38 +484,29 @@ function LayersPanel({ panel, open, onToggle, layers, selectedEl, onLayerClick, 
             Layers
           </span>
           <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-            {/* Collapse all / Expand all */}
+            {/* Collapse / Expand all toggle */}
             <button
-              onClick={onCollapseAll}
-              title="Collapse all"
+              onClick={onToggleAll}
+              title={allExpanded ? 'Collapse all groups' : 'Expand all groups'}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: '#888', padding: '2px 4px', borderRadius: 3,
-                fontSize: 9, fontFamily: 'monospace', display: 'flex', alignItems: 'center',
+                color: '#666', padding: '2px 4px', borderRadius: 3,
+                display: 'flex', alignItems: 'center',
               }}
               onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-              onMouseLeave={e => e.currentTarget.style.color = '#888'}
+              onMouseLeave={e => e.currentTarget.style.color = '#666'}
             >
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 6l4 4 4-4"/>
-                <path d="M4 2l4 4 4-4"/>
-              </svg>
-            </button>
-            <button
-              onClick={onExpandAll}
-              title="Expand all"
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: '#888', padding: '2px 4px', borderRadius: 3,
-                fontSize: 9, fontFamily: 'monospace', display: 'flex', alignItems: 'center',
-              }}
-              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
-              onMouseLeave={e => e.currentTarget.style.color = '#888'}
-            >
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 10l4-4 4 4"/>
-                <path d="M4 14l4-4 4 4"/>
-              </svg>
+              {allExpanded ? (
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 6l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 10l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 3l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M4 13l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
             </button>
             <div style={{ width: 1, height: 14, background: '#333', margin: '0 2px' }} />
             <button

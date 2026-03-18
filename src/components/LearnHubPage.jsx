@@ -257,7 +257,7 @@ export default function LearnHubPage({ onNavigate }) {
       <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
       {/* ── Hero section ── */}
-      <section className="section learn-hero">
+      <section className="section learn-hero" data-section-id="lh-hero">
         <div className="learn-hero__content">
 
           {/* Title + Stats */}
@@ -306,7 +306,7 @@ export default function LearnHubPage({ onNavigate }) {
       </section>
 
       {/* ── Lessons section ── */}
-      <section className="section surface-muted">
+      <section className="section surface-muted" data-section-id="lh-lessons">
         <div className="course-section">
 
           {/* Section intro */}
@@ -446,8 +446,8 @@ export default function LearnHubPage({ onNavigate }) {
         </div>
       </section>
 
-      <PlayNowCta />
-      <SiteFooter />
+      <PlayNowCta sectionId="gl-cta" />
+      <SiteFooter sectionId="gl-footer" />
 
       <MobileNav onNavigate={onNavigate} currentPageId="learn-hub" />
       <div className="mobile-nav__spacer" />
