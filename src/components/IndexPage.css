@@ -499,6 +499,195 @@ section.ix-right {
   transform: rotate(-90deg);
 }
 
+/* ─── Auth form (login/signup views) ──────────────────────────── */
+
+.ix-auth-wrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: 576px;
+  gap: 20px;
+  padding-top: 8px;
+  align-self: center;
+}
+
+.ix-auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--color-body);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  align-self: flex-start;
+}
+
+.ix-auth-back:hover {
+  color: var(--color-heading);
+}
+
+.ix-auth-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--color-heading);
+  margin: 0;
+}
+
+.ix-auth-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid #ef4444;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #fca5a5;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.ix-auth-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ix-auth-input {
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid var(--prim-mint-600);
+  background: var(--prim-mint-800);
+  padding: 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-heading);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.ix-auth-input::placeholder {
+  color: var(--color-muted);
+}
+
+.ix-auth-input:focus {
+  border-color: var(--prim-mint-400);
+}
+
+.ix-auth-providers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ix-auth-provider-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  border: none;
+  padding: 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  gap: 12px;
+}
+
+.ix-auth-provider-btn:hover {
+  transform: scale(1.01);
+  filter: brightness(1.08);
+}
+
+.ix-auth-provider-btn:active {
+  transform: scale(0.99);
+}
+
+.ix-auth-provider-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Email — mint/teal accent */
+.ix-auth-provider-btn--email {
+  background: var(--prim-mint-700);
+  color: var(--color-heading);
+}
+
+/* Google — white bg, dark text */
+.ix-auth-provider-btn--google {
+  background: #ffffff;
+  color: #1f1f1f;
+  border: 1px solid #dadce0;
+}
+
+/* Apple — black bg, white text */
+.ix-auth-provider-btn--apple {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Facebook — brand blue */
+.ix-auth-provider-btn--facebook {
+  background: #1877F2;
+  color: #ffffff;
+}
+
+.ix-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ix-auth-divider::before,
+.ix-auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--prim-mint-600);
+}
+
+.ix-auth-switch {
+  font-size: 14px;
+  color: var(--color-body);
+  margin: 0;
+  text-align: center;
+}
+
+.ix-auth-switch button {
+  background: none;
+  border: none;
+  color: var(--color-heading);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.ix-auth-switch button:hover {
+  filter: brightness(1.2);
+}
+
 /* ─── Desktop (lg: 1024px+) ──────────────────────────────────── */
 
 @media (min-width: 1024px) {
@@ -576,6 +765,30 @@ section.ix-right {
   .ix-feedback-btn {
     bottom: 32px;
     right: 32px;
+  }
+
+  /* Auth form desktop adjustments */
+  .ix-auth-wrap {
+    max-width: none;
+    padding-left: 48px;
+    padding-top: 16px;
+    align-self: stretch;
+  }
+
+  .ix-auth-title {
+    font-size: 28px;
+  }
+
+  .ix-auth-providers {
+    max-width: 400px;
+  }
+
+  .ix-auth-fields {
+    max-width: 400px;
+  }
+
+  .ix-auth-switch {
+    text-align: left;
   }
 }
 

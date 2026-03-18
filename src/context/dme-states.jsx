@@ -83,4 +83,100 @@ export const STATE_DEFINITIONS = [
     options: ['None', 'Menu', 'Resign', 'Victory', 'Defeat', 'Settings'],
     defaultValue: 'None',
   },
+
+  /* ── Social features ──────────────────────────────────────────── */
+
+  // Index Page — login view
+  {
+    key: 'index.view',
+    label: 'Index View',
+    description: 'Switch between Home, Login, Sign Up and Login Error views',
+    type: 'select',
+    page: 'index',
+    options: ['Home', 'Login', 'Sign Up', 'Login Error'],
+    defaultValue: 'Home',
+  },
+
+  // Profile Page — tab + friends
+  {
+    key: 'profile.tab',
+    label: 'Profile Tab',
+    description: 'Switch between profile content tabs',
+    type: 'select',
+    page: 'profile',
+    options: ['Game History', 'Achievements', 'Friends'],
+    defaultValue: 'Game History',
+  },
+  {
+    key: 'profile.friendsView',
+    label: 'Friends View',
+    description: 'Switch between friends tab sub-views',
+    type: 'select',
+    page: 'profile',
+    options: [
+      'My Friends',
+      'Requests - Incoming',
+      'Requests - Sent',
+      'Search Results',
+      'Empty - No Friends',
+      'Empty - No Results',
+    ],
+    defaultValue: 'My Friends',
+  },
+  {
+    key: 'profile.fbDiscovery',
+    label: 'FB Discovery',
+    description: 'Show Facebook friend discovery card',
+    type: 'select',
+    page: 'profile',
+    options: ['None', 'Matches Found', 'Zero Matches'],
+    defaultValue: 'None',
+  },
+
+  // Settings Page
+  {
+    key: 'settings.section',
+    label: 'Settings View',
+    description: 'Switch between settings page states',
+    type: 'select',
+    page: 'settings',
+    options: [
+      'Profile',
+      'Connected Accounts',
+      'Disconnect Confirm',
+      'Guard Rail',
+      'Error - Already Linked',
+      'Notification Preferences',
+    ],
+    defaultValue: 'Profile',
+  },
+
+  // Play Page — social overlays
+  {
+    key: 'play.profileCard',
+    label: 'Profile Card',
+    description: 'Show in-game mini profile card',
+    type: 'play',
+    defaultValue: false,
+  },
+  {
+    key: 'play.challengeModal',
+    label: 'Challenge Modal',
+    description: 'Show challenge send/receive modal',
+    type: 'select',
+    page: 'play',
+    options: ['None', 'Send Challenge', 'Incoming Challenge', 'Challenge Expired'],
+    defaultValue: 'None',
+  },
+
+  // Notifications (global — shows in header)
+  {
+    key: 'social.notifications',
+    label: 'Notifications',
+    description: 'Show notification bell and dropdown in header',
+    type: 'select',
+    page: 'global',
+    options: ['Hidden', 'Empty', 'Unread', 'All Read'],
+    defaultValue: 'Hidden',
+  },
 ];

@@ -927,7 +927,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
       <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
       {/* ── HERO / INTRO ── */}
-      <section className="section">
+      <section className="section" data-section-id="ls-hero">
         <div className="article-content">
 
           <div className="breadcrumb">
@@ -968,7 +968,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
       </section>
 
       {/* ── CONTENT BODY ── */}
-      <section className="section surface-muted">
+      <section className="section surface-muted" data-section-id="ls-content">
         <div className="article-content article-content--gap-lg">
 
           {/* 1. Board Layout */}
@@ -1152,10 +1152,10 @@ export default function LearnSegmentTemplate({ onNavigate }) {
       </section>
 
       {/* ── CTA END CAP ── */}
-      <PlayNowCta />
+      <PlayNowCta sectionId="gl-cta" />
 
       {/* ── FOOTER ── */}
-      <SiteFooter />
+      <SiteFooter sectionId="gl-footer" />
 
       {/* ── TABLE OF CONTENTS ── */}
       <TableOfContents />

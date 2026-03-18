@@ -1,0 +1,340 @@
+/* ─── Settings Page ──────────────────────────────────────────── */
+/* Prefix: st- */
+
+.st-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+.st-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max-width, 960px);
+  margin: 0 auto;
+  padding: 32px var(--spacing-h, 16px) 64px;
+  box-sizing: border-box;
+}
+
+.st-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--color-heading);
+  margin: 0 0 32px;
+  letter-spacing: -0.02em;
+}
+
+/* ── Section card ────────────────────────────────────────────── */
+
+.st-section {
+  margin-bottom: 32px;
+}
+
+.st-section__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-heading);
+  margin: 0 0 16px;
+}
+
+.st-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Connected account row ───────────────────────────────────── */
+
+.st-account-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+}
+
+.st-account-row:last-child {
+  border-bottom: none;
+}
+
+.st-account-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.st-account-icon--google {
+  background: #f3f4f6;
+}
+
+.st-account-icon--apple {
+  background: #000;
+  color: #fff;
+}
+
+.st-account-icon--facebook {
+  background: #1877F2;
+  color: #fff;
+}
+
+.st-account-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.st-account-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-heading);
+}
+
+.st-account-status {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: 1px;
+}
+
+.st-account-status--connected {
+  color: #22c55e;
+}
+
+.st-account-btn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-heading);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.st-account-btn:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.st-account-btn--connect {
+  border-color: var(--prim-mint-700, #0d9488);
+  color: var(--prim-mint-700, #0d9488);
+}
+
+.st-account-btn--connect:hover {
+  background: rgba(13, 148, 136, 0.08);
+}
+
+.st-account-btn--disconnect {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.st-account-btn--disconnect:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ── Dialog overlay ──────────────────────────────────────────── */
+
+.st-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.st-dialog {
+  background: var(--color-bg, #fff);
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.st-dialog__icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.st-dialog__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--color-heading);
+  margin: 0 0 8px;
+}
+
+.st-dialog__desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-body);
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.st-dialog__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ── Error banner ────────────────────────────────────────────── */
+
+.st-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  margin-bottom: 20px;
+}
+
+.st-error__icon {
+  flex-shrink: 0;
+  color: #ef4444;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.st-error__text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #ef4444;
+  line-height: 1.5;
+}
+
+/* ── Notification preference toggles ─────────────────────────── */
+
+.st-pref-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+}
+
+.st-pref-row:last-child {
+  border-bottom: none;
+}
+
+.st-pref-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.st-pref-label {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-heading);
+}
+
+.st-pref-desc {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+/* Reuse the toggle switch pattern from PlayPage */
+.st-toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--color-border, #d1d5db);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.st-toggle--on {
+  background: var(--prim-mint-700, #0d9488);
+}
+
+.st-toggle__knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.st-toggle--on .st-toggle__knob {
+  transform: translateX(20px);
+}
+
+/* ── Guard rail warning ──────────────────────────────────────── */
+
+.st-guardrail {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(234, 179, 8, 0.08);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  margin-bottom: 20px;
+}
+
+.st-guardrail__icon {
+  flex-shrink: 0;
+  color: #eab308;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.st-guardrail__text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-body);
+  line-height: 1.5;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 639px) {
+  .st-title {
+    font-size: 22px;
+  }
+
+  .st-account-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .st-account-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .st-dialog__actions {
+    flex-direction: column;
+  }
+
+  .st-dialog__actions .com-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

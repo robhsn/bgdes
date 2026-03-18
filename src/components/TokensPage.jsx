@@ -57,58 +57,91 @@ const SEMANTIC_COLORS = [
 /* ── Text style definitions ──────────────────────────────────── */
 
 const TEXT_STYLES = [
+  /* ── L1 Type Roles ─────────────────────────────────────────── */
   {
     role: 'H1',
     preview: 'Backgammon',
-    family: '--font-heading',
+    family: '--prim-type-h1',
     size: '--size-h1',
-    weight: '--prim-type-heading-weight',
-    ls: '--prim-type-heading-ls',
-    lh: '--prim-type-heading-lh',
+    weight: '--prim-type-h1-weight',
+    ls: '--prim-type-h1-ls',
+    lh: '--prim-type-h1-lh',
   },
   {
     role: 'H2',
     preview: 'Board Setup',
-    family: '--font-subheading',
+    family: '--prim-type-h2',
     size: '--size-h2',
-    weight: '--prim-type-subheading-weight',
-    ls: '--prim-type-subheading-ls',
-    lh: '--prim-type-subheading-lh',
+    weight: '--prim-type-h2-weight',
+    ls: '--prim-type-h2-ls',
+    lh: '--prim-type-h2-lh',
   },
   {
-    role: 'Body',
-    preview: 'The quick brown fox jumps over the lazy dog.',
-    family: '--font-body',
-    size: '--size-body',
-    weight: '--prim-type-body-weight',
-    ls: '--prim-type-body-ls',
-    lh: '--prim-type-body-lh',
+    role: 'H3',
+    preview: 'Opening Moves',
+    family: '--prim-type-h3',
+    size: null,
+    sizeFixed: '28px',
+    weight: '--prim-type-h3-weight',
+    ls: '--prim-type-h3-ls',
+    lh: '--prim-type-h3-lh',
   },
+  {
+    role: 'H4',
+    preview: 'Doubling Cube',
+    family: '--prim-type-h4',
+    size: null,
+    sizeFixed: '22px',
+    weight: '--prim-type-h4-weight',
+    ls: '--prim-type-h4-ls',
+    lh: '--prim-type-h4-lh',
+  },
+  {
+    role: 'Body Large',
+    preview: 'The quick brown fox jumps over the lazy dog.',
+    family: '--prim-type-body-lg',
+    size: null,
+    sizeFixed: '20px',
+    weight: '--prim-type-body-lg-weight',
+    ls: '--prim-type-body-lg-ls',
+    lh: '--prim-type-body-lg-lh',
+  },
+  {
+    role: 'Body Medium',
+    preview: 'The quick brown fox jumps over the lazy dog.',
+    family: '--prim-type-body-md',
+    size: '--size-body',
+    weight: '--prim-type-body-md-weight',
+    ls: '--prim-type-body-md-ls',
+    lh: '--prim-type-body-md-lh',
+  },
+  {
+    role: 'Body Small',
+    preview: 'Fine print, captions, and metadata.',
+    family: '--prim-type-body-sm',
+    size: null,
+    sizeFixed: '14px',
+    weight: '--prim-type-body-sm-weight',
+    ls: '--prim-type-body-sm-ls',
+    lh: '--prim-type-body-sm-lh',
+  },
+  /* ── L2 Semantic Assignments ───────────────────────────────── */
   {
     role: 'Meta',
     preview: 'Mar 7, 2026 · 5 min read',
     family: '--font-meta',
     size: '--size-meta',
-    weight: '--prim-type-body-weight',
-    ls: '--prim-type-body-ls',
-    lh: '--prim-type-body-lh',
-  },
-  {
-    role: 'Small',
-    preview: 'Fine print and captions',
-    family: '--font-body',
-    size: '--size-small',
-    weight: '--prim-type-body-weight',
-    ls: null,
-    lh: null,
+    weight: '--prim-type-body-sm-weight',
+    ls: '--prim-type-body-sm-ls',
+    lh: '--prim-type-body-sm-lh',
   },
   {
     role: 'Pill',
     preview: 'BEGINNER',
     family: '--font-pill',
     size: '--size-pill',
-    weight: '--prim-type-heading-weight',
-    ls: '--prim-type-heading-ls',
+    weight: '--prim-type-h1-weight',
+    ls: '--prim-type-h1-ls',
     lh: null,
   },
   {
@@ -116,8 +149,8 @@ const TEXT_STYLES = [
     preview: 'Backgammon.com',
     family: '--font-logo',
     size: '--size-logo',
-    weight: '--prim-type-heading-weight',
-    ls: '--prim-type-heading-ls',
+    weight: '--prim-type-h1-weight',
+    ls: '--prim-type-h1-ls',
     lh: null,
   },
   {
@@ -179,7 +212,7 @@ function ColorPalettesSection() {
   const l1Colors = fileDefaults.l1Colors;
 
   return (
-    <div className="section">
+    <div className="section" data-section-id="tk-palettes" data-surface-mode="chrome-only">
       <div className="section__inner">
         <h2 className="section__title">Color Palettes</h2>
         <p className="section__desc">L1 primitive color tokens used by the active theme.</p>
@@ -210,7 +243,7 @@ function SemanticColorsSection() {
   const l1Colors = fileDefaults.l1Colors;
 
   return (
-    <div className="section surface-muted">
+    <div className="section" data-section-id="tk-semantic" data-surface-mode="chrome-only" style={{ background: 'var(--sf-muted-bg)' }}>
       <div className="section__inner">
         <h2 className="section__title">Semantic Colors</h2>
         <p className="section__desc">L2 semantic tokens that map primitives to functional roles. These change per theme.</p>
@@ -243,7 +276,7 @@ function SurfacesSection() {
   ];
 
   return (
-    <div className="section">
+    <div className="section" data-section-id="tk-surfaces" data-surface-mode="chrome-only">
       <div className="section__inner">
         <h2 className="section__title">Surface Classes</h2>
         <p className="section__desc">Each surface re-maps semantic tokens to create a distinct color contract for its descendants.</p>
@@ -287,7 +320,7 @@ function TextStylesSection() {
   }, []);
 
   return (
-    <div className="section surface-muted">
+    <div className="section" data-section-id="tk-text" data-surface-mode="chrome-only" style={{ background: 'var(--sf-muted-bg)' }}>
       <div className="section__inner">
         <h2 className="section__title">Text Styles</h2>
         <p className="section__desc">Type roles with live previews and resolved property values.</p>
@@ -327,7 +360,7 @@ function TextStylesSection() {
 
 function SpacingSection() {
   return (
-    <div className="section">
+    <div className="section" data-section-id="tk-spacing" data-surface-mode="chrome-only">
       <div className="section__inner">
         <h2 className="section__title">Spacing Scale</h2>
         <p className="section__desc">Consistent spacing values used across the system.</p>
@@ -347,7 +380,7 @@ function SpacingSection() {
 
 function RadiusSection() {
   return (
-    <div className="section surface-muted">
+    <div className="section" data-section-id="tk-radius" data-surface-mode="chrome-only" style={{ background: 'var(--sf-muted-bg)' }}>
       <div className="section__inner">
         <h2 className="section__title">Border Radius</h2>
         <p className="section__desc">Radius scale for consistent corner rounding.</p>
@@ -367,7 +400,7 @@ function RadiusSection() {
 
 function ShadowsSection() {
   return (
-    <div className="section">
+    <div className="section" data-section-id="tk-shadows" data-surface-mode="chrome-only">
       <div className="section__inner">
         <h2 className="section__title">Shadows</h2>
         <p className="section__desc">Elevation levels for depth and hierarchy.</p>
@@ -385,7 +418,7 @@ function ShadowsSection() {
 
 function StatusColorsSection() {
   return (
-    <div className="section surface-muted">
+    <div className="section" data-section-id="tk-status" data-surface-mode="chrome-only" style={{ background: 'var(--sf-muted-bg)' }}>
       <div className="section__inner">
         <h2 className="section__title">Status Colors</h2>
         <p className="section__desc">Feedback and status indicators.</p>
@@ -412,6 +445,92 @@ function StatusColorsSection() {
   );
 }
 
+const COM_BUTTON_TOKENS = [
+  { name: '--com-btn-primary-bg',      label: 'Primary BG' },
+  { name: '--com-btn-primary-fg',      label: 'Primary Text' },
+  { name: '--com-btn-dark-bg',         label: 'Dark BG' },
+  { name: '--com-btn-dark-fg',         label: 'Dark Text' },
+  { name: '--com-btn-ghost-fg',        label: 'Ghost Text' },
+  { name: '--com-btn-ghost-icon',      label: 'Ghost Icon' },
+  { name: '--com-btn-outline-fg',      label: 'Outline Text' },
+  { name: '--com-btn-outline-border',  label: 'Outline Border' },
+  { name: '--com-btn-tertiary-bg',     label: 'Tertiary BG' },
+  { name: '--com-btn-tertiary-fg',     label: 'Tertiary Text' },
+  { name: '--com-btn-quaternary-bg',   label: 'Quaternary BG' },
+  { name: '--com-btn-quaternary-fg',   label: 'Quaternary Text' },
+];
+
+function ButtonsSection() {
+  const l2 = fileDefaults.l2;
+  const l1Colors = fileDefaults.l1Colors;
+
+  return (
+    <div className="section" data-section-id="tk-buttons" data-surface-mode="chrome-only" style={{ background: 'var(--sf-muted-bg)' }}>
+      <div className="section__inner">
+        <h2 className="section__title">Buttons</h2>
+        <p className="section__desc">Production button variants using the .com-btn system. Surface-aware tokens adapt per surface context.</p>
+        <div className="semantic-table" style={{ marginBottom: 24 }}>
+          {COM_BUTTON_TOKENS.map(t => {
+            const primToken = l2[t.name];
+            const hex = primToken ? (l1Colors[primToken] || '') : '';
+            return (
+              <div key={t.name} className="semantic-table__row">
+                <div className="semantic-table__swatch" style={{ background: hex || `var(${t.name})` }} />
+                <span className="semantic-table__name">{t.name}</span>
+                <span className="semantic-table__primitive">{primToken || ''}</span>
+                <span className="semantic-table__value">{hex}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="btn-showcase">
+          <div className="btn-showcase__row">
+            <div className="btn-showcase__label">Light background</div>
+            <div className="btn-showcase__buttons">
+              <button className="com-btn com-btn--primary" onClick={e => e.preventDefault()}>Primary</button>
+              <button className="com-btn com-btn--dark" onClick={e => e.preventDefault()}>Dark</button>
+              <button className="com-btn com-btn--outline" onClick={e => e.preventDefault()}>Outline</button>
+              <button className="com-btn com-btn--ghost" onClick={e => e.preventDefault()}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--com-btn-ghost-icon)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                Ghost
+              </button>
+              <button className="com-btn com-btn--tertiary" onClick={e => e.preventDefault()}>Tertiary</button>
+              <button className="com-btn com-btn--quaternary" onClick={e => e.preventDefault()}>Quaternary</button>
+            </div>
+          </div>
+          <div className="btn-showcase__row btn-showcase__row--dark">
+            <div className="btn-showcase__label">Dark background</div>
+            <div className="btn-showcase__buttons">
+              <button className="com-btn com-btn--primary" onClick={e => e.preventDefault()}>Primary</button>
+              <button className="com-btn com-btn--outline" onClick={e => e.preventDefault()}>Outline</button>
+              <button className="com-btn com-btn--ghost" onClick={e => e.preventDefault()}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--com-btn-ghost-icon)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                Ghost
+              </button>
+              <button className="com-btn com-btn--tertiary" onClick={e => e.preventDefault()}>Tertiary</button>
+              <button className="com-btn com-btn--quaternary" onClick={e => e.preventDefault()}>Quaternary</button>
+            </div>
+          </div>
+          <div className="btn-showcase__row">
+            <div className="btn-showcase__label">Small variant</div>
+            <div className="btn-showcase__buttons">
+              <button className="com-btn com-btn--primary com-btn--sm" onClick={e => e.preventDefault()}>Primary</button>
+              <button className="com-btn com-btn--dark com-btn--sm" onClick={e => e.preventDefault()}>Dark</button>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={e => e.preventDefault()}>Outline</button>
+              <button className="com-btn com-btn--ghost com-btn--sm" onClick={e => e.preventDefault()}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--com-btn-ghost-icon)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                Ghost
+              </button>
+              <button className="com-btn com-btn--tertiary com-btn--sm" onClick={e => e.preventDefault()}>Tertiary</button>
+              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={e => e.preventDefault()}>Quaternary</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const BUTTON_TOKENS = [
   { name: '--btn-primary-bg',       label: 'Primary BG' },
   { name: '--btn-primary-fg',       label: 'Primary Text' },
@@ -426,7 +545,7 @@ function LegacyButtonsSection() {
   const l1Colors = fileDefaults.l1Colors;
 
   return (
-    <div className="section">
+    <div className="section" data-section-id="tk-legacy-btns" data-surface-mode="chrome-only">
       <div className="section__inner">
         <h2 className="section__title">Buttons (Legacy)</h2>
         <p className="section__desc">Primary and secondary button variants using legacy button tokens. Preserved for future design updates.</p>
@@ -484,6 +603,7 @@ export default function TokensPage({ onNavigate }) {
       <RadiusSection />
       <ShadowsSection />
       <StatusColorsSection />
+      <ButtonsSection />
       <LegacyButtonsSection />
       <SiteFooter />
     </div>

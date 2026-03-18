@@ -3,6 +3,17 @@ import avatarImg from '../imgs/avatar-dink.png';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import logoWhite from '../imgs/logo/Logo White.svg';
 import { useDMEState } from '../context/dme-states';
+import { MOCK_NOTIFICATIONS } from '../data/social-mock-data';
+
+/* ── Preset avatar lookup (for notification avatars) ─────────── */
+const avatarModules = import.meta.glob('../imgs/avatars/*.png', { eager: true });
+const NOTIF_AVATAR_MAP = Object.fromEntries(
+  Object.entries(avatarModules).map(([path, mod]) => {
+    const key = path.split('/').pop().replace('.png', '');
+    return [key, mod.default];
+  })
+);
+function getNotifAvatar(key) { return NOTIF_AVATAR_MAP[key] || avatarImg; }
 
 /* Token shorthand helpers */
 const fl = 'var(--font-logo)';
@@ -10,6 +21,8 @@ const fb = 'var(--font-body)';
 const fm = 'var(--font-meta)';
 const fh = 'var(--font-heading)';
 const fp = 'var(--font-pill)';
+const fd = 'var(--font-dropdown)';
+const fdb = 'var(--font-dropdown-badge)';
 
 /* ─── Social icons ────────────────────────────────────────────── */
 
@@ -142,7 +155,7 @@ function IconChevronDown({ size = 16 }) {
 
 const MENU_ITEMS = [
   { id: 'profile',  label: 'Profile',           Icon: IconProfile,  nav: 'profile' },
-  { id: 'settings', label: 'Settings',           Icon: IconSettings },
+  { id: 'settings', label: 'Settings',           Icon: IconSettings, nav: 'settings' },
   { id: 'learn',    label: 'Learn to play',       Icon: IconLearn,    nav: 'learn-hub' },
   { id: 'boards',   label: 'Boards & themes',    Icon: IconPalette,  soon: true },
   { id: 'history',  label: 'Game history',        Icon: IconHistory,  soon: true },
@@ -188,7 +201,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
           />
         </div>
         <span style={{
-          fontFamily: fh, fontWeight: 600, fontSize: 15,
+          fontFamily: fd, fontWeight: 600, fontSize: 'var(--size-dropdown)',
           color: 'var(--color-heading)', lineHeight: 1,
         }}>Robbbb</span>
         <span style={{
@@ -202,7 +215,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
       </div>
 
       {open && (
-        <div style={{
+        <div data-section-id="gl-dropdown" style={{
           position: 'absolute',
           top: 'calc(100% + 8px)',
           right: 0,
@@ -211,7 +224,9 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
           boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)',
           border: '1px solid var(--color-dropdown-border)',
           padding: '6px 0',
-          minWidth: 220,
+          whiteSpace: 'nowrap',
+          width: 'max-content',
+          minWidth: 180,
           zIndex: 9999,
           overflow: 'hidden',
         }}>
@@ -227,7 +242,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
                 padding: '12px 18px',
                 cursor: nav ? 'pointer' : 'default',
                 transition: 'background 0.1s',
-                fontFamily: fh, fontWeight: 600, fontSize: 15,
+                fontFamily: fd, fontWeight: 600, fontSize: 'var(--size-dropdown)',
                 color: 'var(--color-dropdown-text)',
                 lineHeight: 1,
                 opacity: soon && !nav ? 0.55 : 1,
@@ -241,7 +256,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
               <span style={{ flex: 1 }}>{label}</span>
               {soon && (
                 <span style={{
-                  fontFamily: fp, fontWeight: 700, fontSize: 10,
+                  fontFamily: fdb, fontWeight: 700, fontSize: 'var(--size-dropdown-badge)',
                   textTransform: 'uppercase', letterSpacing: '0.05em',
                   background: 'var(--color-dropdown-soon-bg)',
                   color: 'var(--color-dropdown-soon-fg)',
@@ -268,7 +283,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
               padding: '12px 18px',
               cursor: 'pointer',
               transition: 'background 0.1s',
-              fontFamily: fh, fontWeight: 600, fontSize: 15,
+              fontFamily: fd, fontWeight: 600, fontSize: 'var(--size-dropdown)',
               color: 'var(--color-dropdown-text)',
               lineHeight: 1,
             }}
@@ -286,6 +301,92 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
   );
 }
 
+/* ─── Notification Bell + Dropdown ────────────────────────────── */
+
+function IconBell() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </svg>
+  );
+}
+
+function getNotifText(n) {
+  switch (n.type) {
+    case 'friend_request':     return <><strong>{n.user.username}</strong> sent you a friend request</>;
+    case 'friend_accepted':    return <><strong>{n.user.username}</strong> accepted your friend request</>;
+    case 'challenge_received': return <><strong>{n.user.username}</strong> challenged you to a <strong>{n.format} match</strong></>;
+    case 'challenge_accepted': return <><strong>{n.user.username}</strong> accepted your challenge</>;
+    case 'challenge_declined': return <><strong>{n.user.username}</strong> declined your challenge</>;
+    case 'fb_friends_found':   return <><strong>{n.count}</strong> of your Facebook friends are on Backgammon.com!</>;
+    default: return null;
+  }
+}
+
+function NotificationBell({ notifState }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [open]);
+
+  if (notifState === 'Hidden') return null;
+
+  const isUnread = notifState === 'Unread';
+  const items = notifState === 'Empty' ? [] : MOCK_NOTIFICATIONS;
+  const unreadCount = items.filter(n => !n.read).length;
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <div className="notif-bell" onClick={() => setOpen(o => !o)} style={{ color: 'var(--color-heading)' }}>
+        <IconBell />
+        {isUnread && unreadCount > 0 && (
+          <span className="notif-bell__badge">{unreadCount}</span>
+        )}
+      </div>
+
+      {open && (
+        <div className="notif-dropdown">
+          <div className="notif-dropdown__header">
+            <span className="notif-dropdown__title">Notifications</span>
+            {items.length > 0 && (
+              <button className="notif-dropdown__mark-all">Mark all read</button>
+            )}
+          </div>
+          {items.length === 0 ? (
+            <div className="notif-empty">No notifications yet</div>
+          ) : (
+            items.map(n => (
+              <div key={n.id} className={`notif-item${!n.read ? ' notif-item--unread' : ''}`}>
+                <div className="notif-item__avatar">
+                  <img src={getNotifAvatar(n.user.avatar)} alt={n.user.username} />
+                </div>
+                <div className="notif-item__body">
+                  <div className="notif-item__text">{getNotifText(n)}</div>
+                  <div className="notif-item__time">{n.timestamp}</div>
+                  {(n.type === 'friend_request' || n.type === 'challenge_received') && (
+                    <div className="notif-item__actions">
+                      <button className="friend-btn friend-btn--accept" style={{ padding: '4px 10px', fontSize: 11 }}>Accept</button>
+                      <button className="friend-btn friend-btn--decline" style={{ padding: '4px 10px', fontSize: 11 }}>Decline</button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── Site Header ─────────────────────────────────────────────── */
 
 export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }) {
@@ -293,6 +394,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
   const loggedIn = useDMEState('auth.loggedIn', true);
   const logoVariant = useDMEState('global.logoVariant', 'Black');
   const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
+  const notifState = useDMEState('social.notifications', 'Hidden');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -302,7 +404,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
 
   return (
     <>
-    <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
+    <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`} data-section-id="gl-header">
       <span
         role="link"
         tabIndex={0}
@@ -325,6 +427,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           >
             New Game
           </button>
+          <NotificationBell notifState={notifState} />
           <div style={{ width: 1, height: 28, background: 'var(--color-border)', flexShrink: 0 }} />
           <AvatarDropdown avatarSrc={avatarSrcProp} onNavigate={onNavigate} />
         </div>
@@ -339,9 +442,9 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
 
 /* ─── Play Now CTA end-cap ────────────────────────────────────── */
 
-export function PlayNowCta() {
+export function PlayNowCta({ sectionId }) {
   return (
-    <div className="surface-accent" style={{
+    <div className="surface-accent" {...(sectionId ? { 'data-section-id': sectionId } : {})} style={{
       width: '100%', padding: '22px var(--spacing-h)',
       boxSizing: 'border-box', flexShrink: 0,
     }}>
@@ -380,9 +483,9 @@ export function PlayNowCta() {
 
 /* ─── Site Footer ─────────────────────────────────────────────── */
 
-export function SiteFooter() {
+export function SiteFooter({ sectionId }) {
   return (
-    <footer className="surface-inverse" style={{
+    <footer className="surface-inverse" {...(sectionId ? { 'data-section-id': sectionId } : {})} style={{
       width: '100%',
       padding: '32px var(--spacing-h) 28px',
       boxSizing: 'border-box',

@@ -5,6 +5,7 @@ import LearnHubPage from './components/LearnHubPage'
 import IndexPage from './components/IndexPage'
 import ProfilePage from './components/ProfilePage'
 import PlayPage from './components/PlayPage'
+import SettingsPage from './components/SettingsPage'
 import TokensPage from './components/TokensPage'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
@@ -31,6 +32,7 @@ const PAGES = [
   { id: 'learn-article',  label: 'Lesson 1: How to Play' },
   { id: 'play',           label: 'Play' },
   { id: 'profile',        label: 'Profile' },
+  { id: 'settings',       label: 'Settings' },
   { id: 'tokens',         label: 'Design Tokens' },
 ]
 
@@ -126,6 +128,7 @@ function App() {
     if (currentPageId === 'learn-article') return <LearnSegmentTemplate onNavigate={navigateTo} />
     if (currentPageId === 'play') return <PlayPage onNavigate={navigateTo} />
     if (currentPageId === 'profile') return <ProfilePage onNavigate={navigateTo} />
+    if (currentPageId === 'settings') return <SettingsPage onNavigate={navigateTo} />
     if (currentPageId === 'tokens') return <TokensPage onNavigate={navigateTo} />
     return <LearnHubPage onNavigate={navigateTo} />
   }

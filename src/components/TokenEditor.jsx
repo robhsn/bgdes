@@ -127,6 +127,7 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'link':          '--color-link',
   'pill':              '--color-pill',
   'accent':            '--color-accent',
+  'tag-fill':          '--color-tag-fill',
   'btn-primary-bg':    '--com-btn-primary-bg',
   'btn-primary-fg':    '--com-btn-primary-fg',
   'btn-dark-bg':       '--com-btn-dark-bg',
@@ -197,6 +198,7 @@ const THEMES = {
       '--color-nav-bg':           '--prim-mono-100',
       '--color-nav-border':       '--prim-mono-250',
       '--color-nav-icon':         '--prim-mono-900',
+      '--color-guide-nav-bg':     '--prim-mono-white',
       '--btn-primary-bg':         '--prim-mono-250',
       '--btn-primary-fg':         '--prim-mono-900',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -224,6 +226,7 @@ const THEMES = {
         '--color-link':           '--prim-mono-700',
         '--color-pill':           '--prim-mono-900',
         '--color-accent':         '--prim-mono-700',
+        '--color-tag-fill':       '--prim-mono-150',
       ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
@@ -241,6 +244,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-mono-700',
         '--sf-muted-pill':           '--prim-mono-900',
         '--sf-muted-accent':         '--prim-mono-700',
+        '--sf-muted-tag-fill':       '--prim-mono-150',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
@@ -258,6 +262,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-mono-300',
         '--sf-inverse-pill':           '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mono-500',
+        '--sf-inverse-tag-fill':     '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
@@ -275,6 +280,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-mono-300',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mono-900',
+        '--sf-accent-tag-fill':      '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
@@ -292,6 +298,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-mono-200',
         '--sf-tertiary-pill':           '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mono-500',
+        '--sf-tertiary-tag-fill':    '--prim-mono-700',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
@@ -326,6 +333,7 @@ const THEMES = {
       '--color-nav-bg':           '--prim-butter-500',
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
+      '--color-guide-nav-bg':     '--prim-mono-white',
       '--btn-primary-bg':         '--prim-butter-900',
       '--btn-primary-fg':         '--prim-sapphire-500',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -353,6 +361,7 @@ const THEMES = {
         '--color-link':           '--prim-splash-700',
         '--color-pill':           '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
+        '--color-tag-fill':       '--prim-butter-700',
       ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
@@ -370,6 +379,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-splash-700',
         '--sf-muted-pill':           '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
+        '--sf-muted-tag-fill':       '--prim-splash-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
@@ -387,6 +397,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-splash-500',
         '--sf-inverse-pill':           '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
+        '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
@@ -404,6 +415,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-splash-300',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
+        '--sf-accent-tag-fill':      '--prim-orange-500',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
@@ -421,6 +433,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
+        '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
@@ -455,6 +468,7 @@ const THEMES = {
       '--color-nav-bg':           '--prim-butter-500',
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
+      '--color-guide-nav-bg':     '--prim-mono-white',
       '--btn-primary-bg':         '--prim-butter-900',
       '--btn-primary-fg':         '--prim-sapphire-500',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -482,6 +496,7 @@ const THEMES = {
         '--color-link':           '--prim-splash-700',
         '--color-pill':           '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
+        '--color-tag-fill':       '--prim-butter-700',
       ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
@@ -499,6 +514,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-splash-700',
         '--sf-muted-pill':           '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
+        '--sf-muted-tag-fill':       '--prim-splash-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
@@ -516,6 +532,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-splash-500',
         '--sf-inverse-pill':           '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
+        '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
@@ -533,6 +550,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-splash-300',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
+        '--sf-accent-tag-fill':      '--prim-orange-500',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
@@ -550,6 +568,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
+        '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
@@ -584,6 +603,7 @@ const THEMES = {
       '--color-nav-bg':           '--prim-mono-white',
       '--color-nav-border':       '--prim-mint-200',
       '--color-nav-icon':         '--prim-mint-700',
+      '--color-guide-nav-bg':     '--prim-mono-white',
       '--btn-primary-bg':         '--prim-mint-700',
       '--btn-primary-fg':         '--prim-mono-white',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -611,6 +631,7 @@ const THEMES = {
         '--color-link':           '--prim-mint-600',
         '--color-pill':           '--prim-mint-700',
         '--color-accent':         '--prim-mint-500',
+        '--color-tag-fill':       '--prim-mint-200',
       ...btnDefaultTokens(BTN_LIGHT),
       },
       muted: {
@@ -628,6 +649,7 @@ const THEMES = {
         '--sf-muted-link':           '--prim-mint-600',
         '--sf-muted-pill':           '--prim-mint-900',
         '--sf-muted-accent':         '--prim-mint-500',
+        '--sf-muted-tag-fill':       '--prim-mint-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
       },
       inverse: {
@@ -645,6 +667,7 @@ const THEMES = {
         '--sf-inverse-link':           '--prim-mint-300',
         '--sf-inverse-pill':           '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mint-400',
+        '--sf-inverse-tag-fill':     '--prim-mint-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
       },
       accent: {
@@ -662,6 +685,7 @@ const THEMES = {
         '--sf-accent-link':           '--prim-mint-200',
         '--sf-accent-pill':           '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mint-400',
+        '--sf-accent-tag-fill':      '--prim-mint-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
       },
       tertiary: {
@@ -679,6 +703,7 @@ const THEMES = {
         '--sf-tertiary-link':           '--prim-mint-200',
         '--sf-tertiary-pill':           '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mint-400',
+        '--sf-tertiary-tag-fill':    '--prim-mint-800',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
       },
     },
@@ -699,7 +724,7 @@ function themeAllColorTokens(key) {
 }
 
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
-const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent'];
+const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent', 'tag-fill'];
 const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border'];
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -708,40 +733,109 @@ const SURFACE_DEFS = [
   { key: 'accent',   label: 'Accent',    prefix: '--sf-accent-',    bgToken: '--sf-accent-bg'      },
   { key: 'tertiary', label: 'Tertiary',  prefix: '--sf-tertiary-',  bgToken: '--sf-tertiary-bg'    },
 ];
+/* ─── Page section registry — drives Application panel ───────── */
+const PAGE_SECTIONS = {
+  index: [
+    { id: 'ix-left',         label: 'Left Panel (Hero/Login)',  defaultSurface: 'tertiary' },
+    { id: 'ix-right',        label: 'Right Panel (Board)',      defaultSurface: 'muted' },
+  ],
+  'learn-hub': [
+    { id: 'lh-hero',         label: 'Hero',                     defaultSurface: 'default' },
+    { id: 'lh-lessons',      label: 'Lessons',                  defaultSurface: 'muted' },
+  ],
+  'learn-article': [
+    { id: 'ls-hero',         label: 'Hero / Breadcrumb',        defaultSurface: 'default' },
+    { id: 'ls-content',      label: 'Content Body',             defaultSurface: 'muted' },
+  ],
+  profile: [
+    { id: 'pp-header',       label: 'Profile Header',           defaultSurface: 'default' },
+    { id: 'pp-tabs',         label: 'Tab Bar',                  defaultSurface: 'muted' },
+    { id: 'pp-achievements', label: 'Achievements',             defaultSurface: 'muted' },
+    { id: 'pp-history',      label: 'Game History',             defaultSurface: 'tertiary' },
+    { id: 'pp-friends',      label: 'Friends',                  defaultSurface: 'muted' },
+  ],
+  settings: [
+    { id: 'st-content',      label: 'Settings Content',         defaultSurface: 'muted' },
+  ],
+  play: [
+    { id: 'gp-board',        label: 'Game Board',               defaultSurface: 'default' },
+  ],
+  tokens: [
+    { id: 'tk-palettes',     label: 'Color Palettes',           defaultSurface: 'default' },
+    { id: 'tk-semantic',     label: 'Semantic Colors',          defaultSurface: 'muted' },
+    { id: 'tk-surfaces',     label: 'Surface Classes',          defaultSurface: 'default' },
+    { id: 'tk-text',         label: 'Text Styles',              defaultSurface: 'muted' },
+    { id: 'tk-spacing',      label: 'Spacing',                  defaultSurface: 'default' },
+    { id: 'tk-radius',       label: 'Border Radius',            defaultSurface: 'muted' },
+    { id: 'tk-shadows',      label: 'Shadows',                  defaultSurface: 'default' },
+    { id: 'tk-status',       label: 'Status Colors',            defaultSurface: 'muted' },
+    { id: 'tk-buttons',      label: 'Buttons',                  defaultSurface: 'muted' },
+    { id: 'tk-legacy-btns',  label: 'Buttons (Legacy)',         defaultSurface: 'default' },
+  ],
+};
+
+const GLOBAL_SECTIONS = [
+  { id: 'gl-header',   label: 'Header',         defaultSurface: 'default' },
+  { id: 'gl-dropdown', label: 'Dropdown Menu',   defaultSurface: 'default' },
+  { id: 'gl-cta',      label: 'Ready to Play',   defaultSurface: 'accent' },
+  { id: 'gl-footer',   label: 'Footer',          defaultSurface: 'inverse' },
+];
+
+const SURFACE_CLASSES = ['surface-muted', 'surface-inverse', 'surface-accent', 'surface-tertiary'];
+
 /* ─── L1 defaults ────────────────────────────────────────────── */
 const DEFAULT_L1 = {
   /* font families */
-  '--prim-type-heading':    'Raleway',
-  '--prim-type-subheading': 'Georgia',
-  '--prim-type-body':       'Inter',
+  '--prim-type-h1':       'Raleway',
+  '--prim-type-h2':       'Georgia',
+  '--prim-type-h3':       'Raleway',
+  '--prim-type-h4':       'Raleway',
+  '--prim-type-body-lg':  'Inter',
+  '--prim-type-body-md':  'Inter',
+  '--prim-type-body-sm':  'Inter',
   /* weight (numeric), letter-spacing (hundredths of em), line-height (tenths) */
-  '--prim-type-heading-weight':    '700',
-  '--prim-type-heading-ls':        '-2',   /* -0.02em */
-  '--prim-type-heading-lh':        '11',   /* 1.1     */
-  '--prim-type-subheading-weight': '700',
-  '--prim-type-subheading-ls':     '-2',   /* -0.02em */
-  '--prim-type-subheading-lh':     '11',   /* 1.1     */
-  '--prim-type-body-weight':       '400',
-  '--prim-type-body-ls':           '0',    /* 0em     */
-  '--prim-type-body-lh':           '19',   /* 1.9     */
+  '--prim-type-h1-weight':      '700',
+  '--prim-type-h1-ls':          '-2',   /* -0.02em */
+  '--prim-type-h1-lh':          '11',   /* 1.1     */
+  '--prim-type-h2-weight':      '700',
+  '--prim-type-h2-ls':          '-2',   /* -0.02em */
+  '--prim-type-h2-lh':          '11',   /* 1.1     */
+  '--prim-type-h3-weight':      '600',
+  '--prim-type-h3-ls':          '-1',   /* -0.01em */
+  '--prim-type-h3-lh':          '12',   /* 1.2     */
+  '--prim-type-h4-weight':      '600',
+  '--prim-type-h4-ls':          '0',    /* 0em     */
+  '--prim-type-h4-lh':          '13',   /* 1.3     */
+  '--prim-type-body-lg-weight': '400',
+  '--prim-type-body-lg-ls':     '0',    /* 0em     */
+  '--prim-type-body-lg-lh':     '17',   /* 1.7     */
+  '--prim-type-body-md-weight': '400',
+  '--prim-type-body-md-ls':     '0',    /* 0em     */
+  '--prim-type-body-md-lh':     '19',   /* 1.9     */
+  '--prim-type-body-sm-weight': '400',
+  '--prim-type-body-sm-ls':     '0',    /* 0em     */
+  '--prim-type-body-sm-lh':     '16',   /* 1.6     */
 };
 
 /* ─── L2 font role tokens — store role name, applied as var(--prim-type-xxx) ── */
 const L2_FONT_ROLE_TOKENS = new Set([
   '--font-heading', '--font-subheading', '--font-body',
   '--font-logo', '--font-pill', '--font-toc', '--font-meta',
+  '--font-dropdown', '--font-dropdown-badge',
 ]);
 
 /* ─── L2 non-color defaults ──────────────────────────────────── */
 const DEFAULT_L2_EXTRA = {
   /* font role assignments (which L1 role each L2 font token uses) */
-  '--font-heading':    'heading',
-  '--font-subheading': 'subheading',
-  '--font-body':       'body',
-  '--font-logo':       'heading',
-  '--font-pill':       'heading',
-  '--font-toc':        'body',
-  '--font-meta':       'body',
+  '--font-heading':    'h1',
+  '--font-subheading': 'h2',
+  '--font-body':       'body-md',
+  '--font-logo':       'h1',
+  '--font-pill':       'h1',
+  '--font-toc':        'body-sm',
+  '--font-meta':       'body-sm',
+  '--font-dropdown':       'h1',
+  '--font-dropdown-badge': 'h1',
   /* size & spacing */
   '--size-h1':         '70',
   '--size-h2':         '36',
@@ -750,6 +844,8 @@ const DEFAULT_L2_EXTRA = {
   '--size-pill':       '18',
   '--size-toc':        '12',
   '--size-meta':       '14',
+  '--size-dropdown':       '15',
+  '--size-dropdown-badge': '10',
   '--spacing-section-v':   '64',
   '--spacing-content-gap': '24',
   '--content-max-width':   '900',
@@ -758,16 +854,52 @@ const DEFAULT_L2_EXTRA = {
 
 const DEFAULT_L2 = { ...themeAllColorTokens('mono'), ...DEFAULT_L2_EXTRA };
 
+/* ─── Migration: old 3-role type keys → new 7-role keys ──────── */
+function migrateL1(saved) {
+  if (!saved) return saved;
+  const L1_KEY_MAP = {
+    '--prim-type-heading':    '--prim-type-h1',
+    '--prim-type-heading-weight': '--prim-type-h1-weight',
+    '--prim-type-heading-ls':     '--prim-type-h1-ls',
+    '--prim-type-heading-lh':     '--prim-type-h1-lh',
+    '--prim-type-subheading':     '--prim-type-h2',
+    '--prim-type-subheading-weight': '--prim-type-h2-weight',
+    '--prim-type-subheading-ls':     '--prim-type-h2-ls',
+    '--prim-type-subheading-lh':     '--prim-type-h2-lh',
+    '--prim-type-body':           '--prim-type-body-md',
+    '--prim-type-body-weight':    '--prim-type-body-md-weight',
+    '--prim-type-body-ls':        '--prim-type-body-md-ls',
+    '--prim-type-body-lh':        '--prim-type-body-md-lh',
+  };
+  const out = {};
+  for (const [k, v] of Object.entries(saved)) {
+    out[L1_KEY_MAP[k] || k] = v;
+  }
+  return out;
+}
+
+function migrateL2(saved) {
+  if (!saved) return saved;
+  const L2_ROLE_MAP = { heading: 'h1', subheading: 'h2', body: 'body-md' };
+  const out = { ...saved };
+  for (const name of L2_FONT_ROLE_TOKENS) {
+    if (out[name] && L2_ROLE_MAP[out[name]]) {
+      out[name] = L2_ROLE_MAP[out[name]];
+    }
+  }
+  return out;
+}
+
 /* ─── Initial state from committed file ──────────────────────── */
 /* dme-defaults.json is the sole source of truth; Save writes to it via Vite middleware */
 const INIT_THEME        = fileDefaults.theme    ?? 'mono';
-const INIT_L1           = { ...DEFAULT_L1,    ...(fileDefaults.l1       ?? {}) };
+const INIT_L1           = { ...DEFAULT_L1,    ...migrateL1(fileDefaults.l1 ?? {}) };
 /* Seed surface tokens from saved theme (so switching themes applies correct surface defaults),
    then overlay any explicit user customizations from the saved file */
 const INIT_L2           = {
   ...DEFAULT_L2,
   ...(THEMES[INIT_THEME] ? themeAllColorTokens(INIT_THEME) : {}),
-  ...(fileDefaults.l2 ?? {}),
+  ...migrateL2(fileDefaults.l2 ?? {}),
 };
 /* Per-theme l2 snapshots — persisted so switching themes restores saved edits */
 const INIT_THEME_STATES = {
@@ -777,12 +909,13 @@ const INIT_THEME_STATES = {
 const INIT_L1_COLOR_MAP = { ...L1_COLOR_MAP,  ...(fileDefaults.l1Colors ?? {}) };
 const INIT_L1_GROUPS    = fileDefaults.l1Groups
   ?? L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
+const INIT_SECTION_SURFACES = fileDefaults.sectionSurfaces ?? {};
 
 /* ─── Helpers ────────────────────────────────────────────────── */
 function applyL2(name, rawVal) {
   let css = rawVal;
   if (L2_FONT_ROLE_TOKENS.has(name)) {
-    /* rawVal is 'heading' | 'subheading' | 'body' → CSS var reference */
+    /* rawVal is L1 role key (e.g. 'h1', 'body-md') → CSS var reference */
     css = `var(--prim-type-${rawVal})`;
   } else if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) {
     /* rawVal is an L1 token name like '--prim-mono-900' → CSS var reference */
@@ -888,7 +1021,7 @@ const DMEDockIcon = () => (
    Main component
    ═══════════════════════════════════════════════════════════════ */
 export default function TokenEditor({ visible, onClose, states, onStateChange, pages, currentPageId, onNavigate }) {
-  const [tab, setTab]                 = useState('l2');
+  const [tab, setTab]                 = useState('app');
   const [side, setSide]               = useState('right');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
   const [l1, setL1]                   = useState({ ...INIT_L1 });
@@ -901,6 +1034,8 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   const [hasSavedState, setHasSavedState] = useState(false);
   const [collapsed, setCollapsed]       = useState(false);
   const [sectResetKey, setSectResetKey] = useState(0);
+  const [sectionSurfaces, setSectionSurfaces] = useState({ ...INIT_SECTION_SURFACES });
+  const [sectAllExpanded, setSectAllExpanded] = useState(true);
 
   /* localStorage keys for all Sect/SubSect groups per tab */
   const L2_SECT_KEYS = [
@@ -913,12 +1048,13 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     'dme-sect-Type Roles', 'dme-sect-Color Palettes',
   ];
 
-  const toggleAllSections = useCallback((expand) => {
+  const toggleAllSections = useCallback(() => {
+    const expand = !sectAllExpanded;
     const keys = tab === 'l2' ? L2_SECT_KEYS : L1_SECT_KEYS;
-    const val = expand ? 'open' : 'closed';
-    keys.forEach(k => localStorage.setItem(k, val));
+    keys.forEach(k => localStorage.setItem(k, expand ? 'open' : 'closed'));
     setSectResetKey(n => n + 1);
-  }, [tab]);
+    setSectAllExpanded(expand);
+  }, [tab, sectAllExpanded]);
 
   const panel = useDetachablePanel(
     { x: Math.round(window.innerWidth / 2 - 200), y: 40 },
@@ -932,6 +1068,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   const l1ColorMapRef  = useRef({ ...INIT_L1_COLOR_MAP });
   const l1GroupsRef    = useRef([...INIT_L1_GROUPS]);
   const themeStatesRef = useRef({ ...INIT_THEME_STATES });
+  const sectionSurfacesRef = useRef({ ...INIT_SECTION_SURFACES });
   const histRef       = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
   const idxRef        = useRef(0);
   const savedSnapshotRef = useRef({
@@ -940,6 +1077,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     l2:       { ...INIT_L2 },
     l1Colors: { ...INIT_L1_COLOR_MAP },
     l1Groups: INIT_L1_GROUPS.map(g => ({ ...g, tokens: [...g.tokens] })),
+    sectionSurfaces: { ...INIT_SECTION_SURFACES },
   });
 
   /* Apply committed file defaults to DOM on mount */
@@ -949,6 +1087,24 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     Object.entries(INIT_L1_COLOR_MAP).forEach(([tok, hex]) => {
       document.documentElement.style.setProperty(tok, hex);
     });
+    /* Apply saved section surface overrides */
+    Object.entries(INIT_SECTION_SURFACES).forEach(([sectionId, surfaceKey]) => {
+      applySurfaceToDOM(sectionId, surfaceKey);
+    });
+    /* Watch for conditionally-rendered sections (e.g. profile tabs) entering the DOM */
+    const observer = new MutationObserver(() => {
+      const surfs = sectionSurfacesRef.current;
+      Object.entries(surfs).forEach(([id, surfaceKey]) => {
+        const el = document.querySelector(`[data-section-id="${id}"]`);
+        if (!el) return;
+        const hasSurface = SURFACE_CLASSES.some(c => el.classList.contains(c));
+        const expected = surfaceKey === 'default' ? false : `surface-${surfaceKey}`;
+        if (expected && !el.classList.contains(expected)) applySurfaceToDOM(id, surfaceKey);
+        else if (!expected && hasSurface) applySurfaceToDOM(id, surfaceKey);
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refreshHistoryState = () => {
@@ -1167,6 +1323,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       l1Colors:    l1ColorMapRef.current,
       l1Groups:    l1GroupsRef.current,
       themeStates: themeStatesRef.current,
+      sectionSurfaces: sectionSurfacesRef.current,
       states,
     };
     /* Write to src/tokens/dme-defaults.json via Vite dev middleware */
@@ -1182,6 +1339,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       l2:       { ...l2Ref.current },
       l1Colors: { ...l1ColorMapRef.current },
       l1Groups: l1GroupsRef.current.map(g => ({ ...g, tokens: [...g.tokens] })),
+      sectionSurfaces: { ...sectionSurfacesRef.current },
     };
     setIsDirty(false);
     setHasSavedState(true);
@@ -1200,6 +1358,15 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     setL1({ ...snap.l1 }); setL2({ ...snap.l2 }); setActiveTheme(snap.theme);
     setL1ColorMap({ ...snap.l1Colors });
     setL1Groups(snap.l1Groups.map(g => ({ ...g, tokens: [...g.tokens] })));
+    /* Restore section surfaces */
+    const savedSurfaces = snap.sectionSurfaces ?? {};
+    sectionSurfacesRef.current = { ...savedSurfaces };
+    setSectionSurfaces({ ...savedSurfaces });
+    /* Re-apply saved surface overrides to DOM */
+    [...Object.values(PAGE_SECTIONS).flat(), ...GLOBAL_SECTIONS].forEach(sec => {
+      const surface = savedSurfaces[sec.id] ?? sec.defaultSurface;
+      applySurfaceToDOM(sec.id, surface);
+    });
     histRef.current = [{ theme: snap.theme, l1: { ...snap.l1 }, l2: { ...snap.l2 } }];
     idxRef.current = 0;
     setIsDirty(false);
@@ -1428,7 +1595,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
 
       {/* ── Tabs ──────────────────────────────────────────────── */}
       <div style={{ display: 'flex', borderBottom: '1px solid #2a2a2a', flexShrink: 0, background: '#181818' }}>
-        {[['l2', 'Level 2 — Applied'], ['l1', 'Level 1 — Primitives']].map(([key, label]) => (
+        {[['app', 'L3 - Application'], ['l2', 'L2 - Definitions'], ['l1', 'L1 - Primitives']].map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)} style={{
             flex: 1, padding: '9px 4px', background: 'none', border: 'none',
             color: tab === key ? '#fff' : '#888', fontSize: 11, cursor: 'pointer',
@@ -1441,26 +1608,56 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       </div>
 
       {/* ── Expand / Collapse All ─────────────────────────────── */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 4, padding: '5px 16px 4px', flexShrink: 0, borderBottom: '1px solid #222', background: '#181818' }}>
-        <button onClick={() => toggleAllSections(true)} style={{ background: 'none', border: 'none', color: '#777', fontSize: 10, cursor: 'pointer', padding: '2px 4px', letterSpacing: '0.03em' }}
-          onMouseEnter={e => e.currentTarget.style.color = '#ccc'} onMouseLeave={e => e.currentTarget.style.color = '#777'}>
-          Expand All
-        </button>
-        <span style={{ color: '#333', fontSize: 10 }}>|</span>
-        <button onClick={() => toggleAllSections(false)} style={{ background: 'none', border: 'none', color: '#777', fontSize: 10, cursor: 'pointer', padding: '2px 4px', letterSpacing: '0.03em' }}
-          onMouseEnter={e => e.currentTarget.style.color = '#ccc'} onMouseLeave={e => e.currentTarget.style.color = '#777'}>
-          Collapse All
+      {tab !== 'app' && (
+      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '5px 16px 4px', flexShrink: 0, borderBottom: '1px solid #222', background: '#181818' }}>
+        <button
+          onClick={toggleAllSections}
+          title={sectAllExpanded ? 'Collapse all groups' : 'Expand all groups'}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: '#666', padding: '2px 4px', borderRadius: 3,
+            display: 'flex', alignItems: 'center',
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+          onMouseLeave={e => e.currentTarget.style.color = '#666'}
+        >
+          {sectAllExpanded ? (
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M4 6l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 10l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M4 3l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 13l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
         </button>
       </div>
+      )}
 
       {/* ── Scrollable body ───────────────────────────────────── */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {tab === 'l2'
           ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={(k, v) => { onStateChange?.(k, v); setIsDirty(true); }} />
-          : <L1View key={sectResetKey} l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+          : tab === 'l1'
+          ? <L1View key={sectResetKey} l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
               setL1ColorHex={setL1ColorHex} addL1Color={addL1Color} deleteL1Color={deleteL1Color}
               moveL1Color={moveL1Color} addL1Group={addL1Group} deleteL1Group={deleteL1Group}
               sortL1Group={sortL1Group} renameL1Color={renameL1Color} />
+          : <ApplicationView
+              currentPageId={currentPageId}
+              sectionSurfaces={sectionSurfaces}
+              savedSectionSurfaces={savedSnapshotRef.current.sectionSurfaces ?? {}}
+              setSectionSurfaces={(updater) => {
+                const next = typeof updater === 'function' ? updater(sectionSurfacesRef.current) : updater;
+                sectionSurfacesRef.current = next;
+                setSectionSurfaces(next);
+                setIsDirty(true);
+              }}
+              l2={l2}
+              l1ColorMap={l1ColorMap}
+            />
         }
       </div>
 
@@ -1565,7 +1762,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)' };
+  const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)', 'tag-fill': 'Tag fill' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border' };
   return (
     <>
@@ -1631,6 +1828,302 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   Application View — per-page section surface control
+   ═══════════════════════════════════════════════════════════════ */
+function applySurfaceToDOM(sectionId, surfaceKey) {
+  const el = document.querySelector(`[data-section-id="${sectionId}"]`);
+  if (!el) return;
+
+  /* Chrome-only mode: only apply bg + heading/body text, keep specimens untouched */
+  if (el.dataset.surfaceMode === 'chrome-only') {
+    el.classList.remove(...SURFACE_CLASSES);
+    if (surfaceKey === 'default') {
+      el.style.background = '';
+      el.style.removeProperty('--section-heading');
+      el.style.removeProperty('--section-body');
+    } else {
+      el.style.background = `var(--sf-${surfaceKey}-bg)`;
+      el.style.setProperty('--section-heading', `var(--sf-${surfaceKey}-heading)`);
+      el.style.setProperty('--section-body', `var(--sf-${surfaceKey}-body)`);
+    }
+    return;
+  }
+
+  el.classList.remove(...SURFACE_CLASSES);
+  if (surfaceKey !== 'default') {
+    el.classList.add(`surface-${surfaceKey}`);
+    /* Clear inline background so the surface class can take effect */
+    if (el.style.background || el.style.backgroundColor) {
+      el.dataset.origBg = el.style.background || el.style.backgroundColor;
+      el.style.background = '';
+      el.style.backgroundColor = '';
+    }
+  } else if (el.dataset.origBg) {
+    /* Restore original inline background when switching back to default */
+    el.style.background = el.dataset.origBg;
+    delete el.dataset.origBg;
+  }
+}
+
+function ApplicationView({ currentPageId, sectionSurfaces, savedSectionSurfaces, setSectionSurfaces, l2, l1ColorMap }) {
+  const pageSections = PAGE_SECTIONS[currentPageId] || [];
+  const allSections = [...pageSections, ...GLOBAL_SECTIONS];
+  const pageName = (currentPageId || '').replace(/-/g, ' ').toUpperCase();
+  const [appSectResetKey, setAppSectResetKey] = useState(0);
+  const [showSwatches, setShowSwatches] = useState(false);
+  const [appAllExpanded, setAppAllExpanded] = useState(true);
+
+  const toggleAllAppSections = useCallback(() => {
+    const expand = !appAllExpanded;
+    allSections.forEach(sec => localStorage.setItem(`dme-app-${sec.id}`, expand ? 'open' : 'closed'));
+    setAppSectResetKey(n => n + 1);
+    setAppAllExpanded(expand);
+  }, [allSections, appAllExpanded]);
+
+  /* Apply overrides when page changes */
+  useEffect(() => {
+    allSections.forEach(sec => {
+      const surface = sectionSurfaces[sec.id] ?? sec.defaultSurface;
+      applySurfaceToDOM(sec.id, surface);
+    });
+  }, [currentPageId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleSurfaceChange = (sectionId, newSurface) => {
+    applySurfaceToDOM(sectionId, newSurface);
+    setSectionSurfaces(prev => ({ ...prev, [sectionId]: newSurface }));
+  };
+
+  const resetAll = () => {
+    allSections.forEach(sec => {
+      const savedVal = savedSectionSurfaces[sec.id] ?? sec.defaultSurface;
+      applySurfaceToDOM(sec.id, savedVal);
+    });
+    setSectionSurfaces(prev => {
+      const next = { ...prev };
+      allSections.forEach(sec => {
+        if (sec.id in savedSectionSurfaces) {
+          next[sec.id] = savedSectionSurfaces[sec.id];
+        } else {
+          delete next[sec.id];
+        }
+      });
+      return next;
+    });
+  };
+
+  const hasOverrides = allSections.some(sec => {
+    const current = sectionSurfaces[sec.id];
+    const saved = savedSectionSurfaces[sec.id];
+    return current !== saved;
+  });
+
+  /* Resolve background hex for a given surface key */
+  const surfaceBgHex = (surfaceKey) => {
+    const sf = SURFACE_DEFS.find(s => s.key === surfaceKey);
+    if (!sf) return '#888';
+    const l1Token = l2[sf.bgToken];
+    return l1ColorMap[l1Token] || '#888';
+  };
+
+  const renderSectionGroup = (sections) => sections.map(sec => {
+    const currentSurface = sectionSurfaces[sec.id] ?? sec.defaultSurface;
+    const isOverridden = sectionSurfaces[sec.id] !== savedSectionSurfaces[sec.id];
+    return (
+      <AppSectionGroup
+        key={`${sec.id}-${appSectResetKey}`}
+        section={sec}
+        currentSurface={currentSurface}
+        isOverridden={isOverridden}
+        onSurfaceChange={handleSurfaceChange}
+        surfaceBgHex={surfaceBgHex}
+        l2={l2}
+        l1ColorMap={l1ColorMap}
+        showSwatch={showSwatches}
+      />
+    );
+  });
+
+  const groupHeaderStyle = {
+    fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+    textTransform: 'uppercase', color: '#999',
+    padding: '10px 16px 8px',
+    borderBottom: '1px solid #333',
+  };
+
+  return (
+    <div style={{ padding: '0 0 16px' }}>
+      {/* Sticky controls */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '5px 16px 4px',
+        borderBottom: '1px solid #222',
+        position: 'sticky', top: 0, background: '#1c1c1c', zIndex: 2,
+      }}>
+        <button onClick={() => setShowSwatches(s => !s)} style={{ background: 'none', border: 'none', color: showSwatches ? '#ccc' : '#555', fontSize: 10, cursor: 'pointer', padding: '2px 4px', letterSpacing: '0.03em', display: 'flex', alignItems: 'center', gap: 4 }}
+          onMouseEnter={e => e.currentTarget.style.color = '#ccc'} onMouseLeave={e => e.currentTarget.style.color = showSwatches ? '#ccc' : '#555'}
+          title={showSwatches ? 'Hide surface previews' : 'Show surface previews'}>
+          {showSwatches ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          )}
+          Surface Preview
+        </button>
+        <button
+          onClick={toggleAllAppSections}
+          title={appAllExpanded ? 'Collapse all groups' : 'Expand all groups'}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: '#666', padding: '2px 4px', borderRadius: 3,
+            display: 'flex', alignItems: 'center',
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+          onMouseLeave={e => e.currentTarget.style.color = '#666'}
+        >
+          {appAllExpanded ? (
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M4 6l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 10l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M4 3l4 3 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 13l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
+        </button>
+      </div>
+
+      {/* Page sections group */}
+      {pageSections.length > 0 && (
+        <>
+          <div style={groupHeaderStyle}>{pageName}</div>
+          {renderSectionGroup(pageSections)}
+        </>
+      )}
+
+      {/* Global sections group */}
+      <div style={{ ...groupHeaderStyle, marginTop: pageSections.length > 0 ? 8 : 0 }}>GLOBAL</div>
+      {renderSectionGroup(GLOBAL_SECTIONS)}
+
+      {/* Reset button */}
+      {hasOverrides && (
+        <div style={{ padding: '12px 16px 0' }}>
+          <button
+            onClick={resetAll}
+            style={{
+              width: '100%', padding: '7px 0',
+              background: 'none', border: '1px solid #444',
+              borderRadius: 5, color: '#ccc', fontSize: 11,
+              cursor: 'pointer', fontWeight: 600, letterSpacing: '0.03em',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#888'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = '#444'; e.currentTarget.style.color = '#ccc'; }}
+          >
+            Reset All
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AppSectionGroup({ section, currentSurface, isOverridden, onSurfaceChange, surfaceBgHex, l2, l1ColorMap, showSwatch }) {
+  const key = `dme-app-${section.id}`;
+  const [open, setOpen] = useState(() => localStorage.getItem(key) !== 'closed');
+  const toggle = () => setOpen(o => { const next = !o; localStorage.setItem(key, next ? 'open' : 'closed'); return next; });
+  const bgHex = surfaceBgHex(currentSurface);
+
+  /* Resolve text colors from L2 tokens for the selected surface */
+  const sf = SURFACE_DEFS.find(s => s.key === currentSurface);
+  const resolveHex = (suffix) => {
+    if (!sf) return '#888';
+    const tokenName = sf.key === 'default'
+      ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
+      : `${sf.prefix}${suffix}`;
+    return l1ColorMap[l2[tokenName]] || '#888';
+  };
+  const headingHex = resolveHex('heading');
+  const bodyHex = resolveHex('body');
+  const mutedHex = resolveHex('text-muted');
+
+  return (
+    <div style={{ borderBottom: '1px solid #2a2a2a' }}>
+      <div
+        onClick={toggle}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '10px 16px', cursor: 'pointer',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ color: '#999', fontSize: 9 }}>{open ? '▾' : '▸'}</span>
+          <span style={{
+            fontSize: 12, fontWeight: 600, color: '#e0e0e0',
+          }}>
+            {section.label}
+          </span>
+          {isOverridden && (
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4caf82', flexShrink: 0 }} />
+          )}
+        </div>
+        {/* Mini swatch preview */}
+        <div style={{
+          width: 16, height: 16, borderRadius: 3,
+          background: bgHex, border: '1px solid rgba(255,255,255,0.12)',
+          flexShrink: 0,
+        }} />
+      </div>
+      {open && (
+        <div style={{ padding: '0 16px 12px' }}>
+          {/* Surface dropdown */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <span style={{ color: '#aaa', fontSize: 11, flexShrink: 0 }}>Surface:</span>
+            <select
+              value={currentSurface}
+              onChange={e => onSurfaceChange(section.id, e.target.value)}
+              style={{
+                flex: 1, background: '#222', border: '1px solid #444',
+                borderRadius: 6, color: '#e0e0e0', fontSize: 11,
+                padding: '5px 8px', cursor: 'pointer',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+              }}
+            >
+              {SURFACE_DEFS.map(s => (
+                <option key={s.key} value={s.key}>
+                  {s.label}{s.key === section.defaultSurface ? ' (default)' : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Surface swatch preview — uses resolved token colors */}
+          {showSwatch && (
+          <div style={{
+            borderRadius: 5, overflow: 'hidden',
+            border: '1px solid #2a2a2a',
+          }}>
+            <div style={{ background: bgHex, padding: '8px 12px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: headingHex, marginBottom: 2 }}>
+                {sf?.label || 'Primary'} surface
+              </div>
+              <div style={{ fontSize: 10, color: bodyHex }}>Body text preview</div>
+              <div style={{ fontSize: 10, color: mutedHex }}>Muted / secondary text</div>
+            </div>
+          </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    L2 View
    ═══════════════════════════════════════════════════════════════ */
 function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
@@ -1658,6 +2151,7 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         </SubSect>
 
         <SubSect label="Navigation">
+          <ColorRow label="TOC background"  name="--color-guide-nav-bg"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC heading"      name="--color-toc-heading"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
@@ -1706,7 +2200,7 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
       <Sect label="Typography">
         <div style={{ padding: '4px 16px 6px' }}>
           <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>
-            Assign L1 type roles to each element. Change the role's font under Level 1 → Type Roles.
+            Assign L1 type roles to each element. Change the role's font under L1 → Type Roles.
           </div>
         </div>
         <RoleRow label="H1 font"         name="--font-heading"    l2={l2} set={set} />
@@ -1716,6 +2210,8 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         <RoleRow label="Pill font"       name="--font-pill"       l2={l2} set={set} />
         <RoleRow label="TOC font"        name="--font-toc"        l2={l2} set={set} />
         <RoleRow label="Meta font"       name="--font-meta"       l2={l2} set={set} />
+        <RoleRow label="Dropdown font"  name="--font-dropdown"       l2={l2} set={set} />
+        <RoleRow label="Dropdown badge" name="--font-dropdown-badge" l2={l2} set={set} />
         <SliderRow label="H1 size"       name="--size-h1"         l2={l2} set={set} min={32}  max={120}  unit="px" />
         <SliderRow label="H2 size"       name="--size-h2"         l2={l2} set={set} min={18}  max={72}   unit="px" />
         <SliderRow label="Body size"     name="--size-body"       l2={l2} set={set} min={12}  max={28}   unit="px" />
@@ -1723,6 +2219,8 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         <SliderRow label="Pill size"     name="--size-pill"       l2={l2} set={set} min={10}  max={24}   unit="px" />
         <SliderRow label="TOC size"      name="--size-toc"        l2={l2} set={set} min={9}   max={18}   unit="px" />
         <SliderRow label="Meta size"     name="--size-meta"       l2={l2} set={set} min={9}   max={18}   unit="px" />
+        <SliderRow label="Dropdown size"      name="--size-dropdown"       l2={l2} set={set} min={10}  max={24}   unit="px" />
+        <SliderRow label="Dropdown badge size" name="--size-dropdown-badge" l2={l2} set={set} min={7}   max={16}   unit="px" />
       </Sect>
       <Sect label="Spacing &amp; Layout">
         <SliderRow label="Section padding"   name="--spacing-section-v"   l2={l2} set={set} min={24}  max={120}  unit="px" />
@@ -1923,11 +2421,19 @@ function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, 
             Define font roles. Changes apply across all themes and L2 assignments.
           </div>
         </div>
-        <L1RoleGroup roleKey="heading"    roleLabel="Heading"    l1={l1} setRole={setRole} />
+        <L1RoleGroup roleKey="h1"       roleLabel="H1"           l1={l1} setRole={setRole} />
         <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="subheading" roleLabel="Subheading" l1={l1} setRole={setRole} />
+        <L1RoleGroup roleKey="h2"       roleLabel="H2"           l1={l1} setRole={setRole} />
         <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="body"       roleLabel="Body"       l1={l1} setRole={setRole} />
+        <L1RoleGroup roleKey="h3"       roleLabel="H3"           l1={l1} setRole={setRole} />
+        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
+        <L1RoleGroup roleKey="h4"       roleLabel="H4"           l1={l1} setRole={setRole} />
+        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
+        <L1RoleGroup roleKey="body-lg"  roleLabel="Body Large"   l1={l1} setRole={setRole} />
+        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
+        <L1RoleGroup roleKey="body-md"  roleLabel="Body Medium"  l1={l1} setRole={setRole} />
+        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
+        <L1RoleGroup roleKey="body-sm"  roleLabel="Body Small"   l1={l1} setRole={setRole} />
       </Sect>
       <Sect label="Color Palettes">
         <div style={{ padding: '4px 16px 6px' }}>
@@ -2106,9 +2612,13 @@ function FontRow({ label, name, l2, set }) {
 
 function RoleRow({ label, name, l2, set }) {
   const ROLES = [
-    { value: 'heading',    label: 'Heading' },
-    { value: 'subheading', label: 'Subheading' },
-    { value: 'body',       label: 'Body' },
+    { value: 'h1',       label: 'H1' },
+    { value: 'h2',       label: 'H2' },
+    { value: 'h3',       label: 'H3' },
+    { value: 'h4',       label: 'H4' },
+    { value: 'body-lg',  label: 'Body Large' },
+    { value: 'body-md',  label: 'Body Medium' },
+    { value: 'body-sm',  label: 'Body Small' },
   ];
   return (
     <Row label={label}>

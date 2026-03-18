@@ -1,8 +1,10 @@
 import React from 'react';
 import { useDMEState } from '../context/dme-states';
 import BOARD_PRESETS from '../data/board-presets';
+import { MOCK_FRIENDS } from '../data/social-mock-data';
 import avatarDrac from '../imgs/avatars/Drac.png';
 import avatarSoldier from '../imgs/avatars/Soldier.png';
+import avatarKing from '../imgs/avatars/King.png';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import './PlayPage.css';
 
@@ -457,6 +459,12 @@ function GameOverModal({ isVictory }) {
       <button className="gp-modal-btn gp-modal-btn--primary">Play again</button>
       <button className="gp-modal-btn gp-modal-btn--outline">Play a friend</button>
       <button className="gp-modal-link">Review game</button>
+      <div className="gp-postgame-friend">
+        <button className="friend-btn friend-btn--icon-only friend-btn--add-friend" title="Add opponent as friend">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        </button>
+        <span className="gp-postgame-friend__label">Add GammonKing42</span>
+      </div>
     </div>
   );
 }
@@ -501,12 +509,123 @@ function ModalOverlay({ modalType }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   In-Game Profile Card — mini popover for opponent info
+   ═══════════════════════════════════════════════════════════════ */
+
+function InGameProfileCard({ onClose }) {
+  const opponent = {
+    name: 'GammonKing42',
+    rating: 1650,
+    online: true,
+    stats: { wins: 842, games: 1247, streak: 12, best: 28 },
+  };
+
+  return (
+    <div className="gp-profile-card-overlay" onClick={onClose}>
+      <div className="gp-profile-card" onClick={e => e.stopPropagation()}>
+        <button className="gp-profile-card__close" onClick={onClose}>&times;</button>
+        <div className="gp-profile-card__cover" />
+        <div className="gp-profile-card__avatar">
+          <img src={avatarKing} alt={opponent.name} />
+        </div>
+        <div className="gp-profile-card__body">
+          <div className="gp-profile-card__name-row">
+            <span className="gp-profile-card__name">{opponent.name}</span>
+            <span className={`online-dot online-dot--sm online-dot--${opponent.online ? 'online' : 'offline'}`} />
+          </div>
+          <div className="gp-profile-card__rating">{opponent.rating}</div>
+          <div className="gp-profile-card__stats">
+            {[
+              { label: 'Wins', value: opponent.stats.wins },
+              { label: 'Games', value: opponent.stats.games },
+              { label: 'Streak', value: opponent.stats.streak },
+              { label: 'Best', value: opponent.stats.best },
+            ].map((s, i) => (
+              <div key={s.label} className="gp-profile-card__stat">
+                <div className="gp-profile-card__stat-num">{s.value.toLocaleString()}</div>
+                <div className="gp-profile-card__stat-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <div className="gp-profile-card__actions">
+            <button className="friend-btn friend-btn--add-friend">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              Add Friend
+            </button>
+            <span className="gp-profile-card__view-link">View Profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Challenge Modal — send/receive/expired challenge states
+   ═══════════════════════════════════════════════════════════════ */
+
+function ChallengeModal({ type }) {
+  if (type === 'None') return null;
+
+  if (type === 'Incoming Challenge') {
+    return (
+      <div className="gp-challenge-toast">
+        <div className="gp-challenge-toast__avatar">
+          <img src={avatarKing} alt="BoardMaster" />
+        </div>
+        <div className="gp-challenge-toast__info">
+          <strong>BoardMaster</strong> challenged you to a <strong>5-point match</strong>
+        </div>
+        <div className="gp-challenge-toast__actions">
+          <button className="friend-btn friend-btn--accept">Accept</button>
+          <button className="friend-btn friend-btn--decline">Decline</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === 'Challenge Expired') {
+    return (
+      <div className="gp-challenge-toast gp-challenge-toast--expired">
+        <div className="gp-challenge-toast__info">
+          Challenge from <strong>BoardMaster</strong> has expired
+        </div>
+        <button className="gp-challenge-toast__dismiss">&times;</button>
+      </div>
+    );
+  }
+
+  // Send Challenge
+  return (
+    <div className="gp-modal-overlay">
+      <div className="gp-modal-card gp-modal-card--challenge">
+        <div className="gp-challenge-avatar">
+          <img src={avatarKing} alt="GammonKing42" />
+        </div>
+        <h2 className="gp-modal-title">GammonKing42</h2>
+        <div className="gp-challenge-rating">1650</div>
+        <label className="gp-modal-label">Match Format</label>
+        <div className="gp-settings-grid">
+          {['Single', '3-pt', '5-pt', '7-pt'].map((f, i) => (
+            <button key={f} className={`gp-settings-option${i === 2 ? ' gp-settings-option--active' : ''}`}>{f}</button>
+          ))}
+        </div>
+        <button className="gp-modal-btn gp-modal-btn--primary">Send Challenge</button>
+        <button className="gp-modal-link">Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    PlayPage (root)
    ═══════════════════════════════════════════════════════════════ */
 
 export default function PlayPage({ onNavigate }) {
   const boardState = useDMEState('play.boardState', 'Opening');
   const modalState = useDMEState('play.modal', 'None');
+  const showProfileCard = useDMEState('play.profileCard', false);
+  const challengeModal = useDMEState('play.challengeModal', 'None');
   const preset = BOARD_PRESETS[boardState] || BOARD_PRESETS['Opening'];
 
   const effectiveModal = (modalState === 'None' && preset.autoModal)
@@ -514,7 +633,7 @@ export default function PlayPage({ onNavigate }) {
     : modalState;
 
   return (
-    <div className="gp-page">
+    <div className="gp-page" data-section-id="gp-board">
       <div className="gp-page-inner">
         <TopBar logoSrc={logoBlack} onNavigate={onNavigate} />
         <TimerBar preset={preset} />
@@ -526,6 +645,8 @@ export default function PlayPage({ onNavigate }) {
         </div>
       </div>
       <ModalOverlay modalType={effectiveModal} />
+      {showProfileCard && <InGameProfileCard onClose={() => {}} />}
+      <ChallengeModal type={challengeModal} />
     </div>
   );
 }

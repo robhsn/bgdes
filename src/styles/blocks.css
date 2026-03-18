@@ -25,7 +25,7 @@
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 24px;
-  color: var(--color-heading);
+  color: var(--section-heading, var(--color-heading));
   margin: 0 0 8px;
   letter-spacing: -0.02em;
 }
@@ -33,7 +33,7 @@
 .section__desc {
   font-family: var(--font-body);
   font-size: 14px;
-  color: var(--color-body);
+  color: var(--section-body, var(--color-body));
   margin: 0 0 24px;
   line-height: 1.5;
 }
@@ -458,10 +458,7 @@
   .site-header__auth { display: none !important; }
   .mobile-nav { display: flex; }
   .mobile-nav__spacer { display: block; height: 66px; flex-shrink: 0; }
-  .dme-gear-btn { bottom: calc(66px + 16px + env(safe-area-inset-bottom, 0px)) !important; }
-  .devmode-toggle-btn { bottom: calc(66px + 75px + env(safe-area-inset-bottom, 0px)) !important; }
-  .comments-toggle-btn { bottom: calc(66px + 134px + env(safe-area-inset-bottom, 0px)) !important; }
-  .pagenav-toggle-btn { bottom: calc(66px + 193px + env(safe-area-inset-bottom, 0px)) !important; }
+  .radial-fab { bottom: calc(66px + 8px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 
 @media (max-width: 480px) {
@@ -693,7 +690,7 @@
   font-size: 10px;
   font-weight: 600;
   color: var(--color-heading);
-  background: var(--color-border-light);
+  background: var(--color-tag-fill);
   padding: 2px 8px;
   border-radius: var(--radius-pill);
   white-space: nowrap;
@@ -1190,8 +1187,8 @@
 .toc:hover,
 .toc--expanded {
   width: 170px;
-  background: var(--sf-muted-bg);
-  box-shadow: 0 0 20px 20px var(--sf-muted-bg);
+  background: var(--color-guide-nav-bg);
+  box-shadow: 0 0 20px 20px var(--color-guide-nav-bg);
   border-radius: 8px;
   padding: 12px 14px 12px 10px;
 }
@@ -3861,4 +3858,531 @@
   .trophy-case {
     gap: 12px;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Social — Shared components (OnlineStatusDot, FriendRequestButton)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── OnlineStatusDot ─────────────────────────────────────────── */
+
+.online-dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.online-dot--sm  { width: 8px;  height: 8px; }
+.online-dot--md  { width: 10px; height: 10px; }
+.online-dot--lg  { width: 14px; height: 14px; }
+
+.online-dot--online {
+  background: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+  animation: online-pulse 2s ease-in-out infinite;
+}
+
+.online-dot--offline {
+  background: #9ca3af;
+}
+
+@keyframes online-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25); }
+  50%      { box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.10); }
+}
+
+/* ── FriendRequestButton ─────────────────────────────────────── */
+
+.friend-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-heading);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.friend-btn:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.friend-btn--add-friend {
+  border-color: var(--prim-mint-700, #0d9488);
+  color: var(--prim-mint-700, #0d9488);
+}
+.friend-btn--add-friend:hover {
+  background: rgba(13, 148, 136, 0.08);
+}
+
+.friend-btn--pending {
+  border-color: var(--color-border);
+  color: var(--color-muted);
+  cursor: default;
+}
+.friend-btn--pending:hover {
+  background: transparent;
+}
+
+.friend-btn--friends {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.friend-btn--unfriend {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.friend-btn--unfriend:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.friend-btn--icon-only {
+  padding: 6px;
+  border-radius: 50%;
+  gap: 0;
+}
+
+.friend-btn--accept {
+  border-color: #22c55e;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+.friend-btn--accept:hover {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.friend-btn--decline {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.friend-btn--decline:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.friend-btn--cancel {
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+
+/* ── Notification bell ───────────────────────────────────────── */
+
+.notif-bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.notif-bell__badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 100px;
+  background: #ef4444;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 360px;
+  max-height: 420px;
+  overflow-y: auto;
+  background: var(--color-dropdown-bg, #fff);
+  border: 1px solid var(--color-dropdown-border, #e5e7eb);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 9999;
+}
+
+.notif-dropdown__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--color-dropdown-border, #e5e7eb);
+}
+
+.notif-dropdown__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--color-heading);
+}
+
+.notif-dropdown__mark-all {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--prim-mint-700, #0d9488);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-dropdown-border, #e5e7eb);
+  transition: background 0.1s;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-item:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.notif-item--unread {
+  border-left: 3px solid var(--prim-mint-700, #0d9488);
+}
+
+.notif-item__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--color-border-subtle);
+}
+
+.notif-item__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.notif-item__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-item__text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-body);
+  line-height: 1.4;
+}
+
+.notif-item__text strong {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.notif-item__time {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+.notif-item__actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.notif-empty {
+  padding: 32px 16px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ProfilePage — Tab bar + Friends tab
+   ═══════════════════════════════════════════════════════════════ */
+
+.pp-tab-bar {
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.pp-tab-bar {
+  padding: 0 var(--spacing-h);
+}
+
+.pp-tab-bar__inner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+
+.pp-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 20px;
+  font-family: var(--prim-type-h3);
+  font-size: 14px;
+  font-weight: var(--prim-type-h3-weight);
+  letter-spacing: var(--prim-type-h3-ls);
+  color: var(--color-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.pp-tab:first-child {
+  padding-left: 0;
+}
+
+.pp-tab:hover {
+  color: var(--color-heading);
+}
+
+.pp-tab--active {
+  color: var(--color-heading);
+  border-bottom-color: var(--color-heading);
+  font-weight: 600;
+}
+
+.pp-tab__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--color-border);
+  color: var(--color-body);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-meta);
+}
+
+.pp-tab--active .pp-tab__count {
+  background: var(--color-heading);
+  color: var(--color-bg, #fff);
+}
+
+/* ── Friends tab ───────────────────────────────────────────── */
+
+.pp-friends {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pp-friends-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pp-friends-nav__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.pp-friends-nav__item:hover {
+  color: var(--color-heading);
+}
+
+.pp-friends-nav__item--active {
+  color: var(--color-heading);
+  border-bottom-color: var(--color-heading);
+  font-weight: 600;
+}
+
+.pp-friends-nav__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #e53e3e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-meta);
+}
+
+.pp-friends-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-muted);
+}
+
+.pp-friends-search__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-body);
+}
+
+.pp-friends-search__input::placeholder {
+  color: var(--color-muted);
+}
+
+.pp-friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pp-friends-list__title {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  padding: 12px 0 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pp-friend-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pp-friend-row:last-child {
+  border-bottom: none;
+}
+
+.pp-friend-row__avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.pp-friend-row__avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pp-friend-row__avatar .online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 2px solid var(--color-bg, #fff);
+}
+
+.pp-friend-row__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pp-friend-row__name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pp-friend-row__meta {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.pp-friend-row__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ── Facebook discovery card ───────────────────────────────── */
+
+.pp-fb-card {
+  border: 1px solid #1877F233;
+  border-radius: 10px;
+  padding: 16px;
+  background: #1877F208;
+}
+
+.pp-fb-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-heading);
+  margin-bottom: 12px;
+}
+
+.pp-fb-card__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-fb-card--empty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pp-fb-card--empty span {
+  flex: 1;
+  min-width: 200px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-body);
 }

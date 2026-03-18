@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDMEState } from '../context/dme-states';
 import { AvatarDropdown } from './SharedLayout';
 import logoBlack from '../imgs/logo/Logo Black.svg';
@@ -53,6 +53,35 @@ function IconFeedback() {
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
       <path d="M18 3C9.72 3 3 8.37 3 15c0 3.87 2.55 7.29 6.48 9.45L7.5 30l6.03-3.36c1.44.36 2.94.54 4.47.54 8.28 0 15-5.37 15-12S26.28 3 18 3z" fill="var(--prim-mint-700)" />
       <text x="18" y="19" textAnchor="middle" fill="white" fontSize="14" fontWeight="900" fontFamily="Inter">?</text>
+    </svg>
+  );
+}
+
+/* ─── Auth provider icons ────────────────────────────────────── */
+
+function IconGoogle() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4" />
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+      <path d="M5.84 14.09A6.97 6.97 0 0 1 5.47 12c0-.72.13-1.43.37-2.09V7.07H2.18A11.96 11.96 0 0 0 .96 12c0 1.94.46 3.77 1.22 5.33l2.66-2.84v-.4z" fill="#FBBC05" />
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.99 14.97.96 12 .96 7.7.96 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+    </svg>
+  );
+}
+
+function IconApple() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+    </svg>
+  );
+}
+
+function IconFacebook() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
     </svg>
   );
 }
@@ -119,18 +148,149 @@ function CTAButtons({ className, cardVariant, onNavigate }) {
   );
 }
 
+/* ─── Auth form sub-component ────────────────────────────────── */
+
+function AuthForm({ view, onViewChange }) {
+  const isLogin = view === 'Login' || view === 'Login Error';
+  const isSignUp = view === 'Sign Up';
+  const isError = view === 'Login Error';
+
+  return (
+    <div className="ix-auth-wrap">
+      <button
+        className="ix-auth-back"
+        onClick={() => onViewChange('Home')}
+        type="button"
+      >
+        <span aria-hidden="true">&larr;</span>{' '}
+        {isLogin ? 'Log in' : 'Create account'}
+      </button>
+
+      <h2 className="ix-auth-title">
+        {isLogin ? 'Log in' : 'Create account'}
+      </h2>
+
+      {isError && (
+        <div className="ix-auth-error" role="alert">
+          Invalid email or password. Please try again.
+        </div>
+      )}
+
+      {isSignUp && (
+        <div className="ix-auth-fields">
+          <input
+            className="ix-auth-input"
+            type="text"
+            placeholder="Display name"
+            readOnly
+          />
+          <input
+            className="ix-auth-input"
+            type="email"
+            placeholder="Email"
+            readOnly
+          />
+          <input
+            className="ix-auth-input"
+            type="password"
+            placeholder="Password"
+            readOnly
+          />
+          <input
+            className="ix-auth-input"
+            type="password"
+            placeholder="Confirm password"
+            readOnly
+          />
+        </div>
+      )}
+
+      {isLogin && (
+        <div className="ix-auth-providers">
+          <button className="ix-auth-provider-btn ix-auth-provider-btn--email" type="button">
+            <span className="ix-auth-provider-icon"><IconEnvelope /></span>
+            <span>Continue with Email</span>
+          </button>
+          <button className="ix-auth-provider-btn ix-auth-provider-btn--google" type="button">
+            <span className="ix-auth-provider-icon"><IconGoogle /></span>
+            <span>Sign in with Google</span>
+          </button>
+          <button className="ix-auth-provider-btn ix-auth-provider-btn--apple" type="button">
+            <span className="ix-auth-provider-icon"><IconApple /></span>
+            <span>Sign in with Apple</span>
+          </button>
+          <button className="ix-auth-provider-btn ix-auth-provider-btn--facebook" type="button">
+            <span className="ix-auth-provider-icon"><IconFacebook /></span>
+            <span>Continue with Facebook</span>
+          </button>
+        </div>
+      )}
+
+      {isSignUp && (
+        <>
+          <div className="ix-auth-divider">
+            <span>or sign up with</span>
+          </div>
+          <div className="ix-auth-providers">
+            <button className="ix-auth-provider-btn ix-auth-provider-btn--google" type="button">
+              <span className="ix-auth-provider-icon"><IconGoogle /></span>
+              <span>Sign up with Google</span>
+            </button>
+            <button className="ix-auth-provider-btn ix-auth-provider-btn--apple" type="button">
+              <span className="ix-auth-provider-icon"><IconApple /></span>
+              <span>Sign up with Apple</span>
+            </button>
+            <button className="ix-auth-provider-btn ix-auth-provider-btn--facebook" type="button">
+              <span className="ix-auth-provider-icon"><IconFacebook /></span>
+              <span>Sign up with Facebook</span>
+            </button>
+          </div>
+        </>
+      )}
+
+      <p className="ix-auth-switch">
+        {isLogin ? (
+          <>
+            New user?{' '}
+            <button type="button" onClick={() => onViewChange('Sign Up')}>
+              Sign up
+            </button>
+          </>
+        ) : (
+          <>
+            Already have an account?{' '}
+            <button type="button" onClick={() => onViewChange('Login')}>
+              Log in
+            </button>
+          </>
+        )}
+      </p>
+    </div>
+  );
+}
+
 /* ─── IndexPage component ────────────────────────────────────── */
 
 export default function IndexPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn');
   const logoVariant = useDMEState('global.logoVariant', 'Black');
   const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
+  const indexView = useDMEState('index.view', 'Home');
+  const [localView, setLocalView] = useState(indexView);
+
+  // DME state takes priority
+  useEffect(() => {
+    setLocalView(indexView);
+  }, [indexView]);
+
+  const currentView = localView;
+  const isHome = currentView === 'Home';
 
   return (
     <div className="ix-page">
       <main className="ix-main">
         {/* ── Left panel: hero ─────────────────────────────────── */}
-        <section className="ix-left surface-tertiary">
+        <section className="ix-left surface-tertiary" data-section-id="ix-left">
           {/* Header */}
           <div className="ix-header">
             <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" className="ix-logo">
@@ -150,31 +310,38 @@ export default function IndexPage({ onNavigate }) {
             </div>
           </div>
 
-          {/* Hero text */}
-          <div className="ix-hero-wrap">
-            <div className="ix-hero">
-              <h1>
-                <span>Play Backgammon online.</span>
-                <br />
-                <span>A classic game, made modern.</span>
-              </h1>
-              <p className="ix-hero-sub">
-                Enjoy one of the world's oldest games, for free, right here in your browser
-              </p>
-            </div>
-          </div>
+          {/* View-dependent content */}
+          {isHome ? (
+            <>
+              {/* Hero text */}
+              <div className="ix-hero-wrap">
+                <div className="ix-hero">
+                  <h1>
+                    <span>Play Backgammon online.</span>
+                    <br />
+                    <span>A classic game, made modern.</span>
+                  </h1>
+                  <p className="ix-hero-sub">
+                    Enjoy one of the world's oldest games, for free, right here in your browser
+                  </p>
+                </div>
+              </div>
 
-          {/* Mobile CTAs (hidden on lg+) */}
-          <CTAButtons className="ix-mobile-ctas" onNavigate={onNavigate} />
+              {/* Mobile CTAs (hidden on lg+) */}
+              <CTAButtons className="ix-mobile-ctas" onNavigate={onNavigate} />
 
-          {/* Desktop newsletter (hidden on mobile) */}
-          <div className="ix-newsletter-desktop">
-            <Newsletter horizontal />
-          </div>
+              {/* Desktop newsletter (hidden on mobile) */}
+              <div className="ix-newsletter-desktop">
+                <Newsletter horizontal />
+              </div>
+            </>
+          ) : (
+            <AuthForm view={currentView} onViewChange={setLocalView} />
+          )}
         </section>
 
         {/* ── Right panel: board background ────────────────────── */}
-        <section className="ix-right surface-muted">
+        <section className="ix-right surface-muted" data-section-id="ix-right">
           {/* Desktop: Play Now card */}
           <div className="ix-play-card">
             <div className="ix-play-card-inner">

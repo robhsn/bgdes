@@ -6,20 +6,40 @@
 :root {
 
   /* ── Type Roles — family, weight, letter-spacing, line-height ── */
-  --prim-type-heading:           'Raleway', sans-serif;
-  --prim-type-heading-weight:    700;
-  --prim-type-heading-ls:        -0.02em;
-  --prim-type-heading-lh:        1.05;
+  --prim-type-h1:              'Raleway', sans-serif;
+  --prim-type-h1-weight:       700;
+  --prim-type-h1-ls:           -0.02em;
+  --prim-type-h1-lh:           1.1;
 
-  --prim-type-subheading:        Georgia, serif;
-  --prim-type-subheading-weight: 700;
-  --prim-type-subheading-ls:     -0.02em;
-  --prim-type-subheading-lh:     1.1;
+  --prim-type-h2:              Georgia, serif;
+  --prim-type-h2-weight:       700;
+  --prim-type-h2-ls:           -0.02em;
+  --prim-type-h2-lh:           1.1;
 
-  --prim-type-body:              'Inter', sans-serif;
-  --prim-type-body-weight:       400;
-  --prim-type-body-ls:           0em;
-  --prim-type-body-lh:           1.9;
+  --prim-type-h3:              'Raleway', sans-serif;
+  --prim-type-h3-weight:       600;
+  --prim-type-h3-ls:           -0.01em;
+  --prim-type-h3-lh:           1.2;
+
+  --prim-type-h4:              'Raleway', sans-serif;
+  --prim-type-h4-weight:       600;
+  --prim-type-h4-ls:           0em;
+  --prim-type-h4-lh:           1.3;
+
+  --prim-type-body-lg:         'Inter', sans-serif;
+  --prim-type-body-lg-weight:  400;
+  --prim-type-body-lg-ls:      0em;
+  --prim-type-body-lg-lh:      1.7;
+
+  --prim-type-body-md:         'Inter', sans-serif;
+  --prim-type-body-md-weight:  400;
+  --prim-type-body-md-ls:      0em;
+  --prim-type-body-md-lh:      1.9;
+
+  --prim-type-body-sm:         'Inter', sans-serif;
+  --prim-type-body-sm-weight:  400;
+  --prim-type-body-sm-ls:      0em;
+  --prim-type-body-sm-lh:      1.6;
 
   /* ── Mono Palette ────────────────────────────────────────────── */
   --prim-mono-white: #ffffff;
@@ -121,6 +141,7 @@
   --color-border:         var(--prim-mono-100);
   --color-border-light:   var(--prim-mono-150);
   --color-border-mid:     var(--prim-mono-250);
+  --color-tag-fill:       var(--prim-mono-150);
   --color-border-subtle:  var(--prim-mono-350);
   --color-callout-border: var(--prim-mono-500);
   --color-placeholder:    var(--prim-mono-200);
@@ -190,6 +211,7 @@
   --sf-muted-border-subtle:  var(--prim-mono-350);
   --sf-muted-callout-border: var(--prim-mono-500);
   --sf-muted-placeholder:    var(--prim-mono-200);
+  --sf-muted-tag-fill:       var(--prim-mono-150);
   --sf-muted-btn-primary-bg:     var(--prim-mint-400);
   --sf-muted-btn-primary-fg:     var(--prim-mono-white);
   --sf-muted-btn-dark-bg:        var(--prim-mono-900);
@@ -210,6 +232,7 @@
   --sf-inverse-border-subtle:  var(--prim-mono-500);
   --sf-inverse-callout-border: var(--prim-mono-350);
   --sf-inverse-placeholder:    var(--prim-mono-700);
+  --sf-inverse-tag-fill:       var(--prim-mono-750);
   --sf-inverse-btn-primary-bg:     var(--prim-fall-100);
   --sf-inverse-btn-primary-fg:     var(--prim-mono-white);
   --sf-inverse-btn-dark-bg:        var(--prim-mono-600);
@@ -230,6 +253,7 @@
   --sf-accent-border-subtle:  var(--prim-mono-350);
   --sf-accent-callout-border: var(--prim-mono-250);
   --sf-accent-placeholder:    var(--prim-mono-600);
+  --sf-accent-tag-fill:       var(--prim-mono-600);
   --sf-accent-btn-primary-bg:     var(--prim-fall-100);
   --sf-accent-btn-primary-fg:     var(--prim-mono-white);
   --sf-accent-btn-dark-bg:        var(--prim-mono-600);
@@ -250,6 +274,7 @@
   --sf-tertiary-border-subtle:  var(--prim-mono-500);
   --sf-tertiary-callout-border: var(--prim-mono-300);
   --sf-tertiary-placeholder:    var(--prim-mono-600);
+  --sf-tertiary-tag-fill:       var(--prim-mono-700);
   --sf-tertiary-logo:           var(--prim-mono-white);
   --sf-tertiary-link:           var(--prim-mono-200);
   --sf-tertiary-pill:           var(--prim-mono-white);
@@ -310,13 +335,15 @@
   --color-guide-nav-title:        var(--prim-mono-900);
 
   /* ── Typography ──────────────────────────────────────────────── */
-  --font-heading:    var(--prim-type-heading);    /* H1                 */
-  --font-subheading: var(--prim-type-subheading); /* H2                 */
-  --font-body:       var(--prim-type-body);       /* body paragraphs    */
-  --font-logo:       var(--prim-type-heading);    /* site logo          */
-  --font-pill:       var(--prim-type-heading);    /* breadcrumb pills   */
-  --font-toc:        var(--prim-type-body);       /* TOC labels         */
-  --font-meta:       var(--prim-type-body);       /* meta (author/time) */
+  --font-heading:    var(--prim-type-h1);       /* H1                 */
+  --font-subheading: var(--prim-type-h2);       /* H2                 */
+  --font-body:       var(--prim-type-body-md);  /* body paragraphs    */
+  --font-logo:       var(--prim-type-h1);       /* site logo          */
+  --font-pill:       var(--prim-type-h1);       /* breadcrumb pills   */
+  --font-toc:        var(--prim-type-body-sm);  /* TOC labels         */
+  --font-meta:       var(--prim-type-body-sm);  /* meta (author/time) */
+  --font-dropdown:       var(--prim-type-h1);       /* dropdown menu items */
+  --font-dropdown-badge: var(--prim-type-h1);       /* dropdown "Soon" badges */
 
   --size-h1:   70px;
   --size-h2:   36px;
@@ -326,6 +353,8 @@
   --size-pill:  18px;
   --size-toc:   12px;
   --size-meta:  14px;
+  --size-dropdown:       15px;
+  --size-dropdown-badge: 10px;
 
   --lh-body: 1.9;
 
