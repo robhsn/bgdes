@@ -1,37 +1,47 @@
 import React from 'react';
 
-const BAR_HEIGHT = 44;
-
 export default function PageNavigator({ open, onToggle, pages, currentPageId, onNavigate }) {
   if (!open) return null;
 
-  /* ═══ Top bar ══════════════════════════════════════════════ */
-  const topBar = (
+  return (
     <div
       data-devmode-ignore
+      data-roletarget-panel
       style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999,
-        height: BAR_HEIGHT,
-        background: '#1c1c1c',
-        borderBottom: '1px solid #333',
-        display: 'flex', alignItems: 'center',
-        padding: '0 16px',
-        fontFamily: 'Inter, system-ui, sans-serif',
-        gap: 10,
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10001,
+        background: 'rgba(20,20,20,0.96)',
+        backdropFilter: 'blur(12px)',
+        borderTop: '1px solid rgba(255,255,255,0.12)',
+        padding: '10px 16px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontSize: 13,
+        color: '#ccc',
+        minHeight: 44,
       }}
     >
-      <span style={{ color: '#999', fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap' }}>Page</span>
+      <span style={{ color: '#999', fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', flexShrink: 0 }}>Page</span>
       <select
         value={currentPageId}
         onChange={e => onNavigate(e.target.value)}
         style={{
-          flex: 1, maxWidth: 280,
-          background: '#111', color: '#eee',
-          border: '1px solid #444', borderRadius: 4,
-          padding: '5px 8px', fontSize: 13,
-          fontFamily: 'Inter, system-ui, sans-serif',
+          flex: 1,
+          maxWidth: 280,
+          background: 'rgba(255,255,255,0.08)',
+          border: '1px solid rgba(255,255,255,0.18)',
+          borderRadius: 6,
+          color: '#fff',
+          fontSize: 13,
+          padding: '4px 8px',
           cursor: 'pointer',
           outline: 'none',
+          fontFamily: 'inherit',
         }}
       >
         {pages.map(p => (
@@ -39,31 +49,24 @@ export default function PageNavigator({ open, onToggle, pages, currentPageId, on
         ))}
       </select>
 
-      {/* Close button */}
+      <div style={{ flex: 1 }} />
+
       <button
         onClick={onToggle}
         aria-label="Close page navigator"
         style={{
-          marginLeft: 'auto',
-          background: 'none', border: 'none', color: '#999',
-          cursor: 'pointer', fontSize: 18, lineHeight: 1,
-          padding: '4px 6px', borderRadius: 4,
+          background: 'none',
+          border: 'none',
+          color: '#888',
+          cursor: 'pointer',
+          fontSize: 18,
+          lineHeight: 1,
+          padding: '2px 6px',
+          flexShrink: 0,
         }}
       >
         ✕
       </button>
     </div>
-  );
-
-  /* ═══ Spacer — pushes page content down when bar is open ═══ */
-  const spacer = (
-    <div data-devmode-ignore style={{ height: BAR_HEIGHT, flexShrink: 0 }} />
-  );
-
-  return (
-    <>
-      {spacer}
-      {topBar}
-    </>
   );
 }

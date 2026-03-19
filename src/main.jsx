@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import LearnSegmentTemplate from './components/LearnSegmentTemplate'
 import LearnHubPage from './components/LearnHubPage'
@@ -12,6 +12,7 @@ import DevModeInspector from './components/DevModeInspector'
 import CommentsInspector from './components/CommentsInspector'
 import PageNavigator from './components/PageNavigator'
 import RadialFAB from './components/RadialFAB'
+import RoleTargeter from './components/RoleTargeter'
 import StatesPanel from './components/StatesPanel'
 import { DMEStatesContext } from './context/dme-states'
 import './styles/tokens.css'
@@ -47,17 +48,101 @@ function getInitialPage() {
 }
 
 const INIT_STATES = fileDefaults.states ?? { 'auth.loggedIn': true }
+const INIT_ROLE_OVERRIDES = fileDefaults.roleOverrides ?? {}
 
 /* ─── Shortcut sequences ─────────────────────────────────────── */
 const TOKENS_SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown']
 const STATES_SEQ = ['ArrowLeft','ArrowLeft','ArrowRight','ArrowRight']
 
+/* ─── Role override CSS maps (used by <style> injection) ─────── */
+const RO_PAGE_PREFIX = {
+  'learn-article': 'ls', 'learn-hub': 'lh', 'profile': 'pp',
+  'play': 'gp', 'settings': 'st', 'index': 'ix', 'tokens': 'tk',
+}
+const RO_FONT_SIZE = {
+  'h1': 'var(--size-h1)', 'h2': 'var(--size-h2)', 'h3': 'var(--size-h3)',
+  'h4': 'var(--size-h4)', 'sh1': 'var(--size-sh1)', 'sh2': 'var(--size-sh2)',
+  'sh3': 'var(--size-sh3)', 'sh4': 'var(--size-sh4)',
+  'body-lg': 'var(--size-body-lg)', 'body-md': 'var(--size-body)',
+  'body-sm': 'var(--size-body-sm)',
+}
+const RO_BTN_CSS = {
+  primary:    'background:var(--com-btn-primary-bg)!important;color:var(--com-btn-primary-fg)!important;border:none!important;border-radius:9999px!important',
+  dark:       'background:var(--com-btn-dark-bg)!important;color:var(--com-btn-dark-fg)!important;border:none!important;border-radius:9999px!important',
+  outline:    'background:transparent!important;color:var(--com-btn-outline-fg)!important;border:2px solid var(--com-btn-outline-border)!important;border-radius:9999px!important;box-shadow:none!important',
+  ghost:      'background:transparent!important;color:var(--com-btn-ghost-fg)!important;border:none!important;border-radius:9999px!important;box-shadow:none!important',
+  tertiary:   'background:var(--com-btn-tertiary-bg)!important;color:var(--com-btn-tertiary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
+  quaternary: 'background:var(--com-btn-quaternary-bg)!important;color:var(--com-btn-quaternary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
+}
+
+/* ─── Convert auto-id to a structural CSS selector ───────────── */
+/* Auto-id format: _auto:[sectionId|]tag.class1.class2...:childIndex  */
+/* Returns e.g. [data-section-id="pp-friends"] button.com-btn:nth-child(2) */
+function autoIdToCSS(id) {
+  const body = id.slice(6) // strip '_auto:'
+  // Parse optional section scope (format: sectionId|rest)
+  let sectionId = null
+  let rest = body
+  const pipeIdx = body.indexOf('|')
+  if (pipeIdx !== -1) {
+    sectionId = body.slice(0, pipeIdx)
+    rest = body.slice(pipeIdx + 1)
+  }
+  const lastColon = rest.lastIndexOf(':')
+  if (lastColon === -1) return null
+  const idx = parseInt(rest.slice(lastColon + 1))
+  if (isNaN(idx)) return null
+  const tagClasses = rest.slice(0, lastColon)
+  const parts = tagClasses.split('.')
+  const tag = parts[0]
+  const classes = parts.slice(1)
+  const elSel = `${tag}${classes.map(c => '.' + CSS.escape(c)).join('')}:nth-child(${idx + 1})`
+  if (sectionId) return `[data-section-id="${sectionId}"] ${elSel}`
+  return elSel
+}
+
 function App() {
   const [currentPageId, setCurrentPageId] = useState(getInitialPage)
-  const [activePanel, setActivePanel] = useState(null) // null | 'dme' | 'devmode' | 'comments' | 'states'
+  const [activePanel, setActivePanel] = useState(null) // null | 'dme' | 'roletarget' | 'devmode' | 'comments' | 'states'
+  const [roleOverrides, setRoleOverrides] = useState(INIT_ROLE_OVERRIDES)
   const [pageNavOpen, setPageNavOpen] = useState(false)
   const [dmeStates, setDmeStates] = useState(INIT_STATES)
   const [commentsByPage, setCommentsByPage] = useState(() => savedComments || {})
+
+  /* ── Apply role overrides via injected <style> (survives React re-renders) ── */
+  useLayoutEffect(() => {
+    let el = document.getElementById('role-override-styles')
+    if (!el) {
+      el = document.createElement('style')
+      el.id = 'role-override-styles'
+      document.head.appendChild(el)
+    }
+    const prefix = RO_PAGE_PREFIX[currentPageId] || ''
+    const rules = []
+    for (const [id, ov] of Object.entries(roleOverrides)) {
+      let sel
+      if (id.startsWith('_auto:')) {
+        // Auto-ids: use structural CSS selector (tag.classes:nth-child)
+        if (ov.page && ov.page !== currentPageId) continue
+        sel = autoIdToCSS(id)
+        if (!sel) continue
+      } else if (id.startsWith('gl-')) {
+        sel = `[data-role-id="${id}"]`
+      } else {
+        if (id.split('-')[0] !== prefix) continue
+        sel = `[data-role-id="${id}"]`
+      }
+      if (ov.type === 'font') {
+        const r = ov.role
+        rules.push(`${sel}{font-family:var(--prim-type-${r})!important;font-weight:var(--prim-type-${r}-weight)!important;font-size:${RO_FONT_SIZE[r] || 'var(--size-body)'}!important;line-height:var(--prim-type-${r}-lh)!important;letter-spacing:var(--prim-type-${r}-ls)!important}`)
+      } else if (ov.type === 'button' && RO_BTN_CSS[ov.variant]) {
+        // For auto-ids the structural selector already includes .com-btn
+        const btnSel = id.startsWith('_auto:') ? sel : `${sel}.com-btn`
+        rules.push(`${btnSel}{${RO_BTN_CSS[ov.variant]}}`)
+      }
+    }
+    el.textContent = rules.join('\n')
+  }, [roleOverrides, currentPageId])
 
   const currentComments = commentsByPage[currentPageId] || []
   const handleCommentsChange = useCallback((next) => {
@@ -105,11 +190,19 @@ function App() {
   /* ── Keyboard shortcuts (←←→→ states, ↑↑↓↓ tokens) ──────── */
   const activePanelRef = useRef(activePanel)
   useEffect(() => { activePanelRef.current = activePanel }, [activePanel])
+  const pageNavOpenRef = useRef(pageNavOpen)
+  useEffect(() => { pageNavOpenRef.current = pageNavOpen }, [pageNavOpen])
 
   useEffect(() => {
     let ti = 0 // tokens sequence index
     let si = 0 // states sequence index
     const handler = (e) => {
+      /* ESC → close any open IDP panel or page nav */
+      if (e.key === 'Escape') {
+        if (activePanelRef.current) { setActivePanel(null); return }
+        if (pageNavOpenRef.current) { setPageNavOpen(false); return }
+        return
+      }
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return
       /* ↑↑↓↓ → toggle DME tokens */
       if (e.key === TOKENS_SEQ[ti]) { ti++; if (ti === TOKENS_SEQ.length) { setActivePanel(p => p === 'dme' ? null : 'dme'); ti = 0 } }
@@ -135,13 +228,6 @@ function App() {
 
   return (
     <DMEStatesContext.Provider value={dmeStates}>
-      <PageNavigator
-        open={pageNavOpen}
-        onToggle={() => setPageNavOpen(v => !v)}
-        pages={PAGES}
-        currentPageId={currentPageId}
-        onNavigate={navigateTo}
-      />
       {renderPage()}
       <TokenEditor
         visible={activePanel === 'dme'}
@@ -151,6 +237,14 @@ function App() {
         pages={PAGES}
         currentPageId={currentPageId}
         onNavigate={navigateTo}
+        roleOverrides={roleOverrides}
+      />
+      <RoleTargeter
+        visible={activePanel === 'roletarget'}
+        onClose={() => setActivePanel(null)}
+        currentPageId={currentPageId}
+        roleOverrides={roleOverrides}
+        onRoleOverridesChange={setRoleOverrides}
       />
       <DevModeInspector
         visible={activePanel === 'devmode'}
@@ -170,6 +264,13 @@ function App() {
         states={dmeStates}
         onStateChange={handleStateChange}
         currentPageId={currentPageId}
+      />
+      <PageNavigator
+        open={pageNavOpen}
+        onToggle={() => setPageNavOpen(v => !v)}
+        pages={PAGES}
+        currentPageId={currentPageId}
+        onNavigate={navigateTo}
       />
       <RadialFAB
         activePanel={activePanel}

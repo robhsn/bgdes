@@ -59,9 +59,20 @@ function StateToggleRow({ def, value, onStateChange }) {
   );
 }
 
+/* ─── Visibility check for conditional states ────────────────── */
+function isStateVisible(def, states) {
+  if (!def.visibleWhen) return true;
+  return Object.entries(def.visibleWhen).every(([key, allowedValues]) => {
+    const parentDef = STATE_DEFINITIONS.find(d => d.key === key);
+    const currentVal = states?.[key] ?? parentDef?.defaultValue;
+    return allowedValues.includes(currentVal);
+  });
+}
+
 /* ─── Collapsible group ──────────────────────────────────────── */
 function StateGroup({ label, defs, states, onStateChange, open, onToggle }) {
-  if (defs.length === 0) return null;
+  const visibleDefs = defs.filter(def => isStateVisible(def, states));
+  if (visibleDefs.length === 0) return null;
   return (
     <div style={{ marginBottom: 24 }}>
       <button
@@ -82,15 +93,16 @@ function StateGroup({ label, defs, states, onStateChange, open, onToggle }) {
         }}>
           {label}
         </span>
-        <span style={{ fontSize: 10, color: '#555', marginLeft: 'auto' }}>{defs.length}</span>
+        <span style={{ fontSize: 10, color: '#555', marginLeft: 'auto' }}>{visibleDefs.length}</span>
       </button>
-      {open && defs.map(def => (
-        <StateToggleRow
-          key={def.key}
-          def={def}
-          value={states?.[def.key] ?? def.defaultValue}
-          onStateChange={onStateChange}
-        />
+      {open && visibleDefs.map(def => (
+        <div key={def.key} style={def.visibleWhen ? { paddingLeft: 14, borderLeft: '2px solid #2a2a2a' } : undefined}>
+          <StateToggleRow
+            def={def}
+            value={states?.[def.key] ?? def.defaultValue}
+            onStateChange={onStateChange}
+          />
+        </div>
       ))}
     </div>
   );

@@ -75,7 +75,29 @@ export function useDetachablePanel(defaultPos, defaultSize, storagePrefix) {
   const dock = useCallback(() => setDetached(false), []);
   const setSide = useCallback((s) => setSideState(s), []);
 
-  return { detached, pos, size, side, onDragStart, onResizeStart, detach, dock, setSide };
+  const recenter = useCallback(() => {
+    setPos({
+      x: Math.round((window.innerWidth - size.w) / 2),
+      y: Math.round((window.innerHeight - size.h) / 2),
+    });
+  }, [size]);
+
+  /* Listen for recenter-panel custom events */
+  useEffect(() => {
+    if (!storagePrefix) return;
+    const handler = (e) => {
+      if (e.detail?.id === storagePrefix) {
+        setPos({
+          x: Math.round((window.innerWidth - size.w) / 2),
+          y: Math.round((window.innerHeight - size.h) / 2),
+        });
+      }
+    };
+    window.addEventListener('recenter-panel', handler);
+    return () => window.removeEventListener('recenter-panel', handler);
+  }, [storagePrefix, size]);
+
+  return { detached, pos, size, side, onDragStart, onResizeStart, detach, dock, setSide, recenter };
 }
 
 /* ─── Shared sub-components ──────────────────────────────────── */

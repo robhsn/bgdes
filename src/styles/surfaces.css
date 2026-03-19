@@ -8,6 +8,16 @@
   --color-heading:        var(--sf-muted-heading);
   --color-body:           var(--sf-muted-body);
   --color-muted:          var(--sf-muted-text-muted);
+  --color-h1:             var(--sf-muted-h1);
+  --color-h2:             var(--sf-muted-h2);
+  --color-h3:             var(--sf-muted-h3);
+  --color-h4:             var(--sf-muted-h4);
+  --color-sh1:            var(--sf-muted-sh1);
+  --color-sh2:            var(--sf-muted-sh2);
+  --color-sh3:            var(--sf-muted-sh3);
+  --color-sh4:            var(--sf-muted-sh4);
+  --color-body-lg:        var(--sf-muted-body-lg);
+  --color-body-sm:        var(--sf-muted-body-sm);
   --color-border:         var(--sf-muted-border);
   --color-border-light:   var(--sf-muted-border-light);
   --color-border-mid:     var(--sf-muted-border-mid);
@@ -32,10 +42,10 @@
   --com-btn-ghost-icon:       var(--sf-muted-btn-ghost-icon);
   --com-btn-outline-fg:       var(--sf-muted-btn-outline-fg);
   --com-btn-outline-border:   var(--sf-muted-btn-outline-border);
-  --com-btn-tertiary-bg:      var(--prim-mint-700);
-  --com-btn-tertiary-fg:      var(--prim-mint-150);
-  --com-btn-quaternary-bg:    var(--prim-mono-white);
-  --com-btn-quaternary-fg:    var(--prim-mono-black);
+  --com-btn-tertiary-bg:      var(--sf-muted-btn-tertiary-bg);
+  --com-btn-tertiary-fg:      var(--sf-muted-btn-tertiary-fg);
+  --com-btn-quaternary-bg:    var(--sf-muted-btn-quaternary-bg);
+  --com-btn-quaternary-fg:    var(--sf-muted-btn-quaternary-fg);
 }
 
 .surface-inverse {
@@ -44,6 +54,16 @@
   --color-heading:        var(--sf-inverse-heading);
   --color-body:           var(--sf-inverse-body);
   --color-muted:          var(--sf-inverse-text-muted);
+  --color-h1:             var(--sf-inverse-h1);
+  --color-h2:             var(--sf-inverse-h2);
+  --color-h3:             var(--sf-inverse-h3);
+  --color-h4:             var(--sf-inverse-h4);
+  --color-sh1:            var(--sf-inverse-sh1);
+  --color-sh2:            var(--sf-inverse-sh2);
+  --color-sh3:            var(--sf-inverse-sh3);
+  --color-sh4:            var(--sf-inverse-sh4);
+  --color-body-lg:        var(--sf-inverse-body-lg);
+  --color-body-sm:        var(--sf-inverse-body-sm);
   --color-border:         var(--sf-inverse-border);
   --color-border-light:   var(--sf-inverse-border-light);
   --color-border-mid:     var(--sf-inverse-border-mid);
@@ -68,10 +88,10 @@
   --com-btn-ghost-icon:       var(--sf-inverse-btn-ghost-icon);
   --com-btn-outline-fg:       var(--sf-inverse-btn-outline-fg);
   --com-btn-outline-border:   var(--sf-inverse-btn-outline-border);
-  --com-btn-tertiary-bg:      var(--prim-mint-700);
-  --com-btn-tertiary-fg:      var(--prim-mint-150);
-  --com-btn-quaternary-bg:    var(--prim-mono-white);
-  --com-btn-quaternary-fg:    var(--prim-mono-black);
+  --com-btn-tertiary-bg:      var(--sf-inverse-btn-tertiary-bg);
+  --com-btn-tertiary-fg:      var(--sf-inverse-btn-tertiary-fg);
+  --com-btn-quaternary-bg:    var(--sf-inverse-btn-quaternary-bg);
+  --com-btn-quaternary-fg:    var(--sf-inverse-btn-quaternary-fg);
 }
 
 .surface-accent {
@@ -80,6 +100,16 @@
   --color-heading:        var(--sf-accent-heading);
   --color-body:           var(--sf-accent-body);
   --color-muted:          var(--sf-accent-text-muted);
+  --color-h1:             var(--sf-accent-h1);
+  --color-h2:             var(--sf-accent-h2);
+  --color-h3:             var(--sf-accent-h3);
+  --color-h4:             var(--sf-accent-h4);
+  --color-sh1:            var(--sf-accent-sh1);
+  --color-sh2:            var(--sf-accent-sh2);
+  --color-sh3:            var(--sf-accent-sh3);
+  --color-sh4:            var(--sf-accent-sh4);
+  --color-body-lg:        var(--sf-accent-body-lg);
+  --color-body-sm:        var(--sf-accent-body-sm);
   --color-border:         var(--sf-accent-border);
   --color-border-light:   var(--sf-accent-border-light);
   --color-border-mid:     var(--sf-accent-border-mid);
@@ -104,10 +134,10 @@
   --com-btn-ghost-icon:       var(--sf-accent-btn-ghost-icon);
   --com-btn-outline-fg:       var(--sf-accent-btn-outline-fg);
   --com-btn-outline-border:   var(--sf-accent-btn-outline-border);
-  --com-btn-tertiary-bg:      var(--prim-mint-700);
-  --com-btn-tertiary-fg:      var(--prim-mint-150);
-  --com-btn-quaternary-bg:    var(--prim-mono-white);
-  --com-btn-quaternary-fg:    var(--prim-mono-black);
+  --com-btn-tertiary-bg:      var(--sf-accent-btn-tertiary-bg);
+  --com-btn-tertiary-fg:      var(--sf-accent-btn-tertiary-fg);
+  --com-btn-quaternary-bg:    var(--sf-accent-btn-quaternary-bg);
+  --com-btn-quaternary-fg:    var(--sf-accent-btn-quaternary-fg);
 }
 
 .surface-tertiary {
@@ -116,6 +146,16 @@
   --color-heading:        var(--sf-tertiary-heading);
   --color-body:           var(--sf-tertiary-body);
   --color-muted:          var(--sf-tertiary-text-muted);
+  --color-h1:             var(--sf-tertiary-h1);
+  --color-h2:             var(--sf-tertiary-h2);
+  --color-h3:             var(--sf-tertiary-h3);
+  --color-h4:             var(--sf-tertiary-h4);
+  --color-sh1:            var(--sf-tertiary-sh1);
+  --color-sh2:            var(--sf-tertiary-sh2);
+  --color-sh3:            var(--sf-tertiary-sh3);
+  --color-sh4:            var(--sf-tertiary-sh4);
+  --color-body-lg:        var(--sf-tertiary-body-lg);
+  --color-body-sm:        var(--sf-tertiary-body-sm);
   --color-border:         var(--sf-tertiary-border);
   --color-border-light:   var(--sf-tertiary-border-light);
   --color-border-mid:     var(--sf-tertiary-border-mid);
@@ -140,8 +180,8 @@
   --com-btn-ghost-icon:       var(--sf-tertiary-btn-ghost-icon);
   --com-btn-outline-fg:       var(--sf-tertiary-btn-outline-fg);
   --com-btn-outline-border:   var(--sf-tertiary-btn-outline-border);
-  --com-btn-tertiary-bg:      var(--prim-mint-700);
-  --com-btn-tertiary-fg:      var(--prim-mint-150);
-  --com-btn-quaternary-bg:    var(--prim-mono-white);
-  --com-btn-quaternary-fg:    var(--prim-mono-black);
+  --com-btn-tertiary-bg:      var(--sf-tertiary-btn-tertiary-bg);
+  --com-btn-tertiary-fg:      var(--sf-tertiary-btn-tertiary-fg);
+  --com-btn-quaternary-bg:    var(--sf-tertiary-btn-quaternary-bg);
+  --com-btn-quaternary-fg:    var(--sf-tertiary-btn-quaternary-fg);
 }

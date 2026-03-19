@@ -262,7 +262,7 @@ export default function LearnHubPage({ onNavigate }) {
 
           {/* Title + Stats */}
           <div className="learn-hero__title-stats">
-            <h1 className="article-heading--h1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-heading)' }}>
+            <h1 className="article-heading--h1" data-role-id="lh-hero-title" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-heading)' }}>
               <span>Learn </span>
               <span className="learn-hero__title--light">&amp;</span>
               <span> Master</span>
@@ -272,14 +272,14 @@ export default function LearnHubPage({ onNavigate }) {
           </div>
 
           {/* Body */}
-          <p className="learn-hero__body">
+          <p className="learn-hero__body" data-role-id="lh-hero-body">
             From your first game to advanced strategy. 15 structured guides that take you from complete beginner to confident, competitive player.
           </p>
 
           {/* CTA row */}
           <div className="learn-hero__cta-row">
             <div className="learn-hero__cta-buttons">
-              <button className="com-btn com-btn--primary com-btn--lg" onClick={() => onNavigate?.('learn-article')}>
+              <button className="com-btn com-btn--primary com-btn--lg" data-role-id="lh-hero-cta" onClick={() => onNavigate?.('learn-article')}>
                 {loggedIn ? 'Continue: Lesson 2' : 'Start Your First Lesson'}
                 <svg width="11" height="15" viewBox="0 0 11 15" fill="currentColor" aria-hidden>
                   <path d="M1.5 1.5L9.5 7.5L1.5 13.5" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
@@ -312,11 +312,11 @@ export default function LearnHubPage({ onNavigate }) {
           {/* Section intro */}
           <div className="course-section__intro">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <h2 className="course-section__title">
+              <h2 className="course-section__title" data-role-id="lh-section-title">
                 Lessons to take you<br />
                 from Beginner to Pro
               </h2>
-              <p className="course-section__body">
+              <p className="course-section__body" data-role-id="lh-section-body">
                 Designed by Backgammon Grandmasters for Beginners and Intermediate players alike
               </p>
             </div>

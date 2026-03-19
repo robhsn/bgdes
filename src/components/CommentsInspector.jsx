@@ -64,7 +64,7 @@ function findElement(selector) {
 }
 
 /* ─── Detachable / draggable panel hook ───────────────────────── */
-function useDetachablePanel(defaultPos, defaultSize) {
+function useDetachablePanel(defaultPos, defaultSize, panelId) {
   const [detached, setDetached] = useState(false);
   const [pos, setPos] = useState(defaultPos);
   const [size, setSize] = useState(defaultSize);
@@ -99,6 +99,21 @@ function useDetachablePanel(defaultPos, defaultSize) {
 
   const detach = useCallback(() => setDetached(true), []);
   const dock = useCallback(() => setDetached(false), []);
+
+  /* Listen for recenter-panel custom events */
+  useEffect(() => {
+    if (!panelId) return;
+    const handler = (e) => {
+      if (e.detail?.id === panelId) {
+        setPos({
+          x: Math.round((window.innerWidth - size.w) / 2),
+          y: Math.round((window.innerHeight - size.h) / 2),
+        });
+      }
+    };
+    window.addEventListener('recenter-panel', handler);
+    return () => window.removeEventListener('recenter-panel', handler);
+  }, [panelId, size]);
 
   return { detached, pos, size, onDragStart, onResizeStart, detach, dock };
 }
@@ -191,6 +206,7 @@ export default function CommentsInspector({
   const panel = useDetachablePanel(
     { x: window.innerWidth - 380, y: 80 },
     { w: 340, h: 500 },
+    'comments',
   );
   const [collapsed, setCollapsed] = useState(false);
   const [side, setSide] = useState('right');

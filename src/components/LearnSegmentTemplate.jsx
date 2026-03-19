@@ -199,7 +199,7 @@ function ImageWithCaption({ caption }) {
         }}>
           <p style={{
             fontFamily: fb,
-            fontWeight: 'var(--prim-type-body-weight)',
+            fontWeight: 'var(--prim-type-body-md-weight)',
             fontSize: 'var(--size-body)',
             lineHeight: 'var(--lh-body)',
             color: 'var(--color-statement-text)',
@@ -243,6 +243,7 @@ function H2({ children }) {
   return (
     <h2
       className="article-heading--h2"
+      data-role-id="ls-section-heading"
       style={{
         fontFamily: fs,
         color: 'var(--color-heading)',
@@ -255,9 +256,9 @@ function H2({ children }) {
 
 function BodyText({ children, muted = false }) {
   return (
-    <div style={{
+    <div data-role-id="ls-body-text" style={{
       fontFamily: fb,
-      fontWeight: 'var(--prim-type-body-weight)',
+      fontWeight: 'var(--prim-type-body-md-weight)',
       fontSize: 'var(--size-body)',
       lineHeight: 'var(--lh-body)',
       color: muted ? 'var(--color-muted)' : 'var(--color-body)',
@@ -837,6 +838,7 @@ function TocItem({ label, sectionId, active = false }) {
       />
       <span
         className="toc__label"
+        data-role-id="ls-toc-label"
         style={{
           fontFamily: ft,
           fontWeight: active ? 700 : 400,
@@ -895,7 +897,7 @@ function TableOfContents() {
       ref={tocRef}
       className={`toc${tocExpanded ? ' toc--expanded' : ''}`}
     >
-      <span className="toc__heading">Table of Contents</span>
+      <span className="toc__heading" data-role-id="ls-toc-heading">Table of Contents</span>
       {TOC_ITEMS.map((item, i) => (
         <TocItem
           key={item.id}
@@ -930,7 +932,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
       <section className="section" data-section-id="ls-hero">
         <div className="article-content">
 
-          <div className="breadcrumb">
+          <div className="breadcrumb" data-role-id="ls-breadcrumb">
             <div className="breadcrumb__trail">
               <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
             </div>
@@ -945,11 +947,11 @@ export default function LearnSegmentTemplate({ onNavigate }) {
             )}
           </div>
 
-          <h1 className="article-heading--h1" style={{ fontFamily: fh, color: 'var(--color-heading)' }}>
+          <h1 className="article-heading--h1" data-role-id="ls-hero-title" style={{ fontFamily: fh, color: 'var(--color-heading)' }}>
             How to Play Backgammon
           </h1>
 
-          <div className="article-meta">
+          <div className="article-meta" data-role-id="ls-meta">
             <div style={{ fontSize: 'var(--size-body)', lineHeight: 'var(--lh-body)', color: 'var(--color-muted)' }}>
               <span style={{ fontFamily: fm, fontWeight: 400 }}>Written by </span>
               <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: fm, fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none' }}>Backgammon.com</a>

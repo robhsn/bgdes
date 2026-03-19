@@ -97,6 +97,18 @@ export const STATE_DEFINITIONS = [
     defaultValue: 'Home',
   },
 
+  // Profile Page — friend relationship status on other-player profiles
+  {
+    key: 'profile.friendStatus',
+    label: 'Friend Status',
+    description: 'Relationship state of the Add Friend button',
+    type: 'select',
+    page: 'profile',
+    options: ['Add Friend', 'Pending', 'Friends'],
+    defaultValue: 'Add Friend',
+    visibleWhen: { 'profile.viewType': ['Friend - Game History', 'Guest - Game History'] },
+  },
+
   // Profile Page — tab + friends
   {
     key: 'profile.tab',
@@ -115,13 +127,12 @@ export const STATE_DEFINITIONS = [
     page: 'profile',
     options: [
       'My Friends',
-      'Requests - Incoming',
-      'Requests - Sent',
       'Search Results',
       'Empty - No Friends',
       'Empty - No Results',
     ],
     defaultValue: 'My Friends',
+    visibleWhen: { 'profile.tab': ['Friends'] },
   },
   {
     key: 'profile.fbDiscovery',
@@ -131,6 +142,7 @@ export const STATE_DEFINITIONS = [
     page: 'profile',
     options: ['None', 'Matches Found', 'Zero Matches'],
     defaultValue: 'None',
+    visibleWhen: { 'profile.tab': ['Friends'] },
   },
 
   // Settings Page

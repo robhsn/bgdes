@@ -158,7 +158,7 @@ const MENU_ITEMS = [
   { id: 'settings', label: 'Settings',           Icon: IconSettings, nav: 'settings' },
   { id: 'learn',    label: 'Learn to play',       Icon: IconLearn,    nav: 'learn-hub' },
   { id: 'boards',   label: 'Boards & themes',    Icon: IconPalette,  soon: true },
-  { id: 'history',  label: 'Game history',        Icon: IconHistory,  soon: true },
+  { id: 'history',  label: 'Game history',        Icon: IconHistory,  nav: 'profile', tab: 'Game History' },
 ];
 
 export function AvatarDropdown({ avatarSrc, onNavigate }) {
@@ -230,11 +230,12 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
           zIndex: 9999,
           overflow: 'hidden',
         }}>
-          {MENU_ITEMS.map(({ id, label, Icon, soon, nav }) => (
+          {MENU_ITEMS.map(({ id, label, Icon, soon, nav, tab }) => (
             <div
               key={id}
               onClick={() => {
                 setOpen(false);
+                if (tab) sessionStorage.setItem('profile-tab-intent', tab);
                 if (nav) onNavigate?.(nav);
               }}
               style={{
@@ -416,13 +417,14 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           cursor: 'pointer',
         }}
       >
-        <img src={logoSrc} alt="Backgammon.com" className="site-header__logo-img" style={{ height: 'var(--size-logo)', width: 'auto' }} />
+        <img src={logoSrc} alt="Backgammon.com" className="site-header__logo-img" data-role-id="gl-logo" style={{ height: 'var(--size-logo)', width: 'auto' }} />
       </span>
 
       {loggedIn ? (
         <div className="site-header__auth" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <button
             className="com-btn com-btn--primary com-btn--sm"
+            data-role-id="gl-nav-newgame"
             onClick={() => onNavigate?.('play')}
           >
             New Game
@@ -504,7 +506,7 @@ export function SiteFooter({ sectionId }) {
         flexWrap: 'wrap',
         gap: 16,
       }}>
-        <div style={{
+        <div data-role-id="gl-footer-heading" style={{
           display: 'flex', alignItems: 'flex-end',
           fontFamily: fl, fontWeight: 700,
           color: 'var(--color-logo)',

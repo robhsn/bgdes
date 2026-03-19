@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { writeFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 /* ── Dev-only plugin: persists DME state & profile data to src/tokens/ ── */
@@ -33,9 +33,19 @@ function devSavePlugin() {
     name: 'dev-save',
     apply: 'serve',
     configureServer(server) {
-      server.middlewares.use('/__dme_save', jsonPostHandler(
-        resolve(process.cwd(), 'src/tokens/dme-defaults.json')
-      ));
+      const dmeFile = resolve(process.cwd(), 'src/tokens/dme-defaults.json');
+      server.middlewares.use('/__dme_read', (req, res) => {
+        try {
+          const data = readFileSync(dmeFile, 'utf8');
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(data);
+        } catch (e) {
+          res.statusCode = 500;
+          res.end(JSON.stringify({ error: e.message }));
+        }
+      });
+      server.middlewares.use('/__dme_save', jsonPostHandler(dmeFile));
       server.middlewares.use('/__profile_save', jsonPostHandler(
         resolve(process.cwd(), 'src/tokens/profile-data.json')
       ));

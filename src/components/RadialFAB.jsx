@@ -2,12 +2,21 @@ import React, { useState, useRef, useCallback } from 'react';
 
 /* ─── Child button definitions ───────────────────────────────── */
 const CHILDREN = [
-  { id: 'dme',      label: 'DME / Tokens' },
-  { id: 'states',   label: 'States' },
-  { id: 'devmode',  label: 'DevMode' },
-  { id: 'comments', label: 'Comments' },
-  { id: 'pagenav',  label: 'Page Nav' },
+  { id: 'dme',         label: 'DME / Tokens' },
+  { id: 'roletarget',  label: 'Role Targeter' },
+  { id: 'states',      label: 'States' },
+  { id: 'devmode',     label: 'DevMode' },
+  { id: 'comments',    label: 'Comments' },
+  { id: 'pagenav',     label: 'Page Nav' },
 ];
+
+/* Map FAB child ids → recenter-panel event ids */
+const RECENTER_IDS = {
+  dme: 'dme',
+  states: 'states-panel',
+  devmode: 'devmode',
+  comments: 'comments',
+};
 
 /* Vertical stack spacing */
 const CHILD_GAP = 46; // px between button centers
@@ -59,12 +68,23 @@ function PageIcon({ color }) {
   );
 }
 
+function TargetIcon({ color }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  );
+}
+
 const CHILD_ICONS = {
-  dme:      (color) => <PaintBrushIcon color={color} />,
-  states:   (color) => <StatesIcon color={color} />,
-  devmode:  (color) => <DevModeIcon color={color} />,
-  comments: (color) => <ChatIcon color={color} />,
-  pagenav:  (color) => <PageIcon color={color} />,
+  dme:        (color) => <PaintBrushIcon color={color} />,
+  roletarget: (color) => <TargetIcon color={color} />,
+  states:     (color) => <StatesIcon color={color} />,
+  devmode:    (color) => <DevModeIcon color={color} />,
+  comments:   (color) => <ChatIcon color={color} />,
+  pagenav:    (color) => <PageIcon color={color} />,
 };
 
 /* ─── Smiley face SVG ────────────────────────────────────────── */
@@ -104,6 +124,13 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
     }
   }, [onTogglePanel, onTogglePageNav]);
 
+  const handleChildContextMenu = useCallback((e, id) => {
+    const recenterId = RECENTER_IDS[id];
+    if (!recenterId) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent('recenter-panel', { detail: { id: recenterId } }));
+  }, []);
+
   const isChildActive = (id) => {
     if (id === 'pagenav') return pageNavOpen;
     return activePanel === id;
@@ -119,7 +146,7 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
       onMouseLeave={handleLeave}
       style={{
         position: 'fixed',
-        bottom: 16,
+        bottom: 60,
         right: 16,
         zIndex: 9998,
         /* Cover the vertical stack + 20px safe area so mouse can travel between buttons */
@@ -139,6 +166,7 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
             key={child.id}
             title={child.label}
             onClick={() => handleChildClick(child.id)}
+            onContextMenu={(e) => handleChildContextMenu(e, child.id)}
             style={{
               position: 'absolute',
               bottom: offset,

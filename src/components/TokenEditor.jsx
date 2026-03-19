@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import fileDefaults from '../tokens/dme-defaults.json';
 
 /* ─── Shortcut sequences ─────────────────────────────────────── */
@@ -117,6 +118,16 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'heading':       '--color-heading',
   'body':          '--color-body',
   'text-muted':    '--color-muted',
+  'h1':            '--color-h1',
+  'h2':            '--color-h2',
+  'h3':            '--color-h3',
+  'h4':            '--color-h4',
+  'sh1':           '--color-sh1',
+  'sh2':           '--color-sh2',
+  'sh3':           '--color-sh3',
+  'sh4':           '--color-sh4',
+  'body-lg':       '--color-body-lg',
+  'body-sm':       '--color-body-sm',
   'border':        '--color-border',
   'border-light':  '--color-border-light',
   'border-mid':    '--color-border-mid',
@@ -136,6 +147,10 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'btn-ghost-icon':    '--com-btn-ghost-icon',
   'btn-outline-fg':    '--com-btn-outline-fg',
   'btn-outline-border':'--com-btn-outline-border',
+  'btn-tertiary-bg':   '--com-btn-tertiary-bg',
+  'btn-tertiary-fg':   '--com-btn-tertiary-fg',
+  'btn-quaternary-bg': '--com-btn-quaternary-bg',
+  'btn-quaternary-fg': '--com-btn-quaternary-fg',
 };
 
 /* ─── Pathway button defaults — light & dark surface variants ── */
@@ -144,12 +159,16 @@ const BTN_LIGHT = {
   'btn-dark-bg':    '--prim-mono-900',  'btn-dark-fg':    '--prim-mono-white',
   'btn-ghost-fg':   '--prim-mono-900',  'btn-ghost-icon': '--prim-mint-400',
   'btn-outline-fg': '--prim-mono-900',  'btn-outline-border': '--prim-mono-300',
+  'btn-tertiary-bg': '--prim-mint-700', 'btn-tertiary-fg': '--prim-mint-150',
+  'btn-quaternary-bg': '--prim-mono-white', 'btn-quaternary-fg': '--prim-mono-black',
 };
 const BTN_DARK = {
   'btn-primary-bg': '--prim-fall-100',  'btn-primary-fg': '--prim-mono-white',
   'btn-dark-bg':    '--prim-mono-600',  'btn-dark-fg':    '--prim-mono-white',
   'btn-ghost-fg':   '--prim-mono-300',  'btn-ghost-icon': '--prim-mono-350',
   'btn-outline-fg': '--prim-mono-350',  'btn-outline-border': '--prim-mono-500',
+  'btn-tertiary-bg': '--prim-mint-700', 'btn-tertiary-fg': '--prim-mint-150',
+  'btn-quaternary-bg': '--prim-mono-white', 'btn-quaternary-fg': '--prim-mono-black',
 };
 function btnSurfaceTokens(prefix, suffixMap) {
   const out = {};
@@ -164,6 +183,18 @@ function btnDefaultTokens(map) {
     out[DEFAULT_SURFACE_TOKEN_MAP[suffix]] = val;
   }
   return out;
+}
+
+/* ─── Per-role type color tokens for surfaces ───────────────── */
+function typeRoleTokens(prefix, headingVal, bodyVal, mutedVal) {
+  return {
+    [`${prefix}h1`]: headingVal,
+    [`${prefix}h2`]: headingVal,
+    [`${prefix}h3`]: headingVal,
+    [`${prefix}h4`]: headingVal,
+    [`${prefix}body-lg`]: bodyVal,
+    [`${prefix}body-sm`]: mutedVal,
+  };
 }
 
 /* ─── Themes — L2 colors reference L1 token names ────────────── */
@@ -228,6 +259,7 @@ const THEMES = {
         '--color-accent':         '--prim-mono-700',
         '--color-tag-fill':       '--prim-mono-150',
       ...btnDefaultTokens(BTN_LIGHT),
+      ...typeRoleTokens('--color-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-mono-50',
@@ -246,6 +278,7 @@ const THEMES = {
         '--sf-muted-accent':         '--prim-mono-700',
         '--sf-muted-tag-fill':       '--prim-mono-150',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
+        ...typeRoleTokens('--sf-muted-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mono-900',
@@ -264,6 +297,7 @@ const THEMES = {
         '--sf-inverse-accent':         '--prim-mono-500',
         '--sf-inverse-tag-fill':     '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
+        ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mono-700',
@@ -282,6 +316,7 @@ const THEMES = {
         '--sf-accent-accent':         '--prim-mono-900',
         '--sf-accent-tag-fill':      '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
+        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mono-100', '--prim-mono-250'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mono-750',
@@ -300,6 +335,7 @@ const THEMES = {
         '--sf-tertiary-accent':         '--prim-mono-500',
         '--sf-tertiary-tag-fill':    '--prim-mono-700',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
+        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
       },
     },
   },
@@ -363,6 +399,7 @@ const THEMES = {
         '--color-accent':         '--prim-orange-300',
         '--color-tag-fill':       '--prim-butter-700',
       ...btnDefaultTokens(BTN_LIGHT),
+      ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-splash-50',
@@ -381,6 +418,7 @@ const THEMES = {
         '--sf-muted-accent':         '--prim-orange-300',
         '--sf-muted-tag-fill':       '--prim-splash-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
+        ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -399,6 +437,7 @@ const THEMES = {
         '--sf-inverse-accent':         '--prim-orange-300',
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
+        ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -417,6 +456,7 @@ const THEMES = {
         '--sf-accent-accent':         '--prim-orange-900',
         '--sf-accent-tag-fill':      '--prim-orange-500',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
+        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-sapphire-800',
@@ -435,6 +475,7 @@ const THEMES = {
         '--sf-tertiary-accent':         '--prim-orange-300',
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
+        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
       },
     },
   },
@@ -498,6 +539,7 @@ const THEMES = {
         '--color-accent':         '--prim-orange-300',
         '--color-tag-fill':       '--prim-butter-700',
       ...btnDefaultTokens(BTN_LIGHT),
+      ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-splash-50',
@@ -516,6 +558,7 @@ const THEMES = {
         '--sf-muted-accent':         '--prim-orange-300',
         '--sf-muted-tag-fill':       '--prim-splash-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
+        ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -534,6 +577,7 @@ const THEMES = {
         '--sf-inverse-accent':         '--prim-orange-300',
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
+        ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -552,6 +596,7 @@ const THEMES = {
         '--sf-accent-accent':         '--prim-orange-900',
         '--sf-accent-tag-fill':      '--prim-orange-500',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
+        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-sapphire-800',
@@ -570,6 +615,7 @@ const THEMES = {
         '--sf-tertiary-accent':         '--prim-orange-300',
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
+        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
       },
     },
   },
@@ -633,6 +679,7 @@ const THEMES = {
         '--color-accent':         '--prim-mint-500',
         '--color-tag-fill':       '--prim-mint-200',
       ...btnDefaultTokens(BTN_LIGHT),
+      ...typeRoleTokens('--color-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-mint-100',
@@ -651,6 +698,7 @@ const THEMES = {
         '--sf-muted-accent':         '--prim-mint-500',
         '--sf-muted-tag-fill':       '--prim-mint-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
+        ...typeRoleTokens('--sf-muted-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mint-800',
@@ -669,6 +717,7 @@ const THEMES = {
         '--sf-inverse-accent':         '--prim-mint-400',
         '--sf-inverse-tag-fill':     '--prim-mint-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
+        ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mint-700',
@@ -687,6 +736,7 @@ const THEMES = {
         '--sf-accent-accent':         '--prim-mint-400',
         '--sf-accent-tag-fill':      '--prim-mint-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
+        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mint-900',
@@ -705,6 +755,7 @@ const THEMES = {
         '--sf-tertiary-accent':         '--prim-mint-400',
         '--sf-tertiary-tag-fill':    '--prim-mint-800',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
+        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
       },
     },
   },
@@ -724,8 +775,8 @@ function themeAllColorTokens(key) {
 }
 
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
-const SURFACE_TOKENS = ['bg', 'heading', 'body', 'text-muted', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent', 'tag-fill'];
-const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border'];
+const SURFACE_TOKENS = ['bg', 'h1', 'h2', 'h3', 'h4', 'sh1', 'sh2', 'sh3', 'sh4', 'body-lg', 'body', 'body-sm', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent', 'tag-fill'];
+const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg'];
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
   { key: 'muted',    label: 'Secondary', prefix: '--sf-muted-',     bgToken: '--sf-muted-bg'       },
@@ -753,6 +804,7 @@ const PAGE_SECTIONS = {
     { id: 'pp-achievements', label: 'Achievements',             defaultSurface: 'muted' },
     { id: 'pp-history',      label: 'Game History',             defaultSurface: 'tertiary' },
     { id: 'pp-friends',      label: 'Friends',                  defaultSurface: 'muted' },
+    { id: 'pp-settings',     label: 'Settings Popover',          defaultSurface: 'muted' },
   ],
   settings: [
     { id: 'st-content',      label: 'Settings Content',         defaultSurface: 'muted' },
@@ -777,6 +829,7 @@ const PAGE_SECTIONS = {
 const GLOBAL_SECTIONS = [
   { id: 'gl-header',   label: 'Header',         defaultSurface: 'default' },
   { id: 'gl-dropdown', label: 'Dropdown Menu',   defaultSurface: 'default' },
+  { id: 'gl-modal',    label: 'Modals',          defaultSurface: 'default' },
   { id: 'gl-cta',      label: 'Ready to Play',   defaultSurface: 'accent' },
   { id: 'gl-footer',   label: 'Footer',          defaultSurface: 'inverse' },
 ];
@@ -819,7 +872,8 @@ const DEFAULT_L1 = {
 
 /* ─── L2 font role tokens — store role name, applied as var(--prim-type-xxx) ── */
 const L2_FONT_ROLE_TOKENS = new Set([
-  '--font-heading', '--font-subheading', '--font-body',
+  '--font-heading', '--font-subheading', '--font-section', '--font-label',
+  '--font-lead', '--font-body', '--font-small',
   '--font-logo', '--font-pill', '--font-toc', '--font-meta',
   '--font-dropdown', '--font-dropdown-badge',
 ]);
@@ -829,7 +883,11 @@ const DEFAULT_L2_EXTRA = {
   /* font role assignments (which L1 role each L2 font token uses) */
   '--font-heading':    'h1',
   '--font-subheading': 'h2',
+  '--font-section':    'h3',
+  '--font-label':      'h4',
+  '--font-lead':       'body-lg',
   '--font-body':       'body-md',
+  '--font-small':      'body-sm',
   '--font-logo':       'h1',
   '--font-pill':       'h1',
   '--font-toc':        'body-sm',
@@ -839,7 +897,11 @@ const DEFAULT_L2_EXTRA = {
   /* size & spacing */
   '--size-h1':         '70',
   '--size-h2':         '36',
+  '--size-h3':         '24',
+  '--size-h4':         '20',
+  '--size-body-lg':    '20',
   '--size-body':       '18',
+  '--size-body-sm':    '14',
   '--size-logo':       '30',
   '--size-pill':       '18',
   '--size-toc':        '12',
@@ -985,7 +1047,28 @@ function useDetachablePanel(defaultPos, defaultSize) {
   const detach = useCallback(() => setDetached(true), []);
   const dock = useCallback(() => setDetached(false), []);
 
-  return { detached, pos, size, onDragStart, onResizeStart, detach, dock };
+  const recenter = useCallback(() => {
+    setPos({
+      x: Math.round((window.innerWidth - size.w) / 2),
+      y: Math.round((window.innerHeight - size.h) / 2),
+    });
+  }, [size]);
+
+  /* Listen for recenter-panel custom events */
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.detail?.id === 'dme') {
+        setPos({
+          x: Math.round((window.innerWidth - size.w) / 2),
+          y: Math.round((window.innerHeight - size.h) / 2),
+        });
+      }
+    };
+    window.addEventListener('recenter-panel', handler);
+    return () => window.removeEventListener('recenter-panel', handler);
+  }, [size]);
+
+  return { detached, pos, size, onDragStart, onResizeStart, detach, dock, recenter };
 }
 
 function DMEResizeHandle({ onMouseDown }) {
@@ -1020,7 +1103,7 @@ const DMEDockIcon = () => (
 /* ═══════════════════════════════════════════════════════════════
    Main component
    ═══════════════════════════════════════════════════════════════ */
-export default function TokenEditor({ visible, onClose, states, onStateChange, pages, currentPageId, onNavigate }) {
+export default function TokenEditor({ visible, onClose, states, onStateChange, pages, currentPageId, onNavigate, roleOverrides }) {
   const [tab, setTab]                 = useState('app');
   const [side, setSide]               = useState('right');
   const [activeTheme, setActiveTheme] = useState(INIT_THEME);
@@ -1042,10 +1125,13 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     'dme-sect-Colors', 'dme-sect-Typography', 'dme-sect-Spacing & Layout',
     'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Header Dropdown',
     'dme-sub-Navigation', 'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats',
-    'dme-sub-Match History', 'dme-sub-Buttons',
+    'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Modal',
   ];
   const L1_SECT_KEYS = [
     'dme-sect-Type Roles', 'dme-sect-Color Palettes',
+    'dme-role-h1', 'dme-role-h2', 'dme-role-h3', 'dme-role-h4',
+    'dme-role-sh1', 'dme-role-sh2', 'dme-role-sh3', 'dme-role-sh4',
+    'dme-role-body-lg', 'dme-role-body-md', 'dme-role-body-sm',
   ];
 
   const toggleAllSections = useCallback(() => {
@@ -1324,6 +1410,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       l1Groups:    l1GroupsRef.current,
       themeStates: themeStatesRef.current,
       sectionSurfaces: sectionSurfacesRef.current,
+      roleOverrides: roleOverrides || {},
       states,
     };
     /* Write to src/tokens/dme-defaults.json via Vite dev middleware */
@@ -1641,7 +1728,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
         {tab === 'l2'
           ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={(k, v) => { onStateChange?.(k, v); setIsDirty(true); }} />
           : tab === 'l1'
-          ? <L1View key={sectResetKey} l1={l1} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+          ? <L1View key={sectResetKey} l1={l1} l2={l2} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
               setL1ColorHex={setL1ColorHex} addL1Color={addL1Color} deleteL1Color={deleteL1Color}
               moveL1Color={moveL1Color} addL1Group={addL1Group} deleteL1Group={deleteL1Group}
               sortL1Group={sortL1Group} renameL1Color={renameL1Color} />
@@ -1746,9 +1833,10 @@ function SurfaceSwatch({ surfaceDef, l2, l1ColorMap }) {
   return (
     <div style={{ margin: '4px 16px 6px', borderRadius: 5, overflow: 'hidden', border: '1px solid #2a2a2a' }}>
       <div style={{ background: hex('bg'), padding: '8px 12px' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: hex('heading'), marginBottom: 2 }}>{surfaceDef.label} surface</div>
-        <div style={{ fontSize: 10, color: hex('body') }}>Body text preview</div>
-        <div style={{ fontSize: 10, color: hex('text-muted') }}>Muted / secondary text</div>
+        <div style={{ fontSize: 12, fontWeight: 700, color: hex('h1'), marginBottom: 1 }}>H1 heading</div>
+        <div style={{ fontSize: 10, fontWeight: 600, color: hex('h3'), marginBottom: 2 }}>H3 section</div>
+        <div style={{ fontSize: 10, color: hex('body') }}>Body text</div>
+        <div style={{ fontSize: 9, color: hex('body-sm') }}>Small text</div>
       </div>
     </div>
   );
@@ -1762,8 +1850,8 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', body: 'Body text', 'text-muted': 'Muted text', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)', 'tag-fill': 'Tag fill' };
-  const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border' };
+  const LABELS = { bg: 'Background', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)', 'tag-fill': 'Tag fill' };
+  const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text' };
   return (
     <>
       {/* Surface tab bar */}
@@ -1830,7 +1918,26 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
 /* ═══════════════════════════════════════════════════════════════
    Application View — per-page section surface control
    ═══════════════════════════════════════════════════════════════ */
+const MODAL_TOKENS = ['bg', 'heading', 'body', 'muted', 'border'];
+
 function applySurfaceToDOM(sectionId, surfaceKey) {
+  /* ── Modal tokens: inject --modal-* on :root (no DOM element needed) ── */
+  if (sectionId === 'gl-modal') {
+    const root = document.documentElement;
+    if (surfaceKey === 'default') {
+      MODAL_TOKENS.forEach(t => root.style.removeProperty(`--modal-${t}`));
+      root.style.removeProperty('--modal-overlay-bg');
+    } else {
+      const prefix = `--sf-${surfaceKey}-`;
+      root.style.setProperty('--modal-bg',      `var(${prefix}bg)`);
+      root.style.setProperty('--modal-heading',  `var(${prefix}heading)`);
+      root.style.setProperty('--modal-body',     `var(${prefix}body)`);
+      root.style.setProperty('--modal-muted',    `var(${prefix}text-muted)`);
+      root.style.setProperty('--modal-border',   `var(${prefix}border)`);
+    }
+    return;
+  }
+
   const el = document.querySelector(`[data-section-id="${sectionId}"]`);
   if (!el) return;
 
@@ -2049,9 +2156,10 @@ function AppSectionGroup({ section, currentSurface, isOverridden, onSurfaceChang
       : `${sf.prefix}${suffix}`;
     return l1ColorMap[l2[tokenName]] || '#888';
   };
-  const headingHex = resolveHex('heading');
+  const h1Hex = resolveHex('h1');
+  const h3Hex = resolveHex('h3');
   const bodyHex = resolveHex('body');
-  const mutedHex = resolveHex('text-muted');
+  const bodySmHex = resolveHex('body-sm');
 
   return (
     <div style={{ borderBottom: '1px solid #2a2a2a' }}>
@@ -2109,11 +2217,12 @@ function AppSectionGroup({ section, currentSurface, isOverridden, onSurfaceChang
             border: '1px solid #2a2a2a',
           }}>
             <div style={{ background: bgHex, padding: '8px 12px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: headingHex, marginBottom: 2 }}>
-                {sf?.label || 'Primary'} surface
+              <div style={{ fontSize: 12, fontWeight: 700, color: h1Hex, marginBottom: 1 }}>
+                H1 heading
               </div>
-              <div style={{ fontSize: 10, color: bodyHex }}>Body text preview</div>
-              <div style={{ fontSize: 10, color: mutedHex }}>Muted / secondary text</div>
+              <div style={{ fontSize: 10, fontWeight: 600, color: h3Hex, marginBottom: 2 }}>H3 section</div>
+              <div style={{ fontSize: 10, color: bodyHex }}>Body text</div>
+              <div style={{ fontSize: 9, color: bodySmHex }}>Small text</div>
             </div>
           </div>
           )}
@@ -2196,6 +2305,14 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
           <ColorRow label="Primary border"   name="--btn-primary-border"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Secondary border" name="--btn-secondary-border" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
+
+        <SubSect label="Modal">
+          <ColorRow label="Background"   name="--modal-bg"         l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Heading"      name="--modal-heading"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Body text"    name="--modal-body"       l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Muted text"   name="--modal-muted"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Border"       name="--modal-border"     l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
       </Sect>
       <Sect label="Typography">
         <div style={{ padding: '4px 16px 6px' }}>
@@ -2205,7 +2322,11 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         </div>
         <RoleRow label="H1 font"         name="--font-heading"    l2={l2} set={set} />
         <RoleRow label="H2 font"         name="--font-subheading" l2={l2} set={set} />
+        <RoleRow label="H3 font"         name="--font-section"    l2={l2} set={set} />
+        <RoleRow label="H4 font"         name="--font-label"      l2={l2} set={set} />
+        <RoleRow label="Body lg font"    name="--font-lead"       l2={l2} set={set} />
         <RoleRow label="Body font"       name="--font-body"       l2={l2} set={set} />
+        <RoleRow label="Body sm font"    name="--font-small"      l2={l2} set={set} />
         <RoleRow label="Logo font"       name="--font-logo"       l2={l2} set={set} />
         <RoleRow label="Pill font"       name="--font-pill"       l2={l2} set={set} />
         <RoleRow label="TOC font"        name="--font-toc"        l2={l2} set={set} />
@@ -2214,7 +2335,11 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         <RoleRow label="Dropdown badge" name="--font-dropdown-badge" l2={l2} set={set} />
         <SliderRow label="H1 size"       name="--size-h1"         l2={l2} set={set} min={32}  max={120}  unit="px" />
         <SliderRow label="H2 size"       name="--size-h2"         l2={l2} set={set} min={18}  max={72}   unit="px" />
+        <SliderRow label="H3 size"       name="--size-h3"         l2={l2} set={set} min={16}  max={48}   unit="px" />
+        <SliderRow label="H4 size"       name="--size-h4"         l2={l2} set={set} min={14}  max={36}   unit="px" />
+        <SliderRow label="Body lg size"  name="--size-body-lg"    l2={l2} set={set} min={14}  max={32}   unit="px" />
         <SliderRow label="Body size"     name="--size-body"       l2={l2} set={set} min={12}  max={28}   unit="px" />
+        <SliderRow label="Body sm size"  name="--size-body-sm"    l2={l2} set={set} min={10}  max={20}   unit="px" />
         <SliderRow label="Logo size"     name="--size-logo"       l2={l2} set={set} min={16}  max={60}   unit="px" />
         <SliderRow label="Pill size"     name="--size-pill"       l2={l2} set={set} min={10}  max={24}   unit="px" />
         <SliderRow label="TOC size"      name="--size-toc"        l2={l2} set={set} min={9}   max={18}   unit="px" />
@@ -2232,9 +2357,135 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   L1 View
+   L1 View — Type Role Targeting helpers
    ═══════════════════════════════════════════════════════════════ */
-function L1RoleGroup({ roleKey, roleLabel, l1, setRole }) {
+
+/**
+ * Find all DOM elements that use a given L1 type role via L2 font tokens.
+ * Walks stylesheets + inline styles, excludes DME panel elements.
+ */
+function findElementsForRole(roleKey, l2) {
+  // 1. Find which L2 font tokens are assigned to this L1 role
+  const matchingL2Tokens = [];
+  for (const token of L2_FONT_ROLE_TOKENS) {
+    if (l2[token] === roleKey) matchingL2Tokens.push(token);
+  }
+  if (matchingL2Tokens.length === 0) return [];
+
+  const varPatterns = matchingL2Tokens.map(t => `var(${t})`);
+  const selectors = new Set();
+
+  // 2. Walk document.styleSheets to find rules referencing matching L2 tokens
+  try {
+    for (const sheet of document.styleSheets) {
+      let rules;
+      try { rules = sheet.cssRules || sheet.rules; } catch { continue; }
+      if (!rules) continue;
+      for (const rule of rules) {
+        if (rule.type !== 1) continue; // CSSStyleRule only
+        const ff = rule.style.fontFamily || '';
+        if (varPatterns.some(p => ff.includes(p))) {
+          selectors.add(rule.selectorText);
+        }
+      }
+    }
+  } catch { /* cross-origin sheets */ }
+
+  // 3. querySelectorAll for collected selectors
+  const elemSet = new Set();
+  for (const sel of selectors) {
+    try {
+      document.querySelectorAll(sel).forEach(el => elemSet.add(el));
+    } catch { /* invalid selector */ }
+  }
+
+  // 4. Walk DOM for inline styles containing matching var(--font-*) references
+  const allEls = document.querySelectorAll('[style]');
+  for (const el of allEls) {
+    const inlineFF = el.style.fontFamily || '';
+    if (varPatterns.some(p => inlineFF.includes(p))) {
+      elemSet.add(el);
+    }
+  }
+
+  // 5. Filter out DME panel elements
+  return [...elemSet].filter(el =>
+    !el.closest('[data-devmode-ignore]') && !el.closest('[data-devmode-panel]')
+  );
+}
+
+/**
+ * Overlay that highlights elements matching a given L1 type role.
+ * Dim backdrop + mint-green highlight boxes positioned via getBoundingClientRect.
+ */
+function TypeRoleHighlightOverlay({ roleKey, l2, onClose }) {
+  const [rects, setRects] = useState([]);
+
+  const updateRects = useCallback(() => {
+    const elements = findElementsForRole(roleKey, l2);
+    setRects(elements.map(el => {
+      const r = el.getBoundingClientRect();
+      return { top: r.top, left: r.left, width: r.width, height: r.height };
+    }));
+  }, [roleKey, l2]);
+
+  useEffect(() => {
+    updateRects();
+    const onScroll = () => updateRects();
+    const onResize = () => updateRects();
+    window.addEventListener('scroll', onScroll, true);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('scroll', onScroll, true);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [updateRects]);
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return createPortal(
+    <div data-devmode-ignore style={{ position: 'fixed', inset: 0, zIndex: 2147483645, pointerEvents: 'none' }}>
+      {/* Dim backdrop */}
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)' }} />
+      {/* Highlight boxes */}
+      {rects.map((r, i) => (
+        <div key={i} style={{
+          position: 'fixed',
+          top: r.top - 4,
+          left: r.left - 4,
+          width: r.width + 8,
+          height: r.height + 8,
+          border: '2px solid rgba(76,175,130,0.7)',
+          background: 'rgba(76,175,130,0.08)',
+          borderRadius: 3,
+          boxSizing: 'border-box',
+        }} />
+      ))}
+      {/* Count badge */}
+      {rects.length > 0 && (
+        <div style={{
+          position: 'fixed', top: 12, left: '50%', transform: 'translateX(-50%)',
+          background: 'rgba(76,175,130,0.9)', color: '#fff', fontSize: 12, fontWeight: 600,
+          padding: '4px 12px', borderRadius: 12, fontFamily: 'system-ui, sans-serif',
+        }}>
+          {rects.length} element{rects.length !== 1 ? 's' : ''} using {roleKey.toUpperCase()}
+        </div>
+      )}
+    </div>,
+    document.body
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+function L1RoleGroup({ roleKey, roleLabel, l1, l2, setRole, isHighlighted, onToggleHighlight }) {
+  const storageKey = `dme-role-${roleKey}`;
+  const [open, setOpen] = useState(() => localStorage.getItem(storageKey) !== 'closed');
+  const toggle = () => setOpen(o => { const next = !o; localStorage.setItem(storageKey, next ? 'open' : 'closed'); return next; });
+
   const familyKey  = `--prim-type-${roleKey}`;
   const weightKey  = `--prim-type-${roleKey}-weight`;
   const lsKey      = `--prim-type-${roleKey}-ls`;
@@ -2242,47 +2493,98 @@ function L1RoleGroup({ roleKey, roleLabel, l1, setRole }) {
   const currentFont = l1[familyKey] || 'Inter';
   const weights = FONT_WEIGHTS[currentFont] ?? [400, 700];
 
+  // Live element count — recomputes on l2 changes + DOM mutations
+  const [elemCount, setElemCount] = useState(0);
+  useEffect(() => {
+    const recount = () => setElemCount(findElementsForRole(roleKey, l2).length);
+    recount();
+    const mo = new MutationObserver(recount);
+    mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+    return () => mo.disconnect();
+  }, [roleKey, l2]);
+
   return (
     <div>
-      <div style={{ padding: '8px 16px 2px', color: '#999', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-        {roleLabel}
-      </div>
-      {/* Family */}
-      <FontRow label="Family" name={familyKey} l2={l1} set={setRole} />
-      {/* Weight — only shows weights valid for the selected font */}
-      <Row label="Weight">
-        <select
-          value={l1[weightKey] || '400'}
-          onChange={e => setRole(weightKey, e.target.value)}
-          style={{ background: '#262626', border: '1px solid #3a3a3a', color: '#ccc', fontSize: 11, padding: '4px 8px', borderRadius: 4, cursor: 'pointer', maxWidth: 100 }}
+      <div style={{ padding: '8px 16px 2px', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div onClick={toggle} style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, cursor: 'pointer' }}>
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"
+            style={{ transition: 'transform 0.15s', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0 }}>
+            <path d="M2 1l4 3-4 3" stroke="#666" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span style={{ color: '#999', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            {roleLabel}
+          </span>
+          {!open && (
+            <span style={{ color: '#555', fontSize: 10, fontFamily: 'monospace', marginLeft: 4 }}>
+              {(l1[familyKey] || 'Inter').split(',')[0].replace(/'/g, '')}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={onToggleHighlight}
+          title={isHighlighted ? 'Hide element highlights' : `Highlight ${elemCount} element${elemCount !== 1 ? 's' : ''} using this role`}
+          style={{
+            background: isHighlighted ? 'rgba(76,175,130,0.2)' : 'none',
+            border: isHighlighted ? '1px solid rgba(76,175,130,0.5)' : '1px solid transparent',
+            color: isHighlighted ? '#4cb582' : '#666',
+            cursor: 'pointer', padding: '1px 4px', borderRadius: 3,
+            fontSize: 13, lineHeight: 1, flexShrink: 0,
+            display: 'flex', alignItems: 'center', gap: 4,
+          }}
         >
-          {weights.map(w => <option key={w} value={String(w)}>{w}</option>)}
-        </select>
-      </Row>
-      {/* Letter spacing: stored as hundredths of em */}
-      <Row label="Letter spacing">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <input type="range" min={-5} max={20} step={1}
-            value={l1[lsKey] ?? '0'}
-            onChange={e => setRole(lsKey, e.target.value)}
-            style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
-          <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
-            {(Number(l1[lsKey] ?? 0) / 100).toFixed(2)}em
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
+            <line x1="12" y1="2" x2="12" y2="0" /><line x1="12" y1="24" x2="12" y2="22" />
+            <line x1="2" y1="12" x2="0" y2="12" /><line x1="24" y1="12" x2="22" y2="12" />
+          </svg>
+          <span style={{
+            fontSize: 10, fontWeight: 600, fontFamily: 'system-ui, sans-serif',
+            color: isHighlighted ? '#4cb582' : elemCount > 0 ? '#888' : '#555',
+          }}>
+            {elemCount}
           </span>
-        </div>
-      </Row>
-      {/* Line height: stored as tenths */}
-      <Row label="Line height">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <input type="range" min={9} max={22} step={1}
-            value={l1[lhKey] ?? '16'}
-            onChange={e => setRole(lhKey, e.target.value)}
-            style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
-          <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
-            {(Number(l1[lhKey] ?? 16) / 10).toFixed(1)}
-          </span>
-        </div>
-      </Row>
+        </button>
+      </div>
+      {open && (
+        <>
+          {/* Family */}
+          <FontRow label="Family" name={familyKey} l2={l1} set={setRole} />
+          {/* Weight — only shows weights valid for the selected font */}
+          <Row label="Weight">
+            <select
+              value={l1[weightKey] || '400'}
+              onChange={e => setRole(weightKey, e.target.value)}
+              style={{ background: '#262626', border: '1px solid #3a3a3a', color: '#ccc', fontSize: 11, padding: '4px 8px', borderRadius: 4, cursor: 'pointer', maxWidth: 100 }}
+            >
+              {weights.map(w => <option key={w} value={String(w)}>{w}</option>)}
+            </select>
+          </Row>
+          {/* Letter spacing: stored as hundredths of em */}
+          <Row label="Letter spacing">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <input type="range" min={-5} max={20} step={1}
+                value={l1[lsKey] ?? '0'}
+                onChange={e => setRole(lsKey, e.target.value)}
+                style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
+              <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
+                {(Number(l1[lsKey] ?? 0) / 100).toFixed(2)}em
+              </span>
+            </div>
+          </Row>
+          {/* Line height: stored as tenths */}
+          <Row label="Line height">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <input type="range" min={9} max={22} step={1}
+                value={l1[lhKey] ?? '16'}
+                onChange={e => setRole(lhKey, e.target.value)}
+                style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
+              <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
+                {(Number(l1[lhKey] ?? 16) / 10).toFixed(1)}
+              </span>
+            </div>
+          </Row>
+        </>
+      )}
     </div>
   );
 }
@@ -2402,9 +2704,13 @@ function L1PaletteEditor({ group, l1ColorMap, onSetHex, onAdd, onDelete, onMove,
   );
 }
 
-function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, deleteL1Color, moveL1Color, addL1Group, deleteL1Group, sortL1Group, renameL1Color }) {
+function L1View({ l1, l2, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, deleteL1Color, moveL1Color, addL1Group, deleteL1Group, sortL1Group, renameL1Color }) {
   const [addingPalette, setAddingPalette]   = useState(false);
   const [newPaletteName, setNewPaletteName] = useState('');
+  const [highlightedRole, setHighlightedRole] = useState(null);
+  const toggleHighlight = useCallback((roleKey) => {
+    setHighlightedRole(prev => prev === roleKey ? null : roleKey);
+  }, []);
 
   const handleAddPalette = () => {
     const name = newPaletteName.trim();
@@ -2421,20 +2727,28 @@ function L1View({ l1, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Color, 
             Define font roles. Changes apply across all themes and L2 assignments.
           </div>
         </div>
-        <L1RoleGroup roleKey="h1"       roleLabel="H1"           l1={l1} setRole={setRole} />
-        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="h2"       roleLabel="H2"           l1={l1} setRole={setRole} />
-        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="h3"       roleLabel="H3"           l1={l1} setRole={setRole} />
-        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="h4"       roleLabel="H4"           l1={l1} setRole={setRole} />
-        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="body-lg"  roleLabel="Body Large"   l1={l1} setRole={setRole} />
-        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="body-md"  roleLabel="Body Medium"  l1={l1} setRole={setRole} />
-        <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />
-        <L1RoleGroup roleKey="body-sm"  roleLabel="Body Small"   l1={l1} setRole={setRole} />
+        {[
+          ['h1',      'H1'],
+          ['h2',      'H2'],
+          ['h3',      'H3'],
+          ['h4',      'H4'],
+          ['sh1',     'Subheading 1'],
+          ['sh2',     'Subheading 2'],
+          ['sh3',     'Subheading 3'],
+          ['sh4',     'Subheading 4'],
+          ['body-lg', 'Body Large'],
+          ['body-md', 'Body Medium'],
+          ['body-sm', 'Body Small'],
+        ].map(([key, label], i, arr) => (
+          <React.Fragment key={key}>
+            <L1RoleGroup roleKey={key} roleLabel={label} l1={l1} l2={l2} setRole={setRole}
+              isHighlighted={highlightedRole === key}
+              onToggleHighlight={() => toggleHighlight(key)} />
+            {i < arr.length - 1 && <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />}
+          </React.Fragment>
+        ))}
       </Sect>
+      {highlightedRole && <TypeRoleHighlightOverlay roleKey={highlightedRole} l2={l2} onClose={() => setHighlightedRole(null)} />}
       <Sect label="Color Palettes">
         <div style={{ padding: '4px 16px 6px' }}>
           <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>

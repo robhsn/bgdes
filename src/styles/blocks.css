@@ -93,7 +93,7 @@
 }
 
 .overlay--dark {
-  background: rgba(0,0,0,0.55);
+  background: var(--modal-overlay-bg);
 }
 
 .overlay--top {
@@ -103,15 +103,17 @@
 /* ── 5. modal — Centered dialog box ─────────────────────────── */
 
 .modal {
-  background: var(--color-bg);
+  background: var(--modal-bg);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-xl);
+  border: 1px solid var(--modal-border);
   padding: 24px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 92%;
+  color: var(--modal-body);
   animation: modal-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -119,7 +121,7 @@
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 18px;
-  color: var(--color-heading);
+  color: var(--modal-heading);
   text-align: center;
 }
 
@@ -1023,9 +1025,9 @@
 
 .article-heading--h1 {
   font-size: var(--size-h1);
-  font-weight: var(--prim-type-heading-weight);
-  line-height: var(--prim-type-heading-lh);
-  letter-spacing: var(--prim-type-heading-ls);
+  font-weight: var(--prim-type-h1-weight);
+  line-height: var(--prim-type-h1-lh);
+  letter-spacing: var(--prim-type-h1-ls);
   margin: 0;
   width: 100%;
   font-feature-settings: 'lnum' 1, 'pnum' 1;
@@ -1157,9 +1159,9 @@
 
 .article-heading--h2 {
   font-size: var(--size-h2);
-  font-weight: var(--prim-type-subheading-weight);
-  line-height: var(--prim-type-subheading-lh);
-  letter-spacing: var(--prim-type-subheading-ls);
+  font-weight: var(--prim-type-h2-weight);
+  line-height: var(--prim-type-h2-lh);
+  letter-spacing: var(--prim-type-h2-ls);
   margin: 0;
   width: 100%;
 }
@@ -2723,6 +2725,9 @@
   position: relative;
   flex-shrink: 0;
   overflow: hidden;
+  max-width: calc(var(--content-max-width) * 1.1);
+  margin: 0 auto;
+  border-radius: 0 0 12px 12px;
 }
 
 .profile-cover__actions {
@@ -4228,6 +4233,17 @@
   font-weight: 600;
 }
 
+.pp-friends-nav--sub {
+  border-bottom: none;
+  gap: 0;
+  padding: 4px 0 0;
+}
+
+.pp-friends-nav__item--sub {
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
 .pp-friends-nav__badge {
   display: inline-flex;
   align-items: center;
@@ -4298,14 +4314,14 @@
 
 .pp-friend-row__avatar {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
 }
 
 .pp-friend-row__avatar img {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
 }

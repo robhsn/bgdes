@@ -6,7 +6,7 @@ import boardSample from '../imgs/board-sample.png';
 import coverDefault from '../imgs/cover-image.jpg';
 import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
-import { MOCK_FRIENDS, MOCK_REQUESTS_INCOMING, MOCK_REQUESTS_SENT, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
+import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
 
 /* ── Flag images ─────────────────────────────────────────────── */
 const flagModules = import.meta.glob('../imgs/icon-flags/*.png', { eager: true });
@@ -576,6 +576,193 @@ function GatedSection({ isGated, children }) {
   );
 }
 
+/* ── Friend relationship button ─────────────────────────────── */
+
+const FRIEND_ADD_ICON = (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+    <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+  </svg>
+);
+const FRIEND_PENDING_ICON = (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+  </svg>
+);
+const FRIEND_CHECK_ICON = (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+    <polyline points="17 11 19 13 23 9"/>
+  </svg>
+);
+
+function UnfriendModal({ username, onConfirm, onCancel }) {
+  return (
+    <div className="overlay overlay--top" onClick={onCancel}>
+      <div className="modal modal--sm" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: '50%',
+            background: 'rgba(220, 50, 50, 0.1)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d43333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+              <line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/>
+            </svg>
+          </div>
+        </div>
+        <div className="modal__title">Unfriend {username}</div>
+        <div style={{
+          fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
+          fontFamily: 'var(--font-body)',
+        }}>
+          Please confirm you want to remove {username} as your friend?
+        </div>
+        <div className="modal__footer" style={{ justifyContent: 'center' }}>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+          <button
+            className="com-btn com-btn--sm"
+            style={{ background: '#d43333', color: '#fff' }}
+            onClick={onConfirm}
+          >
+            Unfriend
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FriendButton({ status, username }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showUnfriendModal, setShowUnfriendModal] = useState(false);
+  const ref = React.useRef(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [menuOpen]);
+
+  if (status === 'Pending') {
+    return (
+      <button
+        className="com-btn com-btn--outline com-btn--sm"
+        style={{
+          opacity: 0.6,
+          cursor: 'default',
+          borderColor: 'var(--prim-mono-300)',
+          color: 'var(--prim-mono-500)',
+        }}
+      >
+        {FRIEND_PENDING_ICON}
+        Request Sent
+      </button>
+    );
+  }
+
+  if (status === 'Friends') {
+    return (
+      <>
+        <div ref={ref} style={{ position: 'relative' }}>
+          <button
+            className="com-btn com-btn--sm"
+            onClick={() => setMenuOpen(o => !o)}
+            style={{
+              background: 'rgba(35, 165, 126, 0.1)',
+              color: 'var(--prim-mint-400)',
+              border: '2px solid var(--prim-mint-400)',
+            }}
+          >
+            {FRIEND_CHECK_ICON}
+            Friends
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{
+              marginLeft: 2,
+              transition: 'transform 0.15s',
+              transform: menuOpen ? 'rotate(180deg)' : 'rotate(0)',
+            }}>
+              <path d="M2 3.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {menuOpen && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 6px)',
+              left: 0,
+              background: 'var(--color-bg)',
+              borderRadius: 10,
+              boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08)',
+              border: '1px solid var(--color-border)',
+              padding: '4px 0',
+              minWidth: 180,
+              zIndex: 100,
+              overflow: 'hidden',
+            }}>
+              <div
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '10px 14px', cursor: 'pointer',
+                  fontSize: 13, fontWeight: 500, fontFamily: 'var(--font-body)',
+                  color: 'var(--color-heading)',
+                  transition: 'background 0.1s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.04)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                Add to Favorites
+              </div>
+              <div style={{ height: 1, background: 'var(--color-border)', margin: '2px 10px' }} />
+              <div
+                onClick={() => { setMenuOpen(false); setShowUnfriendModal(true); }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '10px 14px', cursor: 'pointer',
+                  fontSize: 13, fontWeight: 500, fontFamily: 'var(--font-body)',
+                  color: '#d43333',
+                  transition: 'background 0.1s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(220,50,50,0.05)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+                  <line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/>
+                </svg>
+                Unfriend
+              </div>
+            </div>
+          )}
+        </div>
+
+        {showUnfriendModal && (
+          <UnfriendModal
+            username={username}
+            onCancel={() => setShowUnfriendModal(false)}
+            onConfirm={() => setShowUnfriendModal(false)}
+          />
+        )}
+      </>
+    );
+  }
+
+  /* Default: Add Friend CTA */
+  return (
+    <button className="com-btn com-btn--primary com-btn--sm">
+      {FRIEND_ADD_ICON}
+      Add Friend
+    </button>
+  );
+}
+
 /* ── Match history section ───────────────────────────────────── */
 
 function getErrorRateColor(rate) {
@@ -926,7 +1113,7 @@ function SettingsPanel({
 
   return (
     <div className="overlay overlay--top" onClick={onClose}>
-      <div className="side-panel surface-muted" onClick={e => e.stopPropagation()}>
+      <div className="side-panel surface-muted" data-section-id="pp-settings" onClick={e => e.stopPropagation()}>
         <div className="side-panel__header">
           <h2 className="side-panel__title">Settings</h2>
           <button className="side-panel__close" onClick={onClose}>
@@ -1796,31 +1983,26 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
 
 /* ── Friends tab ─────────────────────────────────────────────── */
 
-function FriendsTab({ friendsView, fbDiscovery }) {
+function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
+  const [localView, setLocalView] = useState(dmeView);
+  const [friendSearch, setFriendSearch] = useState('');
+  useEffect(() => { setLocalView(dmeView); }, [dmeView]);
+  const friendsView = localView;
+
   return (
     <div className="pp-friends">
-      {/* Sub-nav */}
-      <div className="pp-friends-nav">
-        <span className={`pp-friends-nav__item${friendsView === 'My Friends' || friendsView === 'Search Results' || friendsView.startsWith('Empty') ? ' pp-friends-nav__item--active' : ''}`}>
-          My Friends
-        </span>
-        <span className={`pp-friends-nav__item${friendsView.startsWith('Requests') ? ' pp-friends-nav__item--active' : ''}`}>
-          Requests
-          {MOCK_REQUESTS_INCOMING.length > 0 && (
-            <span className="pp-friends-nav__badge">{MOCK_REQUESTS_INCOMING.length}</span>
-          )}
-        </span>
-      </div>
-
       {/* Search bar */}
-      {(friendsView === 'My Friends' || friendsView === 'Search Results' || friendsView.startsWith('Empty')) && (
-        <div className="pp-friends-search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-          </svg>
-          <input className="pp-friends-search__input" placeholder="Search friends or players..." readOnly />
-        </div>
-      )}
+      <div className="pp-friends-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          className="pp-friends-search__input"
+          placeholder="Search friends or players..."
+          value={friendSearch}
+          onChange={e => setFriendSearch(e.target.value)}
+        />
+      </div>
 
       {/* FB Discovery card */}
       {fbDiscovery === 'Matches Found' && (
@@ -1858,69 +2040,45 @@ function FriendsTab({ friendsView, fbDiscovery }) {
       )}
 
       {/* Content based on sub-view */}
-      {friendsView === 'My Friends' && (
-        <div className="pp-friends-list">
-          {MOCK_FRIENDS.map(f => (
-            <div key={f.id} className="pp-friend-row">
-              <div className="pp-friend-row__avatar">
-                <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-                <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
+      {friendsView === 'My Friends' && (() => {
+        const filteredFriends = friendSearch
+          ? MOCK_FRIENDS.filter(f => f.username.toLowerCase().includes(friendSearch.toLowerCase()))
+          : MOCK_FRIENDS;
+        return (
+          <div className="pp-friends-list">
+            {filteredFriends.map(f => (
+              <div key={f.id} className="pp-friend-row">
+                <div className="pp-friend-row__avatar" style={{ cursor: 'pointer' }}>
+                  <img src={getAvatarSrc(f.avatar)} alt={f.username} />
+                  <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
+                </div>
+                <div className="pp-friend-row__info">
+                  <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
+                </div>
+                <div className="pp-friend-row__actions">
+                  <button className="com-btn com-btn--primary com-btn--sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                    Challenge
+                  </button>
+                  <button className="com-btn com-btn--outline com-btn--sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Remove
+                  </button>
+                </div>
               </div>
-              <div className="pp-friend-row__info">
-                <span className="pp-friend-row__name">{f.username}</span>
-                <span className="pp-friend-row__meta">{f.rating} · {f.online ? 'Online' : 'Offline'}</span>
+            ))}
+            {filteredFriends.length === 0 && (
+              <div style={{ padding: '24px 20px', textAlign: 'center', fontSize: 13, color: 'var(--color-muted)', fontFamily: 'var(--font-body)' }}>
+                No results found
               </div>
-              <div className="pp-friend-row__actions">
-                <button className="friend-btn friend-btn--icon-only" title="Challenge">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                </button>
-                <button className="friend-btn friend-btn--icon-only" title="View Profile">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {friendsView === 'Requests - Incoming' && (
-        <div className="pp-friends-list">
-          <div className="pp-friends-list__title">Incoming Requests</div>
-          {MOCK_REQUESTS_INCOMING.map(f => (
-            <div key={f.id} className="pp-friend-row">
-              <div className="pp-friend-row__avatar">
-                <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-              </div>
-              <div className="pp-friend-row__info">
-                <span className="pp-friend-row__name">{f.username}</span>
-                <span className="pp-friend-row__meta">{f.rating}</span>
-              </div>
-              <div className="pp-friend-row__actions">
-                <button className="friend-btn friend-btn--accept">Accept</button>
-                <button className="friend-btn friend-btn--decline">Decline</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {friendsView === 'Requests - Sent' && (
-        <div className="pp-friends-list">
-          <div className="pp-friends-list__title">Sent Requests</div>
-          {MOCK_REQUESTS_SENT.map(f => (
-            <div key={f.id} className="pp-friend-row">
-              <div className="pp-friend-row__avatar">
-                <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-              </div>
-              <div className="pp-friend-row__info">
-                <span className="pp-friend-row__name">{f.username}</span>
-                <span className="pp-friend-row__meta">{f.rating}</span>
-              </div>
-              <button className="friend-btn friend-btn--cancel">Cancel</button>
-            </div>
-          ))}
-        </div>
-      )}
+            )}
+          </div>
+        );
+      })()}
 
       {friendsView === 'Search Results' && (
         <div className="pp-friends-list">
@@ -1929,13 +2087,12 @@ function FriendsTab({ friendsView, fbDiscovery }) {
               <div className="pp-friends-list__title">Friends</div>
               {MOCK_SEARCH_RESULTS.friends.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <div className="pp-friend-row__avatar">
+                  <div className="pp-friend-row__avatar" style={{ cursor: 'pointer' }}>
                     <img src={getAvatarSrc(f.avatar)} alt={f.username} />
                     <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
                   </div>
                   <div className="pp-friend-row__info">
-                    <span className="pp-friend-row__name">{f.username}</span>
-                    <span className="pp-friend-row__meta">{f.rating}</span>
+                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
                   <button className="friend-btn friend-btn--friends">Friends</button>
                 </div>
@@ -1947,13 +2104,12 @@ function FriendsTab({ friendsView, fbDiscovery }) {
               <div className="pp-friends-list__title">Players</div>
               {MOCK_SEARCH_RESULTS.players.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <div className="pp-friend-row__avatar">
+                  <div className="pp-friend-row__avatar" style={{ cursor: 'pointer' }}>
                     <img src={getAvatarSrc(f.avatar)} alt={f.username} />
                     <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
                   </div>
                   <div className="pp-friend-row__info">
-                    <span className="pp-friend-row__name">{f.username}</span>
-                    <span className="pp-friend-row__meta">{f.rating}</span>
+                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
                   <button className="friend-btn friend-btn--add-friend">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
@@ -1993,10 +2149,19 @@ export default function ProfilePage({ onNavigate }) {
   const dmeCelebration = useDMEState('profile.celebration', false);
   const isMvp = useDMEState('profile.mvp', true);
   const dmeTab = useDMEState('profile.tab', 'Game History');
-  const [localTab, setLocalTab] = useState(dmeTab);
+  const [localTab, setLocalTab] = useState(() => {
+    const intent = sessionStorage.getItem('profile-tab-intent');
+    if (intent) { sessionStorage.removeItem('profile-tab-intent'); return intent; }
+    return dmeTab;
+  });
   useEffect(() => { setLocalTab(dmeTab); }, [dmeTab]);
+  useEffect(() => {
+    const intent = sessionStorage.getItem('profile-tab-intent');
+    if (intent) { sessionStorage.removeItem('profile-tab-intent'); setLocalTab(intent); }
+  });
   const activeTab = localTab;
   const friendsView = useDMEState('profile.friendsView', 'My Friends');
+  const friendStatus = useDMEState('profile.friendStatus', 'Add Friend');
   const fbDiscovery = useDMEState('profile.fbDiscovery', 'None');
 
   /* Edit mode state */
@@ -2073,7 +2238,7 @@ export default function ProfilePage({ onNavigate }) {
 
   const showActions = isOwn && !isUnregistered;
   const showOtherProfile = isOther;
-  const isGated = isUnregistered;
+  const isGated = false;
 
   function handleShareProfile() {
     const url = `${window.location.origin}/member/${player.displayName.toLowerCase()}`;
@@ -2225,17 +2390,7 @@ export default function ProfilePage({ onNavigate }) {
             <IconPencil size={32} />
           </button>
         )}
-        {/* Edit Profile / Settings buttons moved to trophy header row below */}
-        {editMode && (
-          <div className="profile-cover__actions">
-            <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
-              Cancel
-            </button>
-            <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
-              Save Profile Changes
-            </button>
-          </div>
-        )}
+        {/* Cancel / Save buttons moved to action buttons row below */}
       </div>
 
       {/* ── Profile header ── */}
@@ -2287,7 +2442,7 @@ export default function ProfilePage({ onNavigate }) {
             <div className="profile-header__bio-col">
               <div className="profile-header__date">{player.joinDate}</div>
               <div className="profile-header__name-row">
-                <h1 className="profile-header__name">{displayName}</h1>
+                <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
               </div>
               {editMode ? (
                 <textarea
@@ -2341,17 +2496,11 @@ export default function ProfilePage({ onNavigate }) {
                 ))}
               </div>
               {/* ── Action buttons ── */}
-              {isOwn && !editMode && !isNewPlayer && !isUnregistered && (
+              {isOwn && !isUnregistered && !editMode && (
                 <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
-                  <button className="com-btn com-btn--outline com-btn--sm" onClick={enterEditMode}>
+                  <button className="com-btn com-btn--outline com-btn--sm" data-role-id="pp-edit-btn" onClick={enterEditMode}>
                     <IconPencil size={14} />
                     Edit Profile
-                  </button>
-                  <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                    </svg>
-                    Settings
                   </button>
                   {!isMvp && (
                     <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowTrophyEditor(true)}>
@@ -2359,13 +2508,34 @@ export default function ProfilePage({ onNavigate }) {
                       Edit Trophy Case
                     </button>
                   )}
+                  <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    Settings
+                  </button>
                 </div>
               )}
-              {showOtherProfile && (
+              {isOwn && !isUnregistered && editMode && (
+                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
+                  <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
+                    Cancel
+                  </button>
+                  <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
+                    Save Profile Changes
+                  </button>
+                </div>
+              )}
+              {showOtherProfile && !isUnregistered && (
+                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
+                  <FriendButton status={friendStatus} username={player.displayName} />
+                </div>
+              )}
+              {isUnregistered && (
                 <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
                   <button className="com-btn com-btn--primary com-btn--sm">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                    Add Friend
+                    Create Account to Friend Player
                   </button>
                 </div>
               )}
@@ -2390,7 +2560,7 @@ export default function ProfilePage({ onNavigate }) {
                         </div>
                       )}
                       <div className="stat-card__number">{s.value.toLocaleString()}</div>
-                      <div className="stat-card__label">{s.label}</div>
+                      <div className="stat-card__label" data-role-id="pp-stat-label">{s.label}</div>
                     </div>
                   ))}
                 </div>
@@ -2408,6 +2578,7 @@ export default function ProfilePage({ onNavigate }) {
             <span
               key={t}
               className={`pp-tab${activeTab === t ? ' pp-tab--active' : ''}`}
+              data-role-id="pp-tab-label"
               onClick={() => setLocalTab(t)}
               style={{ cursor: 'pointer' }}
             >

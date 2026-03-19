@@ -134,7 +134,7 @@ function gatherParentEls(root) {
 }
 
 /* ─── Detachable / draggable panel hook ───────────────────────── */
-function useDetachablePanel(defaultPos, defaultSize) {
+function useDetachablePanel(defaultPos, defaultSize, panelId) {
   const [detached, setDetached] = useState(false);
   const [pos, setPos] = useState(defaultPos);       // { x, y }
   const [size, setSize] = useState(defaultSize);     // { w, h }
@@ -171,6 +171,21 @@ function useDetachablePanel(defaultPos, defaultSize) {
 
   const detach = useCallback(() => setDetached(true), []);
   const dock = useCallback(() => setDetached(false), []);
+
+  /* Listen for recenter-panel custom events */
+  useEffect(() => {
+    if (!panelId) return;
+    const handler = (e) => {
+      if (e.detail?.id === panelId) {
+        setPos({
+          x: Math.round((window.innerWidth - size.w) / 2),
+          y: Math.round((window.innerHeight - size.h) / 2),
+        });
+      }
+    };
+    window.addEventListener('recenter-panel', handler);
+    return () => window.removeEventListener('recenter-panel', handler);
+  }, [panelId, size]);
 
   return { detached, pos, size, onDragStart, onResizeStart, detach, dock };
 }
@@ -229,8 +244,8 @@ const COLOR_PROPS = new Set(['color','background-color','border-color']);
 export default function DevModeInspector({ visible, onClose }) {
   const [layersOpen, setLayersOpen] = useState(true);
   const [cssOpen, setCssOpen] = useState(true);
-  const layersPanel = useDetachablePanel({ x: 40, y: 40 }, { w: 280, h: 500 });
-  const cssPanel = useDetachablePanel({ x: window.innerWidth - 440, y: 40 }, { w: 400, h: 600 });
+  const layersPanel = useDetachablePanel({ x: 40, y: 40 }, { w: 280, h: 500 }, 'devmode');
+  const cssPanel = useDetachablePanel({ x: window.innerWidth - 440, y: 40 }, { w: 400, h: 600 }, 'devmode');
   const [hoveredEl, setHoveredEl] = useState(null);
   const [selectedEl, setSelectedEl] = useState(null);
   const [layers, setLayers] = useState([]);
