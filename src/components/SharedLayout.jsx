@@ -3,17 +3,8 @@ import avatarImg from '../imgs/avatar-dink.png';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import logoWhite from '../imgs/logo/Logo White.svg';
 import { useDMEState } from '../context/dme-states';
-import { MOCK_NOTIFICATIONS } from '../data/social-mock-data';
-
-/* ── Preset avatar lookup (for notification avatars) ─────────── */
-const avatarModules = import.meta.glob('../imgs/avatars/*.png', { eager: true });
-const NOTIF_AVATAR_MAP = Object.fromEntries(
-  Object.entries(avatarModules).map(([path, mod]) => {
-    const key = path.split('/').pop().replace('.png', '');
-    return [key, mod.default];
-  })
-);
-function getNotifAvatar(key) { return NOTIF_AVATAR_MAP[key] || avatarImg; }
+import ActivityCenter from './ActivityCenter';
+import Avatar from './Avatar';
 
 /* Token shorthand helpers */
 const fl = 'var(--font-logo)';
@@ -183,23 +174,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
           cursor: 'pointer', userSelect: 'none',
         }}
       >
-        <div style={{
-          width: 48, height: 48, borderRadius: '50%',
-          border: '2px solid var(--color-border-subtle)',
-          background: 'var(--color-avatar-bg)',
-          flexShrink: 0, overflow: 'hidden', position: 'relative',
-        }}>
-          <img
-            src={avatarSrc || avatarImg}
-            alt="Avatar"
-            style={{
-              position: 'absolute',
-              width: '105.46%', height: '105.46%',
-              left: '-2.73%', top: '6.2%',
-              objectFit: 'cover',
-            }}
-          />
-        </div>
+        <Avatar src={avatarSrc || avatarImg} alt="Avatar" size="lg" />
         <span style={{
           fontFamily: fd, fontWeight: 600, fontSize: 'var(--size-dropdown)',
           color: 'var(--color-heading)', lineHeight: 1,
@@ -302,110 +277,15 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
   );
 }
 
-/* ─── Notification Bell + Dropdown ────────────────────────────── */
-
-function IconBell() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-    </svg>
-  );
-}
-
-function getNotifText(n) {
-  switch (n.type) {
-    case 'friend_request':     return <><strong>{n.user.username}</strong> sent you a friend request</>;
-    case 'friend_accepted':    return <><strong>{n.user.username}</strong> accepted your friend request</>;
-    case 'challenge_received': return <><strong>{n.user.username}</strong> challenged you to a <strong>{n.format} match</strong></>;
-    case 'challenge_accepted': return <><strong>{n.user.username}</strong> accepted your challenge</>;
-    case 'challenge_declined': return <><strong>{n.user.username}</strong> declined your challenge</>;
-    case 'fb_friends_found':   return <><strong>{n.count}</strong> of your Facebook friends are on Backgammon.com!</>;
-    default: return null;
-  }
-}
-
-function NotificationBell({ notifState }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const close = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', close);
-    return () => document.removeEventListener('mousedown', close);
-  }, [open]);
-
-  if (notifState === 'Hidden') return null;
-
-  const isUnread = notifState === 'Unread';
-  const items = notifState === 'Empty' ? [] : MOCK_NOTIFICATIONS;
-  const unreadCount = items.filter(n => !n.read).length;
-
-  return (
-    <div ref={ref} style={{ position: 'relative' }}>
-      <div className="notif-bell" onClick={() => setOpen(o => !o)} style={{ color: 'var(--color-heading)' }}>
-        <IconBell />
-        {isUnread && unreadCount > 0 && (
-          <span className="notif-bell__badge">{unreadCount}</span>
-        )}
-      </div>
-
-      {open && (
-        <div className="notif-dropdown">
-          <div className="notif-dropdown__header">
-            <span className="notif-dropdown__title">Notifications</span>
-            {items.length > 0 && (
-              <button className="notif-dropdown__mark-all">Mark all read</button>
-            )}
-          </div>
-          {items.length === 0 ? (
-            <div className="notif-empty">No notifications yet</div>
-          ) : (
-            items.map(n => (
-              <div key={n.id} className={`notif-item${!n.read ? ' notif-item--unread' : ''}`}>
-                <div className="notif-item__avatar">
-                  <img src={getNotifAvatar(n.user.avatar)} alt={n.user.username} />
-                </div>
-                <div className="notif-item__body">
-                  <div className="notif-item__text">{getNotifText(n)}</div>
-                  <div className="notif-item__time">{n.timestamp}</div>
-                  {(n.type === 'friend_request' || n.type === 'challenge_received') && (
-                    <div className="notif-item__actions">
-                      <button className="friend-btn friend-btn--accept" style={{ padding: '4px 10px', fontSize: 11 }}>Accept</button>
-                      <button className="friend-btn friend-btn--decline" style={{ padding: '4px 10px', fontSize: 11 }}>Decline</button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
 /* ─── Site Header ─────────────────────────────────────────────── */
 
 export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }) {
-  const [scrolled, setScrolled] = useState(false);
   const loggedIn = useDMEState('auth.loggedIn', true);
   const logoVariant = useDMEState('global.logoVariant', 'Black');
   const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
-  const notifState = useDMEState('social.notifications', 'Hidden');
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <>
-    <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`} data-section-id="gl-header">
+    <header className="site-header" data-section-id="gl-header">
       <span
         role="link"
         tabIndex={0}
@@ -429,15 +309,14 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           >
             New Game
           </button>
-          <NotificationBell notifState={notifState} />
-          <div style={{ width: 1, height: 28, background: 'var(--color-border)', flexShrink: 0 }} />
+          <ActivityCenter onNavigate={onNavigate} />
           <AvatarDropdown avatarSrc={avatarSrcProp} onNavigate={onNavigate} />
         </div>
       ) : (
         <button className="com-btn com-btn--primary com-btn--sm">Log In / Sign Up</button>
       )}
     </header>
-    <div aria-hidden="true" className={`site-header__spacer${scrolled ? ' site-header__spacer--scrolled' : ''}`} />
+    <div aria-hidden="true" className="site-header__spacer" />
     </>
   );
 }

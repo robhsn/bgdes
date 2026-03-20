@@ -14,7 +14,7 @@
     "--prim-type-h2-weight": "600",
     "--prim-type-h2-ls": "3",
     "--prim-type-h2-lh": "12",
-    "--prim-type-h3-weight": "600",
+    "--prim-type-h3-weight": "700",
     "--prim-type-h3-ls": "-1",
     "--prim-type-h3-lh": "12",
     "--prim-type-h4-weight": "600",
@@ -28,7 +28,23 @@
     "--prim-type-body-md-lh": "12",
     "--prim-type-body-sm-weight": "400",
     "--prim-type-body-sm-ls": "0",
-    "--prim-type-body-sm-lh": "16"
+    "--prim-type-body-sm-lh": "16",
+    "--prim-type-sh1": "DM Sans",
+    "--prim-type-sh1-weight": "600",
+    "--prim-type-sh1-ls": "0",
+    "--prim-type-sh1-lh": "13",
+    "--prim-type-sh2": "DM Sans",
+    "--prim-type-sh2-weight": "600",
+    "--prim-type-sh2-ls": "4",
+    "--prim-type-sh2-lh": "13",
+    "--prim-type-sh3": "DM Sans",
+    "--prim-type-sh3-weight": "500",
+    "--prim-type-sh3-ls": "6",
+    "--prim-type-sh3-lh": "14",
+    "--prim-type-sh4": "DM Sans",
+    "--prim-type-sh4-weight": "500",
+    "--prim-type-sh4-ls": "6",
+    "--prim-type-sh4-lh": "14"
   },
   "l2": {
     "--color-toc-pip": "--prim-mint-300",
@@ -48,6 +64,7 @@
     "--color-statement-bg": "--prim-mint-100",
     "--color-statement-border": "--prim-fall-300",
     "--color-statement-text": "--prim-mint-700",
+    "--color-activity-bell": "--prim-mint-900",
     "--color-dropdown-bg": "--prim-mono-white",
     "--color-dropdown-border": "--prim-mint-300",
     "--color-dropdown-text": "--prim-mint-900",
@@ -166,8 +183,8 @@
     "--sf-inverse-h2": "--prim-mint-600",
     "--sf-inverse-h3": "--prim-mint-600",
     "--sf-inverse-h4": "--prim-mint-600",
-    "--sf-inverse-body-lg": "--prim-mint-200",
-    "--sf-inverse-body-sm": "--prim-mint-300",
+    "--sf-inverse-body-lg": "--prim-mint-900",
+    "--sf-inverse-body-sm": "--prim-mint-900",
     "--sf-accent-bg": "--prim-mint-700",
     "--sf-accent-heading": "--prim-mono-white",
     "--sf-accent-body": "--prim-mint-200",
@@ -801,6 +818,7 @@
       "--color-statement-bg": "--prim-mint-100",
       "--color-statement-border": "--prim-fall-300",
       "--color-statement-text": "--prim-mint-700",
+      "--color-activity-bell": "--prim-mint-900",
       "--color-dropdown-bg": "--prim-mono-white",
       "--color-dropdown-border": "--prim-mint-300",
       "--color-dropdown-text": "--prim-mint-900",
@@ -919,8 +937,8 @@
       "--sf-inverse-h2": "--prim-mint-600",
       "--sf-inverse-h3": "--prim-mint-600",
       "--sf-inverse-h4": "--prim-mint-600",
-      "--sf-inverse-body-lg": "--prim-mint-200",
-      "--sf-inverse-body-sm": "--prim-mint-300",
+      "--sf-inverse-body-lg": "--prim-mint-900",
+      "--sf-inverse-body-sm": "--prim-mint-900",
       "--sf-accent-bg": "--prim-mint-700",
       "--sf-accent-heading": "--prim-mono-white",
       "--sf-accent-body": "--prim-mint-200",
@@ -1036,7 +1054,8 @@
     "tk-status": "accent",
     "pp-settings": "inverse",
     "st-content": "default",
-    "gl-modal": "inverse"
+    "gl-modal": "inverse",
+    "gl-activity-center": "tertiary"
   },
   "roleOverrides": {
     "pp-edit-btn": {
@@ -1092,6 +1111,40 @@
       "type": "button",
       "variant": "tertiary",
       "page": "profile"
+    },
+    "_auto:button.com-btn.com-btn--primary.com-btn--sm:1": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
+    },
+    "_auto:button.com-btn.com-btn--outline.com-btn--sm:0": {
+      "type": "button",
+      "variant": "quaternary",
+      "page": "profile"
+    },
+    "_auto:button.com-btn.com-btn--outline.com-btn--sm:1": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
+    },
+    "_auto:button.com-btn.com-btn--outline.com-btn--sm:2": {
+      "type": "button",
+      "variant": "quaternary",
+      "page": "profile"
+    },
+    "_auto:button.com-btn.com-btn--primary.com-btn--sm:0": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
+    },
+    "_auto:pp-header|button.com-btn.com-btn--sm:0": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
+    },
+    "gl-nav-newgame": {
+      "type": "button",
+      "variant": "tertiary"
     }
   },
   "states": {
@@ -1099,7 +1152,9 @@
     "profile.celebration": false,
     "global.logoVariant": "White",
     "profile.tab": "Game History",
-    "profile.mvp": false,
-    "settings.section": "Notification Preferences"
+    "profile.mvp": true,
+    "settings.section": "Notification Preferences",
+    "profile.viewType": "Guest - Game History",
+    "profile.friendStatus": "Friends"
   }
 }

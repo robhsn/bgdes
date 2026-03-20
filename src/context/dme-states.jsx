@@ -34,8 +34,18 @@ export const STATE_DEFINITIONS = [
       'Friend - Game History',
       'Guest - Game History',
       'Guest - Unregistered',
+      'Profile B',
     ],
     defaultValue: 'Own - Established',
+  },
+  {
+    key: 'profile.onlineStatus',
+    label: 'Online Status',
+    description: 'Controls online indicator on profile avatar',
+    type: 'select',
+    page: 'profile',
+    options: ['Online', 'Offline'],
+    defaultValue: 'Online',
   },
   {
     key: 'profile.celebration',
@@ -104,7 +114,7 @@ export const STATE_DEFINITIONS = [
     description: 'Relationship state of the Add Friend button',
     type: 'select',
     page: 'profile',
-    options: ['Add Friend', 'Pending', 'Friends'],
+    options: ['Add Friend', 'Pending', 'Accept Request', 'Friends'],
     defaultValue: 'Add Friend',
     visibleWhen: { 'profile.viewType': ['Friend - Game History', 'Guest - Game History'] },
   },
@@ -181,14 +191,42 @@ export const STATE_DEFINITIONS = [
     defaultValue: 'None',
   },
 
-  // Notifications (global — shows in header)
+  // Play Page — opponent friend status for post-game modal
   {
-    key: 'social.notifications',
-    label: 'Notifications',
-    description: 'Show notification bell and dropdown in header',
+    key: 'play.opponentIsFriend',
+    label: 'Opponent Is Friend',
+    description: 'Controls Add Friend button visibility on victory/defeat modal',
+    type: 'play',
+    defaultValue: false,
+  },
+
+  // Activity Center — dropdown open state
+  {
+    key: 'social.activityOpen',
+    label: 'Activity Dropdown',
+    description: 'Force the activity center dropdown open',
+    type: 'global',
+    defaultValue: false,
+  },
+
+  // Activity Center (global — shows in header)
+  {
+    key: 'social.activityCenter',
+    label: 'Activity Center',
+    description: 'Show activity center icon and dropdown in header',
     type: 'select',
     page: 'global',
-    options: ['Hidden', 'Empty', 'Unread', 'All Read'],
-    defaultValue: 'Hidden',
+    options: ['Hidden', 'Empty', 'Friends Online', 'Activity - Unread', 'Activity - All Read'],
+    defaultValue: 'Activity - Unread',
+  },
+  {
+    key: 'social.unreadCount',
+    label: 'Unread Count',
+    description: 'Number of unread activity items shown on badge',
+    type: 'select',
+    page: 'global',
+    options: ['0', '1', '3', '5', '12'],
+    defaultValue: '3',
+    visibleWhen: { 'social.activityCenter': ['Activity - Unread'] },
   },
 ];

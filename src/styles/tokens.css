@@ -379,6 +379,8 @@
 
   /* ── Avatar ─────────────────────────────────────────────── */
   --color-avatar-bg:              var(--prim-mono-200);
+  --color-online:                 #22c55e;
+  --color-offline:                #9ca3af;
 
   /* ── Stats ──────────────────────────────────────────────── */
   --color-stat-percentile:        var(--prim-orange-500);
@@ -391,6 +393,9 @@
   --color-nav-bg:                 var(--prim-mono-100);
   --color-nav-border:             var(--prim-mono-250);
   --color-nav-icon:               var(--prim-mono-900);
+
+  /* ── Activity bell ────────────────────────────────────────── */
+  --color-activity-bell:          var(--prim-mono-900);
 
   /* ── Header dropdown ──────────────────────────────────────── */
   --color-dropdown-bg:            var(--prim-mono-white);
@@ -438,6 +443,49 @@
   --font-dropdown:       var(--prim-type-h1);       /* dropdown menu items */
   --font-dropdown-badge: var(--prim-type-h1);       /* dropdown "Soon" badges */
 
+  /* ── Typography companion tokens (weight / letter-spacing / line-height) ── */
+  /* These chain L2 semantic names → L1 primitives so elements can write e.g.
+     font-weight: var(--font-heading-weight) and automatically pick up L1 changes. */
+  --font-heading-weight:    var(--prim-type-h1-weight);
+  --font-heading-ls:        var(--prim-type-h1-ls);
+  --font-heading-lh:        var(--prim-type-h1-lh);
+  --font-subheading-weight: var(--prim-type-h2-weight);
+  --font-subheading-ls:     var(--prim-type-h2-ls);
+  --font-subheading-lh:     var(--prim-type-h2-lh);
+  --font-section-weight:    var(--prim-type-h3-weight);
+  --font-section-ls:        var(--prim-type-h3-ls);
+  --font-section-lh:        var(--prim-type-h3-lh);
+  --font-label-weight:      var(--prim-type-h4-weight);
+  --font-label-ls:          var(--prim-type-h4-ls);
+  --font-label-lh:          var(--prim-type-h4-lh);
+  --font-lead-weight:       var(--prim-type-body-lg-weight);
+  --font-lead-ls:           var(--prim-type-body-lg-ls);
+  --font-lead-lh:           var(--prim-type-body-lg-lh);
+  --font-body-weight:       var(--prim-type-body-md-weight);
+  --font-body-ls:           var(--prim-type-body-md-ls);
+  --font-body-lh:           var(--prim-type-body-md-lh);
+  --font-small-weight:      var(--prim-type-body-sm-weight);
+  --font-small-ls:          var(--prim-type-body-sm-ls);
+  --font-small-lh:          var(--prim-type-body-sm-lh);
+  --font-logo-weight:       var(--prim-type-h1-weight);
+  --font-logo-ls:           var(--prim-type-h1-ls);
+  --font-logo-lh:           var(--prim-type-h1-lh);
+  --font-pill-weight:       var(--prim-type-h1-weight);
+  --font-pill-ls:           var(--prim-type-h1-ls);
+  --font-pill-lh:           var(--prim-type-h1-lh);
+  --font-toc-weight:        var(--prim-type-body-sm-weight);
+  --font-toc-ls:            var(--prim-type-body-sm-ls);
+  --font-toc-lh:            var(--prim-type-body-sm-lh);
+  --font-meta-weight:       var(--prim-type-body-sm-weight);
+  --font-meta-ls:           var(--prim-type-body-sm-ls);
+  --font-meta-lh:           var(--prim-type-body-sm-lh);
+  --font-dropdown-weight:       var(--prim-type-h1-weight);
+  --font-dropdown-ls:           var(--prim-type-h1-ls);
+  --font-dropdown-lh:           var(--prim-type-h1-lh);
+  --font-dropdown-badge-weight: var(--prim-type-h1-weight);
+  --font-dropdown-badge-ls:     var(--prim-type-h1-ls);
+  --font-dropdown-badge-lh:     var(--prim-type-h1-lh);
+
   --size-h1:      70px;
   --size-h2:      36px;
   --size-h3:      24px;
@@ -467,7 +515,7 @@
 
   /* ── Layout ──────────────────────────────────────────────────── */
   --content-max-width: 900px;
-  --header-height:     100px;
+  --header-height:     64px;
 
   /* ── Status / Feedback Colors ──────────────────────────────── */
   --color-status-success:     #2e7d32;

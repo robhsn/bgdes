@@ -92,6 +92,15 @@
   padding: 6px 16px;
 }
 
+/* ── Size: Micro ───────────────────────────────────────────── */
+
+.com-btn--micro {
+  height: 28px;
+  font-size: 11px;
+  padding: 4px 10px;
+  gap: 4px;
+}
+
 /* ── Size: Large ────────────────────────────────────────────── */
 
 .com-btn--lg {

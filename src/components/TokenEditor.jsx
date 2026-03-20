@@ -219,6 +219,7 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mono-100',
       '--color-statement-border': '--prim-mono-350',
       '--color-statement-text':   '--prim-mono-700',
+      '--color-activity-bell':       '--prim-mono-900',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-mono-350',
       '--color-dropdown-text':       '--prim-mono-900',
@@ -359,6 +360,7 @@ const THEMES = {
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-activity-bell':       '--prim-sapphire-500',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-splash-300',
       '--color-dropdown-text':       '--prim-sapphire-500',
@@ -499,6 +501,7 @@ const THEMES = {
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-activity-bell':       '--prim-sapphire-500',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-splash-300',
       '--color-dropdown-text':       '--prim-sapphire-500',
@@ -639,6 +642,7 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mint-100',
       '--color-statement-border': '--prim-fall-300',
       '--color-statement-text':   '--prim-mint-700',
+      '--color-activity-bell':       '--prim-mint-900',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-mint-300',
       '--color-dropdown-text':       '--prim-mint-900',
@@ -827,11 +831,12 @@ const PAGE_SECTIONS = {
 };
 
 const GLOBAL_SECTIONS = [
-  { id: 'gl-header',   label: 'Header',         defaultSurface: 'default' },
-  { id: 'gl-dropdown', label: 'Dropdown Menu',   defaultSurface: 'default' },
-  { id: 'gl-modal',    label: 'Modals',          defaultSurface: 'default' },
-  { id: 'gl-cta',      label: 'Ready to Play',   defaultSurface: 'accent' },
-  { id: 'gl-footer',   label: 'Footer',          defaultSurface: 'inverse' },
+  { id: 'gl-header',          label: 'Header',           defaultSurface: 'default' },
+  { id: 'gl-dropdown',        label: 'Dropdown Menu',    defaultSurface: 'default' },
+  { id: 'gl-activity-center', label: 'Activity Center',  defaultSurface: 'default' },
+  { id: 'gl-modal',           label: 'Modals',           defaultSurface: 'default' },
+  { id: 'gl-cta',             label: 'Ready to Play',    defaultSurface: 'accent' },
+  { id: 'gl-footer',          label: 'Footer',           defaultSurface: 'inverse' },
 ];
 
 const SURFACE_CLASSES = ['surface-muted', 'surface-inverse', 'surface-accent', 'surface-tertiary'];
@@ -868,6 +873,23 @@ const DEFAULT_L1 = {
   '--prim-type-body-sm-weight': '400',
   '--prim-type-body-sm-ls':     '0',    /* 0em     */
   '--prim-type-body-sm-lh':     '16',   /* 1.6     */
+  /* subheadings */
+  '--prim-type-sh1':            'Raleway',
+  '--prim-type-sh1-weight':     '600',
+  '--prim-type-sh1-ls':         '4',    /* 0.04em  */
+  '--prim-type-sh1-lh':         '13',   /* 1.3     */
+  '--prim-type-sh2':            'Raleway',
+  '--prim-type-sh2-weight':     '600',
+  '--prim-type-sh2-ls':         '4',    /* 0.04em  */
+  '--prim-type-sh2-lh':         '13',   /* 1.3     */
+  '--prim-type-sh3':            'Inter',
+  '--prim-type-sh3-weight':     '500',
+  '--prim-type-sh3-ls':         '6',    /* 0.06em  */
+  '--prim-type-sh3-lh':         '14',   /* 1.4     */
+  '--prim-type-sh4':            'Inter',
+  '--prim-type-sh4-weight':     '500',
+  '--prim-type-sh4-ls':         '6',    /* 0.06em  */
+  '--prim-type-sh4-lh':         '14',   /* 1.4     */
 };
 
 /* ─── L2 font role tokens — store role name, applied as var(--prim-type-xxx) ── */
@@ -979,6 +1001,12 @@ function applyL2(name, rawVal) {
   if (L2_FONT_ROLE_TOKENS.has(name)) {
     /* rawVal is L1 role key (e.g. 'h1', 'body-md') → CSS var reference */
     css = `var(--prim-type-${rawVal})`;
+    /* Also set companion weight / letter-spacing / line-height tokens
+       so that elements can use e.g. var(--font-heading-weight) to inherit
+       the L1 role's weight through the L2 chain. */
+    document.documentElement.style.setProperty(`${name}-weight`, `var(--prim-type-${rawVal}-weight)`);
+    document.documentElement.style.setProperty(`${name}-ls`,     `var(--prim-type-${rawVal}-ls)`);
+    document.documentElement.style.setProperty(`${name}-lh`,     `var(--prim-type-${rawVal}-lh)`);
   } else if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) {
     /* rawVal is an L1 token name like '--prim-mono-900' → CSS var reference */
     css = `var(${rawVal})`;
@@ -1010,6 +1038,12 @@ function removeAllOverrides() {
   [...Object.keys(DEFAULT_L2), ...Object.keys(DEFAULT_L1)].forEach(k => {
     document.documentElement.style.removeProperty(k);
   });
+  /* Also remove L2 companion weight/ls/lh tokens */
+  for (const name of L2_FONT_ROLE_TOKENS) {
+    document.documentElement.style.removeProperty(`${name}-weight`);
+    document.documentElement.style.removeProperty(`${name}-ls`);
+    document.documentElement.style.removeProperty(`${name}-lh`);
+  }
 }
 
 /* ─── Detachable / draggable panel hook (shared with DevModeInspector) ── */
@@ -2250,6 +2284,7 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         </SubSect>
 
         <SubSect label="Header Dropdown">
+          <ColorRow label="Bell icon"   name="--color-activity-bell"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Background"  name="--color-dropdown-bg"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Border"      name="--color-dropdown-border"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Text"        name="--color-dropdown-text"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
@@ -2337,6 +2372,10 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         <SliderRow label="H2 size"       name="--size-h2"         l2={l2} set={set} min={18}  max={72}   unit="px" />
         <SliderRow label="H3 size"       name="--size-h3"         l2={l2} set={set} min={16}  max={48}   unit="px" />
         <SliderRow label="H4 size"       name="--size-h4"         l2={l2} set={set} min={14}  max={36}   unit="px" />
+        <SliderRow label="SH1 size"      name="--size-sh1"        l2={l2} set={set} min={12}  max={28}   unit="px" />
+        <SliderRow label="SH2 size"      name="--size-sh2"        l2={l2} set={set} min={11}  max={24}   unit="px" />
+        <SliderRow label="SH3 size"      name="--size-sh3"        l2={l2} set={set} min={10}  max={20}   unit="px" />
+        <SliderRow label="SH4 size"      name="--size-sh4"        l2={l2} set={set} min={9}   max={18}   unit="px" />
         <SliderRow label="Body lg size"  name="--size-body-lg"    l2={l2} set={set} min={14}  max={32}   unit="px" />
         <SliderRow label="Body size"     name="--size-body"       l2={l2} set={set} min={12}  max={28}   unit="px" />
         <SliderRow label="Body sm size"  name="--size-body-sm"    l2={l2} set={set} min={10}  max={20}   unit="px" />
@@ -2930,6 +2969,10 @@ function RoleRow({ label, name, l2, set }) {
     { value: 'h2',       label: 'H2' },
     { value: 'h3',       label: 'H3' },
     { value: 'h4',       label: 'H4' },
+    { value: 'sh1',      label: 'Subheading 1' },
+    { value: 'sh2',      label: 'Subheading 2' },
+    { value: 'sh3',      label: 'Subheading 3' },
+    { value: 'sh4',      label: 'Subheading 4' },
     { value: 'body-lg',  label: 'Body Large' },
     { value: 'body-md',  label: 'Body Medium' },
     { value: 'body-sm',  label: 'Body Small' },

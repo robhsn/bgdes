@@ -5,6 +5,7 @@ import { MOCK_FRIENDS } from '../data/social-mock-data';
 import avatarDrac from '../imgs/avatars/Drac.png';
 import avatarSoldier from '../imgs/avatars/Soldier.png';
 import avatarKing from '../imgs/avatars/King.png';
+import Avatar from './Avatar';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import './PlayPage.css';
 
@@ -447,6 +448,8 @@ function ResignModal() {
 }
 
 function GameOverModal({ isVictory }) {
+  const opponentIsFriend = useDMEState('play.opponentIsFriend', false);
+
   return (
     <div className="gp-modal-card gp-modal-card--gameover">
       <div className="gp-modal-emoji">{isVictory ? '🏆' : '😨'}</div>
@@ -459,12 +462,40 @@ function GameOverModal({ isVictory }) {
       <button className="gp-modal-btn gp-modal-btn--primary">Play again</button>
       <button className="gp-modal-btn gp-modal-btn--outline">Play a friend</button>
       <button className="gp-modal-link">Review game</button>
-      <div className="gp-postgame-friend">
-        <button className="friend-btn friend-btn--icon-only friend-btn--add-friend" title="Add opponent as friend">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-        </button>
-        <span className="gp-postgame-friend__label">Add GammonKing42</span>
+
+      {/* Opponent baseball card */}
+      <div className="gp-opponent-card">
+        <div className="gp-opponent-card__left">
+          <Avatar src={avatarKing} alt="GammonKing42" size="xl" />
+          <div className="gp-opponent-card__info">
+            <span className="gp-opponent-card__name">GammonKing42</span>
+            <span className="gp-opponent-card__intro">Backgammon enthusiast</span>
+          </div>
+        </div>
+        <div className="gp-opponent-card__stats">
+          <div className="gp-opponent-card__stat">
+            <span className="gp-opponent-card__stat-value">12</span>
+            <span className="gp-opponent-card__stat-label">Games</span>
+          </div>
+          <div className="gp-opponent-card__stat">
+            <span className="gp-opponent-card__stat-value">7</span>
+            <span className="gp-opponent-card__stat-label">Wins</span>
+          </div>
+          <div className="gp-opponent-card__stat">
+            <span className="gp-opponent-card__stat-value">5</span>
+            <span className="gp-opponent-card__stat-label">Losses</span>
+          </div>
+        </div>
       </div>
+      {!opponentIsFriend && (
+        <button className="gp-modal-btn gp-modal-btn--primary" style={{ marginTop: 8 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 6 }}>
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+            <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+          </svg>
+          Add Friend
+        </button>
+      )}
     </div>
   );
 }
@@ -526,12 +557,11 @@ function InGameProfileCard({ onClose }) {
         <button className="gp-profile-card__close" onClick={onClose}>&times;</button>
         <div className="gp-profile-card__cover" />
         <div className="gp-profile-card__avatar">
-          <img src={avatarKing} alt={opponent.name} />
+          <Avatar src={avatarKing} alt={opponent.name} size="xl" online={opponent.online} />
         </div>
         <div className="gp-profile-card__body">
           <div className="gp-profile-card__name-row">
             <span className="gp-profile-card__name">{opponent.name}</span>
-            <span className={`online-dot online-dot--sm online-dot--${opponent.online ? 'online' : 'offline'}`} />
           </div>
           <div className="gp-profile-card__rating">{opponent.rating}</div>
           <div className="gp-profile-card__stats">

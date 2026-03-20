@@ -367,8 +367,8 @@ function TextStylesSection() {
               fontFamily: `var(${t.family})`,
               fontSize,
               fontWeight: t.weight ? `var(${t.weight})` : undefined,
-              letterSpacing: t.ls ? `calc(var(${t.ls}) * 1px)` : undefined,
-              lineHeight: t.lh ? `calc(1 + var(${t.lh}) / 100)` : undefined,
+              letterSpacing: t.ls ? `var(${t.ls})` : undefined,
+              lineHeight: t.lh ? `var(${t.lh})` : undefined,
               color: 'var(--color-heading)',
             };
             return (
@@ -559,6 +559,20 @@ function ButtonsSection() {
               </button>
               <button className="com-btn com-btn--tertiary com-btn--sm" onClick={e => e.preventDefault()}>Tertiary</button>
               <button className="com-btn com-btn--quaternary com-btn--sm" onClick={e => e.preventDefault()}>Quaternary</button>
+            </div>
+          </div>
+          <div className="btn-showcase__row">
+            <div className="btn-showcase__label">Micro variant</div>
+            <div className="btn-showcase__buttons">
+              <button className="com-btn com-btn--primary com-btn--micro" onClick={e => e.preventDefault()}>Primary</button>
+              <button className="com-btn com-btn--dark com-btn--micro" onClick={e => e.preventDefault()}>Dark</button>
+              <button className="com-btn com-btn--outline com-btn--micro" onClick={e => e.preventDefault()}>Outline</button>
+              <button className="com-btn com-btn--ghost com-btn--micro" onClick={e => e.preventDefault()}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--com-btn-ghost-icon)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                Ghost
+              </button>
+              <button className="com-btn com-btn--tertiary com-btn--micro" onClick={e => e.preventDefault()}>Tertiary</button>
+              <button className="com-btn com-btn--quaternary com-btn--micro" onClick={e => e.preventDefault()}>Quaternary</button>
             </div>
           </div>
         </div>

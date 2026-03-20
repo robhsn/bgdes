@@ -57,31 +57,50 @@ function IconProfile() {
   );
 }
 
+function IconSettingsNav() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  );
+}
+
+function IconActivityNav() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 40 40" fill="currentColor">
+      <path d="M20.0038 0C18.6547 0 17.5648 1.08994 17.5648 2.43902V2.68293C12.0008 3.81098 7.80871 8.73476 7.80871 14.6341V16.2881C7.80871 19.9543 6.55871 23.5137 4.27213 26.3796L3.52518 27.3095C3.13646 27.7896 2.93066 28.3841 2.93066 29.0015C2.93066 30.4954 4.14255 31.7073 5.63646 31.7073H34.3636C35.8575 31.7073 37.0694 30.4954 37.0694 29.0015C37.0694 28.3841 36.8636 27.7896 36.4749 27.3095L35.7279 26.3796C33.449 23.5137 32.199 19.9543 32.199 16.2881V14.6341C32.199 8.73476 28.0069 3.81098 22.4429 2.68293V2.43902C22.4429 1.08994 21.3529 0 20.0038 0Z"/>
+      <path d="M14.386 34.386C14.386 35.8749 14.9775 37.3028 16.0303 38.3557C17.0832 39.4085 18.5111 40 20.0001 40C21.489 40 22.917 39.4085 23.9698 38.3557C25.0226 37.3028 25.6141 35.8749 25.6141 34.386H14.386Z"/>
+    </svg>
+  );
+}
+
 const NAV_ITEMS = [
-  { label: 'Challenges', Icon: IconTrophy,   active: false },
-  { label: 'Learning',   Icon: IconLearning,  active: true  },
-  { label: 'New Game',    Icon: IconNewGame,   active: false },
-  { label: 'Friends',    Icon: IconFriends,   active: false },
-  { label: 'Profile',    Icon: IconProfile,   active: false },
+  { label: 'Learn',         Icon: IconLearning },
+  { label: 'My Profile',    Icon: IconProfile },
+  { label: 'New Game',      Icon: IconNewGame },
+  { label: 'Notifications', Icon: IconActivityNav,  hasBadge: true },
+  { label: 'Settings',      Icon: IconSettingsNav },
 ];
 
-function MobileNav({ onNavigate, currentPageId }) {
-  const isProfileActive = currentPageId === 'profile';
+function MobileNav({ onNavigate, hasUnread, activePage }) {
   return (
     <nav className="mobile-nav">
-      {NAV_ITEMS.map(({ label, Icon, active }) => {
-        const isActive = label === 'Profile' ? isProfileActive : (label === 'Learning' && !isProfileActive ? active : false);
-        return (
-          <button
-            key={label}
-            className={`mobile-nav__item${isActive ? ' mobile-nav__item--active' : ''}`}
-            onClick={label === 'Profile' ? () => onNavigate?.('profile') : undefined}
-          >
-            <Icon />
-            <span className="mobile-nav__label">{label}</span>
-          </button>
-        );
-      })}
+      {NAV_ITEMS.map(({ label, Icon, hasBadge }) => (
+        <button
+          key={label}
+          className={`mobile-nav__item${activePage === label ? ' mobile-nav__item--active' : ''}${hasBadge ? ' mobile-nav__item--has-badge' : ''}`}
+          onClick={
+            label === 'Learn' ? () => onNavigate?.('learn-hub')
+            : label === 'My Profile' ? () => onNavigate?.('profile')
+            : label === 'New Game' ? () => onNavigate?.('play')
+            : label === 'Settings' ? () => onNavigate?.('settings')
+            : undefined
+          }
+        >
+          <Icon />
+          {hasBadge && hasUnread && <span className="mobile-nav__badge" />}
+        </button>
+      ))}
     </nav>
   );
 }
@@ -251,6 +270,7 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
 
 export default function LearnHubPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn', true);
+  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
@@ -449,7 +469,7 @@ export default function LearnHubPage({ onNavigate }) {
       <PlayNowCta sectionId="gl-cta" />
       <SiteFooter sectionId="gl-footer" />
 
-      <MobileNav onNavigate={onNavigate} currentPageId="learn-hub" />
+      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />
       <div className="mobile-nav__spacer" />
 
     </div>

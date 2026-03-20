@@ -7,6 +7,7 @@ import coverDefault from '../imgs/cover-image.jpg';
 import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
 import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
+import Avatar from './Avatar';
 
 /* ── Flag images ─────────────────────────────────────────────── */
 const flagModules = import.meta.glob('../imgs/icon-flags/*.png', { eager: true });
@@ -107,27 +108,48 @@ const MOCK_GUEST = {
   stats: { wins: 4, losses: 6, gamesPlayed: 10, currentStreak: 1, highestStreak: 2 },
 };
 
+const MOCK_PROFILE_B = {
+  displayName: 'GammonKing42',
+  avatar: getAvatarSrc('Timothy'),
+  joinDate: 'Member since August 2023',
+  bio: 'Precision player. If you leave a blot, I will hit it.',
+  stats: { wins: 204, losses: 96, gamesPlayed: 300, currentStreak: 3, highestStreak: 14 },
+};
+
+const MATCH_HISTORY_B = [
+  { id: 101, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'win',  score: '5–2', date: 'Mar 7',  duration: '18m', errorRate: 14, improvement: null },
+  { id: 102, opponent: 'MarinaD',                 avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 22, improvement: null },
+  { id: 103, opponent: 'Felix_B',                 avatarKey: 'Wizard',   result: 'win',  score: '5–4', date: 'Mar 4',  duration: '20m', errorRate: 16, improvement: 4  },
+  { id: 104, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'loss', score: '2–5', date: 'Mar 2',  duration: '14m', errorRate: 28, improvement: null },
+  { id: 105, opponent: 'BoardMaster',             avatarKey: 'King',     result: 'win',  score: '5–1', date: 'Mar 1',  duration: '10m', errorRate: 9,  improvement: 6  },
+  { id: 106, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'win',  score: '5–0', date: 'Feb 28', duration: '5m',  errorRate: 4,  improvement: 11 },
+  { id: 107, opponent: 'SarahM',                  avatarKey: 'Witch',    result: 'win',  score: '5–3', date: 'Feb 26', duration: '16m', errorRate: 13, improvement: null },
+  { id: 108, opponent: 'Felix_B',                 avatarKey: 'Wizard',   result: 'loss', score: '4–5', date: 'Feb 24', duration: '19m', errorRate: 25, improvement: null },
+  { id: 109, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'loss', score: '3–5', date: 'Feb 22', duration: '17m', errorRate: 20, improvement: null },
+  { id: 110, opponent: 'TommyV',                  avatarKey: 'Knight',   result: 'win',  score: '5–2', date: 'Feb 20', duration: '12m', errorRate: 10, improvement: 3  },
+];
+
 const MATCH_HISTORY = [
-  { id: 1,  opponent: 'MarinaD',    result: 'win',  score: '5–3', date: 'Today',  duration: '12m', errorRate: 8,  improvement: 8  },
-  { id: 2,  opponent: 'Felix_B',    result: 'win',  score: '5–1', date: 'Today',  duration: '8m',  errorRate: 12, improvement: null },
-  { id: 3,  opponent: 'Kowalski22', result: 'loss', score: '2–5', date: 'Mar 7',  duration: '18m', errorRate: 31, improvement: null },
-  { id: 4,  opponent: 'TommyV',     result: 'win',  score: '5–4', date: 'Mar 7',  duration: '22m', errorRate: 18, improvement: 3  },
-  { id: 5,  opponent: 'AIPlayer',   result: 'win',  score: '5–0', date: 'Mar 6',  duration: '6m',  errorRate: 5,  improvement: 12 },
-  { id: 6,  opponent: 'MarinaD',    result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 27, improvement: null },
-  { id: 7,  opponent: 'Kowalski22', result: 'win',  score: '5–2', date: 'Mar 4',  duration: '14m', errorRate: 14, improvement: null },
-  { id: 8,  opponent: 'SarahM',     result: 'loss', score: '1–5', date: 'Mar 3',  duration: '9m',  errorRate: 35, improvement: null },
-  { id: 9,  opponent: 'Felix_B',    result: 'win',  score: '5–3', date: 'Mar 2',  duration: '17m', errorRate: 9,  improvement: 5  },
-  { id: 10, opponent: 'AIPlayer',   result: 'win',  score: '5–2', date: 'Mar 1',  duration: '7m',  errorRate: 7,  improvement: null },
-  { id: 11, opponent: 'TommyV',     result: 'loss', score: '4–5', date: 'Feb 28', duration: '20m', errorRate: 22, improvement: null },
-  { id: 12, opponent: 'MarinaD',    result: 'win',  score: '5–1', date: 'Feb 27', duration: '10m', errorRate: 6,  improvement: 9  },
-  { id: 13, opponent: 'SarahM',     result: 'win',  score: '5–4', date: 'Feb 26', duration: '19m', errorRate: 15, improvement: null },
-  { id: 14, opponent: 'Felix_B',    result: 'loss', score: '2–5', date: 'Feb 25', duration: '11m', errorRate: 29, improvement: null },
-  { id: 15, opponent: 'Kowalski22', result: 'win',  score: '5–0', date: 'Feb 24', duration: '5m',  errorRate: 4,  improvement: 7  },
-  { id: 16, opponent: 'AIPlayer',   result: 'win',  score: '5–3', date: 'Feb 23', duration: '13m', errorRate: 11, improvement: null },
-  { id: 17, opponent: 'TommyV',     result: 'win',  score: '5–2', date: 'Feb 22', duration: '16m', errorRate: 13, improvement: 2  },
-  { id: 18, opponent: 'MarinaD',    result: 'loss', score: '3–5', date: 'Feb 21', duration: '14m', errorRate: 33, improvement: null },
-  { id: 19, opponent: 'SarahM',     result: 'win',  score: '5–1', date: 'Feb 20', duration: '8m',  errorRate: 8,  improvement: 6  },
-  { id: 20, opponent: 'Felix_B',    result: 'win',  score: '5–4', date: 'Feb 19', duration: '21m', errorRate: 16, improvement: null },
+  { id: 1,  opponent: 'MarinaD',       avatarKey: 'Princess', result: 'win',  score: '5–3', date: 'Today',  duration: '12m', errorRate: 8,  improvement: 8  },
+  { id: 2,  opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–1', date: 'Today',  duration: '8m',  errorRate: 12, improvement: null },
+  { id: 3,  opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'loss', score: '2–5', date: 'Mar 7',  duration: '18m', errorRate: 31, improvement: null },
+  { id: 4,  opponent: 'TommyV',        avatarKey: 'Knight',   result: 'win',  score: '5–4', date: 'Mar 7',  duration: '22m', errorRate: 18, improvement: 3  },
+  { id: 5,  opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–0', date: 'Mar 6',  duration: '6m',  errorRate: 5,  improvement: 12 },
+  { id: 6,  opponent: 'MarinaD',       avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 27, improvement: null },
+  { id: 7,  opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'win',  score: '5–2', date: 'Mar 4',  duration: '14m', errorRate: 14, improvement: null },
+  { id: 8,  opponent: 'SarahM',        avatarKey: 'Witch',    result: 'loss', score: '1–5', date: 'Mar 3',  duration: '9m',  errorRate: 35, improvement: null },
+  { id: 9,  opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–3', date: 'Mar 2',  duration: '17m', errorRate: 9,  improvement: 5  },
+  { id: 10, opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–2', date: 'Mar 1',  duration: '7m',  errorRate: 7,  improvement: null },
+  { id: 11, opponent: 'TommyV',        avatarKey: 'Knight',   result: 'loss', score: '4–5', date: 'Feb 28', duration: '20m', errorRate: 22, improvement: null },
+  { id: 12, opponent: 'MarinaD',       avatarKey: 'Princess', result: 'win',  score: '5–1', date: 'Feb 27', duration: '10m', errorRate: 6,  improvement: 9  },
+  { id: 13, opponent: 'SarahM',        avatarKey: 'Witch',    result: 'win',  score: '5–4', date: 'Feb 26', duration: '19m', errorRate: 15, improvement: null },
+  { id: 14, opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'loss', score: '2–5', date: 'Feb 25', duration: '11m', errorRate: 29, improvement: null },
+  { id: 15, opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'win',  score: '5–0', date: 'Feb 24', duration: '5m',  errorRate: 4,  improvement: 7  },
+  { id: 16, opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–3', date: 'Feb 23', duration: '13m', errorRate: 11, improvement: null },
+  { id: 17, opponent: 'TommyV',        avatarKey: 'Knight',   result: 'win',  score: '5–2', date: 'Feb 22', duration: '16m', errorRate: 13, improvement: 2  },
+  { id: 18, opponent: 'MarinaD',       avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Feb 21', duration: '14m', errorRate: 33, improvement: null },
+  { id: 19, opponent: 'SarahM',        avatarKey: 'Witch',    result: 'win',  score: '5–1', date: 'Feb 20', duration: '8m',  errorRate: 8,  improvement: 6  },
+  { id: 20, opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–4', date: 'Feb 19', duration: '21m', errorRate: 16, improvement: null },
 ];
 
 const BADGE_THRESHOLDS = {
@@ -310,25 +332,48 @@ function IconProfileNav() {
   );
 }
 
+function IconSettings() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  );
+}
+
+function IconActivity() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 40 40" fill="currentColor">
+      <path d="M20.0038 0C18.6547 0 17.5648 1.08994 17.5648 2.43902V2.68293C12.0008 3.81098 7.80871 8.73476 7.80871 14.6341V16.2881C7.80871 19.9543 6.55871 23.5137 4.27213 26.3796L3.52518 27.3095C3.13646 27.7896 2.93066 28.3841 2.93066 29.0015C2.93066 30.4954 4.14255 31.7073 5.63646 31.7073H34.3636C35.8575 31.7073 37.0694 30.4954 37.0694 29.0015C37.0694 28.3841 36.8636 27.7896 36.4749 27.3095L35.7279 26.3796C33.449 23.5137 32.199 19.9543 32.199 16.2881V14.6341C32.199 8.73476 28.0069 3.81098 22.4429 2.68293V2.43902C22.4429 1.08994 21.3529 0 20.0038 0Z"/>
+      <path d="M14.386 34.386C14.386 35.8749 14.9775 37.3028 16.0303 38.3557C17.0832 39.4085 18.5111 40 20.0001 40C21.489 40 22.917 39.4085 23.9698 38.3557C25.0226 37.3028 25.6141 35.8749 25.6141 34.386H14.386Z"/>
+    </svg>
+  );
+}
+
 const NAV_ITEMS = [
-  { label: 'Challenges', Icon: IconTrophy },
-  { label: 'Learning',   Icon: IconLearning },
-  { label: 'New Game',    Icon: IconNewGame },
-  { label: 'Friends',    Icon: IconFriends },
-  { label: 'Profile',    Icon: IconProfileNav },
+  { label: 'Learn',         Icon: IconLearning },
+  { label: 'My Profile',    Icon: IconProfileNav },
+  { label: 'New Game',      Icon: IconNewGame },
+  { label: 'Notifications', Icon: IconActivity, hasBadge: true },
+  { label: 'Settings',      Icon: IconSettings },
 ];
 
-function MobileNav({ onNavigate }) {
+function MobileNav({ onNavigate, hasUnread, activePage }) {
   return (
     <nav className="mobile-nav">
-      {NAV_ITEMS.map(({ label, Icon }) => (
+      {NAV_ITEMS.map(({ label, Icon, hasBadge, page }) => (
         <button
           key={label}
-          className={`mobile-nav__item${label === 'Profile' ? ' mobile-nav__item--active' : ''}`}
-          onClick={label === 'Learning' ? () => onNavigate?.('learn-hub') : undefined}
+          className={`mobile-nav__item${activePage === label ? ' mobile-nav__item--active' : ''}${hasBadge ? ' mobile-nav__item--has-badge' : ''}`}
+          onClick={
+            label === 'Learn' ? () => onNavigate?.('learn-hub')
+            : label === 'My Profile' ? () => onNavigate?.('profile')
+            : label === 'New Game' ? () => onNavigate?.('play')
+            : label === 'Settings' ? () => onNavigate?.('settings')
+            : undefined
+          }
         >
           <Icon />
-          <span className="mobile-nav__label">{label}</span>
+          {hasBadge && hasUnread && <span className="mobile-nav__badge" />}
         </button>
       ))}
     </nav>
@@ -665,6 +710,22 @@ function FriendButton({ status, username }) {
     );
   }
 
+  if (status === 'Accept Request') {
+    return (
+      <button
+        className="com-btn com-btn--sm"
+        style={{
+          background: 'rgba(35, 165, 126, 0.12)',
+          color: 'var(--prim-mint-400)',
+          border: '2px solid var(--prim-mint-400)',
+        }}
+      >
+        {FRIEND_CHECK_ICON}
+        Accept Request
+      </button>
+    );
+  }
+
   if (status === 'Friends') {
     return (
       <>
@@ -773,7 +834,7 @@ function getErrorRateColor(rate) {
 
 const MATCHES_PER_PAGE = 10;
 
-function MatchHistorySection({ history, isEmpty }) {
+function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -798,7 +859,6 @@ function MatchHistorySection({ history, isEmpty }) {
   return (
     <>
       <div className="match-history__header">
-        <h2 className="section-title">Match History</h2>
         <div className="match-search">
           <svg className="match-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
@@ -829,10 +889,17 @@ function MatchHistorySection({ history, isEmpty }) {
         </div>
         {pageItems.map(m => (
           <div key={m.id} className={`match-row match-row--${m.result}`}>
-            <div className="match-row__avatar">
-              <img src={avatarImg} alt={m.opponent} />
-            </div>
-            <span className="match-row__name">{m.opponent}</span>
+            <Avatar
+              src={getAvatarSrc(m.avatarKey)}
+              alt={m.opponent}
+              size="lg"
+              clickable={!!onPlayerClick}
+              onClick={() => onPlayerClick?.(m.opponent)}
+            />
+            <span
+              className={`match-row__name${onPlayerClick ? ' match-row__name--clickable' : ''}`}
+              onClick={() => onPlayerClick?.(m.opponent)}
+            >{m.opponent}</span>
             <span className={`match-row__result match-row__result--${m.result}`}>
               {m.result === 'win' ? 'Won' : 'Lost'}
             </span>
@@ -2014,9 +2081,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
           <div className="pp-fb-card__list">
             {MOCK_FB_FRIENDS.map(f => (
               <div key={f.id} className="pp-friend-row">
-                <div className="pp-friend-row__avatar">
-                  <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-                </div>
+                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" />
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name">{f.username}</span>
                   <span className="pp-friend-row__meta">{f.fbName} · {f.rating}</span>
@@ -2048,10 +2113,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
           <div className="pp-friends-list">
             {filteredFriends.map(f => (
               <div key={f.id} className="pp-friend-row">
-                <div className="pp-friend-row__avatar" style={{ cursor: 'pointer' }}>
-                  <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-                  <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
-                </div>
+                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                 </div>
@@ -2087,10 +2149,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
               <div className="pp-friends-list__title">Friends</div>
               {MOCK_SEARCH_RESULTS.friends.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <div className="pp-friend-row__avatar" style={{ cursor: 'pointer' }}>
-                    <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-                    <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
-                  </div>
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
@@ -2104,10 +2163,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
               <div className="pp-friends-list__title">Players</div>
               {MOCK_SEARCH_RESULTS.players.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <div className="pp-friend-row__avatar" style={{ cursor: 'pointer' }}>
-                    <img src={getAvatarSrc(f.avatar)} alt={f.username} />
-                    <span className={`online-dot online-dot--sm online-dot--${f.online ? 'online' : 'offline'}`} />
-                  </div>
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
@@ -2148,6 +2204,7 @@ export default function ProfilePage({ onNavigate }) {
   const viewType   = useDMEState('profile.viewType', 'Own - Established');
   const dmeCelebration = useDMEState('profile.celebration', false);
   const isMvp = useDMEState('profile.mvp', true);
+  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
   const dmeTab = useDMEState('profile.tab', 'Game History');
   const [localTab, setLocalTab] = useState(() => {
     const intent = sessionStorage.getItem('profile-tab-intent');
@@ -2163,6 +2220,12 @@ export default function ProfilePage({ onNavigate }) {
   const friendsView = useDMEState('profile.friendsView', 'My Friends');
   const friendStatus = useDMEState('profile.friendStatus', 'Add Friend');
   const fbDiscovery = useDMEState('profile.fbDiscovery', 'None');
+  const onlineStatus = useDMEState('profile.onlineStatus', 'Online');
+
+  /* Local view override — for navigating between profiles via match history */
+  const [localViewOverride, setLocalViewOverride] = useState(null);
+  useEffect(() => { setLocalViewOverride(null); }, [viewType]);
+  const effectiveViewType = localViewOverride || viewType;
 
   /* Edit mode state */
   const [editMode, setEditMode] = useState(false);
@@ -2219,18 +2282,21 @@ export default function ProfilePage({ onNavigate }) {
     setPrevDmeCelebration(dmeCelebration);
   }, [dmeCelebration]);
 
-  /* Derive player data from viewType */
-  const isGuest     = viewType === 'Guest - Game History' || viewType === 'Guest - Unregistered';
-  const isNewPlayer = viewType === 'Own - New Player';
-  const isOther     = viewType === 'Friend - Game History' || viewType === 'Guest - Game History';
-  const isOwn       = viewType === 'Own - Established' || isNewPlayer;
-  const isUnregistered = viewType === 'Guest - Unregistered';
+  /* Derive player data from effectiveViewType */
+  const isProfileB  = effectiveViewType === 'Profile B';
+  const isGuest     = effectiveViewType === 'Guest - Game History' || effectiveViewType === 'Guest - Unregistered';
+  const isNewPlayer = effectiveViewType === 'Own - New Player';
+  const isOther     = effectiveViewType === 'Friend - Game History' || effectiveViewType === 'Guest - Game History' || isProfileB;
+  const isOwn       = effectiveViewType === 'Own - Established' || isNewPlayer;
+  const isUnregistered = effectiveViewType === 'Guest - Unregistered';
 
-  const player = isOther
-    ? MOCK_OTHER
-    : isUnregistered
-      ? MOCK_GUEST
-      : MOCK_OWN;
+  const player = isProfileB
+    ? MOCK_PROFILE_B
+    : isOther
+      ? MOCK_OTHER
+      : isUnregistered
+        ? MOCK_GUEST
+        : MOCK_OWN;
 
   const stats = isNewPlayer
     ? { wins: 0, losses: 0, gamesPlayed: 0, currentStreak: 0, highestStreak: 0 }
@@ -2248,6 +2314,17 @@ export default function ProfilePage({ onNavigate }) {
     }).catch(() => {
       setShareLabel('Share Profile');
     });
+  }
+
+  /* Navigate between profiles via match history username clicks */
+  function handleMatchPlayerClick(opponentName) {
+    if (opponentName === 'GammonKing42') {
+      setLocalViewOverride('Profile B');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (opponentName === MOCK_OWN.displayName) {
+      setLocalViewOverride('Own - Established');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   /* Persist profile data to git-tracked JSON */
@@ -2398,22 +2475,14 @@ export default function ProfilePage({ onNavigate }) {
         <div className="profile-header__inner">
           <div className="profile-header__avatar-row">
             <div className="profile-header__avatar-wrap">
-              <div className={`avatar${editMode ? ' avatar--editable' : ''}`}>
-                {(avatarEdit?.cropped || player.avatar)
-                  ? <img src={avatarEdit?.cropped || player.avatar} alt={displayName} />
-                  : (
-                    <div style={{
-                      width: '100%', height: '100%',
-                      background: 'linear-gradient(135deg, var(--color-border-mid), var(--color-border-subtle))',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: fh, fontWeight: 700, fontSize: 32,
-                      color: 'var(--color-bg)',
-                    }}>
-                      {displayName[0].toUpperCase()}
-                    </div>
-                  )
-                }
-              </div>
+              <Avatar
+                src={avatarEdit?.cropped || player.avatar}
+                alt={displayName}
+                size="profile"
+                online={onlineStatus === 'Online'}
+                fallbackInitial={displayName[0].toUpperCase()}
+                className={editMode ? 'avatar--editable' : ''}
+              />
               {editMode && (
                 <button className="edit-pencil edit-pencil--avatar" onClick={handleAvatarPencilClick}>
                   <IconPencil size={32} />
@@ -2495,50 +2564,6 @@ export default function ProfilePage({ onNavigate }) {
                   </button>
                 ))}
               </div>
-              {/* ── Action buttons ── */}
-              {isOwn && !isUnregistered && !editMode && (
-                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
-                  <button className="com-btn com-btn--outline com-btn--sm" data-role-id="pp-edit-btn" onClick={enterEditMode}>
-                    <IconPencil size={14} />
-                    Edit Profile
-                  </button>
-                  {!isMvp && (
-                    <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowTrophyEditor(true)}>
-                      <IconPencil size={14} />
-                      Edit Trophy Case
-                    </button>
-                  )}
-                  <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                    </svg>
-                    Settings
-                  </button>
-                </div>
-              )}
-              {isOwn && !isUnregistered && editMode && (
-                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
-                  <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
-                    Cancel
-                  </button>
-                  <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
-                    Save Profile Changes
-                  </button>
-                </div>
-              )}
-              {showOtherProfile && !isUnregistered && (
-                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
-                  <FriendButton status={friendStatus} username={player.displayName} />
-                </div>
-              )}
-              {isUnregistered && (
-                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
-                  <button className="com-btn com-btn--primary com-btn--sm">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                    Create Account to Friend Player
-                  </button>
-                </div>
-              )}
             </div>
             <div className="profile-header__stats-col">
               {isNewPlayer && (
@@ -2567,6 +2592,50 @@ export default function ProfilePage({ onNavigate }) {
               </GatedSection>
             </div>
           </div>
+          {/* ── Action buttons (own row, full width) ── */}
+          {isOwn && !isUnregistered && !editMode && (
+            <div className="profile-header__actions-row">
+              <button className="com-btn com-btn--outline com-btn--sm" data-role-id="pp-edit-btn" onClick={enterEditMode}>
+                <IconPencil size={14} />
+                Edit Profile
+              </button>
+              {!isMvp && (
+                <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowTrophyEditor(true)}>
+                  <IconPencil size={14} />
+                  Edit Trophy Case
+                </button>
+              )}
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                Settings
+              </button>
+            </div>
+          )}
+          {isOwn && !isUnregistered && editMode && (
+            <div className="profile-header__actions-row">
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
+                Cancel
+              </button>
+              <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
+                Save Profile Changes
+              </button>
+            </div>
+          )}
+          {showOtherProfile && !isUnregistered && (
+            <div className="profile-header__actions-row">
+              <FriendButton status={friendStatus} username={player.displayName} />
+            </div>
+          )}
+          {isUnregistered && (
+            <div className="profile-header__actions-row">
+              <button className="com-btn com-btn--primary com-btn--sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                Create Account to Friend Player
+              </button>
+            </div>
+          )}
         </div>
       </div>
       </div>{/* close pp-header wrapper */}
@@ -2592,7 +2661,6 @@ export default function ProfilePage({ onNavigate }) {
       {!isMvp && activeTab === 'Achievements' && (
         <div className="section section--flush surface-muted" data-section-id="pp-achievements">
           <div className="section__inner">
-            <h2 className="section-header__title">Achievements</h2>
             <GatedSection isGated={isGated}>
               {isNewPlayer ? (
                 <div className="empty-state">
@@ -2636,11 +2704,12 @@ export default function ProfilePage({ onNavigate }) {
 
       {activeTab === 'Game History' && (
         <div className="section section--flush surface-tertiary" data-section-id="pp-history" style={{ paddingBottom: 64 }}>
-          <div className="section__inner">
+          <div className="section__inner" style={{ maxWidth: 'none' }}>
             <GatedSection isGated={isGated}>
               <MatchHistorySection
-                history={MATCH_HISTORY}
+                history={isProfileB ? MATCH_HISTORY_B : MATCH_HISTORY}
                 isEmpty={isNewPlayer}
+                onPlayerClick={handleMatchPlayerClick}
               />
             </GatedSection>
           </div>
@@ -2656,7 +2725,7 @@ export default function ProfilePage({ onNavigate }) {
       )}
 
       <SiteFooter sectionId="gl-footer" />
-      <MobileNav onNavigate={onNavigate} />
+      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" />
       <div className="mobile-nav__spacer" />
 
       {/* ── Badge celebration ── */}

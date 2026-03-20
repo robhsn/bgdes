@@ -6,6 +6,7 @@ import IndexPage from './components/IndexPage'
 import ProfilePage from './components/ProfilePage'
 import PlayPage from './components/PlayPage'
 import SettingsPage from './components/SettingsPage'
+import NotificationsPage from './components/NotificationsPage'
 import TokensPage from './components/TokensPage'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
@@ -34,6 +35,7 @@ const PAGES = [
   { id: 'play',           label: 'Play' },
   { id: 'profile',        label: 'Profile' },
   { id: 'settings',       label: 'Settings' },
+  { id: 'notifications', label: 'Notifications' },
   { id: 'tokens',         label: 'Design Tokens' },
 ]
 
@@ -57,7 +59,7 @@ const STATES_SEQ = ['ArrowLeft','ArrowLeft','ArrowRight','ArrowRight']
 /* ─── Role override CSS maps (used by <style> injection) ─────── */
 const RO_PAGE_PREFIX = {
   'learn-article': 'ls', 'learn-hub': 'lh', 'profile': 'pp',
-  'play': 'gp', 'settings': 'st', 'index': 'ix', 'tokens': 'tk',
+  'play': 'gp', 'settings': 'st', 'index': 'ix', 'notifications': 'nt', 'tokens': 'tk',
 }
 const RO_FONT_SIZE = {
   'h1': 'var(--size-h1)', 'h2': 'var(--size-h2)', 'h3': 'var(--size-h3)',
@@ -222,6 +224,7 @@ function App() {
     if (currentPageId === 'play') return <PlayPage onNavigate={navigateTo} />
     if (currentPageId === 'profile') return <ProfilePage onNavigate={navigateTo} />
     if (currentPageId === 'settings') return <SettingsPage onNavigate={navigateTo} />
+    if (currentPageId === 'notifications') return <NotificationsPage onNavigate={navigateTo} />
     if (currentPageId === 'tokens') return <TokensPage onNavigate={navigateTo} />
     return <LearnHubPage onNavigate={navigateTo} />
   }

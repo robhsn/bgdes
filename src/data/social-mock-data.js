@@ -41,10 +41,14 @@ export const MOCK_SEARCH_RESULTS = {
 
 export const MOCK_NOTIFICATIONS = [
   { id: 1, type: 'friend_request',     user: { username: 'NewChallenger', avatar: 'Knight' },  timestamp: '2m ago',  read: false },
-  { id: 2, type: 'challenge_received', user: { username: 'BoardMaster',   avatar: 'King' },    timestamp: '5m ago',  read: false, format: '5-point' },
+  { id: 2, type: 'challenge_received', user: { username: 'BoardMaster',   avatar: 'King' },    timestamp: '5m ago',  read: false, format: '5-point', isFriend: true },
+  { id: 7, type: 'message',            user: { username: 'GammonKing42',  avatar: 'Timothy' }, timestamp: '8m ago',  read: false },
   { id: 3, type: 'friend_accepted',    user: { username: 'GammonKing42',  avatar: 'Timothy' }, timestamp: '1h ago',  read: true },
+  { id: 8, type: 'challenge_received', user: { username: 'GammonPro',     avatar: 'Thief' },   timestamp: '1h ago',  read: true, format: '3-point', isFriend: false },
   { id: 4, type: 'challenge_accepted', user: { username: 'DiceRoller99',  avatar: 'Wizard' },  timestamp: '2h ago',  read: true },
   { id: 5, type: 'challenge_declined', user: { username: 'LuckyRoller',   avatar: 'Clown' },   timestamp: '3h ago',  read: true },
+  { id: 9, type: 'message',            user: { username: 'BackgammonQueen', avatar: 'Princess' }, timestamp: '3h ago', read: true },
+  { id: 10, type: 'message',           user: { username: 'BoardMaster',   avatar: 'King' },    timestamp: '5h ago',  read: true },
   { id: 6, type: 'fb_friends_found',   user: { username: 'FBFriend1',     avatar: 'Gobby' },   timestamp: '1d ago',  read: true, count: 3 },
 ];
 
@@ -52,4 +56,15 @@ export const MOCK_FB_FRIENDS = [
   { id: 40, username: 'FBFriend1', avatar: 'Gobby',  rating: 1100, fbName: 'John Smith'  },
   { id: 41, username: 'FBFriend2', avatar: 'Clown',  rating: 1250, fbName: 'Jane Doe'    },
   { id: 42, username: 'FBFriend3', avatar: 'Farmer', rating: 980,  fbName: 'Bob Wilson'  },
+];
+
+export const MOCK_MESSAGES = [
+  { id: 50, user: { username: 'GammonKing42', avatar: 'Timothy' }, timestamp: '10m ago' },
+  { id: 51, user: { username: 'BackgammonQueen', avatar: 'Princess' }, timestamp: '1h ago' },
+  { id: 52, user: { username: 'BoardMaster', avatar: 'King' }, timestamp: '3h ago' },
+];
+
+export const MOCK_CHALLENGES_INCOMING = [
+  { id: 60, user: { username: 'BoardMaster', avatar: 'King' }, format: '5-point', timestamp: '3m ago', isFriend: true },
+  { id: 61, user: { username: 'GammonPro', avatar: 'Thief' }, format: '3-point', timestamp: '15m ago', isFriend: false },
 ];
