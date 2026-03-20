@@ -148,6 +148,8 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'ui-md':             '--color-ui-md',
   'ui-sm':             '--color-ui-sm',
   'ui-xsm':            '--color-ui-xsm',
+  'scrollbar-thumb':   '--color-scrollbar-thumb',
+  'scrollbar-track':   '--color-scrollbar-track',
   'btn-primary-bg':    '--com-btn-primary-bg',
   'btn-primary-fg':    '--com-btn-primary-fg',
   'btn-dark-bg':       '--com-btn-dark-bg',
@@ -233,6 +235,9 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mono-100',
       '--color-statement-border': '--prim-mono-350',
       '--color-statement-text':   '--prim-mono-700',
+      '--color-statement-link-bg':     '--prim-mono-100',
+      '--color-statement-link-border': '--prim-mono-350',
+      '--color-statement-link-text':   '--prim-mono-700',
       '--color-activity-bell':       '--prim-mono-900',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-mono-350',
@@ -276,6 +281,8 @@ const THEMES = {
         '--color-pill-sm':        '--prim-mono-900',
         '--color-accent':         '--prim-mono-700',
         '--color-tag-fill':       '--prim-mono-150',
+        '--color-scrollbar-thumb': '--prim-mono-300',
+        '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
       },
@@ -298,6 +305,8 @@ const THEMES = {
         '--sf-muted-pill-sm':        '--prim-mono-900',
         '--sf-muted-accent':         '--prim-mono-700',
         '--sf-muted-tag-fill':       '--prim-mono-150',
+        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
+        '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
       },
@@ -320,6 +329,8 @@ const THEMES = {
         '--sf-inverse-pill-sm':        '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mono-500',
         '--sf-inverse-tag-fill':     '--prim-mono-750',
+        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
+        '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
       },
@@ -342,6 +353,8 @@ const THEMES = {
         '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mono-900',
         '--sf-accent-tag-fill':      '--prim-mono-600',
+        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
+        '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mono-100', '--prim-mono-250'),
       },
@@ -364,6 +377,8 @@ const THEMES = {
         '--sf-tertiary-pill-sm':        '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mono-500',
         '--sf-tertiary-tag-fill':    '--prim-mono-700',
+        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
+        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
       },
@@ -389,6 +404,9 @@ const THEMES = {
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-statement-link-bg':     '--prim-butter-700',
+      '--color-statement-link-border': '--prim-orange-300',
+      '--color-statement-link-text':   '--prim-sapphire-700',
       '--color-activity-bell':       '--prim-sapphire-500',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-splash-300',
@@ -432,6 +450,8 @@ const THEMES = {
         '--color-pill-sm':        '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
         '--color-tag-fill':       '--prim-butter-700',
+        '--color-scrollbar-thumb': '--prim-mono-300',
+        '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
       },
@@ -454,6 +474,8 @@ const THEMES = {
         '--sf-muted-pill-sm':        '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
         '--sf-muted-tag-fill':       '--prim-splash-200',
+        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
+        '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
       },
@@ -476,6 +498,8 @@ const THEMES = {
         '--sf-inverse-pill-sm':        '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
+        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
+        '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
       },
@@ -498,6 +522,8 @@ const THEMES = {
         '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
         '--sf-accent-tag-fill':      '--prim-orange-500',
+        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
+        '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
       },
@@ -520,6 +546,8 @@ const THEMES = {
         '--sf-tertiary-pill-sm':        '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
+        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
+        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
       },
@@ -545,6 +573,9 @@ const THEMES = {
       '--color-statement-bg':     '--prim-butter-700',
       '--color-statement-border': '--prim-orange-300',
       '--color-statement-text':   '--prim-sapphire-700',
+      '--color-statement-link-bg':     '--prim-butter-700',
+      '--color-statement-link-border': '--prim-orange-300',
+      '--color-statement-link-text':   '--prim-sapphire-700',
       '--color-activity-bell':       '--prim-sapphire-500',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-splash-300',
@@ -588,6 +619,8 @@ const THEMES = {
         '--color-pill-sm':        '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
         '--color-tag-fill':       '--prim-butter-700',
+        '--color-scrollbar-thumb': '--prim-mono-300',
+        '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
       },
@@ -610,6 +643,8 @@ const THEMES = {
         '--sf-muted-pill-sm':        '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
         '--sf-muted-tag-fill':       '--prim-splash-200',
+        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
+        '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
       },
@@ -632,6 +667,8 @@ const THEMES = {
         '--sf-inverse-pill-sm':        '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
+        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
+        '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
       },
@@ -654,6 +691,8 @@ const THEMES = {
         '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
         '--sf-accent-tag-fill':      '--prim-orange-500',
+        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
+        '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
       },
@@ -676,6 +715,8 @@ const THEMES = {
         '--sf-tertiary-pill-sm':        '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
+        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
+        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
       },
@@ -701,6 +742,9 @@ const THEMES = {
       '--color-statement-bg':     '--prim-mint-100',
       '--color-statement-border': '--prim-fall-300',
       '--color-statement-text':   '--prim-mint-700',
+      '--color-statement-link-bg':     '--prim-mint-100',
+      '--color-statement-link-border': '--prim-fall-300',
+      '--color-statement-link-text':   '--prim-mint-700',
       '--color-activity-bell':       '--prim-mint-900',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-mint-300',
@@ -744,6 +788,8 @@ const THEMES = {
         '--color-pill-sm':        '--prim-mint-700',
         '--color-accent':         '--prim-mint-500',
         '--color-tag-fill':       '--prim-mint-200',
+        '--color-scrollbar-thumb': '--prim-mono-300',
+        '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
       },
@@ -766,6 +812,8 @@ const THEMES = {
         '--sf-muted-pill-sm':        '--prim-mint-900',
         '--sf-muted-accent':         '--prim-mint-500',
         '--sf-muted-tag-fill':       '--prim-mint-200',
+        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
+        '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
       },
@@ -788,6 +836,8 @@ const THEMES = {
         '--sf-inverse-pill-sm':        '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mint-400',
         '--sf-inverse-tag-fill':     '--prim-mint-700',
+        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
+        '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
       },
@@ -810,6 +860,8 @@ const THEMES = {
         '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mint-400',
         '--sf-accent-tag-fill':      '--prim-mint-600',
+        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
+        '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
       },
@@ -832,6 +884,8 @@ const THEMES = {
         '--sf-tertiary-pill-sm':        '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mint-400',
         '--sf-tertiary-tag-fill':    '--prim-mint-800',
+        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
+        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
       },
@@ -853,7 +907,7 @@ function themeAllColorTokens(key) {
 }
 
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
-const SURFACE_TOKENS = ['bg', 'h1', 'h2', 'h3', 'h4', 'sh1', 'sh2', 'sh3', 'sh4', 'body-lg', 'body', 'body-sm', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'pill-lg', 'pill-md', 'pill-sm', 'accent', 'tag-fill', 'star', 'ui-xl', 'ui-lg', 'ui-md', 'ui-sm', 'ui-xsm'];
+const SURFACE_TOKENS = ['bg', 'heading', 'text-muted', 'h1', 'h2', 'h3', 'h4', 'sh1', 'sh2', 'sh3', 'sh4', 'body-lg', 'body', 'body-sm', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'pill-lg', 'pill-md', 'pill-sm', 'accent', 'tag-fill', 'star', 'ui-xl', 'ui-lg', 'ui-md', 'ui-sm', 'ui-xsm', 'scrollbar-thumb', 'scrollbar-track'];
 const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg'];
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -889,6 +943,9 @@ const PAGE_SECTIONS = {
   ],
   play: [
     { id: 'gp-board',        label: 'Game Board',               defaultSurface: 'default' },
+  ],
+  'surface-preview': [
+    { id: 'sp-content',      label: 'Preview Content',          defaultSurface: 'muted' },
   ],
   tokens: [
     { id: 'tk-palettes',     label: 'Color Palettes',           defaultSurface: 'default' },
@@ -998,63 +1055,67 @@ const DEFAULT_L1 = {
   '--prim-type-ui-xsm-weight':  '500',
   '--prim-type-ui-xsm-ls':      '2',    /* 0.02em  */
   '--prim-type-ui-xsm-lh':      '13',   /* 1.3     */
+  /* sizes (px, stored without unit) */
+  '--prim-type-h1-size':        '70',
+  '--prim-type-h2-size':        '36',
+  '--prim-type-h3-size':        '24',
+  '--prim-type-h4-size':        '20',
+  '--prim-type-sh1-size':       '18',
+  '--prim-type-sh2-size':       '16',
+  '--prim-type-sh3-size':       '14',
+  '--prim-type-sh4-size':       '12',
+  '--prim-type-body-lg-size':   '20',
+  '--prim-type-body-md-size':   '18',
+  '--prim-type-body-sm-size':   '14',
+  '--prim-type-pill-lg-size':   '16',
+  '--prim-type-pill-md-size':   '14',
+  '--prim-type-pill-sm-size':   '11',
+  '--prim-type-ui-xl-size':     '20',
+  '--prim-type-ui-lg-size':     '16',
+  '--prim-type-ui-md-size':     '14',
+  '--prim-type-ui-sm-size':     '12',
+  '--prim-type-ui-xsm-size':    '10',
 };
 
-/* ─── L2 font role tokens — store role name, applied as var(--prim-type-xxx) ── */
-const L2_FONT_ROLE_TOKENS = new Set([
+/* ─── Keys to strip from old saved L2 data (font roles + role sizes moved to L1) ── */
+const L2_STRIPPED_KEYS = new Set([
   '--font-heading', '--font-subheading', '--font-section', '--font-label',
   '--font-lead', '--font-body', '--font-small',
   '--font-logo', '--font-pill', '--font-pill-lg', '--font-pill-md', '--font-pill-sm', '--font-toc', '--font-meta',
   '--font-dropdown', '--font-dropdown-badge',
   '--font-ui-xl', '--font-ui-lg', '--font-ui-md', '--font-ui-sm', '--font-ui-xsm',
+  '--size-h1', '--size-h2', '--size-h3', '--size-h4',
+  '--size-sh1', '--size-sh2', '--size-sh3', '--size-sh4',
+  '--size-body-lg', '--size-body', '--size-body-sm',
+  '--size-pill-lg', '--size-pill-md', '--size-pill-sm',
+  '--size-ui-xl', '--size-ui-lg', '--size-ui-md', '--size-ui-sm', '--size-ui-xsm',
 ]);
+
+/* Map old L2 size keys → new L1 size keys (for migration) */
+const L2_SIZE_TO_L1 = {
+  '--size-h1': '--prim-type-h1-size', '--size-h2': '--prim-type-h2-size',
+  '--size-h3': '--prim-type-h3-size', '--size-h4': '--prim-type-h4-size',
+  '--size-sh1': '--prim-type-sh1-size', '--size-sh2': '--prim-type-sh2-size',
+  '--size-sh3': '--prim-type-sh3-size', '--size-sh4': '--prim-type-sh4-size',
+  '--size-body-lg': '--prim-type-body-lg-size', '--size-body': '--prim-type-body-md-size',
+  '--size-body-sm': '--prim-type-body-sm-size',
+  '--size-pill-lg': '--prim-type-pill-lg-size', '--size-pill-md': '--prim-type-pill-md-size',
+  '--size-pill-sm': '--prim-type-pill-sm-size',
+  '--size-ui-xl': '--prim-type-ui-xl-size', '--size-ui-lg': '--prim-type-ui-lg-size',
+  '--size-ui-md': '--prim-type-ui-md-size', '--size-ui-sm': '--prim-type-ui-sm-size',
+  '--size-ui-xsm': '--prim-type-ui-xsm-size',
+};
 
 /* ─── L2 non-color defaults ──────────────────────────────────── */
 const DEFAULT_L2_EXTRA = {
-  /* font role assignments (which L1 role each L2 font token uses) */
-  '--font-heading':    'h1',
-  '--font-subheading': 'h2',
-  '--font-section':    'h3',
-  '--font-label':      'h4',
-  '--font-lead':       'body-lg',
-  '--font-body':       'body-md',
-  '--font-small':      'body-sm',
-  '--font-logo':       'h1',
-  '--font-pill':       'h1',
-  '--font-pill-lg':    'pill-lg',
-  '--font-pill-md':    'pill-md',
-  '--font-pill-sm':    'pill-sm',
-  '--font-toc':        'body-sm',
-  '--font-meta':       'body-sm',
-  '--font-dropdown':       'h1',
-  '--font-dropdown-badge': 'h1',
-  '--font-ui-xl':          'ui-xl',
-  '--font-ui-lg':          'ui-lg',
-  '--font-ui-md':          'ui-md',
-  '--font-ui-sm':          'ui-sm',
-  '--font-ui-xsm':         'ui-xsm',
-  /* size & spacing */
-  '--size-h1':         '70',
-  '--size-h2':         '36',
-  '--size-h3':         '24',
-  '--size-h4':         '20',
-  '--size-body-lg':    '20',
-  '--size-body':       '18',
-  '--size-body-sm':    '14',
+  /* Semantic element sizes (not tied to a single L1 role) */
   '--size-logo':       '30',
   '--size-pill':       '18',
-  '--size-pill-lg':    '16',
-  '--size-pill-md':    '14',
-  '--size-pill-sm':    '11',
   '--size-toc':        '12',
   '--size-meta':       '14',
   '--size-dropdown':       '15',
   '--size-dropdown-badge': '10',
-  '--size-ui-xl':          '20',
-  '--size-ui-lg':          '16',
-  '--size-ui-md':          '14',
-  '--size-ui-sm':          '12',
-  '--size-ui-xsm':         '10',
+  /* spacing & layout */
   '--spacing-section-v':   '64',
   '--spacing-content-gap': '24',
   '--content-max-width':   '900',
@@ -1089,11 +1150,19 @@ function migrateL1(saved) {
 
 function migrateL2(saved) {
   if (!saved) return saved;
-  const L2_ROLE_MAP = { heading: 'h1', subheading: 'h2', body: 'body-md' };
   const out = { ...saved };
-  for (const name of L2_FONT_ROLE_TOKENS) {
-    if (out[name] && L2_ROLE_MAP[out[name]]) {
-      out[name] = L2_ROLE_MAP[out[name]];
+  /* Strip font role keys and role-corresponding size keys (now L1 concerns) */
+  for (const key of L2_STRIPPED_KEYS) delete out[key];
+  return out;
+}
+
+/* Migrate old L2 size values → L1 size primitives */
+function migrateL2SizesToL1(savedL1, savedL2) {
+  if (!savedL2) return savedL1 || {};
+  const out = { ...(savedL1 || {}) };
+  for (const [l2Key, l1Key] of Object.entries(L2_SIZE_TO_L1)) {
+    if (savedL2[l2Key] !== undefined && out[l1Key] === undefined) {
+      out[l1Key] = savedL2[l2Key];
     }
   }
   return out;
@@ -1102,7 +1171,7 @@ function migrateL2(saved) {
 /* ─── Initial state from committed file ──────────────────────── */
 /* dme-defaults.json is the sole source of truth; Save writes to it via Vite middleware */
 const INIT_THEME        = fileDefaults.theme    ?? 'mono';
-const INIT_L1           = { ...DEFAULT_L1,    ...migrateL1(fileDefaults.l1 ?? {}) };
+const INIT_L1           = { ...DEFAULT_L1, ...migrateL2SizesToL1(migrateL1(fileDefaults.l1 ?? {}), fileDefaults.l2 ?? {}) };
 /* Seed surface tokens from saved theme (so switching themes applies correct surface defaults),
    then overlay any explicit user customizations from the saved file */
 const INIT_L2           = {
@@ -1111,10 +1180,10 @@ const INIT_L2           = {
   ...migrateL2(fileDefaults.l2 ?? {}),
 };
 /* Per-theme l2 snapshots — persisted so switching themes restores saved edits */
-const INIT_THEME_STATES = {
-  ...(fileDefaults.themeStates ?? {}),
-  [INIT_THEME]: { ...INIT_L2 },
-};
+const INIT_THEME_STATES = Object.fromEntries(
+  Object.entries(fileDefaults.themeStates ?? {}).map(([t, s]) => [t, migrateL2(s)])
+);
+INIT_THEME_STATES[INIT_THEME] = { ...INIT_L2 };
 const INIT_L1_COLOR_MAP = { ...L1_COLOR_MAP,  ...(fileDefaults.l1Colors ?? {}) };
 const INIT_L1_GROUPS    = fileDefaults.l1Groups
   ?? L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
@@ -1123,16 +1192,7 @@ const INIT_SECTION_SURFACES = fileDefaults.sectionSurfaces ?? {};
 /* ─── Helpers ────────────────────────────────────────────────── */
 function applyL2(name, rawVal) {
   let css = rawVal;
-  if (L2_FONT_ROLE_TOKENS.has(name)) {
-    /* rawVal is L1 role key (e.g. 'h1', 'body-md') → CSS var reference */
-    css = `var(--prim-type-${rawVal})`;
-    /* Also set companion weight / letter-spacing / line-height tokens
-       so that elements can use e.g. var(--font-heading-weight) to inherit
-       the L1 role's weight through the L2 chain. */
-    document.documentElement.style.setProperty(`${name}-weight`, `var(--prim-type-${rawVal}-weight)`);
-    document.documentElement.style.setProperty(`${name}-ls`,     `var(--prim-type-${rawVal}-ls)`);
-    document.documentElement.style.setProperty(`${name}-lh`,     `var(--prim-type-${rawVal}-lh)`);
-  } else if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) {
+  if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) {
     /* rawVal is an L1 token name like '--prim-mono-900' → CSS var reference */
     css = `var(${rawVal})`;
   } else if (name === '--badge-angle') {
@@ -1152,6 +1212,9 @@ function applyL1(name, value) {
   } else if (name.endsWith('-lh')) {
     /* stored as integer tenths → apply as unitless value */
     document.documentElement.style.setProperty(name, (Number(value) / 10).toFixed(2));
+  } else if (name.endsWith('-size')) {
+    /* stored as integer px → apply with unit */
+    document.documentElement.style.setProperty(name, value + 'px');
   } else {
     /* font family */
     loadGoogleFont(value);
@@ -1163,12 +1226,6 @@ function removeAllOverrides() {
   [...Object.keys(DEFAULT_L2), ...Object.keys(DEFAULT_L1)].forEach(k => {
     document.documentElement.style.removeProperty(k);
   });
-  /* Also remove L2 companion weight/ls/lh tokens */
-  for (const name of L2_FONT_ROLE_TOKENS) {
-    document.documentElement.style.removeProperty(`${name}-weight`);
-    document.documentElement.style.removeProperty(`${name}-ls`);
-    document.documentElement.style.removeProperty(`${name}-lh`);
-  }
 }
 
 /* ─── Detachable / draggable panel hook (shared with DevModeInspector) ── */
@@ -1281,8 +1338,8 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
 
   /* localStorage keys for all Sect/SubSect groups per tab */
   const L2_SECT_KEYS = [
-    'dme-sect-Colors', 'dme-sect-Typography', 'dme-sect-Spacing & Layout',
-    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Header Dropdown',
+    'dme-sect-Colors', 'dme-sect-Element Sizes', 'dme-sect-Spacing & Layout',
+    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Statement: Links', 'dme-sub-Header Dropdown',
     'dme-sub-Navigation', 'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats',
     'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Modal',
   ];
@@ -2011,7 +2068,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM' };
+  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted': 'Text muted', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text' };
   return (
     <>
@@ -2410,6 +2467,12 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
           <ColorRow label="Text"         name="--color-statement-text"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
+        <SubSect label="Statement: Links">
+          <ColorRow label="Background"   name="--color-statement-link-bg"     l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Border"       name="--color-statement-link-border" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Text"         name="--color-statement-link-text"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
         <SubSect label="Header Dropdown">
           <ColorRow label="Bell icon"   name="--color-activity-bell"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Background"  name="--color-dropdown-bg"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
@@ -2476,58 +2539,18 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
           <ColorRow label="Border"       name="--modal-border"     l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
       </Sect>
-      <Sect label="Typography">
+      <Sect label="Element Sizes">
         <div style={{ padding: '4px 16px 6px' }}>
           <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>
-            Assign L1 type roles to each element. Change the role's font under L1 → Type Roles.
+            Sizes for specific UI elements. Role sizes (H1–H4, body, etc.) are set under L1 → Type Roles.
           </div>
         </div>
-        <RoleRow label="H1 font"         name="--font-heading"    l2={l2} set={set} />
-        <RoleRow label="H2 font"         name="--font-subheading" l2={l2} set={set} />
-        <RoleRow label="H3 font"         name="--font-section"    l2={l2} set={set} />
-        <RoleRow label="H4 font"         name="--font-label"      l2={l2} set={set} />
-        <RoleRow label="Body lg font"    name="--font-lead"       l2={l2} set={set} />
-        <RoleRow label="Body font"       name="--font-body"       l2={l2} set={set} />
-        <RoleRow label="Body sm font"    name="--font-small"      l2={l2} set={set} />
-        <RoleRow label="Logo font"       name="--font-logo"       l2={l2} set={set} />
-        <RoleRow label="Pill font"       name="--font-pill"       l2={l2} set={set} />
-        <RoleRow label="Pill lg font"    name="--font-pill-lg"    l2={l2} set={set} />
-        <RoleRow label="Pill md font"    name="--font-pill-md"    l2={l2} set={set} />
-        <RoleRow label="Pill sm font"    name="--font-pill-sm"    l2={l2} set={set} />
-        <RoleRow label="TOC font"        name="--font-toc"        l2={l2} set={set} />
-        <RoleRow label="Meta font"       name="--font-meta"       l2={l2} set={set} />
-        <RoleRow label="Dropdown font"  name="--font-dropdown"       l2={l2} set={set} />
-        <RoleRow label="Dropdown badge" name="--font-dropdown-badge" l2={l2} set={set} />
-        <RoleRow label="UI XL font"    name="--font-ui-xl"          l2={l2} set={set} />
-        <RoleRow label="UI lg font"    name="--font-ui-lg"          l2={l2} set={set} />
-        <RoleRow label="UI md font"    name="--font-ui-md"          l2={l2} set={set} />
-        <RoleRow label="UI sm font"    name="--font-ui-sm"          l2={l2} set={set} />
-        <RoleRow label="UI xsm font"   name="--font-ui-xsm"        l2={l2} set={set} />
-        <SliderRow label="H1 size"       name="--size-h1"         l2={l2} set={set} min={32}  max={120}  unit="px" />
-        <SliderRow label="H2 size"       name="--size-h2"         l2={l2} set={set} min={18}  max={72}   unit="px" />
-        <SliderRow label="H3 size"       name="--size-h3"         l2={l2} set={set} min={16}  max={48}   unit="px" />
-        <SliderRow label="H4 size"       name="--size-h4"         l2={l2} set={set} min={14}  max={36}   unit="px" />
-        <SliderRow label="SH1 size"      name="--size-sh1"        l2={l2} set={set} min={12}  max={28}   unit="px" />
-        <SliderRow label="SH2 size"      name="--size-sh2"        l2={l2} set={set} min={11}  max={24}   unit="px" />
-        <SliderRow label="SH3 size"      name="--size-sh3"        l2={l2} set={set} min={10}  max={20}   unit="px" />
-        <SliderRow label="SH4 size"      name="--size-sh4"        l2={l2} set={set} min={9}   max={18}   unit="px" />
-        <SliderRow label="Body lg size"  name="--size-body-lg"    l2={l2} set={set} min={14}  max={32}   unit="px" />
-        <SliderRow label="Body size"     name="--size-body"       l2={l2} set={set} min={12}  max={28}   unit="px" />
-        <SliderRow label="Body sm size"  name="--size-body-sm"    l2={l2} set={set} min={10}  max={20}   unit="px" />
-        <SliderRow label="Logo size"     name="--size-logo"       l2={l2} set={set} min={16}  max={60}   unit="px" />
-        <SliderRow label="Pill size"     name="--size-pill"       l2={l2} set={set} min={10}  max={24}   unit="px" />
-        <SliderRow label="Pill lg size"  name="--size-pill-lg"    l2={l2} set={set} min={10}  max={24}   unit="px" />
-        <SliderRow label="Pill md size"  name="--size-pill-md"    l2={l2} set={set} min={8}   max={20}   unit="px" />
-        <SliderRow label="Pill sm size"  name="--size-pill-sm"    l2={l2} set={set} min={6}   max={16}   unit="px" />
-        <SliderRow label="TOC size"      name="--size-toc"        l2={l2} set={set} min={9}   max={18}   unit="px" />
-        <SliderRow label="Meta size"     name="--size-meta"       l2={l2} set={set} min={9}   max={18}   unit="px" />
+        <SliderRow label="Logo size"          name="--size-logo"           l2={l2} set={set} min={16}  max={60}   unit="px" />
+        <SliderRow label="Pill size"          name="--size-pill"           l2={l2} set={set} min={10}  max={24}   unit="px" />
+        <SliderRow label="TOC size"           name="--size-toc"            l2={l2} set={set} min={9}   max={18}   unit="px" />
+        <SliderRow label="Meta size"          name="--size-meta"           l2={l2} set={set} min={9}   max={18}   unit="px" />
         <SliderRow label="Dropdown size"      name="--size-dropdown"       l2={l2} set={set} min={10}  max={24}   unit="px" />
-        <SliderRow label="Dropdown badge size" name="--size-dropdown-badge" l2={l2} set={set} min={7}   max={16}   unit="px" />
-        <SliderRow label="UI XL size"    name="--size-ui-xl"          l2={l2} set={set} min={14}  max={32}   unit="px" />
-        <SliderRow label="UI lg size"    name="--size-ui-lg"          l2={l2} set={set} min={12}  max={24}   unit="px" />
-        <SliderRow label="UI md size"    name="--size-ui-md"          l2={l2} set={set} min={10}  max={20}   unit="px" />
-        <SliderRow label="UI sm size"    name="--size-ui-sm"          l2={l2} set={set} min={8}   max={16}   unit="px" />
-        <SliderRow label="UI xsm size"   name="--size-ui-xsm"        l2={l2} set={set} min={6}   max={14}   unit="px" />
+        <SliderRow label="Dropdown badge size" name="--size-dropdown-badge" l2={l2} set={set} min={7}  max={16}   unit="px" />
       </Sect>
       <Sect label="Spacing &amp; Layout">
         <SliderRow label="Section padding"   name="--spacing-section-v"   l2={l2} set={set} min={24}  max={120}  unit="px" />
@@ -2542,16 +2565,31 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
    L1 View — Type Role Targeting helpers
    ═══════════════════════════════════════════════════════════════ */
 
+/* Static mapping: L1 role → hardwired L2 font tokens (no longer dynamic) */
+const ROLE_TO_L2_TOKENS = {
+  'h1':      ['--font-heading', '--font-logo', '--font-pill', '--font-dropdown', '--font-dropdown-badge'],
+  'h2':      ['--font-subheading'],
+  'h3':      ['--font-section'],
+  'h4':      ['--font-label'],
+  'body-lg': ['--font-lead'],
+  'body-md': ['--font-body'],
+  'body-sm': ['--font-small', '--font-toc', '--font-meta'],
+  'pill-lg': ['--font-pill-lg'],
+  'pill-md': ['--font-pill-md'],
+  'pill-sm': ['--font-pill-sm'],
+  'ui-xl':   ['--font-ui-xl'],
+  'ui-lg':   ['--font-ui-lg'],
+  'ui-md':   ['--font-ui-md'],
+  'ui-sm':   ['--font-ui-sm'],
+  'ui-xsm':  ['--font-ui-xsm'],
+};
+
 /**
  * Find all DOM elements that use a given L1 type role via L2 font tokens.
  * Walks stylesheets + inline styles, excludes DME panel elements.
  */
-function findElementsForRole(roleKey, l2) {
-  // 1. Find which L2 font tokens are assigned to this L1 role
-  const matchingL2Tokens = [];
-  for (const token of L2_FONT_ROLE_TOKENS) {
-    if (l2[token] === roleKey) matchingL2Tokens.push(token);
-  }
+function findElementsForRole(roleKey) {
+  const matchingL2Tokens = ROLE_TO_L2_TOKENS[roleKey] || [];
   if (matchingL2Tokens.length === 0) return [];
 
   const varPatterns = matchingL2Tokens.map(t => `var(${t})`);
@@ -2600,16 +2638,16 @@ function findElementsForRole(roleKey, l2) {
  * Overlay that highlights elements matching a given L1 type role.
  * Dim backdrop + mint-green highlight boxes positioned via getBoundingClientRect.
  */
-function TypeRoleHighlightOverlay({ roleKey, l2, onClose }) {
+function TypeRoleHighlightOverlay({ roleKey, onClose }) {
   const [rects, setRects] = useState([]);
 
   const updateRects = useCallback(() => {
-    const elements = findElementsForRole(roleKey, l2);
+    const elements = findElementsForRole(roleKey);
     setRects(elements.map(el => {
       const r = el.getBoundingClientRect();
       return { top: r.top, left: r.left, width: r.width, height: r.height };
     }));
-  }, [roleKey, l2]);
+  }, [roleKey]);
 
   useEffect(() => {
     updateRects();
@@ -2663,7 +2701,15 @@ function TypeRoleHighlightOverlay({ roleKey, l2, onClose }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-function L1RoleGroup({ roleKey, roleLabel, l1, l2, setRole, isHighlighted, onToggleHighlight }) {
+const L1_SIZE_RANGE = {
+  'h1': [32, 120], 'h2': [18, 72], 'h3': [16, 48], 'h4': [14, 36],
+  'sh1': [12, 28], 'sh2': [11, 24], 'sh3': [10, 20], 'sh4': [9, 18],
+  'body-lg': [14, 32], 'body-md': [12, 28], 'body-sm': [10, 20],
+  'pill-lg': [10, 24], 'pill-md': [8, 20], 'pill-sm': [6, 16],
+  'ui-xl': [14, 32], 'ui-lg': [12, 24], 'ui-md': [10, 20], 'ui-sm': [8, 16], 'ui-xsm': [6, 14],
+};
+
+function L1RoleGroup({ roleKey, roleLabel, l1, setRole, isHighlighted, onToggleHighlight }) {
   const storageKey = `dme-role-${roleKey}`;
   const [open, setOpen] = useState(() => localStorage.getItem(storageKey) !== 'closed');
   const toggle = () => setOpen(o => { const next = !o; localStorage.setItem(storageKey, next ? 'open' : 'closed'); return next; });
@@ -2672,18 +2718,20 @@ function L1RoleGroup({ roleKey, roleLabel, l1, l2, setRole, isHighlighted, onTog
   const weightKey  = `--prim-type-${roleKey}-weight`;
   const lsKey      = `--prim-type-${roleKey}-ls`;
   const lhKey      = `--prim-type-${roleKey}-lh`;
+  const sizeKey    = `--prim-type-${roleKey}-size`;
   const currentFont = l1[familyKey] || 'Inter';
   const weights = FONT_WEIGHTS[currentFont] ?? [400, 700];
+  const [sizeMin, sizeMax] = L1_SIZE_RANGE[roleKey] || [6, 120];
 
   // Live element count — recomputes on l2 changes + DOM mutations
   const [elemCount, setElemCount] = useState(0);
   useEffect(() => {
-    const recount = () => setElemCount(findElementsForRole(roleKey, l2).length);
+    const recount = () => setElemCount(findElementsForRole(roleKey).length);
     recount();
     const mo = new MutationObserver(recount);
     mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
     return () => mo.disconnect();
-  }, [roleKey, l2]);
+  }, [roleKey]);
 
   return (
     <div>
@@ -2762,6 +2810,18 @@ function L1RoleGroup({ roleKey, roleLabel, l1, l2, setRole, isHighlighted, onTog
                 style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
               <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
                 {(Number(l1[lhKey] ?? 16) / 10).toFixed(1)}
+              </span>
+            </div>
+          </Row>
+          {/* Size: stored as integer px */}
+          <Row label="Size">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <input type="range" min={sizeMin} max={sizeMax} step={1}
+                value={l1[sizeKey] ?? '16'}
+                onChange={e => setRole(sizeKey, e.target.value)}
+                style={{ width: 80, accentColor: '#666', cursor: 'pointer' }} />
+              <span style={{ color: '#999', fontSize: 11, minWidth: 44, textAlign: 'right', fontFamily: 'monospace' }}>
+                {l1[sizeKey] ?? '16'}px
               </span>
             </div>
           </Row>
@@ -2931,14 +2991,14 @@ function L1View({ l1, l2, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Col
           ['ui-xsm',  'UI XSM'],
         ].map(([key, label], i, arr) => (
           <React.Fragment key={key}>
-            <L1RoleGroup roleKey={key} roleLabel={label} l1={l1} l2={l2} setRole={setRole}
+            <L1RoleGroup roleKey={key} roleLabel={label} l1={l1} setRole={setRole}
               isHighlighted={highlightedRole === key}
               onToggleHighlight={() => toggleHighlight(key)} />
             {i < arr.length - 1 && <div style={{ height: 1, background: '#252525', margin: '4px 16px' }} />}
           </React.Fragment>
         ))}
       </Sect>
-      {highlightedRole && <TypeRoleHighlightOverlay roleKey={highlightedRole} l2={l2} onClose={() => setHighlightedRole(null)} />}
+      {highlightedRole && <TypeRoleHighlightOverlay roleKey={highlightedRole} onClose={() => setHighlightedRole(null)} />}
       <Sect label="Color Palettes">
         <div style={{ padding: '4px 16px 6px' }}>
           <div style={{ color: '#888', fontSize: 10, lineHeight: 1.5 }}>
@@ -3109,44 +3169,6 @@ function FontRow({ label, name, l2, set }) {
         {FONT_OPTIONS.map(f => (
           <option key={f} value={f} style={{ fontFamily: fontStack(f) }}>{f}</option>
         ))}
-      </select>
-    </Row>
-  );
-}
-
-function RoleRow({ label, name, l2, set }) {
-  const ROLES = [
-    { value: 'h1',       label: 'H1' },
-    { value: 'h2',       label: 'H2' },
-    { value: 'h3',       label: 'H3' },
-    { value: 'h4',       label: 'H4' },
-    { value: 'sh1',      label: 'Subheading 1' },
-    { value: 'sh2',      label: 'Subheading 2' },
-    { value: 'sh3',      label: 'Subheading 3' },
-    { value: 'sh4',      label: 'Subheading 4' },
-    { value: 'body-lg',  label: 'Body Large' },
-    { value: 'body-md',  label: 'Body Medium' },
-    { value: 'body-sm',  label: 'Body Small' },
-    { value: 'pill-lg',  label: 'Pill Large' },
-    { value: 'pill-md',  label: 'Pill Medium' },
-    { value: 'pill-sm',  label: 'Pill Small' },
-    { value: 'ui-xl',    label: 'UI XL' },
-    { value: 'ui-lg',    label: 'UI Large' },
-    { value: 'ui-md',    label: 'UI Medium' },
-    { value: 'ui-sm',    label: 'UI Small' },
-    { value: 'ui-xsm',   label: 'UI XSM' },
-  ];
-  return (
-    <Row label={label}>
-      <select
-        value={l2[name] || 'body'}
-        onChange={e => set(name, e.target.value)}
-        style={{
-          background: '#262626', border: '1px solid #3a3a3a', color: '#ccc',
-          fontSize: 11, padding: '4px 8px', borderRadius: 4, cursor: 'pointer', maxWidth: 140,
-        }}
-      >
-        {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
       </select>
     </Row>
   );

@@ -336,58 +336,16 @@ function BulletItem({ label, children }) {
   );
 }
 
-/** White downward-pointing triangles that form the transition into the gray section */
-function ZigzagSeparator() {
-  const W = 28.551;
-  const H = 28;
-  const count = 54;
-  const totalW = W * count;
-
-  let d = `M0,0`;
-  for (let i = 0; i < count; i++) {
-    const x = i * W;
-    d += ` L${x + W / 2},${H} L${x + W},0`;
-  }
-  d += ` Z`;
-
-  return (
-    <div style={{
-      width: '100%',
-      height: H,
-      background: 'var(--sf-muted-bg)',
-      flexShrink: 0,
-      marginBottom: -H,
-      position: 'relative',
-      zIndex: 1,
-      overflow: 'hidden',
-    }}>
-      <svg
-        width="100%"
-        height={H}
-        viewBox={`0 0 ${totalW} ${H}`}
-        preserveAspectRatio="xMidYMid slice"
-        style={{ display: 'block' }}
-      >
-        <path d={d} style={{ fill: 'var(--color-bg)' }} />
-      </svg>
-    </div>
-  );
-}
-
-/* ─── Social icons ───────────────────────────────────────────── */
-
 /* ─── Glossary ───────────────────────────────────────────────── */
 
 const GLOSSARY = {
-  'Points':      'The 24 triangular spaces on the board, numbered 1–24 from each player\'s home board.',
-  'Home Board':  'Your final quadrant — points 1 to 6. All 15 checkers must be here before you can start bearing off.',
-  'Outer Board': 'The two middle quadrants between the home boards. Much of the early racing and blocking happens here.',
-  'Bar':         'The raised ridge down the centre of the board. Hit checkers sit here and must re-enter before any other move.',
-  'Blot':        'A single lone checker on a point — unprotected and vulnerable to being hit.',
-  'Hit':         'Landing on an opponent\'s blot, sending their checker to the Bar.',
-  'Anchor':      'Two or more of your checkers on the same point. Opponents cannot land here — a defensive stronghold.',
-  'Gammon':      'Winning while the opponent hasn\'t borne off a single checker. Worth 2 points.',
-  'Backgammon':  'The ultimate win — opponent still has a checker on the Bar or in your home board when you finish. Worth 3 points.',
+  'Points':        'The 24 triangular spaces on the board, numbered 1\u201324 from each player\u2019s home board.',
+  'Home Board':    'Your final quadrant \u2014 points 1 to 6. All 15 checkers must be here before you can start bearing off.',
+  'Outer Board':   'The two middle quadrants between the home boards. Much of the early racing and blocking happens here.',
+  'Bar':           'The raised ridge down the centre of the board. Hit checkers sit here and must re-enter before any other move.',
+  'Doubling Cube': 'A six-faced die marked 2, 4, 8, 16, 32, 64. Used to raise the stakes during a game.',
+  'Nackgammon':    'A popular variant where each player starts with two checkers on the opponent\u2019s 1-point and two on their own 2-point, making for a more complex opening.',
+  'Acey-Deucey':   'A variant where rolling a 1-2 gives a bonus: you play the 1-2, then pick any doubles, then roll again.',
 };
 
 function GlossaryTerm({ term }) {
@@ -439,29 +397,29 @@ function GlossaryTerm({ term }) {
 
 const QUIZ_QUESTIONS = [
   {
-    question: 'You have a checker on the Bar. What must you do?',
+    question: 'How many points are on a backgammon board?',
     options: [
-      'Move your other checkers until you roll a 6.',
-      'Roll to re-enter that checker before doing anything else.',
-      'Skip your turn automatically.',
+      '12',
+      '24',
+      '30',
     ],
     correct: 1,
   },
   {
-    question: 'When are you allowed to start bearing off (taking checkers off the board)?',
+    question: 'In the standard setup, how many checkers go on the 13-point?',
     options: [
-      'Anytime you roll a 6.',
-      'Only when all 15 of your checkers are inside your Home Board.',
-      'As soon as you pass the midpoint.',
+      '2',
+      '3',
+      '5',
     ],
-    correct: 1,
+    correct: 2,
   },
   {
-    question: 'You roll double 4s. How do you move?',
+    question: 'Where does the doubling cube start?',
     options: [
-      'You move two checkers 4 spaces each.',
-      'You play the number 4 four times (16 spaces total).',
-      'You play the number 4 twice, then roll again.',
+      'On the 1-point.',
+      'Centred on the bar, showing 64.',
+      'Off the board.',
     ],
     correct: 1,
   },
@@ -525,7 +483,7 @@ function QuizModule() {
               fontFamily: fs, fontWeight: 700, fontSize: 17, lineHeight: 1.25,
               color: allCorrect ? '#4caf50' : 'var(--color-body)',
             }}>
-              {allCorrect ? 'Perfect score!' : score === 0 ? "Keep studying — you've got this!" : 'Good effort — review below.'}
+              {allCorrect ? 'Perfect score!' : score === 0 ? "Keep studying \u2014 you've got this!" : 'Good effort \u2014 review below.'}
             </div>
           </div>
           {!launchMvp && (
@@ -536,7 +494,7 @@ function QuizModule() {
                   fontFamily: fb, fontSize: 13, fontWeight: 700, color: 'var(--color-heading)',
                   textDecoration: 'underline dotted', textDecorationColor: 'var(--color-muted)', textUnderlineOffset: 3,
                 }}>
-                  How to Play
+                  Board Setup
                 </span>
                 <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 400, color: 'var(--color-heading)', marginTop: 2 }}>
                   badge awarded!
@@ -562,7 +520,7 @@ function QuizModule() {
                   <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="var(--color-badge-unearned-stroke)" strokeWidth="2" strokeLinecap="round" fill="none" />
                 </svg>
                 <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 400, color: 'var(--color-badge-unearned-text)', whiteSpace: 'nowrap' }}>
-                  Try again to earn <strong style={{ fontWeight: 700, textDecoration: 'underline dotted', textDecorationColor: 'var(--color-muted)', textUnderlineOffset: 3 }}>How to Play</strong> badge
+                  Try again to earn <strong style={{ fontWeight: 700, textDecoration: 'underline dotted', textDecorationColor: 'var(--color-muted)', textUnderlineOffset: 3 }}>Board Setup</strong> badge
                 </span>
               </div>
             )}
@@ -600,7 +558,7 @@ function QuizModule() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 11, color: '#fff', fontWeight: 700, marginTop: 2,
                 }}>
-                  {wasCorrect ? '✓' : '✗'}
+                  {wasCorrect ? '\u2713' : '\u2717'}
                 </div>
                 <div style={{
                   flex: 1, fontFamily: fb, fontSize: 14, lineHeight: 1.5,
@@ -613,12 +571,12 @@ function QuizModule() {
                   gap: 5, fontFamily: fp, fontSize: 13, fontWeight: 700,
                 }}>
                   {wasCorrect ? (
-                    <span style={{ color: '#4caf50' }}>{LETTERS[userAns]} ✓</span>
+                    <span style={{ color: '#4caf50' }}>{LETTERS[userAns]} \u2713</span>
                   ) : (
                     <>
-                      <span style={{ color: '#ef5350' }}>{LETTERS[userAns]} ✗</span>
-                      <span style={{ color: 'var(--color-muted)' }}>→</span>
-                      <span style={{ color: '#4caf50' }}>{LETTERS[qq.correct]} ✓</span>
+                      <span style={{ color: '#ef5350' }}>{LETTERS[userAns]} \u2717</span>
+                      <span style={{ color: 'var(--color-muted)' }}>\u2192</span>
+                      <span style={{ color: '#4caf50' }}>{LETTERS[qq.correct]} \u2713</span>
                     </>
                   )}
                 </div>
@@ -718,10 +676,10 @@ function QuizModule() {
                 {opt}
               </span>
               {isAnswered && isCorrectOpt && (
-                <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#4caf50', fontSize: 16, paddingLeft: 8 }}>✓</span>
+                <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#4caf50', fontSize: 16, paddingLeft: 8 }}>\u2713</span>
               )}
               {isAnswered && isSelected && !isCorrect && (
-                <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#ef5350', fontSize: 16, paddingLeft: 8 }}>✗</span>
+                <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#ef5350', fontSize: 16, paddingLeft: 8 }}>\u2717</span>
               )}
             </button>
           );
@@ -735,7 +693,7 @@ function QuizModule() {
         className="com-btn com-btn--outline"
         style={{ width: '100%', borderRadius: 8, fontSize: 15, letterSpacing: '0.03em', marginTop: 16, flexShrink: 0, opacity: isAnswered ? 1 : 0.35, cursor: isAnswered ? 'pointer' : 'default' }}
       >
-        {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →'}
+        {currentIdx < QUIZ_QUESTIONS.length - 1 ? 'Next Question \u2192' : 'See Results \u2192'}
       </button>
     </div>
   );
@@ -750,20 +708,6 @@ const quizCard = {
   flexDirection: 'column',
 };
 
-const quizBtn = {
-  width: '100%',
-  padding: '13px 20px',
-  background: 'var(--color-heading)',
-  border: 'none',
-  borderRadius: 8,
-  fontFamily: fp,
-  fontWeight: 700,
-  fontSize: 15,
-  color: 'var(--color-bg)',
-  cursor: 'pointer',
-  letterSpacing: '0.03em',
-};
-
 /* ─── Guide navigation CTAs ─────────────────────────────────── */
 
 const GUIDE_SEQUENCE = [
@@ -772,7 +716,7 @@ const GUIDE_SEQUENCE = [
   { title: 'Board Setup Explained',      href: '#' },
   { title: 'The Doubling Cube',          href: '#' },
 ];
-const CURRENT_GUIDE_IDX = 1;
+const CURRENT_GUIDE_IDX = 2;
 
 function GuideCTAs() {
   const prev = GUIDE_SEQUENCE[CURRENT_GUIDE_IDX - 1] ?? null;
@@ -813,13 +757,13 @@ function GuideCTAs() {
     <div style={{ display: 'flex', gap: 12, width: '100%' }}>
       {prev ? (
         <a href={prev.href} style={{ ...card, alignItems: 'flex-start' }}>
-          <span style={labelStyle}>← Previous</span>
+          <span style={labelStyle}>{'\u2190'} Previous</span>
           <span style={titleStyle}>{prev.title}</span>
         </a>
       ) : <div style={{ flex: 1 }} />}
       {next ? (
         <a href={next.href} style={{ ...card, alignItems: 'flex-end', textAlign: 'right' }}>
-          <span style={labelStyle}>Next →</span>
+          <span style={labelStyle}>Next {'\u2192'}</span>
           <span style={titleStyle}>{next.title}</span>
         </a>
       ) : <div style={{ flex: 1 }} />}
@@ -830,14 +774,13 @@ function GuideCTAs() {
 /* ─── Table of Contents ──────────────────────────────────────── */
 
 const TOC_ITEMS = [
-  { id: 'section-layout',  label: 'Board Layout' },
-  { id: 'section-setup',   label: 'How to Set Up' },
-  { id: 'section-start',   label: 'Starting the Game' },
-  { id: 'section-moving',  label: 'Moving Checkers' },
-  { id: 'section-hitting', label: 'Hitting' },
-  { id: 'section-bearing', label: 'Bearing Off' },
-  { id: 'section-scoring', label: 'Scoring' },
-  { id: 'section-quiz',    label: 'Test Yourself' },
+  { id: 'section-board-layout',      label: 'Board Layout' },
+  { id: 'section-checker-placement', label: 'Checker Placement' },
+  { id: 'section-direction',         label: 'Direction & Movement' },
+  { id: 'section-equipment',         label: 'Equipment & Accessories' },
+  { id: 'section-variations',        label: 'Setup Variations' },
+  { id: 'section-faq',               label: 'FAQ' },
+  { id: 'section-quiz',              label: 'Test Yourself' },
 ];
 const SECTION_IDS = TOC_ITEMS.map(t => t.id);
 
@@ -930,9 +873,94 @@ function TableOfContents() {
   );
 }
 
+/* ─── Article cross-link callout ─────────────────────────────── */
+
+function ArticleLink({ children }) {
+  return (
+    <div style={{
+      background: 'var(--color-statement-link-bg)',
+      borderLeft: '3px solid var(--color-statement-link-border)',
+      display: 'flex',
+      alignItems: 'center',
+      paddingLeft: 24,
+      paddingRight: 16,
+      paddingTop: 8,
+      paddingBottom: 8,
+      boxSizing: 'border-box',
+      width: '100%',
+    }}>
+      <p style={{
+        fontFamily: fb,
+        fontWeight: 'var(--prim-type-body-md-weight)',
+        fontStyle: 'italic',
+        fontSize: 'var(--size-body)',
+        lineHeight: 'var(--lh-body)',
+        color: 'var(--color-statement-link-text)',
+        margin: 0,
+        flex: '1 0 0',
+      }}>
+        {'\u2192'} {children}
+      </p>
+    </div>
+  );
+}
+
+/* ─── FAQ ────────────────────────────────────────────────────── */
+
+function FAQItem({ question, children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{
+      borderBottom: '1px solid var(--color-border-light)',
+      paddingBottom: 16,
+    }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          cursor: 'pointer',
+          textAlign: 'left',
+          gap: 12,
+        }}
+      >
+        <span style={{
+          fontFamily: fs,
+          fontWeight: 700,
+          fontSize: 16,
+          lineHeight: 1.4,
+          color: 'var(--color-heading)',
+        }}>
+          {question}
+        </span>
+        <span style={{
+          flexShrink: 0,
+          fontFamily: fb,
+          fontSize: 18,
+          color: 'var(--color-muted)',
+          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+          transition: 'transform 0.2s ease',
+        }}>
+          +
+        </span>
+      </button>
+      {open && (
+        <div style={{ marginTop: 10 }}>
+          <BodyText>{children}</BodyText>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── Main template ───────────────────────────────────────────── */
 
-export default function LearnSegmentTemplate({ onNavigate }) {
+export default function LearnArticle2({ onNavigate }) {
   const launchMvp = useDMEState('learnArticle.launchMvp', false);
   const acState = useDMEState('social.activityCenter', 'Activity - Unread');
   return (
@@ -955,21 +983,17 @@ export default function LearnSegmentTemplate({ onNavigate }) {
 
           <div className="breadcrumb" data-role-id="ls-breadcrumb">
             <div className="breadcrumb__trail">
-              <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
+              <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 2" />
             </div>
             {!launchMvp && (
               <div className="xp-badge">
                 <BadgeIcon />
-                {/* EXP pip + tooltip hidden for now
-                <div className="xp-badge__dot">1</div>
-                <div className="xp-badge__tooltip">Learn EXP +1</div>
-                */}
               </div>
             )}
           </div>
 
           <h1 className="article-heading--h1" data-role-id="ls-hero-title" style={{ fontFamily: fh, color: 'var(--color-heading)' }}>
-            How to Play Backgammon
+            Backgammon Board Setup Explained
           </h1>
 
           <div className="article-meta" data-role-id="ls-meta">
@@ -983,7 +1007,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
 
           <BodyText>
             <p style={{ margin: 0 }}>
-              Backgammon is a race. The goal is to run your checkers around the track and off the board before your opponent does. You roll dice to move, and you hit your opponent to send them back to the start.
+              Setting up a backgammon board takes less than a minute once you know the pattern. Every game starts the same way: 15 checkers each, placed on specific <GlossaryTerm term="Points" /> in a mirror layout. This guide walks you through the board, the pieces, and every step of the setup.
             </p>
           </BodyText>
 
@@ -995,118 +1019,56 @@ export default function LearnSegmentTemplate({ onNavigate }) {
         <div className="article-content article-content--gap-lg">
 
           {/* 1. Board Layout */}
-          <div id="section-layout" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
-            <H2>1. Board Layout</H2>
+          <div id="section-board-layout" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
+            <H2>Understanding the Backgammon Board Layout</H2>
             <BodyText>
               <p style={{ margin: 0 }}>
-                The board has 24 triangles called <GlossaryTerm term="Points" />. The board is split into four quadrants.{' '}
-                Your <GlossaryTerm term="Home Board" /> is where you finish.{' '}
-                The <GlossaryTerm term="Outer Board" /> is the middle of the track.{' '}
-                The <GlossaryTerm term="Bar" /> is the ridge down the center.
+                A backgammon board has 24 narrow triangles called <GlossaryTerm term="Points" />. They alternate in colour and are grouped into four quadrants of six points each. A raised ridge called the <GlossaryTerm term="Bar" /> divides the board in half.
               </p>
             </BodyText>
+            <BodyText>
+              <p style={{ margin: 0 }}>
+                The four quadrants are: your <GlossaryTerm term="Home Board" /> (points 1{'\u2013'}6), your <GlossaryTerm term="Outer Board" /> (points 7{'\u2013'}12), your opponent's outer board (points 13{'\u2013'}18), and your opponent's home board (points 19{'\u2013'}24). Points are numbered from each player's perspective {'\u2014'} your 1-point is your opponent's 24-point.
+              </p>
+            </BodyText>
+            <ArticleLink>For a full explanation of all board terms, see <a href="#" style={{ fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none', fontStyle: 'italic' }}>Backgammon Glossary</a>.</ArticleLink>
           </div>
 
           <SectionBreak />
 
-          {/* 2. How to Set Up */}
-          <div id="section-setup" className="media-row">
-            <ImageWithCaption caption="Top-down diagram of a standard backgammon board setup. Checkers are highlighted in groups with labels: Runners, Mid-point, Builders, Defenders." />
+          {/* 2. Checker Placement */}
+          <div id="section-checker-placement" className="media-row">
+            <ImageWithCaption caption="Standard backgammon starting position. Each player places 15 checkers in a 2-5-3-5 pattern across four points." />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flex: '1 0 0', justifyContent: 'center' }}>
-              <H2>2. How to Set Up</H2>
+              <H2>Step-by-Step Checker Placement (The Starting Array)</H2>
               <BodyText>
-                <p style={{ margin: '0 0 16px 0' }}>You need to place your checkers in specific stacks:</p>
+                <p style={{ margin: '0 0 16px 0' }}>Each player has 15 checkers arranged in the same pattern. Remember the rule: <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>2-5-3-5</strong>.</p>
               </BodyText>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <CheckerStack
                   point="24-pt"
-                  name="Runners (×2)"
-                  description="Deep in enemy territory. They need to escape early."
+                  name="Runners (\u00d72)"
+                  description="Two checkers on your 24-point (your opponent's 1-point). Deep in enemy territory, these need to escape early."
                 />
                 <CheckerStack
                   point="13-pt"
-                  name="Mid-point (×5)"
-                  description="Your supply station. Bring these down safely to build your home board."
+                  name="Mid-point (\u00d75)"
+                  description="Five checkers on your 13-point. A supply station for bringing checkers home."
                 />
                 <CheckerStack
                   point="8-pt"
-                  name="Builders (×3)"
-                  description="Perfectly positioned to help you build the 5-point — the most important point in the game."
+                  name="Builders (\u00d73)"
+                  description="Three checkers on your 8-point. Perfectly placed to help secure the valuable 5-point."
                 />
                 <CheckerStack
                   point="6-pt"
-                  name="Defenders (×5)"
-                  description="The foundation of your home board. Your opponent cannot land here."
+                  name="Defenders (\u00d75)"
+                  description="Five checkers on your 6-point. The foundation of your home board."
                 />
               </div>
-            </div>
-          </div>
-
-          <SectionBreak />
-
-          {/* 3. Starting the Game */}
-          <div id="section-start" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
-            <H2>3. Starting the Game</H2>
-            <BodyText>
-              <p style={{ margin: 0 }}>
-                Each player rolls one die. The player with the higher number goes first, using{' '}
-                <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>both dice</strong> as their opening move.
-                If you roll the same number, re-roll until someone wins.
-              </p>
-            </BodyText>
-          </div>
-
-          <SectionBreak />
-
-          {/* 4. Moving Checkers */}
-          <div id="section-moving" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
-            <H2>4. Moving Checkers</H2>
-            <BodyText>
-              <p style={{ margin: 0 }}>
-                You always move forward — counter-clockwise for one player, clockwise for the other. You form a "C" shape around the board toward your home.
-              </p>
-            </BodyText>
-            <Callout>The Rules of the Road</Callout>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <BulletItem label="Open Points Only">
-                You can land on a point if it is empty, has your own checkers, or has{' '}
-                <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>only one</strong> opponent checker.
-              </BulletItem>
-              <BulletItem label="Blocked Points">
-                If your opponent has{' '}
-                <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>two or more</strong> checkers on a point, it is an{' '}
-                <GlossaryTerm term="Anchor" />. You cannot land there.
-                This is how you control the game — building anchors stops your opponent from moving.
-              </BulletItem>
-              <BulletItem label="Doubles">
-                If you roll doubles like 2-2, you play the number{' '}
-                <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>four times</strong>.
-                Doubles let you race ahead or build strong blocks quickly.
-              </BulletItem>
-            </div>
-          </div>
-
-          <SectionBreak />
-
-          {/* 5. Hitting */}
-          <div id="section-hitting" className="media-row">
-            <ImageWithCaption caption="A checker landing on a single opponent checker (Blot), with an arrow showing the opponent's checker moving to the Bar." />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flex: '1 0 0' }}>
-              <H2>5. Hitting</H2>
               <BodyText>
                 <p style={{ margin: 0 }}>
-                  If your opponent leaves a single checker on a point, it is called a{' '}
-                  <GlossaryTerm term="Blot" />.
-                  If you land on a Blot, you <GlossaryTerm term="Hit" /> it
-                  and send it to the <GlossaryTerm term="Bar" />.
-                </p>
-              </BodyText>
-              <Callout>The Penalty</Callout>
-              <BodyText>
-                <p style={{ margin: 0 }}>
-                  If you are on the Bar, you cannot move any other checkers. You must roll to re-enter your checker
-                  into your opponent's home board. If you roll numbers for blocked points, you lose your turn.
-                  Getting hit is a disaster — it forces you to restart that checker from the beginning.
+                  Your opponent sets up the exact mirror image. Their runners sit on their 24-point (your 1-point), and so on.
                 </p>
               </BodyText>
             </div>
@@ -1114,48 +1076,100 @@ export default function LearnSegmentTemplate({ onNavigate }) {
 
           <SectionBreak />
 
-          {/* 6. Bearing Off */}
-          <div id="section-bearing" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
-            <H2>6. Bearing Off</H2>
+          {/* 3. Direction of Play */}
+          <div id="section-direction" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
+            <H2>Direction of Play and Movement Flow</H2>
             <BodyText>
               <p style={{ margin: 0 }}>
-                You can only start taking checkers off the board when{' '}
-                <strong style={{ fontWeight: 700, color: 'var(--color-heading)' }}>all 15</strong> of your checkers
-                are inside your Home Board.
+                Both players move their checkers in a horseshoe path. One player moves counter-clockwise from their opponent's home board, through both outer boards, and into their own home board. The other player moves clockwise, following the same path in reverse.
               </p>
             </BodyText>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <BulletItem label="The Move">
-                Roll a 6 and take a checker off the 6-point. Roll a 4 and take one off the 4-point.
-              </BulletItem>
-              <BulletItem label="The Strategy">
-                If you get hit while bearing off, your checker goes to the Bar and has to travel the full track again.
-                Don't leave single checkers exposed when you're close to winning.
-              </BulletItem>
-            </div>
+            <BodyText>
+              <p style={{ margin: 0 }}>
+                Think of it as a {'\u201C'}C{'\u201D'} shape: you start in your opponent's home board and race your checkers around to your own home board, where you can eventually bear them off.
+              </p>
+            </BodyText>
+            <ArticleLink>For movement rules, doubles, and turn sequence, see <a onClick={() => onNavigate?.('learn-article')} style={{ fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none', fontStyle: 'italic', cursor: 'pointer' }}>How to Play Backgammon</a>.</ArticleLink>
           </div>
 
           <SectionBreak />
 
-          {/* 7. Scoring */}
-          <div id="section-scoring" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
-            <H2>7. Scoring</H2>
+          {/* 4. Equipment Setup */}
+          <div id="section-equipment" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
+            <H2>Equipment and Accessory Setup</H2>
             <BodyText>
               <p style={{ margin: 0 }}>
-                The first player to remove all their checkers wins. The score depends on how much you beat them:
+                Beyond the checkers, a standard backgammon set includes a few more items:
               </p>
             </BodyText>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <BulletItem label="Single (1 point)">
-                You finish and your opponent has borne off at least one checker.
+              <BulletItem label="Dice (2 pairs)">
+                Each player has their own pair of dice. You roll both of your dice on your side of the board.
               </BulletItem>
-              <BulletItem label="Gammon (2 points)">
-                You finish and your opponent has not removed a single checker.
+              <BulletItem label="Dice cups">
+                Used to shake and roll the dice fairly. Each player has their own cup.
               </BulletItem>
-              <BulletItem label="Backgammon (3 points)">
-                You finish and your opponent still has a checker in your home board or on the Bar.
+              <BulletItem label={<><GlossaryTerm term="Doubling Cube" /></>}>
+                A large six-sided die showing the numbers 2, 4, 8, 16, 32, and 64. It starts centred on the <GlossaryTerm term="Bar" /> with 64 facing up. During play, either player can propose to double the stakes {'\u2014'} the opponent must accept or forfeit the game.
               </BulletItem>
             </div>
+            <ArticleLink>For how the cube works, see <a href="#" style={{ fontWeight: 600, color: 'var(--color-link)', textDecoration: 'none', fontStyle: 'italic' }}>The Doubling Cube</a>.</ArticleLink>
+          </div>
+
+          <SectionBreak />
+
+          {/* 5. Setup Variations */}
+          <div id="section-variations" style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
+            <H2>Common Setup Variations</H2>
+            <BodyText>
+              <p style={{ margin: 0 }}>
+                While the standard setup is used in almost all tournament and online play, a few popular variants change the starting position:
+              </p>
+            </BodyText>
+            <Callout><GlossaryTerm term="Nackgammon" /></Callout>
+            <BodyText>
+              <p style={{ margin: 0 }}>
+                Created by champion player Nack Ballard. Each player moves two checkers from the midpoint (13-point) and places them on the opponent's 1-point and their own 2-point. This creates a more complex opening with extra back checkers to escape.
+              </p>
+            </BodyText>
+            <Callout><GlossaryTerm term="Acey-Deucey" /></Callout>
+            <BodyText>
+              <p style={{ margin: 0 }}>
+                A variant popular in the military and Mediterranean regions. All checkers start off the board and must be entered during play. When you roll a 1-2 (Acey-Deucey), you play the 1-2, choose any doubles you like, and then roll again.
+              </p>
+            </BodyText>
+          </div>
+
+          <SectionBreak />
+
+          {/* 6. FAQ */}
+          <div id="section-faq" style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }}>
+            <H2>Frequently Asked Questions</H2>
+            <FAQItem question="Is the home board on the left or right?">
+              <p style={{ margin: 0 }}>
+                Either side works. The home board can be on the left or the right depending on the physical setup, lighting, or player preference. What matters is that both players agree on orientation before placing checkers. In online play, this is handled automatically.
+              </p>
+            </FAQItem>
+            <FAQItem question="How many checkers does each player start with?">
+              <p style={{ margin: 0 }}>
+                Each player starts with exactly 15 checkers. They're placed in the 2-5-3-5 pattern across four points on the board.
+              </p>
+            </FAQItem>
+            <FAQItem question="How do you decide who goes first?">
+              <p style={{ margin: 0 }}>
+                Each player rolls one die. The player with the higher number goes first using both dice (their own roll and their opponent's) as the opening move. Ties mean both players roll again.
+              </p>
+            </FAQItem>
+            <FAQItem question="Does it matter which color you play?">
+              <p style={{ margin: 0 }}>
+                No. The two colors are functionally identical. Color is purely cosmetic and has no effect on gameplay, rules, or scoring.
+              </p>
+            </FAQItem>
+            <FAQItem question="Why are there 2 checkers on the 24-point?">
+              <p style={{ margin: 0 }}>
+                Those two back checkers make things interesting from the very first roll. They're deep in the opponent's home board, which means they have the longest journey home. But they're not just sitting there {'\u2014'} they can anchor your defence and give you a chance to hit opponents who leave blots nearby. That push and pull between your far-flung checkers and the rest of your army closer to home is a big part of what makes the opening game so rich.
+              </p>
+            </FAQItem>
           </div>
 
           <SectionBreak />

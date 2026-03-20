@@ -9,6 +9,7 @@ import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
 import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
 import Avatar from './Avatar';
+import ActivityCenter from './ActivityCenter';
 
 /* ── Flag images ─────────────────────────────────────────────── */
 const flagModules = import.meta.glob('../imgs/icon-flags/*.png', { eager: true });
@@ -316,6 +317,14 @@ function IconTrophy() {
     </svg>
   );
 }
+function IconCheckerStack({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="currentColor">
+      <path fillRule="evenodd" clipRule="evenodd" d="M20.0002 14.2428C27.9067 14.2429 35.1954 18.7811 36.4411 25.2099C37.9093 32.7869 30.6632 39.9998 20.0002 40C9.33707 40 2.09026 32.787 3.55847 25.2099C4.80428 18.781 12.0936 14.2428 20.0002 14.2428ZM20.8528 17.9553C18.8255 17.8506 16.6966 18.2253 14.8975 19.0272C11.604 20.4502 9.41684 23.4008 9.6007 26.2477C9.63124 26.9294 9.77951 27.6033 10.04 28.2404C10.196 28.6222 10.3918 28.9909 10.6238 29.3415C10.5729 28.9367 10.5552 28.5365 10.5678 28.1437C10.5888 27.4888 10.6946 26.8538 10.8723 26.2477C11.6107 23.7086 13.6388 21.7054 16.1772 20.553C17.591 19.9097 19.1883 19.516 20.8691 19.4129C22.8118 19.2904 24.8891 19.5622 26.8569 20.3004C27.2676 20.4543 27.6743 20.6289 28.0733 20.8234C27.788 20.5429 27.472 20.276 27.1297 20.0268C25.5105 18.8367 23.2196 18.0637 20.8528 17.9553Z"/>
+      <path d="M20.1853 0.00324807C27.8242 0.140455 34.9899 4.49713 36.3786 10.6667L36.4411 10.9671C36.5631 11.5968 36.6233 12.2246 36.6279 12.8453H36.6303V19.0256C33.2666 14.224 27.0782 11.0039 20.0002 11.0037C16.3335 11.0037 12.9058 11.8694 9.98559 13.3699C10.7795 10.9457 12.7588 9.03263 15.2158 7.91717C16.6294 7.27404 18.2271 6.88102 19.9076 6.77791C21.8503 6.65549 23.9278 6.92724 25.8955 7.66545C26.306 7.81931 26.713 7.99314 27.1119 8.18758C26.8266 7.90714 26.5106 7.6402 26.1683 7.39099C24.5492 6.20098 22.258 5.42879 19.8914 5.32034C17.8642 5.21553 15.7351 5.59041 13.9361 6.3922C10.6425 7.81528 8.45522 10.7657 8.63927 13.6127C8.6466 13.7762 8.66072 13.9393 8.68149 14.1015C6.53746 15.4149 4.72466 17.0915 3.37008 19.0248V12.8453H3.37252C3.37717 12.2246 3.4365 11.5968 3.55847 10.9671L3.621 10.6667C5.03216 4.39741 12.4026 0.000151728 20.1853 0V0.00324807Z"/>
+    </svg>
+  );
+}
 function IconLearning() {
   return (
     <svg width="24" height="24" viewBox="0 0 60 60" fill="none">
@@ -371,7 +380,7 @@ const NAV_ITEMS = [
   { label: 'Settings',      Icon: IconSettings },
 ];
 
-function MobileNav({ onNavigate, hasUnread, activePage }) {
+function MobileNav({ onNavigate, hasUnread, activePage, onActivityOpen }) {
   return (
     <nav className="mobile-nav">
       {NAV_ITEMS.map(({ label, Icon, hasBadge, page }) => (
@@ -382,6 +391,7 @@ function MobileNav({ onNavigate, hasUnread, activePage }) {
             label === 'Learn' ? () => onNavigate?.('learn-hub')
             : label === 'My Profile' ? () => onNavigate?.('profile')
             : label === 'New Game' ? () => onNavigate?.('play')
+            : label === 'Notifications' ? () => onActivityOpen?.()
             : label === 'Settings' ? () => onNavigate?.('settings')
             : undefined
           }
@@ -693,37 +703,38 @@ function UnfriendModal({ username, onConfirm, onCancel }) {
   );
 }
 
-function ChallengeModal({ username, onConfirm, onCancel }) {
+function ChallengeModal({ username, avatarSrc, onConfirm, onCancel }) {
   const [sent, setSent] = useState(false);
   return (
     <div className="overlay overlay--top" onClick={onCancel}>
-      <div className="bottom-sheet surface-muted" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()}>
+      <div className="bottom-sheet surface-muted" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ height: '60vh', maxHeight: '60vh' }}>
         <div className="bottom-sheet__handle" />
-        <div className="bottom-sheet__header">
-          <h2 className="bottom-sheet__title">Challenge {username}</h2>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '6px 12px', flexShrink: 0 }}>
           <button className="popup-panel__close" onClick={onCancel}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
-        <div className="bottom-sheet__body" style={{ textAlign: 'center' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 24px', gap: 20 }}>
+          <Avatar src={avatarSrc} alt={username} size="xl" />
+          <h2 className="bottom-sheet__title">Challenge {username}</h2>
           <div style={{
             fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
             fontFamily: 'var(--font-body)',
           }}>
             Send a challenge request to {username}?
           </div>
-        </div>
-        <div className="bottom-sheet__footer">
-          <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
-          <button
-            className="com-btn com-btn--primary com-btn--sm"
-            onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
-            disabled={sent}
-          >
-            {sent ? 'Challenge Sent \u2713' : 'Send Challenge'}
-          </button>
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+            <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+            <button
+              className="com-btn com-btn--primary com-btn--sm"
+              onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
+              disabled={sent}
+            >
+              {sent ? 'Challenge Sent \u2713' : 'Send Challenge'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2202,10 +2213,8 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
                 </div>
                 <div className="pp-friend-row__actions">
                   <button className="com-btn com-btn--primary com-btn--sm">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-                    </svg>
-                    <span className="pp-friend-btn-label">Challenge</span>
+                    <IconCheckerStack />
+                    Challenge
                   </button>
                   <button className="com-btn com-btn--outline com-btn--sm">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2339,6 +2348,7 @@ export default function ProfilePage({ onNavigate }) {
   const [shareLabel, setShareLabel] = useState('Share Profile');
   const [showPlayerCard, setShowPlayerCard] = useState(false);
   const [showChallengeModal, setShowChallengeModal] = useState(false);
+  const [activityOpen, setActivityOpen] = useState(false);
 
   /* Avatar modal state */
   const [showAvatarModal, setShowAvatarModal] = useState(false);
@@ -2561,9 +2571,7 @@ export default function ProfilePage({ onNavigate }) {
               </svg>
             </button>
             <button className="pp-cover-actions__btn" onClick={() => setShowChallengeModal(true)} title="Challenge">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-              </svg>
+              <IconCheckerStack size={18} />
             </button>
           </div>
         )}
@@ -2704,7 +2712,7 @@ export default function ProfilePage({ onNavigate }) {
           </div>
           {/* ── Action buttons (own row, full width) ── */}
           {isOwn && !isUnregistered && !editMode && (
-            <div className="profile-header__actions-row">
+            <div className="profile-header__actions-row profile-header__actions-row--own">
               <button className="com-btn com-btn--outline com-btn--sm" data-role-id="pp-edit-btn" onClick={enterEditMode}>
                 <IconPencil size={14} />
                 Edit Profile
@@ -2737,9 +2745,7 @@ export default function ProfilePage({ onNavigate }) {
             <div className="profile-header__actions-row profile-header__actions-row--other">
               <FriendButton status={friendStatus} username={player.displayName} />
               <button className="com-btn com-btn--primary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-                </svg>
+                <IconCheckerStack />
                 Challenge
               </button>
             </div>
@@ -2751,9 +2757,7 @@ export default function ProfilePage({ onNavigate }) {
                 Create Account to Friend Player
               </button>
               <button className="com-btn com-btn--primary com-btn--sm" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-                </svg>
+                <IconCheckerStack />
                 Challenge
               </button>
             </div>
@@ -2848,7 +2852,11 @@ export default function ProfilePage({ onNavigate }) {
       )}
 
       <SiteFooter sectionId="gl-footer" />
-      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" />
+      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" onActivityOpen={() => setActivityOpen(true)} />
+      {activityOpen && createPortal(
+        <ActivityCenter onNavigate={onNavigate} externalOpen onExternalClose={() => setActivityOpen(false)} />,
+        document.body,
+      )}
       <div className="mobile-nav__spacer" />
 
       {/* ── Badge celebration ── */}
@@ -2882,6 +2890,7 @@ export default function ProfilePage({ onNavigate }) {
       {showChallengeModal && (
         <ChallengeModal
           username={player.displayName}
+          avatarSrc={player.avatar}
           onCancel={() => setShowChallengeModal(false)}
           onConfirm={() => setShowChallengeModal(false)}
         />

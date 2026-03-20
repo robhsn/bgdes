@@ -33,12 +33,10 @@ function IconBell() {
   );
 }
 
-function IconOpen() {
+function IconMail() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-      <polyline points="15 3 21 3 21 9"/>
-      <line x1="10" y1="14" x2="21" y2="3"/>
+    <svg width="14" height="14" viewBox="0 0 40 40" fill="currentColor">
+      <path d="M3.75 5C1.67969 5 0 6.67969 0 8.75C0 9.92969 0.554688 11.0391 1.5 11.75L17.75 23.9375C19.0859 24.9375 20.9141 24.9375 22.25 23.9375L38.5 11.75C39.4453 11.0391 40 9.92969 40 8.75C40 6.67969 38.3203 5 36.25 5H3.75ZM0 15.3125V30C0 32.7578 2.24219 35 5 35H35C37.7578 35 40 32.7578 40 30V15.3125L24.5 26.9375C21.8359 28.9375 18.1641 28.9375 15.5 26.9375L0 15.3125Z"/>
     </svg>
   );
 }
@@ -82,7 +80,7 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
           <span style={{ flex: 1, fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' }}>
             {f.username}
           </span>
-          <button className="com-btn com-btn--primary com-btn--micro">
+          <button className="com-btn com-btn--primary com-btn--xsm">
             Challenge
           </button>
         </div>
@@ -117,12 +115,11 @@ function NotificationItem({ item }) {
 
   const nameStyle = { fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' };
   const metaStyle = { fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 2 };
-  const friendPill = item.isFriend ? (
+  const friendLabel = item.isFriend ? (
     <span style={{
+      display: 'block',
       fontFamily: fm, fontSize: 10, fontWeight: 600,
       color: 'var(--prim-mint-400)',
-      background: 'rgba(35, 165, 126, 0.1)',
-      padding: '1px 6px', borderRadius: 8,
     }}>
       Friend
     </span>
@@ -143,11 +140,12 @@ function NotificationItem({ item }) {
       >
         {avatarEl}
         <div style={{ flex: 1 }}>
+          {friendLabel}
           <span style={nameStyle}>{user.username}</span>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--micro">Accept</button>
-        <button className="com-btn com-btn--outline com-btn--micro">Reject</button>
+        <button className="com-btn com-btn--primary com-btn--xsm">Accept</button>
+        <button className="com-btn com-btn--outline com-btn--xsm">Reject</button>
       </div>
     );
   }
@@ -160,14 +158,14 @@ function NotificationItem({ item }) {
       >
         {avatarEl}
         <div style={{ flex: 1 }}>
-          <div style={{ ...nameStyle, display: 'flex', alignItems: 'center', gap: 6 }}>
+          {friendLabel}
+          <div style={nameStyle}>
             {user.username} challenged you to a {item.format} match
-            {friendPill}
           </div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--micro">Accept</button>
-        <button className="com-btn com-btn--outline com-btn--micro">Decline</button>
+        <button className="com-btn com-btn--primary com-btn--xsm">Accept</button>
+        <button className="com-btn com-btn--outline com-btn--xsm">Decline</button>
       </div>
     );
   }
@@ -180,11 +178,12 @@ function NotificationItem({ item }) {
       >
         {avatarEl}
         <div style={{ flex: 1 }}>
+          {friendLabel}
           <span style={nameStyle}>{user.username} sent a message</span>
           <div style={metaStyle}>{timestamp}</div>
         </div>
         <span style={{ color: 'var(--color-muted)', flexShrink: 0 }}>
-          <IconOpen />
+          <IconMail />
         </span>
       </div>
     );
@@ -206,6 +205,7 @@ function NotificationItem({ item }) {
     >
       {avatarEl}
       <div style={{ flex: 1 }}>
+        {friendLabel}
         <span style={{ fontFamily: fb, fontSize: 13, color: 'var(--color-heading)' }}>
           {passiveText[type] || `${user.username}`}
         </span>
@@ -277,18 +277,19 @@ function ActivityTab() {
 
 /* ── Main ActivityCenter component ───────────────────────────── */
 
-export default function ActivityCenter({ onNavigate }) {
+export default function ActivityCenter({ onNavigate, externalOpen, onExternalClose }) {
   const acState = useDMEState('social.activityCenter', 'Activity - Unread');
   const unreadCountStr = useDMEState('social.unreadCount', '3');
   const dmeOpen = useDMEState('social.activityOpen', false);
   const [localOpen, setLocalOpen] = useState(false);
-  const open = dmeOpen || localOpen;
+  const open = dmeOpen || localOpen || !!externalOpen;
   const [activeTab, setActiveTab] = useState('friends');
   const panelRef = useRef(null);
 
   // Close on outside click (overlay click)
+  const closePanel = () => { setLocalOpen(false); onExternalClose?.(); };
   const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) setLocalOpen(false);
+    if (e.target === e.currentTarget) closePanel();
   };
 
   // Sync active tab to DME state
@@ -318,19 +319,21 @@ export default function ActivityCenter({ onNavigate }) {
 
   return (
     <>
-      {/* Bell icon + badge */}
-      <div
-        className="notif-bell"
-        onClick={() => setLocalOpen(o => !o)}
-        style={{ color: 'var(--color-activity-bell)' }}
-      >
-        <IconBell />
-        {unreadCount > 0 && (
-          <span className="notif-bell__badge">{unreadCount}</span>
-        )}
-      </div>
+      {/* Bell icon + badge (hidden when opened externally) */}
+      {!externalOpen && (
+        <div
+          className="notif-bell"
+          onClick={() => setLocalOpen(o => !o)}
+          style={{ color: 'var(--color-activity-bell)' }}
+        >
+          <IconBell />
+          {unreadCount > 0 && (
+            <span className="notif-bell__badge">{unreadCount}</span>
+          )}
+        </div>
+      )}
 
-      {/* Side panel overlay + panel */}
+      {/* Panel — always rendered as side-panel for consistency */}
       {open && (
         <div
           className="overlay overlay--dark"
@@ -344,8 +347,8 @@ export default function ActivityCenter({ onNavigate }) {
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="side-panel__header">
-              <button className="side-panel__close" onClick={() => setLocalOpen(false)}>
+            <div className="side-panel__header" style={{ justifyContent: 'flex-end', padding: '10px 16px', borderBottom: 'none' }}>
+              <button className="side-panel__close" onClick={closePanel}>
                 <IconClose />
               </button>
             </div>
@@ -390,7 +393,7 @@ export default function ActivityCenter({ onNavigate }) {
                 </div>
               ) : (
                 <>
-                  {activeTab === 'friends' && <FriendsOnlineTab onNavigate={onNavigate} onClose={() => setLocalOpen(false)} />}
+                  {activeTab === 'friends' && <FriendsOnlineTab onNavigate={onNavigate} onClose={closePanel} />}
                   {activeTab === 'activity' && <ActivityTab />}
                 </>
               )}

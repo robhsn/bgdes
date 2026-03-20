@@ -10,96 +10,115 @@
   --prim-type-h1-weight:       700;
   --prim-type-h1-ls:           -0.02em;
   --prim-type-h1-lh:           1.1;
+  --prim-type-h1-size:         70px;
 
   --prim-type-h2:              Georgia, serif;
   --prim-type-h2-weight:       700;
   --prim-type-h2-ls:           -0.02em;
   --prim-type-h2-lh:           1.1;
+  --prim-type-h2-size:         36px;
 
   --prim-type-h3:              'Raleway', sans-serif;
   --prim-type-h3-weight:       600;
   --prim-type-h3-ls:           -0.01em;
   --prim-type-h3-lh:           1.2;
+  --prim-type-h3-size:         24px;
 
   --prim-type-h4:              'Raleway', sans-serif;
   --prim-type-h4-weight:       600;
   --prim-type-h4-ls:           0em;
   --prim-type-h4-lh:           1.3;
+  --prim-type-h4-size:         20px;
 
   --prim-type-sh1:             'Inter', sans-serif;
   --prim-type-sh1-weight:      600;
   --prim-type-sh1-ls:          0.04em;
   --prim-type-sh1-lh:          1.3;
+  --prim-type-sh1-size:        18px;
 
   --prim-type-sh2:             'Inter', sans-serif;
   --prim-type-sh2-weight:      600;
   --prim-type-sh2-ls:          0.04em;
   --prim-type-sh2-lh:          1.3;
+  --prim-type-sh2-size:        16px;
 
   --prim-type-sh3:             'Inter', sans-serif;
   --prim-type-sh3-weight:      500;
   --prim-type-sh3-ls:          0.06em;
   --prim-type-sh3-lh:          1.4;
+  --prim-type-sh3-size:        14px;
 
   --prim-type-sh4:             'Inter', sans-serif;
   --prim-type-sh4-weight:      500;
   --prim-type-sh4-ls:          0.06em;
   --prim-type-sh4-lh:          1.4;
+  --prim-type-sh4-size:        12px;
 
   --prim-type-body-lg:         'Inter', sans-serif;
   --prim-type-body-lg-weight:  400;
   --prim-type-body-lg-ls:      0em;
   --prim-type-body-lg-lh:      1.7;
+  --prim-type-body-lg-size:    20px;
 
   --prim-type-body-md:         'Inter', sans-serif;
   --prim-type-body-md-weight:  400;
   --prim-type-body-md-ls:      0em;
   --prim-type-body-md-lh:      1.9;
+  --prim-type-body-md-size:    18px;
 
   --prim-type-body-sm:         'Inter', sans-serif;
   --prim-type-body-sm-weight:  400;
   --prim-type-body-sm-ls:      0em;
   --prim-type-body-sm-lh:      1.6;
+  --prim-type-body-sm-size:    14px;
 
   --prim-type-pill-lg:         'Inter', sans-serif;
   --prim-type-pill-lg-weight:  600;
   --prim-type-pill-lg-ls:      0.04em;
   --prim-type-pill-lg-lh:      1.2;
+  --prim-type-pill-lg-size:    16px;
 
   --prim-type-pill-md:         'Inter', sans-serif;
   --prim-type-pill-md-weight:  600;
   --prim-type-pill-md-ls:      0.04em;
   --prim-type-pill-md-lh:      1.2;
+  --prim-type-pill-md-size:    14px;
 
   --prim-type-pill-sm:         'Inter', sans-serif;
   --prim-type-pill-sm-weight:  600;
   --prim-type-pill-sm-ls:      0.06em;
   --prim-type-pill-sm-lh:      1.2;
+  --prim-type-pill-sm-size:    11px;
 
   --prim-type-ui-xl:           'Inter', sans-serif;
   --prim-type-ui-xl-weight:    600;
   --prim-type-ui-xl-ls:        0em;
   --prim-type-ui-xl-lh:        1.2;
+  --prim-type-ui-xl-size:      20px;
 
   --prim-type-ui-lg:           'Inter', sans-serif;
   --prim-type-ui-lg-weight:    600;
   --prim-type-ui-lg-ls:        0em;
   --prim-type-ui-lg-lh:        1.2;
+  --prim-type-ui-lg-size:      16px;
 
   --prim-type-ui-md:           'Inter', sans-serif;
   --prim-type-ui-md-weight:    500;
   --prim-type-ui-md-ls:        0em;
   --prim-type-ui-md-lh:        1.3;
+  --prim-type-ui-md-size:      14px;
 
   --prim-type-ui-sm:           'Inter', sans-serif;
   --prim-type-ui-sm-weight:    500;
   --prim-type-ui-sm-ls:        0.01em;
   --prim-type-ui-sm-lh:        1.3;
+  --prim-type-ui-sm-size:      12px;
 
   --prim-type-ui-xsm:         'Inter', sans-serif;
   --prim-type-ui-xsm-weight:  500;
   --prim-type-ui-xsm-ls:      0.02em;
   --prim-type-ui-xsm-lh:      1.3;
+  --prim-type-ui-xsm-size:    10px;
 
   /* ── Mono Palette ────────────────────────────────────────────── */
   --prim-mono-white: #ffffff;
@@ -246,6 +265,11 @@
   --color-statement-bg:     var(--prim-mono-100);
   --color-statement-border: var(--prim-mono-350);
   --color-statement-text:   var(--prim-mono-700);
+
+  /* ── Statement: Links (article cross-references) ───────────── */
+  --color-statement-link-bg:     var(--prim-mono-100);
+  --color-statement-link-border: var(--prim-mono-350);
+  --color-statement-link-text:   var(--prim-mono-700);
 
   /* ── Surface-specific logo / link / pill / accent ────────────── */
   --sf-muted-logo:    var(--prim-mono-900);
@@ -515,6 +539,10 @@
   --color-ui-sm:     var(--prim-mono-600);
   --color-ui-xsm:    var(--prim-mono-750);
 
+  /* ── Scrollbar ─────────────────────────────────────────────── */
+  --color-scrollbar-thumb:  var(--prim-mono-300);
+  --color-scrollbar-track:  var(--prim-mono-100);
+
   /* ── Typography ──────────────────────────────────────────────── */
   --font-heading:    var(--prim-type-h1);       /* H1                 */
   --font-subheading: var(--prim-type-h2);       /* H2                 */
@@ -605,32 +633,35 @@
   --font-ui-xsm-ls:            var(--prim-type-ui-xsm-ls);
   --font-ui-xsm-lh:            var(--prim-type-ui-xsm-lh);
 
-  --size-h1:      70px;
-  --size-h2:      36px;
-  --size-h3:      24px;
-  --size-h4:      20px;
-  --size-sh1:     18px;
-  --size-sh2:     16px;
-  --size-sh3:     14px;
-  --size-sh4:     12px;
-  --size-body-lg: 20px;
-  --size-body:    18px;
-  --size-body-sm: 14px;
+  /* Role sizes — aliased from L1 primitives */
+  --size-h1:      var(--prim-type-h1-size);
+  --size-h2:      var(--prim-type-h2-size);
+  --size-h3:      var(--prim-type-h3-size);
+  --size-h4:      var(--prim-type-h4-size);
+  --size-sh1:     var(--prim-type-sh1-size);
+  --size-sh2:     var(--prim-type-sh2-size);
+  --size-sh3:     var(--prim-type-sh3-size);
+  --size-sh4:     var(--prim-type-sh4-size);
+  --size-body-lg: var(--prim-type-body-lg-size);
+  --size-body:    var(--prim-type-body-md-size);
+  --size-body-sm: var(--prim-type-body-sm-size);
   --size-small:   12px;
+  --size-pill-lg: var(--prim-type-pill-lg-size);
+  --size-pill-md: var(--prim-type-pill-md-size);
+  --size-pill-sm: var(--prim-type-pill-sm-size);
+  --size-ui-xl:   var(--prim-type-ui-xl-size);
+  --size-ui-lg:   var(--prim-type-ui-lg-size);
+  --size-ui-md:   var(--prim-type-ui-md-size);
+  --size-ui-sm:   var(--prim-type-ui-sm-size);
+  --size-ui-xsm:  var(--prim-type-ui-xsm-size);
+
+  /* Semantic element sizes (independent of L1 roles) */
   --size-logo:  30px;
   --size-pill:  18px;
-  --size-pill-lg: 16px;
-  --size-pill-md: 14px;
-  --size-pill-sm: 11px;
   --size-toc:   12px;
   --size-meta:  14px;
   --size-dropdown:       15px;
   --size-dropdown-badge: 10px;
-  --size-ui-xl:          20px;
-  --size-ui-lg:          16px;
-  --size-ui-md:          14px;
-  --size-ui-sm:          12px;
-  --size-ui-xsm:         10px;
 
   --lh-body: 1.9;
 

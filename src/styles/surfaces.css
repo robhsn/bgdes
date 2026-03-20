@@ -38,6 +38,8 @@
   --color-ui-md:          var(--sf-muted-ui-md);
   --color-ui-sm:          var(--sf-muted-ui-sm);
   --color-ui-xsm:         var(--sf-muted-ui-xsm);
+  --color-scrollbar-thumb: var(--sf-muted-scrollbar-thumb);
+  --color-scrollbar-track: var(--sf-muted-scrollbar-track);
   --color-glossary-underline: var(--prim-mono-350);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-250);
@@ -93,6 +95,8 @@
   --color-ui-md:          var(--sf-inverse-ui-md);
   --color-ui-sm:          var(--sf-inverse-ui-sm);
   --color-ui-xsm:         var(--sf-inverse-ui-xsm);
+  --color-scrollbar-thumb: var(--sf-inverse-scrollbar-thumb);
+  --color-scrollbar-track: var(--sf-inverse-scrollbar-track);
   --color-glossary-underline: var(--prim-mono-550);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-550);
@@ -148,6 +152,8 @@
   --color-ui-md:          var(--sf-accent-ui-md);
   --color-ui-sm:          var(--sf-accent-ui-sm);
   --color-ui-xsm:         var(--sf-accent-ui-xsm);
+  --color-scrollbar-thumb: var(--sf-accent-scrollbar-thumb);
+  --color-scrollbar-track: var(--sf-accent-scrollbar-track);
   --color-glossary-underline: var(--prim-mono-500);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-500);
@@ -203,6 +209,8 @@
   --color-ui-md:          var(--sf-tertiary-ui-md);
   --color-ui-sm:          var(--sf-tertiary-ui-sm);
   --color-ui-xsm:         var(--sf-tertiary-ui-xsm);
+  --color-scrollbar-thumb: var(--sf-tertiary-scrollbar-thumb);
+  --color-scrollbar-track: var(--sf-tertiary-scrollbar-track);
   --color-glossary-underline: var(--prim-mono-550);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-550);

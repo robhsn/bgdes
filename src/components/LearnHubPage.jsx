@@ -212,9 +212,9 @@ function IconCheck() {
 
 /* ─── Lesson row ──────────────────────────────────────────────── */
 
-function LessonRow({ number, title, duration, description, completed = false, upNext = false }) {
+function LessonRow({ number, title, duration, description, completed = false, upNext = false, onClick }) {
   return (
-    <div className="lesson-row">
+    <div className="lesson-row" onClick={onClick} style={onClick ? { cursor: 'pointer' } : undefined}>
       <div className="lesson-row__info">
         <div className="lesson-row__title-row">
           <span className="lesson-row__number">{number}.</span>
@@ -358,6 +358,7 @@ export default function LearnHubPage({ onNavigate }) {
                 duration={8}
                 description="Goals, dice rules, hitting, bearing off, scoring — the complete beginner walkthrough."
                 completed={true}
+                onClick={() => onNavigate?.('learn-article')}
               />
               <LessonRow
                 number={2}
@@ -365,6 +366,7 @@ export default function LearnHubPage({ onNavigate }) {
                 duration={16}
                 description="Goals, dice rules, hitting, bearing off, scoring — the complete beginner walkthrough."
                 upNext={true}
+                onClick={() => onNavigate?.('learn-article-2')}
               />
               <LessonRow
                 number={3}

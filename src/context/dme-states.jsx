@@ -216,6 +216,17 @@ export const STATE_DEFINITIONS = [
     defaultValue: false,
   },
 
+  // Surface Preview
+  {
+    key: 'surfacePreview.surface',
+    label: 'Surface',
+    description: 'Select which surface to preview',
+    type: 'select',
+    page: 'surface-preview',
+    options: ['Primary', 'Secondary', 'Inverse', 'Accent', 'Tertiary'],
+    defaultValue: 'Secondary',
+  },
+
   // Activity Center (global — shows in header)
   {
     key: 'social.activityCenter',

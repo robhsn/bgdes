@@ -101,6 +101,15 @@
   gap: 4px;
 }
 
+/* ── Size: XSM ─────────────────────────────────────────────── */
+
+.com-btn--xsm {
+  height: 22px;
+  font-size: 10px;
+  padding: 2px 8px;
+  gap: 3px;
+}
+
 /* ── Size: Large ────────────────────────────────────────────── */
 
 .com-btn--lg {
