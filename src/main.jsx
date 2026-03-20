@@ -67,6 +67,11 @@ const RO_FONT_SIZE = {
   'sh3': 'var(--size-sh3)', 'sh4': 'var(--size-sh4)',
   'body-lg': 'var(--size-body-lg)', 'body-md': 'var(--size-body)',
   'body-sm': 'var(--size-body-sm)',
+  'pill-lg': 'var(--size-pill-lg)', 'pill-md': 'var(--size-pill-md)',
+  'pill-sm': 'var(--size-pill-sm)',
+  'ui-xl': 'var(--size-ui-xl)', 'ui-lg': 'var(--size-ui-lg)',
+  'ui-md': 'var(--size-ui-md)', 'ui-sm': 'var(--size-ui-sm)',
+  'ui-xsm': 'var(--size-ui-xsm)',
 }
 const RO_BTN_CSS = {
   primary:    'background:var(--com-btn-primary-bg)!important;color:var(--com-btn-primary-fg)!important;border:none!important;border-radius:9999px!important',

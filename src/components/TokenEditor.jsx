@@ -137,8 +137,17 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'logo':          '--color-logo',
   'link':          '--color-link',
   'pill':              '--color-pill',
+  'pill-lg':           '--color-pill-lg',
+  'pill-md':           '--color-pill-md',
+  'pill-sm':           '--color-pill-sm',
   'accent':            '--color-accent',
   'tag-fill':          '--color-tag-fill',
+  'star':              '--color-star',
+  'ui-xl':             '--color-ui-xl',
+  'ui-lg':             '--color-ui-lg',
+  'ui-md':             '--color-ui-md',
+  'ui-sm':             '--color-ui-sm',
+  'ui-xsm':            '--color-ui-xsm',
   'btn-primary-bg':    '--com-btn-primary-bg',
   'btn-primary-fg':    '--com-btn-primary-fg',
   'btn-dark-bg':       '--com-btn-dark-bg',
@@ -194,6 +203,11 @@ function typeRoleTokens(prefix, headingVal, bodyVal, mutedVal) {
     [`${prefix}h4`]: headingVal,
     [`${prefix}body-lg`]: bodyVal,
     [`${prefix}body-sm`]: mutedVal,
+    [`${prefix}ui-xl`]: headingVal,
+    [`${prefix}ui-lg`]: headingVal,
+    [`${prefix}ui-md`]: bodyVal,
+    [`${prefix}ui-sm`]: bodyVal,
+    [`${prefix}ui-xsm`]: mutedVal,
   };
 }
 
@@ -257,6 +271,9 @@ const THEMES = {
         '--color-logo':           '--prim-mono-900',
         '--color-link':           '--prim-mono-700',
         '--color-pill':           '--prim-mono-900',
+        '--color-pill-lg':        '--prim-mono-900',
+        '--color-pill-md':        '--prim-mono-900',
+        '--color-pill-sm':        '--prim-mono-900',
         '--color-accent':         '--prim-mono-700',
         '--color-tag-fill':       '--prim-mono-150',
       ...btnDefaultTokens(BTN_LIGHT),
@@ -276,6 +293,9 @@ const THEMES = {
         '--sf-muted-logo':           '--prim-mono-900',
         '--sf-muted-link':           '--prim-mono-700',
         '--sf-muted-pill':           '--prim-mono-900',
+        '--sf-muted-pill-lg':        '--prim-mono-900',
+        '--sf-muted-pill-md':        '--prim-mono-900',
+        '--sf-muted-pill-sm':        '--prim-mono-900',
         '--sf-muted-accent':         '--prim-mono-700',
         '--sf-muted-tag-fill':       '--prim-mono-150',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
@@ -295,6 +315,9 @@ const THEMES = {
         '--sf-inverse-logo':           '--prim-mono-white',
         '--sf-inverse-link':           '--prim-mono-300',
         '--sf-inverse-pill':           '--prim-mono-white',
+        '--sf-inverse-pill-lg':        '--prim-mono-white',
+        '--sf-inverse-pill-md':        '--prim-mono-white',
+        '--sf-inverse-pill-sm':        '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mono-500',
         '--sf-inverse-tag-fill':     '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
@@ -314,6 +337,9 @@ const THEMES = {
         '--sf-accent-logo':           '--prim-mono-white',
         '--sf-accent-link':           '--prim-mono-300',
         '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-pill-lg':        '--prim-mono-white',
+        '--sf-accent-pill-md':        '--prim-mono-white',
+        '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mono-900',
         '--sf-accent-tag-fill':      '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
@@ -333,6 +359,9 @@ const THEMES = {
         '--sf-tertiary-logo':           '--prim-mono-white',
         '--sf-tertiary-link':           '--prim-mono-200',
         '--sf-tertiary-pill':           '--prim-mono-white',
+        '--sf-tertiary-pill-lg':        '--prim-mono-white',
+        '--sf-tertiary-pill-md':        '--prim-mono-white',
+        '--sf-tertiary-pill-sm':        '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mono-500',
         '--sf-tertiary-tag-fill':    '--prim-mono-700',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
@@ -398,6 +427,9 @@ const THEMES = {
         '--color-logo':           '--prim-sapphire-400',
         '--color-link':           '--prim-splash-700',
         '--color-pill':           '--prim-orange-500',
+        '--color-pill-lg':        '--prim-orange-500',
+        '--color-pill-md':        '--prim-orange-500',
+        '--color-pill-sm':        '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
         '--color-tag-fill':       '--prim-butter-700',
       ...btnDefaultTokens(BTN_LIGHT),
@@ -417,6 +449,9 @@ const THEMES = {
         '--sf-muted-logo':           '--prim-sapphire-900',
         '--sf-muted-link':           '--prim-splash-700',
         '--sf-muted-pill':           '--prim-sapphire-900',
+        '--sf-muted-pill-lg':        '--prim-sapphire-900',
+        '--sf-muted-pill-md':        '--prim-sapphire-900',
+        '--sf-muted-pill-sm':        '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
         '--sf-muted-tag-fill':       '--prim-splash-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
@@ -436,6 +471,9 @@ const THEMES = {
         '--sf-inverse-logo':           '--prim-butter-500',
         '--sf-inverse-link':           '--prim-splash-500',
         '--sf-inverse-pill':           '--prim-butter-500',
+        '--sf-inverse-pill-lg':        '--prim-butter-500',
+        '--sf-inverse-pill-md':        '--prim-butter-500',
+        '--sf-inverse-pill-sm':        '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
@@ -455,6 +493,9 @@ const THEMES = {
         '--sf-accent-logo':           '--prim-mono-white',
         '--sf-accent-link':           '--prim-splash-300',
         '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-pill-lg':        '--prim-mono-white',
+        '--sf-accent-pill-md':        '--prim-mono-white',
+        '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
         '--sf-accent-tag-fill':      '--prim-orange-500',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
@@ -474,6 +515,9 @@ const THEMES = {
         '--sf-tertiary-logo':           '--prim-mono-black',
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
+        '--sf-tertiary-pill-lg':        '--prim-splash-300',
+        '--sf-tertiary-pill-md':        '--prim-splash-300',
+        '--sf-tertiary-pill-sm':        '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
@@ -539,6 +583,9 @@ const THEMES = {
         '--color-logo':           '--prim-sapphire-400',
         '--color-link':           '--prim-splash-700',
         '--color-pill':           '--prim-orange-500',
+        '--color-pill-lg':        '--prim-orange-500',
+        '--color-pill-md':        '--prim-orange-500',
+        '--color-pill-sm':        '--prim-orange-500',
         '--color-accent':         '--prim-orange-300',
         '--color-tag-fill':       '--prim-butter-700',
       ...btnDefaultTokens(BTN_LIGHT),
@@ -558,6 +605,9 @@ const THEMES = {
         '--sf-muted-logo':           '--prim-sapphire-900',
         '--sf-muted-link':           '--prim-splash-700',
         '--sf-muted-pill':           '--prim-sapphire-900',
+        '--sf-muted-pill-lg':        '--prim-sapphire-900',
+        '--sf-muted-pill-md':        '--prim-sapphire-900',
+        '--sf-muted-pill-sm':        '--prim-sapphire-900',
         '--sf-muted-accent':         '--prim-orange-300',
         '--sf-muted-tag-fill':       '--prim-splash-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
@@ -577,6 +627,9 @@ const THEMES = {
         '--sf-inverse-logo':           '--prim-butter-500',
         '--sf-inverse-link':           '--prim-splash-500',
         '--sf-inverse-pill':           '--prim-butter-500',
+        '--sf-inverse-pill-lg':        '--prim-butter-500',
+        '--sf-inverse-pill-md':        '--prim-butter-500',
+        '--sf-inverse-pill-sm':        '--prim-butter-500',
         '--sf-inverse-accent':         '--prim-orange-300',
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
@@ -596,6 +649,9 @@ const THEMES = {
         '--sf-accent-logo':           '--prim-mono-white',
         '--sf-accent-link':           '--prim-splash-300',
         '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-pill-lg':        '--prim-mono-white',
+        '--sf-accent-pill-md':        '--prim-mono-white',
+        '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-orange-900',
         '--sf-accent-tag-fill':      '--prim-orange-500',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
@@ -615,6 +671,9 @@ const THEMES = {
         '--sf-tertiary-logo':           '--prim-mono-black',
         '--sf-tertiary-link':           '--prim-splash-500',
         '--sf-tertiary-pill':           '--prim-splash-300',
+        '--sf-tertiary-pill-lg':        '--prim-splash-300',
+        '--sf-tertiary-pill-md':        '--prim-splash-300',
+        '--sf-tertiary-pill-sm':        '--prim-splash-300',
         '--sf-tertiary-accent':         '--prim-orange-300',
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
@@ -680,6 +739,9 @@ const THEMES = {
         '--color-logo':           '--prim-mint-900',
         '--color-link':           '--prim-mint-600',
         '--color-pill':           '--prim-mint-700',
+        '--color-pill-lg':        '--prim-mint-700',
+        '--color-pill-md':        '--prim-mint-700',
+        '--color-pill-sm':        '--prim-mint-700',
         '--color-accent':         '--prim-mint-500',
         '--color-tag-fill':       '--prim-mint-200',
       ...btnDefaultTokens(BTN_LIGHT),
@@ -699,6 +761,9 @@ const THEMES = {
         '--sf-muted-logo':           '--prim-mint-900',
         '--sf-muted-link':           '--prim-mint-600',
         '--sf-muted-pill':           '--prim-mint-900',
+        '--sf-muted-pill-lg':        '--prim-mint-900',
+        '--sf-muted-pill-md':        '--prim-mint-900',
+        '--sf-muted-pill-sm':        '--prim-mint-900',
         '--sf-muted-accent':         '--prim-mint-500',
         '--sf-muted-tag-fill':       '--prim-mint-200',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
@@ -718,6 +783,9 @@ const THEMES = {
         '--sf-inverse-logo':           '--prim-mono-white',
         '--sf-inverse-link':           '--prim-mint-300',
         '--sf-inverse-pill':           '--prim-mono-white',
+        '--sf-inverse-pill-lg':        '--prim-mono-white',
+        '--sf-inverse-pill-md':        '--prim-mono-white',
+        '--sf-inverse-pill-sm':        '--prim-mono-white',
         '--sf-inverse-accent':         '--prim-mint-400',
         '--sf-inverse-tag-fill':     '--prim-mint-700',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
@@ -737,6 +805,9 @@ const THEMES = {
         '--sf-accent-logo':           '--prim-mono-white',
         '--sf-accent-link':           '--prim-mint-200',
         '--sf-accent-pill':           '--prim-mono-white',
+        '--sf-accent-pill-lg':        '--prim-mono-white',
+        '--sf-accent-pill-md':        '--prim-mono-white',
+        '--sf-accent-pill-sm':        '--prim-mono-white',
         '--sf-accent-accent':         '--prim-mint-400',
         '--sf-accent-tag-fill':      '--prim-mint-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
@@ -756,6 +827,9 @@ const THEMES = {
         '--sf-tertiary-logo':           '--prim-mono-white',
         '--sf-tertiary-link':           '--prim-mint-200',
         '--sf-tertiary-pill':           '--prim-mono-white',
+        '--sf-tertiary-pill-lg':        '--prim-mono-white',
+        '--sf-tertiary-pill-md':        '--prim-mono-white',
+        '--sf-tertiary-pill-sm':        '--prim-mono-white',
         '--sf-tertiary-accent':         '--prim-mint-400',
         '--sf-tertiary-tag-fill':    '--prim-mint-800',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
@@ -779,7 +853,7 @@ function themeAllColorTokens(key) {
 }
 
 /* ─── Surface definitions — drives DME surface sub-tabs ─────── */
-const SURFACE_TOKENS = ['bg', 'h1', 'h2', 'h3', 'h4', 'sh1', 'sh2', 'sh3', 'sh4', 'body-lg', 'body', 'body-sm', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'accent', 'tag-fill'];
+const SURFACE_TOKENS = ['bg', 'h1', 'h2', 'h3', 'h4', 'sh1', 'sh2', 'sh3', 'sh4', 'body-lg', 'body', 'body-sm', 'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border', 'placeholder', 'logo', 'link', 'pill', 'pill-lg', 'pill-md', 'pill-sm', 'accent', 'tag-fill', 'star', 'ui-xl', 'ui-lg', 'ui-md', 'ui-sm', 'ui-xsm'];
 const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg'];
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -873,6 +947,19 @@ const DEFAULT_L1 = {
   '--prim-type-body-sm-weight': '400',
   '--prim-type-body-sm-ls':     '0',    /* 0em     */
   '--prim-type-body-sm-lh':     '16',   /* 1.6     */
+  /* pill sizes */
+  '--prim-type-pill-lg':         'Inter',
+  '--prim-type-pill-lg-weight':  '600',
+  '--prim-type-pill-lg-ls':      '4',    /* 0.04em  */
+  '--prim-type-pill-lg-lh':      '12',   /* 1.2     */
+  '--prim-type-pill-md':         'Inter',
+  '--prim-type-pill-md-weight':  '600',
+  '--prim-type-pill-md-ls':      '4',    /* 0.04em  */
+  '--prim-type-pill-md-lh':      '12',   /* 1.2     */
+  '--prim-type-pill-sm':         'Inter',
+  '--prim-type-pill-sm-weight':  '600',
+  '--prim-type-pill-sm-ls':      '6',    /* 0.06em  */
+  '--prim-type-pill-sm-lh':      '12',   /* 1.2     */
   /* subheadings */
   '--prim-type-sh1':            'Raleway',
   '--prim-type-sh1-weight':     '600',
@@ -890,14 +977,36 @@ const DEFAULT_L1 = {
   '--prim-type-sh4-weight':     '500',
   '--prim-type-sh4-ls':         '6',    /* 0.06em  */
   '--prim-type-sh4-lh':         '14',   /* 1.4     */
+  /* UI roles */
+  '--prim-type-ui-xl':          'Inter',
+  '--prim-type-ui-xl-weight':   '600',
+  '--prim-type-ui-xl-ls':       '0',    /* 0em     */
+  '--prim-type-ui-xl-lh':       '12',   /* 1.2     */
+  '--prim-type-ui-lg':          'Inter',
+  '--prim-type-ui-lg-weight':   '600',
+  '--prim-type-ui-lg-ls':       '0',    /* 0em     */
+  '--prim-type-ui-lg-lh':       '12',   /* 1.2     */
+  '--prim-type-ui-md':          'Inter',
+  '--prim-type-ui-md-weight':   '500',
+  '--prim-type-ui-md-ls':       '0',    /* 0em     */
+  '--prim-type-ui-md-lh':       '13',   /* 1.3     */
+  '--prim-type-ui-sm':          'Inter',
+  '--prim-type-ui-sm-weight':   '500',
+  '--prim-type-ui-sm-ls':       '1',    /* 0.01em  */
+  '--prim-type-ui-sm-lh':       '13',   /* 1.3     */
+  '--prim-type-ui-xsm':         'Inter',
+  '--prim-type-ui-xsm-weight':  '500',
+  '--prim-type-ui-xsm-ls':      '2',    /* 0.02em  */
+  '--prim-type-ui-xsm-lh':      '13',   /* 1.3     */
 };
 
 /* ─── L2 font role tokens — store role name, applied as var(--prim-type-xxx) ── */
 const L2_FONT_ROLE_TOKENS = new Set([
   '--font-heading', '--font-subheading', '--font-section', '--font-label',
   '--font-lead', '--font-body', '--font-small',
-  '--font-logo', '--font-pill', '--font-toc', '--font-meta',
+  '--font-logo', '--font-pill', '--font-pill-lg', '--font-pill-md', '--font-pill-sm', '--font-toc', '--font-meta',
   '--font-dropdown', '--font-dropdown-badge',
+  '--font-ui-xl', '--font-ui-lg', '--font-ui-md', '--font-ui-sm', '--font-ui-xsm',
 ]);
 
 /* ─── L2 non-color defaults ──────────────────────────────────── */
@@ -912,10 +1021,18 @@ const DEFAULT_L2_EXTRA = {
   '--font-small':      'body-sm',
   '--font-logo':       'h1',
   '--font-pill':       'h1',
+  '--font-pill-lg':    'pill-lg',
+  '--font-pill-md':    'pill-md',
+  '--font-pill-sm':    'pill-sm',
   '--font-toc':        'body-sm',
   '--font-meta':       'body-sm',
   '--font-dropdown':       'h1',
   '--font-dropdown-badge': 'h1',
+  '--font-ui-xl':          'ui-xl',
+  '--font-ui-lg':          'ui-lg',
+  '--font-ui-md':          'ui-md',
+  '--font-ui-sm':          'ui-sm',
+  '--font-ui-xsm':         'ui-xsm',
   /* size & spacing */
   '--size-h1':         '70',
   '--size-h2':         '36',
@@ -926,10 +1043,18 @@ const DEFAULT_L2_EXTRA = {
   '--size-body-sm':    '14',
   '--size-logo':       '30',
   '--size-pill':       '18',
+  '--size-pill-lg':    '16',
+  '--size-pill-md':    '14',
+  '--size-pill-sm':    '11',
   '--size-toc':        '12',
   '--size-meta':       '14',
   '--size-dropdown':       '15',
   '--size-dropdown-badge': '10',
+  '--size-ui-xl':          '20',
+  '--size-ui-lg':          '16',
+  '--size-ui-md':          '14',
+  '--size-ui-sm':          '12',
+  '--size-ui-xsm':         '10',
   '--spacing-section-v':   '64',
   '--spacing-content-gap': '24',
   '--content-max-width':   '900',
@@ -1166,6 +1291,8 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     'dme-role-h1', 'dme-role-h2', 'dme-role-h3', 'dme-role-h4',
     'dme-role-sh1', 'dme-role-sh2', 'dme-role-sh3', 'dme-role-sh4',
     'dme-role-body-lg', 'dme-role-body-md', 'dme-role-body-sm',
+    'dme-role-pill-lg', 'dme-role-pill-md', 'dme-role-pill-sm',
+    'dme-role-ui-xl', 'dme-role-ui-lg', 'dme-role-ui-md', 'dme-role-ui-sm', 'dme-role-ui-xsm',
   ];
 
   const toggleAllSections = useCallback(() => {
@@ -1884,7 +2011,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', accent: 'Pill (accent)', 'tag-fill': 'Tag fill' };
+  const LABELS = { bg: 'Background', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', link: 'Link', pill: 'Pill', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text' };
   return (
     <>
@@ -2364,10 +2491,18 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         <RoleRow label="Body sm font"    name="--font-small"      l2={l2} set={set} />
         <RoleRow label="Logo font"       name="--font-logo"       l2={l2} set={set} />
         <RoleRow label="Pill font"       name="--font-pill"       l2={l2} set={set} />
+        <RoleRow label="Pill lg font"    name="--font-pill-lg"    l2={l2} set={set} />
+        <RoleRow label="Pill md font"    name="--font-pill-md"    l2={l2} set={set} />
+        <RoleRow label="Pill sm font"    name="--font-pill-sm"    l2={l2} set={set} />
         <RoleRow label="TOC font"        name="--font-toc"        l2={l2} set={set} />
         <RoleRow label="Meta font"       name="--font-meta"       l2={l2} set={set} />
         <RoleRow label="Dropdown font"  name="--font-dropdown"       l2={l2} set={set} />
         <RoleRow label="Dropdown badge" name="--font-dropdown-badge" l2={l2} set={set} />
+        <RoleRow label="UI XL font"    name="--font-ui-xl"          l2={l2} set={set} />
+        <RoleRow label="UI lg font"    name="--font-ui-lg"          l2={l2} set={set} />
+        <RoleRow label="UI md font"    name="--font-ui-md"          l2={l2} set={set} />
+        <RoleRow label="UI sm font"    name="--font-ui-sm"          l2={l2} set={set} />
+        <RoleRow label="UI xsm font"   name="--font-ui-xsm"        l2={l2} set={set} />
         <SliderRow label="H1 size"       name="--size-h1"         l2={l2} set={set} min={32}  max={120}  unit="px" />
         <SliderRow label="H2 size"       name="--size-h2"         l2={l2} set={set} min={18}  max={72}   unit="px" />
         <SliderRow label="H3 size"       name="--size-h3"         l2={l2} set={set} min={16}  max={48}   unit="px" />
@@ -2381,10 +2516,18 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
         <SliderRow label="Body sm size"  name="--size-body-sm"    l2={l2} set={set} min={10}  max={20}   unit="px" />
         <SliderRow label="Logo size"     name="--size-logo"       l2={l2} set={set} min={16}  max={60}   unit="px" />
         <SliderRow label="Pill size"     name="--size-pill"       l2={l2} set={set} min={10}  max={24}   unit="px" />
+        <SliderRow label="Pill lg size"  name="--size-pill-lg"    l2={l2} set={set} min={10}  max={24}   unit="px" />
+        <SliderRow label="Pill md size"  name="--size-pill-md"    l2={l2} set={set} min={8}   max={20}   unit="px" />
+        <SliderRow label="Pill sm size"  name="--size-pill-sm"    l2={l2} set={set} min={6}   max={16}   unit="px" />
         <SliderRow label="TOC size"      name="--size-toc"        l2={l2} set={set} min={9}   max={18}   unit="px" />
         <SliderRow label="Meta size"     name="--size-meta"       l2={l2} set={set} min={9}   max={18}   unit="px" />
         <SliderRow label="Dropdown size"      name="--size-dropdown"       l2={l2} set={set} min={10}  max={24}   unit="px" />
         <SliderRow label="Dropdown badge size" name="--size-dropdown-badge" l2={l2} set={set} min={7}   max={16}   unit="px" />
+        <SliderRow label="UI XL size"    name="--size-ui-xl"          l2={l2} set={set} min={14}  max={32}   unit="px" />
+        <SliderRow label="UI lg size"    name="--size-ui-lg"          l2={l2} set={set} min={12}  max={24}   unit="px" />
+        <SliderRow label="UI md size"    name="--size-ui-md"          l2={l2} set={set} min={10}  max={20}   unit="px" />
+        <SliderRow label="UI sm size"    name="--size-ui-sm"          l2={l2} set={set} min={8}   max={16}   unit="px" />
+        <SliderRow label="UI xsm size"   name="--size-ui-xsm"        l2={l2} set={set} min={6}   max={14}   unit="px" />
       </Sect>
       <Sect label="Spacing &amp; Layout">
         <SliderRow label="Section padding"   name="--spacing-section-v"   l2={l2} set={set} min={24}  max={120}  unit="px" />
@@ -2778,6 +2921,14 @@ function L1View({ l1, l2, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Col
           ['body-lg', 'Body Large'],
           ['body-md', 'Body Medium'],
           ['body-sm', 'Body Small'],
+          ['pill-lg', 'Pill Large'],
+          ['pill-md', 'Pill Medium'],
+          ['pill-sm', 'Pill Small'],
+          ['ui-xl',   'UI XL'],
+          ['ui-lg',   'UI Large'],
+          ['ui-md',   'UI Medium'],
+          ['ui-sm',   'UI Small'],
+          ['ui-xsm',  'UI XSM'],
         ].map(([key, label], i, arr) => (
           <React.Fragment key={key}>
             <L1RoleGroup roleKey={key} roleLabel={label} l1={l1} l2={l2} setRole={setRole}
@@ -2976,6 +3127,14 @@ function RoleRow({ label, name, l2, set }) {
     { value: 'body-lg',  label: 'Body Large' },
     { value: 'body-md',  label: 'Body Medium' },
     { value: 'body-sm',  label: 'Body Small' },
+    { value: 'pill-lg',  label: 'Pill Large' },
+    { value: 'pill-md',  label: 'Pill Medium' },
+    { value: 'pill-sm',  label: 'Pill Small' },
+    { value: 'ui-xl',    label: 'UI XL' },
+    { value: 'ui-lg',    label: 'UI Large' },
+    { value: 'ui-md',    label: 'UI Medium' },
+    { value: 'ui-sm',    label: 'UI Small' },
+    { value: 'ui-xsm',   label: 'UI XSM' },
   ];
   return (
     <Row label={label}>

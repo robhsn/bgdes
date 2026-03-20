@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { SiteHeader, SiteFooter } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import avatarImg from '../imgs/avatar-dink.png';
@@ -81,6 +82,18 @@ const fh = 'var(--font-heading)';
 const fb = 'var(--font-body)';
 const fm = 'var(--font-meta)';
 const fp = 'var(--font-pill)';
+
+/* ── Shorten "Member since March 2024" → "Mar '24" ─────────── */
+const MONTH_SHORT = {
+  January:'Jan', February:'Feb', March:'Mar', April:'Apr', May:'May', June:'Jun',
+  July:'Jul', August:'Aug', September:'Sep', October:'Oct', November:'Nov', December:'Dec',
+};
+function shortenJoinDate(str) {
+  const m = str?.match(/(\w+)\s+(\d{4})/);
+  if (!m) return str || '';
+  const mon = MONTH_SHORT[m[1]] || m[1].slice(0, 3);
+  return `${mon} '${m[2].slice(2)}`;
+}
 
 /* ── Mock data ───────────────────────────────────────────────── */
 
@@ -312,8 +325,8 @@ function IconLearning() {
 }
 function IconNewGame() {
   return (
-    <svg width="24" height="24" viewBox="0 0 60 60" fill="none">
-      <path d="M30 5.81998C37.5987 5.81998 43.7586 11.9794 43.7588 19.5778C43.7588 23.0493 42.4718 26.2196 40.3506 28.6403C37.8287 25.7625 34.1271 23.944 30 23.944C25.8726 23.944 22.1703 25.7622 19.6484 28.6403C17.5275 26.2196 16.2412 23.049 16.2412 19.5778C16.2414 11.9794 22.4013 5.82 30 5.81998ZM30 26.6634C37.5987 26.6634 43.7586 32.8228 43.7588 40.4212C43.7588 48.0198 37.5988 54.18 30 54.18C22.4012 54.18 16.2412 48.0197 16.2412 40.4212C16.2414 32.8228 22.4013 26.6634 30 26.6634ZM30 33.0472C29.3893 33.0474 28.8945 33.5428 28.8945 34.1536V39.3157H23.7324C23.1216 39.3157 22.6261 39.8104 22.626 40.4212C22.626 41.0321 23.1215 41.5276 23.7324 41.5276H28.8945V46.6898C28.8946 47.3005 29.3893 47.796 30 47.7962C30.6108 47.796 31.1064 47.3005 31.1064 46.6898V41.5276H36.2686C36.8793 41.5275 37.375 41.032 37.375 40.4212C37.3748 39.8105 36.8792 39.3159 36.2686 39.3157H31.1064V34.1536C31.1064 33.5428 30.6108 33.0473 30 33.0472Z" fill="currentColor"/>
+    <svg width="24" height="24" viewBox="0 0 40 40" fill="currentColor">
+      <path d="M20.0322 0.27774C22.2414 0.27774 24.0322 2.0686 24.0322 4.27774V15.7895H35.5449C37.7538 15.7896 39.5448 17.5806 39.5449 19.7895C39.5449 21.9985 37.7539 23.7893 35.5449 23.7895H24.0322V35.3022C24.0321 37.5112 22.2413 39.3022 20.0322 39.3022C17.8232 39.3021 16.0323 37.5112 16.0322 35.3022V23.7895H4.52051C2.31137 23.7895 0.520508 21.9986 0.520508 19.7895C0.520677 17.5805 2.31147 15.7895 4.52051 15.7895H16.0322V4.27774C16.0322 2.06866 17.8232 0.277831 20.0322 0.27774Z" />
     </svg>
   );
 }
@@ -334,8 +347,9 @@ function IconProfileNav() {
 
 function IconSettings() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    <svg width="24" height="24" viewBox="0 0 40 40" fill="currentColor">
+      <path opacity="0.4" d="M16.4686 20.0008C16.4686 20.931 16.838 21.8232 17.4958 22.4808C18.1537 23.1386 19.0456 23.5081 19.9758 23.5081C20.906 23.5081 21.7982 23.1386 22.456 22.4808C23.1137 21.8232 23.4833 20.931 23.4833 20.0008C23.4833 19.0706 23.1137 18.1784 22.456 17.5206C21.7982 16.863 20.906 16.4933 19.9758 16.4933C19.0456 16.4933 18.1537 16.863 17.4958 17.5206C16.838 18.1784 16.4686 19.0706 16.4686 20.0008Z" />
+      <path d="M15.4979 1.875C15.7185 0.786765 16.6817 0 17.7994 0H22.1964C23.3141 0 24.2774 0.786765 24.498 1.875L25.5641 7.02206C26.6009 7.46324 27.5715 8.02941 28.4539 8.69853L33.4392 7.04412C34.498 6.69118 35.6598 7.13235 36.2186 8.10294L38.417 11.9118C38.9758 12.8824 38.7774 14.1029 37.9392 14.8456L34.02 18.331C34.0862 18.8751 34.1156 19.4339 34.1156 20C34.1156 20.5663 34.0788 21.1251 34.02 21.6692L37.9464 25.1618C38.7847 25.9045 38.9758 27.1324 38.4245 28.0957L36.2258 31.9045C35.667 32.8676 34.5052 33.3163 33.4464 32.9633L28.4611 31.3088C27.5715 31.978 26.6009 32.5369 25.5715 32.9853L24.5127 38.1251C24.2847 39.2206 23.3215 40 22.2111 40H17.8141C16.6964 40 15.7332 39.2133 15.5126 38.1251L14.4538 32.9853C13.417 32.5441 12.4538 31.978 11.5641 31.3088L6.55674 32.9633C5.49791 33.3163 4.33615 32.8751 3.77733 31.9045L1.5788 28.0957C1.01997 27.1251 1.2185 25.9045 2.05674 25.1618L5.98321 21.6692C5.91703 21.1251 5.88762 20.5663 5.88762 20C5.88762 19.4339 5.92438 18.8751 5.98321 18.331L2.05674 14.8382C1.2185 14.0956 1.02733 12.8676 1.5788 11.9044L3.77733 8.09559C4.33615 7.125 5.49791 6.68382 6.55674 7.03676L11.542 8.69118C12.4317 8.02206 13.4023 7.46324 14.4317 7.01471L15.4979 1.875ZM19.998 27.0588C20.9249 27.0559 21.8423 26.8704 22.6976 26.5131C23.5529 26.1557 24.3294 25.6333 24.9829 24.9757C25.6362 24.3182 26.1537 23.5384 26.5058 22.681C26.8578 21.8233 27.0376 20.9049 27.0347 19.978C27.0317 19.051 26.8464 18.1337 26.489 17.2784C26.1315 16.4229 25.6092 15.6465 24.9515 14.9931C24.2941 14.3396 23.5143 13.8221 22.6568 13.4701C21.7992 13.118 20.8807 12.9383 19.9539 12.9412C19.0268 12.9441 18.1096 13.1295 17.2543 13.4869C16.399 13.8444 15.6223 14.3667 14.9689 15.0243C14.3155 15.6818 13.798 16.4616 13.4459 17.319C13.0939 18.1767 12.9141 19.0951 12.917 20.0222C12.9199 20.949 13.1054 21.8665 13.4628 22.7218C13.8202 23.5771 14.3426 24.3535 15.0001 25.0069C15.6576 25.6604 16.4374 26.1778 17.2949 26.53C18.1525 26.882 19.0709 27.0618 19.998 27.0588Z" />
     </svg>
   );
 }
@@ -644,7 +658,7 @@ const FRIEND_CHECK_ICON = (
 function UnfriendModal({ username, onConfirm, onCancel }) {
   return (
     <div className="overlay overlay--top" onClick={onCancel}>
-      <div className="modal modal--sm" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
+      <div className="modal modal--sm" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{
             width: 48, height: 48, borderRadius: '50%',
@@ -672,6 +686,43 @@ function UnfriendModal({ username, onConfirm, onCancel }) {
             onClick={onConfirm}
           >
             Unfriend
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChallengeModal({ username, onConfirm, onCancel }) {
+  const [sent, setSent] = useState(false);
+  return (
+    <div className="overlay overlay--top" onClick={onCancel}>
+      <div className="bottom-sheet surface-muted" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()}>
+        <div className="bottom-sheet__handle" />
+        <div className="bottom-sheet__header">
+          <h2 className="bottom-sheet__title">Challenge {username}</h2>
+          <button className="popup-panel__close" onClick={onCancel}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="bottom-sheet__body" style={{ textAlign: 'center' }}>
+          <div style={{
+            fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
+            fontFamily: 'var(--font-body)',
+          }}>
+            Send a challenge request to {username}?
+          </div>
+        </div>
+        <div className="bottom-sheet__footer">
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+          <button
+            className="com-btn com-btn--primary com-btn--sm"
+            onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
+            disabled={sent}
+          >
+            {sent ? 'Challenge Sent \u2713' : 'Send Challenge'}
           </button>
         </div>
       </div>
@@ -751,14 +802,12 @@ function FriendButton({ status, username }) {
           </button>
 
           {menuOpen && (
-            <div style={{
+            <div className="surface-inverse" style={{
               position: 'absolute',
               top: 'calc(100% + 6px)',
               left: 0,
-              background: 'var(--color-bg)',
               borderRadius: 10,
               boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08)',
-              border: '1px solid var(--color-border)',
               padding: '4px 0',
               minWidth: 180,
               zIndex: 100,
@@ -773,7 +822,7 @@ function FriendButton({ status, username }) {
                   color: 'var(--color-heading)',
                   transition: 'background 0.1s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.04)'}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -791,7 +840,7 @@ function FriendButton({ status, username }) {
                   color: '#d43333',
                   transition: 'background 0.1s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(220,50,50,0.05)'}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -804,12 +853,13 @@ function FriendButton({ status, username }) {
           )}
         </div>
 
-        {showUnfriendModal && (
+        {showUnfriendModal && createPortal(
           <UnfriendModal
             username={username}
             onCancel={() => setShowUnfriendModal(false)}
             onConfirm={() => setShowUnfriendModal(false)}
-          />
+          />,
+          document.body,
         )}
       </>
     );
@@ -834,8 +884,11 @@ function getErrorRateColor(rate) {
 
 const MATCHES_PER_PAGE = 10;
 
-function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
+const FRIEND_USERNAMES = new Set(MOCK_FRIENDS.map(f => f.username));
+
+function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [resultFilter, setResultFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
 
   if (isEmpty) {
@@ -848,9 +901,12 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
     );
   }
 
-  const filtered = searchQuery
+  let filtered = searchQuery
     ? history.filter(m => m.opponent.toLowerCase().includes(searchQuery.toLowerCase()))
     : history;
+  if (resultFilter === 'wins') filtered = filtered.filter(m => m.result === 'win');
+  if (resultFilter === 'losses') filtered = filtered.filter(m => m.result === 'loss');
+  if (resultFilter === 'friends') filtered = filtered.filter(m => FRIEND_USERNAMES.has(m.opponent));
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / MATCHES_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages - 1);
@@ -858,8 +914,8 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
 
   return (
     <>
-      <div className="match-history__header">
-        <div className="match-search">
+      <div className="match-history__header" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <div className="match-search" style={{ flex: 1 }}>
           <svg className="match-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
           </svg>
@@ -868,8 +924,28 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
             placeholder="Search opponents..."
             value={searchQuery}
             onChange={e => { setSearchQuery(e.target.value); setCurrentPage(0); }}
+            style={{ width: '100%' }}
           />
         </div>
+        <select
+          value={resultFilter}
+          onChange={e => { setResultFilter(e.target.value); setCurrentPage(0); }}
+          style={{
+            fontFamily: fm, fontSize: 13, fontWeight: 500,
+            padding: '8px 12px',
+            borderRadius: 8,
+            border: '1px solid var(--color-border)',
+            background: 'var(--color-bg)',
+            color: 'var(--color-heading)',
+            cursor: 'pointer',
+            height: 38,
+          }}
+        >
+          <option value="all">All Results</option>
+          <option value="wins">Wins Only</option>
+          <option value="losses">Losses Only</option>
+          <option value="friends">Friends</option>
+        </select>
       </div>
       <div className="match-history">
         {/* Table header */}
@@ -889,17 +965,22 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
         </div>
         {pageItems.map(m => (
           <div key={m.id} className={`match-row match-row--${m.result}`}>
-            <Avatar
+            {!isMvp && <Avatar
               src={getAvatarSrc(m.avatarKey)}
               alt={m.opponent}
               size="lg"
               clickable={!!onPlayerClick}
               onClick={() => onPlayerClick?.(m.opponent)}
-            />
+            />}
             <span
               className={`match-row__name${onPlayerClick ? ' match-row__name--clickable' : ''}`}
               onClick={() => onPlayerClick?.(m.opponent)}
-            >{m.opponent}</span>
+            >
+              {FRIEND_USERNAMES.has(m.opponent) && (
+                <span className="match-row__friend-pill">Friend</span>
+              )}
+              {m.opponent}
+            </span>
             <span className={`match-row__result match-row__result--${m.result}`}>
               {m.result === 'win' ? 'Won' : 'Lost'}
             </span>
@@ -932,9 +1013,6 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="match-history__pagination">
-          <span className="match-history__page-info">
-            Page {safePage + 1} of {totalPages}
-          </span>
           <button
             className="com-btn com-btn--outline com-btn--sm"
             style={{ opacity: safePage === 0 ? 0.4 : 1, pointerEvents: safePage === 0 ? 'none' : 'auto' }}
@@ -942,6 +1020,9 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick }) {
           >
             ← Previous
           </button>
+          <span className="match-history__page-info">
+            Page {safePage + 1} of {totalPages}
+          </span>
           <button
             className="com-btn com-btn--outline com-btn--sm"
             style={{ opacity: safePage >= totalPages - 1 ? 0.4 : 1, pointerEvents: safePage >= totalPages - 1 ? 'none' : 'auto' }}
@@ -1180,17 +1261,17 @@ function SettingsPanel({
 
   return (
     <div className="overlay overlay--top" onClick={onClose}>
-      <div className="side-panel surface-muted" data-section-id="pp-settings" onClick={e => e.stopPropagation()}>
-        <div className="side-panel__header">
-          <h2 className="side-panel__title">Settings</h2>
-          <button className="side-panel__close" onClick={onClose}>
+      <div className="popup-panel surface-muted" data-section-id="pp-settings" onClick={e => e.stopPropagation()}>
+        <div className="popup-panel__header">
+          <h2 className="popup-panel__title">Settings</h2>
+          <button className="popup-panel__close" onClick={onClose}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <div className="side-panel__body">
+        <div className="popup-panel__body">
           {/* Username */}
           <div className="settings-row">
             <div className="settings-row__label">Username</div>
@@ -1217,13 +1298,15 @@ function SettingsPanel({
           {/* Bio */}
           <div className="settings-row">
             <div className="settings-row__label">Intro / Bio</div>
-            <textarea
+            <input
+              type="text"
               className="profile-header__bio-input"
               value={draftBio}
               onChange={e => setDraftBio(e.target.value)}
               placeholder="Write something about yourself..."
-              rows={3}
+              maxLength={60}
             />
+            <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{draftBio.length}/60</span>
           </div>
 
           {/* Social Links */}
@@ -1315,7 +1398,7 @@ function SettingsPanel({
         </div>
 
         {/* Sticky footer */}
-        <div className="side-panel__footer">
+        <div className="popup-panel__footer">
           <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
           <button
             className="com-btn com-btn--primary com-btn--sm"
@@ -2122,13 +2205,13 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
                     </svg>
-                    Challenge
+                    <span className="pp-friend-btn-label">Challenge</span>
                   </button>
                   <button className="com-btn com-btn--outline com-btn--sm">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                     </svg>
-                    Remove
+                    <span className="pp-friend-btn-label">Unfriend</span>
                   </button>
                 </div>
               </div>
@@ -2204,6 +2287,7 @@ export default function ProfilePage({ onNavigate }) {
   const viewType   = useDMEState('profile.viewType', 'Own - Established');
   const dmeCelebration = useDMEState('profile.celebration', false);
   const isMvp = useDMEState('profile.mvp', true);
+  const isFavorited = useDMEState('profile.favorited', false);
   const acState = useDMEState('social.activityCenter', 'Activity - Unread');
   const dmeTab = useDMEState('profile.tab', 'Game History');
   const [localTab, setLocalTab] = useState(() => {
@@ -2254,6 +2338,7 @@ export default function ProfilePage({ onNavigate }) {
   const [prevDmeCelebration, setPrevDmeCelebration] = useState(dmeCelebration);
   const [shareLabel, setShareLabel] = useState('Share Profile');
   const [showPlayerCard, setShowPlayerCard] = useState(false);
+  const [showChallengeModal, setShowChallengeModal] = useState(false);
 
   /* Avatar modal state */
   const [showAvatarModal, setShowAvatarModal] = useState(false);
@@ -2468,6 +2553,20 @@ export default function ProfilePage({ onNavigate }) {
           </button>
         )}
         {/* Cancel / Save buttons moved to action buttons row below */}
+        {showOtherProfile && !isUnregistered && (
+          <div className="pp-cover-actions">
+            <button className="pp-cover-actions__btn" title="Add Friend">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+              </svg>
+            </button>
+            <button className="pp-cover-actions__btn" onClick={() => setShowChallengeModal(true)} title="Challenge">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Profile header ── */}
@@ -2512,26 +2611,37 @@ export default function ProfilePage({ onNavigate }) {
               <div className="profile-header__date">{player.joinDate}</div>
               <div className="profile-header__name-row">
                 <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
+                {isFavorited && (
+                  <svg width="20" height="20" viewBox="0 0 40 40" fill="var(--color-star)" style={{ flexShrink: 0 }}>
+                    <path d="M21.5625 1.84553C21.2644 1.26389 20.661 0.893097 20.0066 0.893097C19.3523 0.893097 18.7488 1.26389 18.4508 1.84553L13.0997 12.3295L1.47422 14.1762C0.827144 14.278 0.28913 14.7361 0.0855567 15.3613C-0.118016 15.9866 0.0492043 16.67 0.507244 17.1353L8.82466 25.46L6.9925 37.0855C6.89071 37.7326 7.15972 38.3869 7.69046 38.7722C8.22121 39.1576 8.91917 39.2157 9.50808 38.9176L20.0066 33.5811L30.4979 38.9176C31.0796 39.2157 31.7848 39.1576 32.3155 38.7722C32.8463 38.3869 33.1153 37.7398 33.0135 37.0855L31.1741 25.46L39.4915 17.1353C39.9568 16.67 40.1168 15.9866 39.9132 15.3613C39.7096 14.7361 39.1789 14.278 38.5245 14.1762L26.9063 12.3295L21.5625 1.84553Z" />
+                  </svg>
+                )}
               </div>
               {editMode ? (
-                <textarea
-                  className="profile-header__bio-input"
-                  value={editBio}
-                  onChange={e => setEditBio(e.target.value)}
-                  placeholder="Write something about yourself..."
-                  rows={3}
-                />
+                <div>
+                  <input
+                    type="text"
+                    className="profile-header__bio-input"
+                    value={editBio}
+                    onChange={e => setEditBio(e.target.value)}
+                    placeholder="Write something about yourself..."
+                    maxLength={60}
+                  />
+                  <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editBio.length}/60</span>
+                </div>
               ) : (
                 bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
               )}
               <div className="toolbar">
+                <span className="toolbar__date-inline">{shortenJoinDate(player.joinDate)}</span>
+                <div className="toolbar__separator toolbar__separator--date" />
                 {countryFlag && (
                   <>
                     <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
                     <div className="toolbar__separator" />
                   </>
                 )}
-                {showActions && (
+                {showActions && !isMvp && (
                   <>
                     <button className="icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
                       <IconBaseballCard size={22} />
@@ -2567,7 +2677,7 @@ export default function ProfilePage({ onNavigate }) {
             </div>
             <div className="profile-header__stats-col">
               {isNewPlayer && (
-                <span className="milestone-category__hint" style={{ marginBottom: 8, display: 'block' }}>Play your first game to start tracking!</span>
+                <span className="milestone-category__hint pp-new-player-hint" style={{ marginBottom: 8, display: 'block' }}>Play your first game to start tracking!</span>
               )}
               <GatedSection isGated={isGated}>
                 <div className="stat-grid">
@@ -2624,8 +2734,14 @@ export default function ProfilePage({ onNavigate }) {
             </div>
           )}
           {showOtherProfile && !isUnregistered && (
-            <div className="profile-header__actions-row">
+            <div className="profile-header__actions-row profile-header__actions-row--other">
               <FriendButton status={friendStatus} username={player.displayName} />
+              <button className="com-btn com-btn--primary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                Challenge
+              </button>
             </div>
           )}
           {isUnregistered && (
@@ -2633,6 +2749,12 @@ export default function ProfilePage({ onNavigate }) {
               <button className="com-btn com-btn--primary com-btn--sm">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
                 Create Account to Friend Player
+              </button>
+              <button className="com-btn com-btn--primary com-btn--sm" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                Challenge
               </button>
             </div>
           )}
@@ -2704,12 +2826,13 @@ export default function ProfilePage({ onNavigate }) {
 
       {activeTab === 'Game History' && (
         <div className="section section--flush surface-tertiary" data-section-id="pp-history" style={{ paddingBottom: 64 }}>
-          <div className="section__inner" style={{ maxWidth: 'none' }}>
+          <div className="section__inner">
             <GatedSection isGated={isGated}>
               <MatchHistorySection
                 history={isProfileB ? MATCH_HISTORY_B : MATCH_HISTORY}
                 isEmpty={isNewPlayer}
                 onPlayerClick={handleMatchPlayerClick}
+                isMvp={isMvp}
               />
             </GatedSection>
           </div>
@@ -2752,6 +2875,15 @@ export default function ProfilePage({ onNavigate }) {
           socialLinks={socialLinks}
           onSave={(links) => { setSocialLinks(links); setShowSocialModal(false); persistProfile({ socialLinks: links }); }}
           onCancel={() => setShowSocialModal(false)}
+        />
+      )}
+
+      {/* ── Challenge modal ── */}
+      {showChallengeModal && (
+        <ChallengeModal
+          username={player.displayName}
+          onCancel={() => setShowChallengeModal(false)}
+          onConfirm={() => setShowChallengeModal(false)}
         />
       )}
 

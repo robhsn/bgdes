@@ -39,6 +39,11 @@
   to   { transform: translateX(0); }
 }
 
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
 /* ── LearnSegmentTemplate animations (quiz badge sunburst) ─── */
 
 @keyframes quiz-sunburst-a {

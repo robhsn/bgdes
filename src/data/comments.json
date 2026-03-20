@@ -20,16 +20,16 @@
   "profile": [
     {
       "id": "6b229e29-84f8-43af-909e-a78b9227908a",
-      "elementSelector": "#root > div:nth-of-type(1) > div.pp-cover-wrap > div.pp-cover-actions > button.pp-btn.pp-btn--secondary:nth-of-type(1)",
-      "elementLabel": "button.pp-btn.pp-btn--secondary",
+      "elementSelector": "[data-section-id='pp-header'] .profile-header__actions-row [data-role-id='pp-edit-btn']",
+      "elementLabel": "button.com-btn.com-btn--outline",
       "text": "Edit mode will allow the user to update their Avatar, Cover image, and intro text. These elements are also available to update in the settings pop-out menu.",
       "stateKey": null,
       "createdAt": 1773334265436
     },
     {
       "id": "166668f3-34af-4ac6-879a-350d212a4643",
-      "elementSelector": "#root > div:nth-of-type(1) > div.pp-header-wrap > div.pp-header-inner > div.pp-bio-stats-row > div.pp-bio-col > div.pp-toolbar-row > button.pp-share-icon-btn > svg",
-      "elementLabel": "svg",
+      "elementSelector": "[data-section-id='pp-header'] .toolbar .icon-btn",
+      "elementLabel": "button.icon-btn",
       "text": "This icon represents and activates the player's baseball card, a modal that showcases the user's profile at a glance and allows them to download the card to share off site, such as social media.",
       "stateKey": null,
       "createdAt": 1773334347229

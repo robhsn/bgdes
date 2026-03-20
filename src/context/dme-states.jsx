@@ -62,6 +62,13 @@ export const STATE_DEFINITIONS = [
     defaultValue: true,
   },
   {
+    key: 'profile.favorited',
+    label: 'Favorited',
+    description: 'Show favorited star next to username',
+    type: 'profile',
+    defaultValue: false,
+  },
+  {
     key: 'learnArticle.tocExpanded',
     label: 'ToC Expanded',
     description: 'Keep the Table of Contents permanently expanded',

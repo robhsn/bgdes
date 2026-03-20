@@ -410,10 +410,15 @@ export default function CommentsInspector({
     setEditText('');
   }, []);
 
-  /* ── Focus a comment (click-based, persistent) ────────────────── */
+  /* ── Focus a comment (click-based, persistent) + scroll to element ── */
   const handleFocusComment = useCallback((id) => {
     setFocusedCommentId(prev => prev === id ? null : id);
-  }, []);
+    const comment = comments.find(c => c.id === id);
+    if (comment) {
+      const el = findElement(comment.elementSelector);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [comments]);
 
   /* ── Click a saved comment → focus + scroll to element ───────── */
   const handleCommentClick = useCallback((comment) => {

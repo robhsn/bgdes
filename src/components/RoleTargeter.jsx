@@ -14,6 +14,14 @@ const FONT_ROLES = [
   { key: 'body-lg', label: 'Body Large' },
   { key: 'body-md', label: 'Body Medium' },
   { key: 'body-sm', label: 'Body Small' },
+  { key: 'pill-lg', label: 'Pill Large' },
+  { key: 'pill-md', label: 'Pill Medium' },
+  { key: 'pill-sm', label: 'Pill Small' },
+  { key: 'ui-xl',   label: 'UI XL' },
+  { key: 'ui-lg',   label: 'UI Large' },
+  { key: 'ui-md',   label: 'UI Medium' },
+  { key: 'ui-sm',   label: 'UI Small' },
+  { key: 'ui-xsm',  label: 'UI XSM' },
 ];
 const FONT_ROLE_KEYS = new Set(FONT_ROLES.map(r => r.key));
 
@@ -312,7 +320,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
     if (!visible) return;
     const style = document.createElement('style');
     style.id = 'roletarget-pe-override';
-    style.textContent = '*:not([data-roletarget-panel] *){pointer-events:auto!important}';
+    style.textContent = '*:not([data-roletarget-panel]):not([data-roletarget-panel] *){pointer-events:auto!important}';
     document.head.appendChild(style);
     return () => style.remove();
   }, [visible]);

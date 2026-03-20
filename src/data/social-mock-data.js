@@ -47,6 +47,7 @@ export const MOCK_NOTIFICATIONS = [
   { id: 8, type: 'challenge_received', user: { username: 'GammonPro',     avatar: 'Thief' },   timestamp: '1h ago',  read: true, format: '3-point', isFriend: false },
   { id: 4, type: 'challenge_accepted', user: { username: 'DiceRoller99',  avatar: 'Wizard' },  timestamp: '2h ago',  read: true },
   { id: 5, type: 'challenge_declined', user: { username: 'LuckyRoller',   avatar: 'Clown' },   timestamp: '3h ago',  read: true },
+  { id: 11, type: 'challenge_sent',    user: { username: 'MarinaD',       avatar: 'Princess' }, timestamp: '3h ago',  read: true },
   { id: 9, type: 'message',            user: { username: 'BackgammonQueen', avatar: 'Princess' }, timestamp: '3h ago', read: true },
   { id: 10, type: 'message',           user: { username: 'BoardMaster',   avatar: 'King' },    timestamp: '5h ago',  read: true },
   { id: 6, type: 'fb_friends_found',   user: { username: 'FBFriend1',     avatar: 'Gobby' },   timestamp: '1d ago',  read: true, count: 3 },

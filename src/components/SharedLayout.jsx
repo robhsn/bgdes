@@ -366,7 +366,7 @@ export function PlayNowCta({ sectionId }) {
 
 export function SiteFooter({ sectionId }) {
   return (
-    <footer className="surface-inverse" {...(sectionId ? { 'data-section-id': sectionId } : {})} style={{
+    <footer className="surface-inverse site-footer" {...(sectionId ? { 'data-section-id': sectionId } : {})} style={{
       width: '100%',
       padding: '32px var(--spacing-h) 28px',
       boxSizing: 'border-box',

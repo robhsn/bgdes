@@ -190,11 +190,12 @@ function NotificationItem({ item }) {
     );
   }
 
-  /* Passive items: friend_accepted, challenge_accepted, challenge_declined, fb_friends_found */
+  /* Passive items: friend_accepted, challenge_accepted, challenge_declined, challenge_sent, fb_friends_found */
   const passiveText = {
     friend_accepted: `${user.username} accepted your friend request`,
     challenge_accepted: `${user.username} accepted your challenge`,
     challenge_declined: `${user.username} declined your challenge`,
+    challenge_sent: `You challenged ${user.username} — Pending`,
     fb_friends_found: `${item.count || 1} Facebook friend${(item.count || 1) > 1 ? 's' : ''} found on Backgammon.com`,
   };
 
@@ -344,7 +345,6 @@ export default function ActivityCenter({ onNavigate }) {
           >
             {/* Header */}
             <div className="side-panel__header">
-              <h2 className="side-panel__title">Activity Center</h2>
               <button className="side-panel__close" onClick={() => setLocalOpen(false)}>
                 <IconClose />
               </button>

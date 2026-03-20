@@ -27,8 +27,17 @@
   --color-logo:           var(--sf-muted-logo);
   --color-link:           var(--sf-muted-link);
   --color-pill:           var(--sf-muted-pill);
+  --color-pill-lg:        var(--sf-muted-pill-lg);
+  --color-pill-md:        var(--sf-muted-pill-md);
+  --color-pill-sm:        var(--sf-muted-pill-sm);
   --color-accent:         var(--sf-muted-accent);
   --color-tag-fill:       var(--sf-muted-tag-fill);
+  --color-star:           var(--sf-muted-star);
+  --color-ui-xl:          var(--sf-muted-ui-xl);
+  --color-ui-lg:          var(--sf-muted-ui-lg);
+  --color-ui-md:          var(--sf-muted-ui-md);
+  --color-ui-sm:          var(--sf-muted-ui-sm);
+  --color-ui-xsm:         var(--sf-muted-ui-xsm);
   --color-glossary-underline: var(--prim-mono-350);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-250);
@@ -73,8 +82,17 @@
   --color-logo:           var(--sf-inverse-logo);
   --color-link:           var(--sf-inverse-link);
   --color-pill:           var(--sf-inverse-pill);
+  --color-pill-lg:        var(--sf-inverse-pill-lg);
+  --color-pill-md:        var(--sf-inverse-pill-md);
+  --color-pill-sm:        var(--sf-inverse-pill-sm);
   --color-accent:         var(--sf-inverse-accent);
   --color-tag-fill:       var(--sf-inverse-tag-fill);
+  --color-star:           var(--sf-inverse-star);
+  --color-ui-xl:          var(--sf-inverse-ui-xl);
+  --color-ui-lg:          var(--sf-inverse-ui-lg);
+  --color-ui-md:          var(--sf-inverse-ui-md);
+  --color-ui-sm:          var(--sf-inverse-ui-sm);
+  --color-ui-xsm:         var(--sf-inverse-ui-xsm);
   --color-glossary-underline: var(--prim-mono-550);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-550);
@@ -119,8 +137,17 @@
   --color-logo:           var(--sf-accent-logo);
   --color-link:           var(--sf-accent-link);
   --color-pill:           var(--sf-accent-pill);
+  --color-pill-lg:        var(--sf-accent-pill-lg);
+  --color-pill-md:        var(--sf-accent-pill-md);
+  --color-pill-sm:        var(--sf-accent-pill-sm);
   --color-accent:         var(--sf-accent-accent);
   --color-tag-fill:       var(--sf-accent-tag-fill);
+  --color-star:           var(--sf-accent-star);
+  --color-ui-xl:          var(--sf-accent-ui-xl);
+  --color-ui-lg:          var(--sf-accent-ui-lg);
+  --color-ui-md:          var(--sf-accent-ui-md);
+  --color-ui-sm:          var(--sf-accent-ui-sm);
+  --color-ui-xsm:         var(--sf-accent-ui-xsm);
   --color-glossary-underline: var(--prim-mono-500);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-500);
@@ -165,8 +192,17 @@
   --color-logo:           var(--sf-tertiary-logo);
   --color-link:           var(--sf-tertiary-link);
   --color-pill:           var(--sf-tertiary-pill);
+  --color-pill-lg:        var(--sf-tertiary-pill-lg);
+  --color-pill-md:        var(--sf-tertiary-pill-md);
+  --color-pill-sm:        var(--sf-tertiary-pill-sm);
   --color-accent:         var(--sf-tertiary-accent);
   --color-tag-fill:       var(--sf-tertiary-tag-fill);
+  --color-star:           var(--sf-tertiary-star);
+  --color-ui-xl:          var(--sf-tertiary-ui-xl);
+  --color-ui-lg:          var(--sf-tertiary-ui-lg);
+  --color-ui-md:          var(--sf-tertiary-ui-md);
+  --color-ui-sm:          var(--sf-tertiary-ui-sm);
+  --color-ui-xsm:         var(--sf-tertiary-ui-xsm);
   --color-glossary-underline: var(--prim-mono-550);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-550);
