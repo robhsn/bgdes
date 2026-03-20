@@ -220,6 +220,8 @@
   --color-accent:         var(--prim-mono-700);
   --color-body:           var(--prim-mono-600);
   --color-muted:          var(--prim-mono-750);
+  --color-muted-lg:       var(--prim-mono-750);
+  --color-muted-sm:       var(--prim-mono-750);
   --color-border:         var(--prim-mono-100);
   --color-border-light:   var(--prim-mono-150);
   --color-border-mid:     var(--prim-mono-250);
@@ -235,6 +237,10 @@
   --color-dot-active:     var(--prim-orange-500);
   --color-logo:           var(--prim-mono-900);
   --color-link:           var(--prim-mono-700);
+  --color-link-lg:        var(--prim-mono-700);
+  --color-link-sm:        var(--prim-mono-700);
+  --color-pill-bg:        var(--prim-mono-white);
+  --color-pill-border:    var(--prim-mono-900);
   --color-white:          var(--prim-mono-white);
 
   /* ── Legacy IDP button tokens ──────────────────────────────────── */

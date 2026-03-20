@@ -55,8 +55,12 @@ function TextHierarchy() {
     { label: 'Body LG', var: '--color-body-lg', size: '--size-body-lg', font: fb, weight: 400 },
     { label: 'Body MD', var: '--color-body', size: '--size-body', font: fb, weight: 400 },
     { label: 'Body SM', var: '--color-body-sm', size: '--size-body-sm', font: fb, weight: 400 },
+    { label: 'Muted LG', var: '--color-muted-lg', size: '--size-body-lg', font: fb, weight: 400 },
     { label: 'Muted', var: '--color-muted', size: '--size-body', font: fb, weight: 400 },
+    { label: 'Muted SM', var: '--color-muted-sm', size: '--size-body-sm', font: fb, weight: 400 },
+    { label: 'Link LG', var: '--color-link-lg', size: '--size-body-lg', font: fb, weight: 500 },
     { label: 'Link', var: '--color-link', size: '--size-body', font: fb, weight: 500 },
+    { label: 'Link SM', var: '--color-link-sm', size: '--size-body-sm', font: fb, weight: 500 },
     { label: 'Accent', var: '--color-accent', size: '--size-body', font: fb, weight: 600 },
   ];
 
@@ -131,8 +135,8 @@ function PillsTags() {
               fontFamily: fp, fontWeight: 700,
               fontSize: `var(${size})`,
               color: `var(${v})`,
-              background: 'var(--color-bg)',
-              border: `1.5px solid var(${v})`,
+              background: 'var(--color-pill-bg)',
+              border: '1.5px solid var(--color-pill-border)',
               borderRadius: 9999,
               padding: '5px 14px',
               lineHeight: 1.2,
@@ -140,6 +144,25 @@ function PillsTags() {
             <TokenLabel name={v} />
           </div>
         ))}
+
+        {/* Pill bg swatch */}
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: 8,
+            background: 'var(--color-pill-bg)',
+            border: '1px solid var(--color-border-subtle)',
+          }} />
+          <TokenLabel name="--color-pill-bg" />
+        </div>
+
+        {/* Pill border swatch */}
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: 8,
+            background: 'var(--color-pill-border)',
+          }} />
+          <TokenLabel name="--color-pill-border" />
+        </div>
 
         {/* Tag Fill swatch */}
         <div style={{ textAlign: 'center' }}>
