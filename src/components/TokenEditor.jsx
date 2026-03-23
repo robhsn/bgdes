@@ -1099,13 +1099,14 @@ const SURFACE_TOKENS = [
   /* UI text */         'ui-xl', 'ui-lg', 'ui-md', 'ui-sm', 'ui-xsm',
   /* Branding */        'logo', 'star',
   /* Form */            'placeholder',
+  /* Input fields */    'input-bg', 'input-border', 'input-text', 'input-placeholder',
   /* Scrollbar */       'scrollbar-thumb', 'scrollbar-track',
 ];
 const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg'];
 /* Tokens that start a new visual group (separator rendered before them) */
 const SURFACE_GROUP_STARTS = new Set([
   'heading', 'sh1', 'body-lg', 'text-muted-lg', 'link-lg',
-  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'scrollbar-thumb',
+  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'scrollbar-thumb',
 ]);
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -1568,7 +1569,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     'dme-sect-Colors', 'dme-sect-Element Sizes', 'dme-sect-Spacing & Layout',
     'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Statement: Links', 'dme-sub-Header Dropdown',
     'dme-sub-Navigation', 'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats',
-    'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Modal',
+    'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Input Fields', 'dme-sub-Modal',
   ];
   const L1_SECT_KEYS = [
     'dme-sect-Type Roles', 'dme-sect-Color Palettes',
@@ -2296,7 +2297,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track' };
+  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text' };
   return (
     <>
@@ -2765,6 +2766,13 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
           <ColorRow label="Secondary text"  name="--btn-secondary-fg" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Primary border"   name="--btn-primary-border"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Secondary border" name="--btn-secondary-border" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
+        <SubSect label="Input Fields">
+          <ColorRow label="Background"   name="--color-input-bg"          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Border"       name="--color-input-border"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Text"         name="--color-input-text"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Placeholder"  name="--color-input-placeholder" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Modal">

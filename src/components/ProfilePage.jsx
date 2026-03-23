@@ -86,7 +86,7 @@ const fb = 'var(--font-body)';
 const fm = 'var(--font-meta)';
 const fp = 'var(--font-pill)';
 
-/* ── Shorten "Member since March 2024" → "Mar '24" ─────────── */
+/* ── Shorten "Joined March 2024" → "Mar '24" ─────────── */
 const MONTH_SHORT = {
   January:'Jan', February:'Feb', March:'Mar', April:'Apr', May:'May', June:'Jun',
   July:'Jul', August:'Aug', September:'Sep', October:'Oct', November:'Nov', December:'Dec',
@@ -103,7 +103,7 @@ function shortenJoinDate(str) {
 const MOCK_OWN = {
   displayName: 'MyReallyLongCoolUsername',
   avatar: avatarImg,
-  joinDate: 'Member since March 2024',
+  joinDate: 'Joined March 2024',
   bio: 'Loves the blot and daring open plays. Always betting on the backfield.',
   stats: { wins: 87, losses: 52, gamesPlayed: 139, currentStreak: 5, highestStreak: 1431 },
 };
@@ -111,7 +111,7 @@ const MOCK_OWN = {
 const MOCK_OTHER = {
   displayName: 'MarinaD',
   avatar: avatarImg,
-  joinDate: 'Member since January 2023',
+  joinDate: 'Joined January 2023',
   bio: 'Top 50 ranked player. Aggressive opening, patient endgame.',
   stats: { wins: 312, losses: 148, gamesPlayed: 460, currentStreak: 9, highestStreak: 23 },
 };
@@ -127,7 +127,7 @@ const MOCK_GUEST = {
 const MOCK_PROFILE_B = {
   displayName: 'GammonKing42',
   avatar: getAvatarSrc('Timothy'),
-  joinDate: 'Member since August 2023',
+  joinDate: 'Joined August 2023',
   bio: 'Precision player. If you leave a blot, I will hit it.',
   stats: { wins: 204, losses: 96, gamesPlayed: 300, currentStreak: 3, highestStreak: 14 },
 };

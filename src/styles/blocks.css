@@ -3057,11 +3057,11 @@
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
   font-size: 28px;
-  color: var(--color-heading);
+  color: var(--color-input-text);
   line-height: 1.1;
   margin: 0 0 4px;
   background: var(--color-input-bg);
-  border: 1.5px solid var(--color-border-mid);
+  border: 1.5px solid var(--color-input-border);
   border-radius: 8px;
   outline: none;
   padding: 6px 12px;
@@ -3076,12 +3076,12 @@
 .profile-header__bio-input {
   font-family: var(--font-body);
   font-size: 15px;
-  color: var(--color-body);
+  color: var(--color-input-text);
   line-height: 1.5;
   max-width: 480px;
   width: 100%;
   background: var(--color-input-bg);
-  border: 1.5px solid var(--color-border-mid);
+  border: 1.5px solid var(--color-input-border);
   border-radius: 10px;
   padding: 6px 12px;
   outline: none;
