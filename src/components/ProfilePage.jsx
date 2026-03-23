@@ -68,7 +68,6 @@ const PRESET_AVATARS = [
   { key: 'Knight',      src: avatarKnight },
   { key: 'Mummy',       src: avatarMummy },
   { key: 'Princess',    src: avatarPrincess },
-  { key: 'Robot',       src: avatarRobot },
   { key: 'AI Player',   src: avatarAIPlayer },
   { key: 'Thief',       src: avatarThief },
   { key: 'Wolfy',       src: avatarWolfy },
@@ -936,16 +935,15 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
   return (
     <>
       <div className="match-history__header" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-        <div className="match-search" style={{ flex: 1 }}>
-          <svg className="match-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="search-bar">
+          <svg className="search-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
           </svg>
           <input
-            className="match-search__input"
+            className="search-bar__input"
             placeholder="Search opponents..."
             value={searchQuery}
             onChange={e => { setSearchQuery(e.target.value); setCurrentPage(0); }}
-            style={{ width: '100%' }}
           />
         </div>
         <select
@@ -2425,12 +2423,12 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
   return (
     <div className="pp-friends">
       {/* Search bar */}
-      <div className="pp-friends-search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <div className="search-bar">
+        <svg className="search-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
         </svg>
         <input
-          className="pp-friends-search__input"
+          className="search-bar__input"
           placeholder="Search friends or players..."
           value={friendSearch}
           onChange={e => setFriendSearch(e.target.value)}

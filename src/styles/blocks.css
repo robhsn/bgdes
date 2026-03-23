@@ -259,6 +259,44 @@
   resize: vertical;
 }
 
+/* ── 8b. search-bar — Search inputs with icon ───────────────── */
+
+.search-bar {
+  position: relative;
+  flex: 1;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-input-placeholder);
+  pointer-events: none;
+}
+
+.search-bar__input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-input-text);
+  background: var(--color-input-bg);
+  border: 1.5px solid var(--color-input-border);
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.search-bar__input:focus {
+  border-color: var(--color-accent);
+}
+
+.search-bar__input::placeholder {
+  color: var(--color-input-placeholder);
+}
+
 /* ── 9. gated — Login/signup gate overlay ───────────────────── */
 
 .gated {
@@ -3438,7 +3476,7 @@
 .avatar-picker__tabs {
   display: flex;
   gap: 0;
-  border-bottom: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--modal-border);
 }
 
 .avatar-picker__tab {
@@ -3451,14 +3489,14 @@
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-muted);
+  color: var(--modal-muted);
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
 }
 
 .avatar-picker__tab--active {
-  color: var(--color-heading);
-  border-bottom-color: var(--color-heading);
+  color: var(--modal-heading);
+  border-bottom-color: var(--modal-heading);
 }
 
 .avatar-picker__grid {
@@ -3472,7 +3510,7 @@
   aspect-ratio: 1;
   border-radius: 50%;
   border: 2px solid var(--color-border);
-  overflow: hidden;
+  overflow: visible;
   cursor: pointer;
   background: var(--color-bg);
   padding: 0;
@@ -3494,12 +3532,14 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 50%;
 }
 
 .avatar-picker__check {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
+  bottom: -2px;
+  right: -2px;
+  z-index: 1;
 }
 
 .avatar-picker__custom {

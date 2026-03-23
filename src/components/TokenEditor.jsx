@@ -1636,7 +1636,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
         else if (!expected && hasSurface) applySurfaceToDOM(id, surfaceKey);
       });
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

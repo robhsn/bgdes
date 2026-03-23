@@ -13,3 +13,15 @@ When adding new tokens, patterns, button variants, or any design system addition
 7. **Component CSS (ComButtons.css, blocks.css)** — Add CSS classes and usage of new tokens
 
 Nothing is "done" until it works end-to-end across all these touchpoints.
+
+## Global Component Rule
+
+Repeating UI elements (inputs, search bars, toggles, cards, etc.) **must always be implemented as global CSS classes in `blocks.css`**, not as page-scoped or inline styles. When building a new element:
+
+1. Check if a global component already exists (`.form-input`, `.search-bar`, `.com-btn`, etc.)
+2. If yes, **use it** — do not create a page-local variant with different border-width, radius, or placeholder styling
+3. If no, **create the global class first**, then use it everywhere it appears
+4. All global components must use design tokens (`--color-input-*`, `--color-border`, etc.) — never hardcode colors
+5. If a page needs a minor variation, extend via a modifier class (e.g. `.search-bar--compact`), not a separate component
+
+No two instances of the same UI pattern should ever have divergent styling unless explicitly requested. When you encounter existing duplicates, unify them into the global component.
