@@ -141,6 +141,8 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'border-light':    '--color-border-light',
   'border-mid':      '--color-border-mid',
   'border-subtle':   '--color-border-subtle',
+  'border-active':   '--color-border-active',
+  'input-bg':        '--color-input-bg',
   'callout-border':  '--color-callout-border',
   /* Pills & tags */
   'pill':            '--color-pill',
@@ -160,8 +162,11 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   /* Branding */
   'logo':            '--color-logo',
   'star':            '--color-star',
-  /* Form */
+  /* Form / Inputs */
   'placeholder':     '--color-placeholder',
+  'input-border':    '--color-input-border',
+  'input-text':      '--color-input-text',
+  'input-placeholder':'--color-input-placeholder',
   /* Scrollbar */
   'scrollbar-thumb': '--color-scrollbar-thumb',
   'scrollbar-track': '--color-scrollbar-track',
@@ -178,6 +183,11 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'btn-tertiary-fg':   '--com-btn-tertiary-fg',
   'btn-quaternary-bg': '--com-btn-quaternary-bg',
   'btn-quaternary-fg': '--com-btn-quaternary-fg',
+  'btn-destructive-bg':        '--com-btn-destructive-bg',
+  'btn-destructive-fg':        '--com-btn-destructive-fg',
+  'btn-destructive-ui-bg':     '--com-btn-destructive-ui-bg',
+  'btn-destructive-ui-fg':     '--com-btn-destructive-ui-fg',
+  'btn-destructive-ui-border': '--com-btn-destructive-ui-border',
 };
 
 /* ─── Pathway button defaults — light & dark surface variants ── */
@@ -188,6 +198,8 @@ const BTN_LIGHT = {
   'btn-outline-fg': '--prim-mono-900',  'btn-outline-border': '--prim-mono-300',
   'btn-tertiary-bg': '--prim-mint-700', 'btn-tertiary-fg': '--prim-mint-150',
   'btn-quaternary-bg': '--prim-mono-white', 'btn-quaternary-fg': '--prim-mono-black',
+  'btn-destructive-bg': '#ef4444', 'btn-destructive-fg': '--prim-mono-white',
+  'btn-destructive-ui-bg': 'transparent', 'btn-destructive-ui-fg': '#ef4444', 'btn-destructive-ui-border': '#ef4444',
 };
 const BTN_DARK = {
   'btn-primary-bg': '--prim-fall-100',  'btn-primary-fg': '--prim-mono-white',
@@ -196,6 +208,8 @@ const BTN_DARK = {
   'btn-outline-fg': '--prim-mono-350',  'btn-outline-border': '--prim-mono-500',
   'btn-tertiary-bg': '--prim-mint-700', 'btn-tertiary-fg': '--prim-mint-150',
   'btn-quaternary-bg': '--prim-mono-white', 'btn-quaternary-fg': '--prim-mono-black',
+  'btn-destructive-bg': '#dc2626', 'btn-destructive-fg': '--prim-mono-white',
+  'btn-destructive-ui-bg': 'transparent', 'btn-destructive-ui-fg': '#f87171', 'btn-destructive-ui-border': '#f87171',
 };
 function btnSurfaceTokens(prefix, suffixMap) {
   const out = {};
@@ -210,6 +224,16 @@ function btnDefaultTokens(map) {
     out[DEFAULT_SURFACE_TOKEN_MAP[suffix]] = val;
   }
   return out;
+}
+
+/* ─── Input field tokens for surfaces ───────────────────────── */
+function inputTokens(prefix, bg, border, text, placeholder) {
+  return {
+    [`${prefix}input-bg`]: bg,
+    [`${prefix}input-border`]: border,
+    [`${prefix}input-text`]: text,
+    [`${prefix}input-placeholder`]: placeholder,
+  };
 }
 
 /* ─── Per-role type color tokens for surfaces ───────────────── */
@@ -307,6 +331,7 @@ const THEMES = {
         '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
+      ...inputTokens('--color-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-900', '--prim-mono-350'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-mono-50',
@@ -337,6 +362,7 @@ const THEMES = {
         '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
+        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-900', '--prim-mono-350'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mono-900',
@@ -367,6 +393,7 @@ const THEMES = {
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
+        ...inputTokens('--sf-inverse-', '--prim-mono-800', '--prim-mono-600', '--prim-mono-white', '--prim-mono-500'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mono-700',
@@ -397,6 +424,7 @@ const THEMES = {
         '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mono-100', '--prim-mono-250'),
+        ...inputTokens('--sf-accent-', '--prim-mono-600', '--prim-mono-500', '--prim-mono-white', '--prim-mono-400'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mono-750',
@@ -427,6 +455,7 @@ const THEMES = {
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
+        ...inputTokens('--sf-tertiary-', '--prim-mono-700', '--prim-mono-550', '--prim-mono-white', '--prim-mono-500'),
       },
     },
   },
@@ -506,6 +535,7 @@ const THEMES = {
         '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
+      ...inputTokens('--color-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-500', '--prim-splash-300'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-splash-50',
@@ -536,6 +566,7 @@ const THEMES = {
         '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
+        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-600', '--prim-splash-300'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -566,6 +597,7 @@ const THEMES = {
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
+        ...inputTokens('--sf-inverse-', '--prim-sapphire-800', '--prim-sapphire-500', '--prim-butter-500', '--prim-sapphire-500'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -596,6 +628,7 @@ const THEMES = {
         '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
+        ...inputTokens('--sf-accent-', '--prim-orange-700', '--prim-orange-900', '--prim-mono-white', '--prim-orange-700'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-sapphire-800',
@@ -626,6 +659,7 @@ const THEMES = {
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
+        ...inputTokens('--sf-tertiary-', '--prim-sapphire-700', '--prim-sapphire-400', '--prim-mono-white', '--prim-sapphire-400'),
       },
     },
   },
@@ -705,6 +739,7 @@ const THEMES = {
         '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
+      ...inputTokens('--color-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-500', '--prim-splash-300'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-splash-50',
@@ -735,6 +770,7 @@ const THEMES = {
         '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
+        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-600', '--prim-splash-300'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-sapphire-900',
@@ -765,6 +801,7 @@ const THEMES = {
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
+        ...inputTokens('--sf-inverse-', '--prim-sapphire-800', '--prim-sapphire-500', '--prim-butter-500', '--prim-sapphire-500'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-orange-500',
@@ -795,6 +832,7 @@ const THEMES = {
         '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
+        ...inputTokens('--sf-accent-', '--prim-orange-700', '--prim-orange-900', '--prim-mono-white', '--prim-orange-700'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-sapphire-800',
@@ -825,6 +863,7 @@ const THEMES = {
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
+        ...inputTokens('--sf-tertiary-', '--prim-sapphire-700', '--prim-sapphire-400', '--prim-mono-white', '--prim-sapphire-400'),
       },
     },
   },
@@ -904,6 +943,7 @@ const THEMES = {
         '--color-scrollbar-track': '--prim-mono-100',
       ...btnDefaultTokens(BTN_LIGHT),
       ...typeRoleTokens('--color-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
+      ...inputTokens('--color-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-900', '--prim-mint-300'),
       },
       muted: {
         '--sf-muted-bg':             '--prim-mint-100',
@@ -934,6 +974,7 @@ const THEMES = {
         '--sf-muted-scrollbar-track': '--prim-mono-100',
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
+        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-900', '--prim-mint-300'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mint-800',
@@ -964,6 +1005,7 @@ const THEMES = {
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
+        ...inputTokens('--sf-inverse-', '--prim-mint-700', '--prim-mint-600', '--prim-mono-white', '--prim-mint-500'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mint-700',
@@ -994,6 +1036,7 @@ const THEMES = {
         '--sf-accent-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
+        ...inputTokens('--sf-accent-', '--prim-mint-600', '--prim-mint-500', '--prim-mono-white', '--prim-mint-400'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mint-900',
@@ -1024,6 +1067,7 @@ const THEMES = {
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
+        ...inputTokens('--sf-tertiary-', '--prim-mint-800', '--prim-mint-700', '--prim-mono-white', '--prim-mint-600'),
       },
     },
   },
@@ -1100,6 +1144,9 @@ const PAGE_SECTIONS = {
   ],
   'surface-preview': [
     { id: 'sp-content',      label: 'Preview Content',          defaultSurface: 'muted' },
+  ],
+  'buttons-sheet': [
+    { id: 'bs-content',      label: 'Buttons Content',          defaultSurface: 'default' },
   ],
   tokens: [
     { id: 'tk-palettes',     label: 'Color Palettes',           defaultSurface: 'default' },
@@ -1209,6 +1256,23 @@ const DEFAULT_L1 = {
   '--prim-type-ui-xsm-weight':  '500',
   '--prim-type-ui-xsm-ls':      '2',    /* 0.02em  */
   '--prim-type-ui-xsm-lh':      '13',   /* 1.3     */
+  /* button roles */
+  '--prim-type-btn-lg':          'Inter',
+  '--prim-type-btn-lg-weight':   '700',
+  '--prim-type-btn-lg-ls':       '0',    /* 0em     */
+  '--prim-type-btn-lg-lh':       '10',   /* 1.0     */
+  '--prim-type-btn-md':          'Inter',
+  '--prim-type-btn-md-weight':   '700',
+  '--prim-type-btn-md-ls':       '0',    /* 0em     */
+  '--prim-type-btn-md-lh':       '10',   /* 1.0     */
+  '--prim-type-btn-sm':          'Inter',
+  '--prim-type-btn-sm-weight':   '700',
+  '--prim-type-btn-sm-ls':       '0',    /* 0em     */
+  '--prim-type-btn-sm-lh':       '10',   /* 1.0     */
+  '--prim-type-btn-xsm':         'Inter',
+  '--prim-type-btn-xsm-weight':  '700',
+  '--prim-type-btn-xsm-ls':      '0',    /* 0em     */
+  '--prim-type-btn-xsm-lh':      '10',   /* 1.0     */
   /* sizes (px, stored without unit) */
   '--prim-type-h1-size':        '70',
   '--prim-type-h2-size':        '36',
@@ -1229,20 +1293,27 @@ const DEFAULT_L1 = {
   '--prim-type-ui-md-size':     '14',
   '--prim-type-ui-sm-size':     '12',
   '--prim-type-ui-xsm-size':    '10',
+  '--prim-type-btn-lg-size':    '20',
+  '--prim-type-btn-md-size':    '16',
+  '--prim-type-btn-sm-size':    '13',
+  '--prim-type-btn-xsm-size':   '10',
 };
 
 /* ─── Keys to strip from old saved L2 data (font roles + role sizes moved to L1) ── */
 const L2_STRIPPED_KEYS = new Set([
   '--font-heading', '--font-subheading', '--font-section', '--font-label',
+  '--font-sh1', '--font-sh2', '--font-sh3', '--font-sh4',
   '--font-lead', '--font-body', '--font-small',
   '--font-logo', '--font-pill', '--font-pill-lg', '--font-pill-md', '--font-pill-sm', '--font-toc', '--font-meta',
   '--font-dropdown', '--font-dropdown-badge',
   '--font-ui-xl', '--font-ui-lg', '--font-ui-md', '--font-ui-sm', '--font-ui-xsm',
+  '--font-btn-lg', '--font-btn-md', '--font-btn-sm', '--font-btn-xsm',
   '--size-h1', '--size-h2', '--size-h3', '--size-h4',
   '--size-sh1', '--size-sh2', '--size-sh3', '--size-sh4',
   '--size-body-lg', '--size-body', '--size-body-sm',
   '--size-pill-lg', '--size-pill-md', '--size-pill-sm',
   '--size-ui-xl', '--size-ui-lg', '--size-ui-md', '--size-ui-sm', '--size-ui-xsm',
+  '--size-btn-lg', '--size-btn-md', '--size-btn-sm', '--size-btn-xsm',
 ]);
 
 /* Map old L2 size keys → new L1 size keys (for migration) */
@@ -1258,6 +1329,8 @@ const L2_SIZE_TO_L1 = {
   '--size-ui-xl': '--prim-type-ui-xl-size', '--size-ui-lg': '--prim-type-ui-lg-size',
   '--size-ui-md': '--prim-type-ui-md-size', '--size-ui-sm': '--prim-type-ui-sm-size',
   '--size-ui-xsm': '--prim-type-ui-xsm-size',
+  '--size-btn-lg': '--prim-type-btn-lg-size', '--size-btn-md': '--prim-type-btn-md-size',
+  '--size-btn-sm': '--prim-type-btn-sm-size', '--size-btn-xsm': '--prim-type-btn-xsm-size',
 };
 
 /* ─── L2 non-color defaults ──────────────────────────────────── */
@@ -1504,6 +1577,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     'dme-role-body-lg', 'dme-role-body-md', 'dme-role-body-sm',
     'dme-role-pill-lg', 'dme-role-pill-md', 'dme-role-pill-sm',
     'dme-role-ui-xl', 'dme-role-ui-lg', 'dme-role-ui-md', 'dme-role-ui-sm', 'dme-role-ui-xsm',
+    'dme-role-btn-lg', 'dme-role-btn-md', 'dme-role-btn-sm', 'dme-role-btn-xsm',
   ];
 
   const toggleAllSections = useCallback(() => {
@@ -2729,10 +2803,14 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
 
 /* Static mapping: L1 role → hardwired L2 font tokens (no longer dynamic) */
 const ROLE_TO_L2_TOKENS = {
-  'h1':      ['--font-heading', '--font-logo', '--font-pill', '--font-dropdown', '--font-dropdown-badge'],
+  'h1':      ['--font-heading', '--font-logo', '--font-dropdown', '--font-dropdown-badge'],
   'h2':      ['--font-subheading'],
   'h3':      ['--font-section'],
   'h4':      ['--font-label'],
+  'sh1':     ['--font-sh1'],
+  'sh2':     ['--font-sh2'],
+  'sh3':     ['--font-sh3'],
+  'sh4':     ['--font-sh4'],
   'body-lg': ['--font-lead'],
   'body-md': ['--font-body'],
   'body-sm': ['--font-small', '--font-toc', '--font-meta'],
@@ -2744,6 +2822,10 @@ const ROLE_TO_L2_TOKENS = {
   'ui-md':   ['--font-ui-md'],
   'ui-sm':   ['--font-ui-sm'],
   'ui-xsm':  ['--font-ui-xsm'],
+  'btn-lg':  ['--font-btn-lg'],
+  'btn-md':  ['--font-btn-md'],
+  'btn-sm':  ['--font-btn-sm'],
+  'btn-xsm': ['--font-btn-xsm'],
 };
 
 /**
@@ -2868,7 +2950,8 @@ const L1_SIZE_RANGE = {
   'sh1': [12, 28], 'sh2': [11, 24], 'sh3': [10, 20], 'sh4': [9, 18],
   'body-lg': [14, 32], 'body-md': [12, 28], 'body-sm': [10, 20],
   'pill-lg': [10, 24], 'pill-md': [8, 20], 'pill-sm': [6, 16],
-  'ui-xl': [14, 32], 'ui-lg': [12, 24], 'ui-md': [10, 20], 'ui-sm': [8, 16], 'ui-xsm': [6, 14],
+  'ui-xl': [14, 64], 'ui-lg': [12, 24], 'ui-md': [10, 20], 'ui-sm': [8, 16], 'ui-xsm': [6, 14],
+  'btn-lg': [14, 32], 'btn-md': [12, 24], 'btn-sm': [8, 20], 'btn-xsm': [6, 16],
 };
 
 function L1RoleGroup({ roleKey, roleLabel, l1, setRole, isHighlighted, onToggleHighlight }) {
@@ -3151,6 +3234,10 @@ function L1View({ l1, l2, setRole, l1ColorMap, l1Groups, setL1ColorHex, addL1Col
           ['ui-md',   'UI Medium'],
           ['ui-sm',   'UI Small'],
           ['ui-xsm',  'UI XSM'],
+          ['btn-lg',  'Button Large'],
+          ['btn-md',  'Button Medium'],
+          ['btn-sm',  'Button Small'],
+          ['btn-xsm', 'Button XSM'],
         ].map(([key, label], i, arr) => (
           <React.Fragment key={key}>
             <L1RoleGroup roleKey={key} roleLabel={label} l1={l1} setRole={setRole}

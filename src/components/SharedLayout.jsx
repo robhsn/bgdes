@@ -210,7 +210,10 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
               key={id}
               onClick={() => {
                 setOpen(false);
-                if (tab) sessionStorage.setItem('profile-tab-intent', tab);
+                if (tab) {
+                  sessionStorage.setItem('profile-tab-intent', tab);
+                  sessionStorage.setItem('profile-scroll-intent', 'pp-history');
+                }
                 if (nav) onNavigate?.(nav);
               }}
               style={{

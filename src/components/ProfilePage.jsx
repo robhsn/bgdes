@@ -10,12 +10,14 @@ import badgePlaceholder from '../imgs/badge-placeholder.svg';
 import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
 import Avatar from './Avatar';
 import ActivityCenter from './ActivityCenter';
+import './SettingsPage.css';
 
 /* ── Flag images ─────────────────────────────────────────────── */
 const flagModules = import.meta.glob('../imgs/icon-flags/*.png', { eager: true });
 const FLAG_LABEL_OVERRIDES = {
   'america': 'United States of America',
 };
+const FLAG_SKIP = new Set(['united states']);
 const FLAG_LIST = Object.entries(flagModules).map(([path, mod]) => {
   const filename = path.split('/').pop().replace('.png', '');
   const key = filename.toLowerCase();
@@ -24,7 +26,7 @@ const FLAG_LIST = Object.entries(flagModules).map(([path, mod]) => {
     label: FLAG_LABEL_OVERRIDES[key] || filename.replace(/(^|\s)\S/g, c => c.toUpperCase()),
     src: mod.default,
   };
-}).sort((a, b) => a.label.localeCompare(b.label));
+}).filter(f => !FLAG_SKIP.has(f.key)).sort((a, b) => a.label.localeCompare(b.label));
 
 /* ── Preset avatars ──────────────────────────────────────────── */
 import avatarEmpty from '../imgs/avatars/Empty.png';
@@ -357,7 +359,7 @@ function IconProfileNav() {
 function IconSettings() {
   return (
     <svg width="24" height="24" viewBox="0 0 40 40" fill="currentColor">
-      <path opacity="0.4" d="M16.4686 20.0008C16.4686 20.931 16.838 21.8232 17.4958 22.4808C18.1537 23.1386 19.0456 23.5081 19.9758 23.5081C20.906 23.5081 21.7982 23.1386 22.456 22.4808C23.1137 21.8232 23.4833 20.931 23.4833 20.0008C23.4833 19.0706 23.1137 18.1784 22.456 17.5206C21.7982 16.863 20.906 16.4933 19.9758 16.4933C19.0456 16.4933 18.1537 16.863 17.4958 17.5206C16.838 18.1784 16.4686 19.0706 16.4686 20.0008Z" />
+      <path d="M16.4686 20.0008C16.4686 20.931 16.838 21.8232 17.4958 22.4808C18.1537 23.1386 19.0456 23.5081 19.9758 23.5081C20.906 23.5081 21.7982 23.1386 22.456 22.4808C23.1137 21.8232 23.4833 20.931 23.4833 20.0008C23.4833 19.0706 23.1137 18.1784 22.456 17.5206C21.7982 16.863 20.906 16.4933 19.9758 16.4933C19.0456 16.4933 18.1537 16.863 17.4958 17.5206C16.838 18.1784 16.4686 19.0706 16.4686 20.0008Z" />
       <path d="M15.4979 1.875C15.7185 0.786765 16.6817 0 17.7994 0H22.1964C23.3141 0 24.2774 0.786765 24.498 1.875L25.5641 7.02206C26.6009 7.46324 27.5715 8.02941 28.4539 8.69853L33.4392 7.04412C34.498 6.69118 35.6598 7.13235 36.2186 8.10294L38.417 11.9118C38.9758 12.8824 38.7774 14.1029 37.9392 14.8456L34.02 18.331C34.0862 18.8751 34.1156 19.4339 34.1156 20C34.1156 20.5663 34.0788 21.1251 34.02 21.6692L37.9464 25.1618C38.7847 25.9045 38.9758 27.1324 38.4245 28.0957L36.2258 31.9045C35.667 32.8676 34.5052 33.3163 33.4464 32.9633L28.4611 31.3088C27.5715 31.978 26.6009 32.5369 25.5715 32.9853L24.5127 38.1251C24.2847 39.2206 23.3215 40 22.2111 40H17.8141C16.6964 40 15.7332 39.2133 15.5126 38.1251L14.4538 32.9853C13.417 32.5441 12.4538 31.978 11.5641 31.3088L6.55674 32.9633C5.49791 33.3163 4.33615 32.8751 3.77733 31.9045L1.5788 28.0957C1.01997 27.1251 1.2185 25.9045 2.05674 25.1618L5.98321 21.6692C5.91703 21.1251 5.88762 20.5663 5.88762 20C5.88762 19.4339 5.92438 18.8751 5.98321 18.331L2.05674 14.8382C1.2185 14.0956 1.02733 12.8676 1.5788 11.9044L3.77733 8.09559C4.33615 7.125 5.49791 6.68382 6.55674 7.03676L11.542 8.69118C12.4317 8.02206 13.4023 7.46324 14.4317 7.01471L15.4979 1.875ZM19.998 27.0588C20.9249 27.0559 21.8423 26.8704 22.6976 26.5131C23.5529 26.1557 24.3294 25.6333 24.9829 24.9757C25.6362 24.3182 26.1537 23.5384 26.5058 22.681C26.8578 21.8233 27.0376 20.9049 27.0347 19.978C27.0317 19.051 26.8464 18.1337 26.489 17.2784C26.1315 16.4229 25.6092 15.6465 24.9515 14.9931C24.2941 14.3396 23.5143 13.8221 22.6568 13.4701C21.7992 13.118 20.8807 12.9383 19.9539 12.9412C19.0268 12.9441 18.1096 13.1295 17.2543 13.4869C16.399 13.8444 15.6223 14.3667 14.9689 15.0243C14.3155 15.6818 13.798 16.4616 13.4459 17.319C13.0939 18.1767 12.9141 19.0951 12.917 20.0222C12.9199 20.949 13.1054 21.8665 13.4628 22.7218C13.8202 23.5771 14.3426 24.3535 15.0001 25.0069C15.6576 25.6604 16.4374 26.1778 17.2949 26.53C18.1525 26.882 19.0709 27.0618 19.998 27.0588Z" />
     </svg>
   );
@@ -705,10 +707,18 @@ function UnfriendModal({ username, onConfirm, onCancel }) {
 
 function ChallengeModal({ username, avatarSrc, onConfirm, onCancel }) {
   const [sent, setSent] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 801px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+  const panelClass = isDesktop ? 'popup-panel' : 'bottom-sheet';
   return (
     <div className="overlay overlay--top" onClick={onCancel}>
-      <div className="bottom-sheet surface-muted" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ height: '60vh', maxHeight: '60vh' }}>
-        <div className="bottom-sheet__handle" />
+      <div className={`${panelClass} surface-muted`} data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={isDesktop ? {} : { height: '60vh', maxHeight: '60vh' }}>
+        {!isDesktop && <div className="bottom-sheet__handle" />}
         <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '6px 12px', flexShrink: 0 }}>
           <button className="popup-panel__close" onClick={onCancel}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -1243,12 +1253,62 @@ function SocialLinksModal({ socialLinks, onSave, onCancel }) {
   );
 }
 
+/* ── Provider icons (for Connected Accounts) ───────────────── */
+
+function ProviderIconGoogle() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
+  );
+}
+
+function ProviderIconApple() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+    </svg>
+  );
+}
+
+function ProviderIconFacebook() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  );
+}
+
+/* ── Eye toggle icon ───────────────────────────────────────── */
+
+function IconEyeOpen({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  );
+}
+
+function IconEyeClosed({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  );
+}
+
 /* ── Settings Panel ─────────────────────────────────────────── */
 
 function SettingsPanel({
   displayName, bio, socialLinks, country, avatarEdit,
   onSaveAll, onChangeAvatar, onClose,
 }) {
+  const [settingsTab, setSettingsTab] = useState('Profile');
   const [draftName, setDraftName] = useState(displayName);
   const [draftBio, setDraftBio] = useState(bio || '');
   const [draftCountry, setDraftCountry] = useState(country);
@@ -1259,6 +1319,23 @@ function SettingsPanel({
     return d;
   });
 
+  /* Password editing state */
+  const [passwordEditing, setPasswordEditing] = useState(false);
+  const [draftCurrentPw, setDraftCurrentPw] = useState('');
+  const [draftNewPw, setDraftNewPw] = useState('');
+  const [draftConfirmPw, setDraftConfirmPw] = useState('');
+  const [showCurrentPw, setShowCurrentPw] = useState(false);
+  const [showNewPw, setShowNewPw] = useState(false);
+  const [showConfirmPw, setShowConfirmPw] = useState(false);
+
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 801px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
   function handleSave() {
     const cleanedSocials = {};
     SOCIALS.forEach(s => {
@@ -1268,148 +1345,348 @@ function SettingsPanel({
     onSaveAll({ displayName: draftName, bio: draftBio, socialLinks: cleanedSocials, country: draftCountry });
   }
 
+  function cancelPasswordEdit() {
+    setPasswordEditing(false);
+    setDraftCurrentPw('');
+    setDraftNewPw('');
+    setDraftConfirmPw('');
+    setShowCurrentPw(false);
+    setShowNewPw(false);
+    setShowConfirmPw(false);
+  }
+
+  const pwValid = draftCurrentPw.length > 0 && draftNewPw.length >= 8 && draftNewPw === draftConfirmPw;
+
   const countryFlag = draftCountry ? FLAG_LIST.find(f => f.key === draftCountry) : null;
+  const panelClass = isDesktop ? 'side-panel side-panel--settings' : 'bottom-sheet';
+  const headerClass = isDesktop ? 'side-panel__header' : 'popup-panel__header';
+  const titleClass = isDesktop ? 'side-panel__title' : 'popup-panel__title';
+  const closeClass = isDesktop ? 'side-panel__close' : 'popup-panel__close';
+  const bodyClass = isDesktop ? 'side-panel__body' : 'popup-panel__body';
+
+  /* Connected accounts data */
+  const connectedAccounts = [
+    { id: 'google',   name: 'Google',   Icon: ProviderIconGoogle,   connected: true,  email: 'player@gmail.com' },
+    { id: 'apple',    name: 'Apple',    Icon: ProviderIconApple,    connected: false },
+    { id: 'facebook', name: 'Facebook', Icon: ProviderIconFacebook, connected: false },
+  ];
+
+  /* Notification preferences data */
+  const notifPrefs = [
+    { id: 'friend_requests',  label: 'Friend requests',        desc: 'Get notified when someone sends you a friend request', on: true },
+    { id: 'challenge_invites', label: 'Challenge invites',      desc: 'Get notified when a friend challenges you to a match', on: true },
+    { id: 'fb_alerts',        label: 'Facebook friend alerts',  desc: 'Get notified when your Facebook friends join Backgammon.com', on: true },
+    { id: 'game_reminders',   label: 'Game reminders',          desc: 'Reminders about ongoing games and tournaments', on: false },
+    { id: 'marketing',        label: 'News & updates',          desc: 'Product updates, new features, and community highlights', on: false },
+  ];
 
   return (
     <div className="overlay overlay--top" onClick={onClose}>
-      <div className="popup-panel surface-muted" data-section-id="pp-settings" onClick={e => e.stopPropagation()}>
-        <div className="popup-panel__header">
-          <h2 className="popup-panel__title">Settings</h2>
-          <button className="popup-panel__close" onClick={onClose}>
+      <div className={`${panelClass} surface-muted`} data-section-id="pp-settings" onClick={e => e.stopPropagation()} style={!isDesktop ? { height: '85vh', maxHeight: '85vh' } : undefined}>
+        {!isDesktop && <div className="bottom-sheet__handle" />}
+        <div className={headerClass}>
+          <h2 className={titleClass}>Settings</h2>
+          <button className={closeClass} onClick={onClose}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <div className="popup-panel__body">
-          {/* Username */}
-          <div className="settings-row">
-            <div className="settings-row__label">Username</div>
-            <input
-              className="profile-header__name-input"
-              style={{ fontSize: 16, marginBottom: 0 }}
-              value={draftName}
-              onChange={e => { if (e.target.value.length <= 24) setDraftName(e.target.value); }}
-              minLength={4}
-              maxLength={24}
-            />
-            {draftName.length < 4 && (
-              <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-status-error)', marginTop: 4 }}>
-                Username must be at least 4 characters
-              </div>
-            )}
-            {draftName.length >= 4 && (
-              <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 4 }}>
-                {`${draftName.length}/24 characters`}
-              </div>
-            )}
-          </div>
+        {/* Tab bar */}
+        <div className="settings-tab-bar">
+          {['Profile', 'Account', 'Preferences'].map(t => (
+            <span key={t} className={`settings-tab${settingsTab === t ? ' settings-tab--active' : ''}`}
+              onClick={() => setSettingsTab(t)}>{t}</span>
+          ))}
+        </div>
 
-          {/* Bio */}
-          <div className="settings-row">
-            <div className="settings-row__label">Intro / Bio</div>
-            <input
-              type="text"
-              className="profile-header__bio-input"
-              value={draftBio}
-              onChange={e => setDraftBio(e.target.value)}
-              placeholder="Write something about yourself..."
-              maxLength={60}
-            />
-            <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{draftBio.length}/60</span>
-          </div>
+        <div className={bodyClass}>
 
-          {/* Social Links */}
-          <div className="settings-row">
-            <div className="settings-row__label">Social Links</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {SOCIALS.map(s => (
-                <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
-                  <div className="social-editor__label" style={{ minWidth: 90 }}>
-                    <s.Icon />
-                    <span style={{ fontSize: 12 }}>{s.label}</span>
+          {/* ── Profile tab ─────────────────────────────────────── */}
+          {settingsTab === 'Profile' && (
+            <>
+              {/* Username */}
+              <div className="settings-row">
+                <div className="settings-row__label">Username</div>
+                <input
+                  className="profile-header__name-input"
+                  style={{ fontSize: 16, marginBottom: 0 }}
+                  value={draftName}
+                  onChange={e => { if (e.target.value.length <= 24) setDraftName(e.target.value); }}
+                  minLength={4}
+                  maxLength={24}
+                />
+                {draftName.length < 4 && (
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-status-error)', marginTop: 4 }}>
+                    Username must be at least 4 characters
                   </div>
-                  <div className="social-editor__input-wrap">
-                    <input
-                      className="social-editor__input"
-                      value={draftSocials[s.key]}
-                      onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
-                      placeholder={s.placeholder}
-                    />
+                )}
+                {draftName.length >= 4 && (
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 4 }}>
+                    {`${draftName.length}/24 characters`}
+                  </div>
+                )}
+              </div>
+
+              {/* Bio */}
+              <div className="settings-row">
+                <div className="settings-row__label">Intro / Bio</div>
+                <input
+                  type="text"
+                  className="profile-header__bio-input"
+                  value={draftBio}
+                  onChange={e => setDraftBio(e.target.value)}
+                  placeholder="Write something about yourself..."
+                  maxLength={60}
+                />
+                <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{draftBio.length}/60</span>
+              </div>
+
+              {/* Social Links */}
+              <div className="settings-row">
+                <div className="settings-row__label">Social Links</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {SOCIALS.map(s => (
+                    <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
+                      <div className="social-editor__label" style={{ minWidth: 90 }}>
+                        <s.Icon />
+                        <span style={{ fontSize: 12 }}>{s.label}</span>
+                      </div>
+                      <div className="social-editor__input-wrap">
+                        <input
+                          className="social-editor__input"
+                          value={draftSocials[s.key]}
+                          onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
+                          placeholder={s.placeholder}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Country */}
+              <div className="settings-row" style={{ position: 'relative' }}>
+                <div className="settings-row__label">Country</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1 }}>
+                  <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
+                    {countryFlag ? (
+                      <>
+                        <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
+                        <span>{countryFlag.label}</span>
+                      </>
+                    ) : (
+                      <span style={{ color: 'var(--color-muted)' }}>Select country...</span>
+                    )}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  {countryFlag && (
+                    <button
+                      onClick={() => setDraftCountry(null)}
+                      style={{
+                        background: 'none', border: 'none', padding: 4, cursor: 'pointer',
+                        color: 'var(--color-muted)', display: 'flex', alignItems: 'center',
+                        flexShrink: 0, borderRadius: 4,
+                      }}
+                      title="Clear country"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+                {showCountryDropdown && (
+                  <CountryFlagDropdown
+                    currentCountry={draftCountry}
+                    onSelect={(key) => { setDraftCountry(key); setShowCountryDropdown(false); }}
+                    onClose={() => setShowCountryDropdown(false)}
+                  />
+                )}
+              </div>
+
+              {/* Avatar */}
+              <div className="settings-row">
+                <div className="settings-row__label">Avatar</div>
+                <button className="settings-row__picker-btn" onClick={() => onChangeAvatar()}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
+                    border: '2px solid var(--color-border)', flexShrink: 0,
+                    background: 'var(--color-avatar-bg)',
+                  }}>
+                    {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+                  </div>
+                  <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* ── Account tab ─────────────────────────────────────── */}
+          {settingsTab === 'Account' && (
+            <>
+              {/* Email */}
+              <div className="settings-row">
+                <div className="settings-row__label">Email</div>
+                <div className="settings-row__value">
+                  <span>user@example.com</span>
+                  <button className="settings-row__change-btn">Change</button>
+                </div>
+              </div>
+
+              {/* Password */}
+              {!passwordEditing ? (
+                <div className="settings-row">
+                  <div className="settings-row__label">Password</div>
+                  <div className="settings-row__value">
+                    <span>••••••••</span>
+                    <button className="settings-row__change-btn" onClick={() => setPasswordEditing(true)}>Change</button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Country */}
-          <div className="settings-row" style={{ position: 'relative' }}>
-            <div className="settings-row__label">Country</div>
-            <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
-              {countryFlag ? (
-                <>
-                  <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
-                  <span>{countryFlag.label}</span>
-                </>
               ) : (
-                <span style={{ color: 'var(--color-muted)' }}>Select country...</span>
+                <div className="settings-row" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div className="settings-row__label">Change Password</div>
+
+                  {/* Current Password */}
+                  <div>
+                    <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Current Password</div>
+                    <div className="pw-field">
+                      <input
+                        type={showCurrentPw ? 'text' : 'password'}
+                        className="profile-header__bio-input"
+                        value={draftCurrentPw}
+                        onChange={e => setDraftCurrentPw(e.target.value)}
+                        placeholder="Enter current password"
+                        style={{ width: '100%' }}
+                      />
+                      <button className="pw-toggle" onClick={() => setShowCurrentPw(v => !v)} type="button">
+                        {showCurrentPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* New Password */}
+                  <div>
+                    <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>New Password</div>
+                    <div className="pw-field">
+                      <input
+                        type={showNewPw ? 'text' : 'password'}
+                        className="profile-header__bio-input"
+                        value={draftNewPw}
+                        onChange={e => setDraftNewPw(e.target.value)}
+                        placeholder="Enter new password"
+                        style={{ width: '100%' }}
+                      />
+                      <button className="pw-toggle" onClick={() => setShowNewPw(v => !v)} type="button">
+                        {showNewPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
+                      </button>
+                    </div>
+                    <div className={`pw-hint ${draftNewPw.length >= 8 ? 'pw-hint--ok' : 'pw-hint--neutral'}`}>
+                      At least 8 characters
+                    </div>
+                  </div>
+
+                  {/* Confirm Password */}
+                  <div>
+                    <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Confirm Password</div>
+                    <div className="pw-field">
+                      <input
+                        type={showConfirmPw ? 'text' : 'password'}
+                        className="profile-header__bio-input"
+                        value={draftConfirmPw}
+                        onChange={e => setDraftConfirmPw(e.target.value)}
+                        placeholder="Confirm new password"
+                        style={{ width: '100%' }}
+                      />
+                      <button className="pw-toggle" onClick={() => setShowConfirmPw(v => !v)} type="button">
+                        {showConfirmPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
+                      </button>
+                    </div>
+                    {draftConfirmPw.length > 0 && (
+                      <div className={`pw-hint ${draftNewPw === draftConfirmPw ? 'pw-hint--ok' : 'pw-hint--err'}`}>
+                        {draftNewPw === draftConfirmPw ? 'Passwords match' : 'Passwords do not match'}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Password actions */}
+                  <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+                    <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelPasswordEdit}>Cancel</button>
+                    <button
+                      className="com-btn com-btn--primary com-btn--sm"
+                      disabled={!pwValid}
+                      style={{ opacity: pwValid ? 1 : 0.5 }}
+                    >Update Password</button>
+                  </div>
+                </div>
               )}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-            {showCountryDropdown && (
-              <CountryFlagDropdown
-                currentCountry={draftCountry}
-                onSelect={(key) => { setDraftCountry(key); setShowCountryDropdown(false); }}
-                onClose={() => setShowCountryDropdown(false)}
-              />
-            )}
-          </div>
 
-          {/* Avatar */}
-          <div className="settings-row">
-            <div className="settings-row__label">Avatar</div>
-            <button className="settings-row__picker-btn" onClick={() => onChangeAvatar()}>
-              <div style={{
-                width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
-                border: '2px solid var(--color-border)', flexShrink: 0,
-                background: 'var(--color-avatar-bg)',
-              }}>
-                {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+              {/* Divider */}
+              <div style={{ height: 1, background: 'var(--color-border)', margin: '8px 0' }} />
+
+              {/* Connected Accounts */}
+              <div style={{ marginTop: 8 }}>
+                <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Connected Accounts</div>
+                <div className="st-card">
+                  {connectedAccounts.map(({ id, name, Icon, connected, email }) => (
+                    <div key={id} className="st-account-row">
+                      <div className={`st-account-icon st-account-icon--${id}`}>
+                        <Icon />
+                      </div>
+                      <div className="st-account-info">
+                        <div className="st-account-name">{name}</div>
+                        {connected ? (
+                          <div className="st-account-status st-account-status--connected">
+                            Connected{email ? ` · ${email}` : ''}
+                          </div>
+                        ) : (
+                          <div className="st-account-status">Not connected</div>
+                        )}
+                      </div>
+                      {connected ? (
+                        <button className="st-account-btn st-account-btn--disconnect">Disconnect</button>
+                      ) : (
+                        <button className="st-account-btn st-account-btn--connect">Connect</button>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
-          </div>
+            </>
+          )}
 
-          {/* Divider */}
-          <div style={{ height: 1, background: 'var(--color-border)', margin: '8px 0' }} />
+          {/* ── Preferences tab ─────────────────────────────────── */}
+          {settingsTab === 'Preferences' && (
+            <>
+              <div style={{ marginTop: 4 }}>
+                <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Notification Preferences</div>
+                <div className="st-card">
+                  {notifPrefs.map(({ id, label, desc, on }) => (
+                    <div key={id} className="st-pref-row">
+                      <div className="st-pref-info">
+                        <div className="st-pref-label">{label}</div>
+                        <div className="st-pref-desc">{desc}</div>
+                      </div>
+                      <div className={`st-toggle${on ? ' st-toggle--on' : ''}`}>
+                        <div className="st-toggle__knob" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
-          {/* Email */}
-          <div className="settings-row">
-            <div className="settings-row__label">Email</div>
-            <div className="settings-row__value">
-              <span>user@example.com</span>
-              <button className="settings-row__change-btn">Change</button>
-            </div>
-          </div>
-
-          {/* Password */}
-          <div className="settings-row">
-            <div className="settings-row__label">Password</div>
-            <div className="settings-row__value">
-              <span>••••••••</span>
-              <button className="settings-row__change-btn">Change</button>
-            </div>
-          </div>
         </div>
 
         {/* Sticky footer */}
-        <div className="popup-panel__footer">
+        <div className={isDesktop ? 'side-panel__footer' : 'popup-panel__footer'}>
           <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
           <button
             className="com-btn com-btn--primary com-btn--sm"
@@ -1456,11 +1733,6 @@ function CountryFlagDropdown({ currentCountry, onSelect, onClose }) {
         />
       </div>
       <div className="flag-picker__list" ref={listRef}>
-        {currentCountry && (
-          <button className="flag-picker__item flag-picker__item--remove" onClick={() => onSelect(null)}>
-            <span style={{ fontSize: 12 }}>Remove flag</span>
-          </button>
-        )}
         {filtered.map(f => (
           <button
             key={f.key}
@@ -2144,7 +2416,7 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
 
 /* ── Friends tab ─────────────────────────────────────────────── */
 
-function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
+function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
   const [localView, setLocalView] = useState(dmeView);
   const [friendSearch, setFriendSearch] = useState('');
   useEffect(() => { setLocalView(dmeView); }, [dmeView]);
@@ -2207,7 +2479,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
           <div className="pp-friends-list">
             {filteredFriends.map(f => (
               <div key={f.id} className="pp-friend-row">
-                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
+                {!isMvp && <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />}
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                 </div>
@@ -2241,7 +2513,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
               <div className="pp-friends-list__title">Friends</div>
               {MOCK_SEARCH_RESULTS.friends.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
+                  {!isMvp && <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />}
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
@@ -2255,7 +2527,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery }) {
               <div className="pp-friends-list__title">Players</div>
               {MOCK_SEARCH_RESULTS.players.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
+                  {!isMvp && <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />}
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
@@ -2308,6 +2580,13 @@ export default function ProfilePage({ onNavigate }) {
   useEffect(() => {
     const intent = sessionStorage.getItem('profile-tab-intent');
     if (intent) { sessionStorage.removeItem('profile-tab-intent'); setLocalTab(intent); }
+    const scrollIntent = sessionStorage.getItem('profile-scroll-intent');
+    if (scrollIntent) {
+      sessionStorage.removeItem('profile-scroll-intent');
+      setTimeout(() => {
+        document.querySelector(`[data-section-id="${scrollIntent}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
   });
   const activeTab = localTab;
   const friendsView = useDMEState('profile.friendsView', 'My Friends');
@@ -2693,7 +2972,7 @@ export default function ProfilePage({ onNavigate }) {
                     { label: 'Total Wins',      value: stats.wins          },
                     { label: 'Games Played',    value: stats.gamesPlayed   },
                     { label: 'Current Streak',  value: stats.currentStreak },
-                    { label: 'Highest Streak',  value: stats.highestStreak, percentile: 'Top 5%' },
+                    { label: 'Highest Streak',  value: stats.highestStreak, percentile: !isMvp ? 'Top 5%' : undefined },
                   ].map(s => (
                     <div key={s.label} className="stat-card">
                       {s.percentile && (
@@ -2846,7 +3125,7 @@ export default function ProfilePage({ onNavigate }) {
       {activeTab === 'Friends' && (
         <div className="section section--flush surface-muted" data-section-id="pp-friends" style={{ paddingBottom: 64 }}>
           <div className="section__inner">
-            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} />
+            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} />
           </div>
         </div>
       )}

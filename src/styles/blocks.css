@@ -235,15 +235,19 @@
 .form-input {
   width: 100%;
   padding: 10px 14px;
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-input-border);
   border-radius: var(--radius-md);
   font-family: var(--font-body);
   font-size: 14px;
-  color: var(--color-body);
-  background: var(--color-bg);
+  color: var(--color-input-text);
+  background: var(--color-input-bg);
   box-sizing: border-box;
   outline: none;
   transition: border-color 0.15s;
+}
+
+.form-input::placeholder {
+  color: var(--color-input-placeholder);
 }
 
 .form-input:focus {
@@ -376,6 +380,7 @@
 
 .side-panel--sm { width: 320px; }
 .side-panel--md { width: 480px; }
+.side-panel--settings { width: 420px; max-width: 420px; }
 
 /* ── 10b. bottom-sheet — Slides up from bottom ─────────────── */
 
@@ -2214,10 +2219,12 @@
 .stat-card {
   flex: 1;
   text-align: center;
-  padding: 8px 16px;
+  padding: 5px 16px;
   border-right: 1px solid var(--color-border);
   position: relative;
-  padding-top: 24px;
+}
+.stat-card:has(.stat-card__percentile) {
+  padding: 24px 16px 5px;
 }
 
 .stat-card:last-child {
@@ -3053,17 +3060,17 @@
   color: var(--color-heading);
   line-height: 1.1;
   margin: 0 0 4px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid var(--color-border-mid);
+  background: var(--color-input-bg);
+  border: 1.5px solid var(--color-border-mid);
+  border-radius: 8px;
   outline: none;
-  padding: 2px 0;
+  padding: 6px 12px;
   width: 100%;
   max-width: 360px;
 }
 
 .profile-header__name-input:focus {
-  border-bottom-color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .profile-header__bio-input {
@@ -3073,13 +3080,11 @@
   line-height: 1.5;
   max-width: 480px;
   width: 100%;
-  background: none;
+  background: var(--color-input-bg);
   border: 1.5px solid var(--color-border-mid);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 6px 12px;
   outline: none;
-  resize: vertical;
-  min-height: 60px;
 }
 
 .profile-header__bio-input:focus {
@@ -3398,6 +3403,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: border-color 0.15s;
+  background: var(--color-input-bg);
 }
 .social-editor__input-wrap:focus-within {
   border-color: var(--color-accent, var(--prim-orange-500));
@@ -3419,7 +3425,7 @@
   color: var(--color-body);
   background: none;
   border: none;
-  padding: 8px 10px 8px 2px;
+  padding: 8px 10px;
   outline: none;
   min-width: 0;
 }
@@ -3597,6 +3603,64 @@
   border-color: var(--color-border-subtle);
 }
 
+/* ── Settings tab bar ────────────────────────────────────────── */
+
+.settings-tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+.settings-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.settings-tab:hover { color: var(--color-heading); }
+.settings-tab--active {
+  color: var(--color-heading);
+  border-bottom-color: var(--color-border-active);
+}
+
+/* ── Password editing form ───────────────────────────────────── */
+
+.pw-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.pw-field .profile-header__bio-input {
+  flex: 1;
+  padding-right: 36px;
+}
+.pw-toggle {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+.pw-hint {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  margin-top: 4px;
+}
+.pw-hint--ok { color: var(--color-status-success, #22c55e); }
+.pw-hint--err { color: var(--color-status-error, #ef4444); }
+.pw-hint--neutral { color: var(--color-muted); }
+
 /* ── Country flag ────────────────────────────────────────────── */
 
 .flag-picker__inline {
@@ -3688,7 +3752,7 @@
 }
 
 .flag-picker__item:hover {
-  background: var(--color-border-light);
+  background: rgba(0, 0, 0, 0.025);
 }
 
 .flag-picker__item--selected {
@@ -4059,8 +4123,10 @@
   }
 
   .stat-card {
-    padding: 8px 8px;
-    padding-top: 16px;
+    padding: 5px 8px;
+  }
+  .stat-card:has(.stat-card__percentile) {
+    padding: 16px 8px 5px;
   }
 
   .stat-card__number {
@@ -4580,7 +4646,7 @@
 
 .pp-tab--active {
   color: var(--color-heading);
-  border-bottom-color: var(--color-heading);
+  border-bottom-color: var(--color-border-active);
   font-weight: 600;
 }
 

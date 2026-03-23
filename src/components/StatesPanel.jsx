@@ -140,7 +140,7 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
     { w: 300, h: 380 },
     'states-panel',
   );
-  const [collapsed, setCollapsed] = useState(false);
+  const [dockPos, setDockPos] = useState('bottom'); // 'top' | 'bottom'
   const [expanded, setExpanded] = useState({ global: true, page: true });
   const allExpanded = expanded.global && expanded.page;
   const toggleGroup = (key) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
@@ -151,54 +151,6 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
 
   if (!visible) return null;
 
-  /* ── Collapse tab ──────────────────────────────────────────── */
-  const tabRadius = panel.side === 'right' ? '6px 0 0 6px' : '0 6px 6px 0';
-  const arrowRight = panel.side === 'right' ? !collapsed : collapsed;
-  const tabArrow = (
-    <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
-      <path d={arrowRight ? 'M1 1l6 6-6 6' : 'M7 1l-6 6 6 6'} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-  const tabBaseStyle = {
-    background: '#1c1c1c',
-    border: '1px solid #444',
-    [panel.side === 'right' ? 'borderRight' : 'borderLeft']: 'none',
-    borderRadius: tabRadius,
-    color: '#aaa',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 0,
-    width: 20,
-    height: 48,
-    transition: 'color 0.2s',
-  };
-
-  const collapseTab = !panel.detached ? (
-    <button
-      data-devmode-ignore
-      onClick={() => setCollapsed(c => !c)}
-      title={collapsed ? 'Expand States' : 'Collapse States'}
-      style={{
-        position: 'fixed',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        [panel.side]: collapsed ? 0 : 300,
-        zIndex: 10000,
-        ...tabBaseStyle,
-      }}
-      onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
-      onMouseLeave={e => e.currentTarget.style.color = '#aaa'}
-    >
-      {tabArrow}
-    </button>
-  ) : null;
-
-  if (collapsed && !panel.detached) {
-    return collapseTab;
-  }
-
   /* ── Panel positioning ─────────────────────────────────────── */
   const panelStyle = panel.detached
     ? {
@@ -208,22 +160,20 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
         borderRadius: 8, border: '1px solid #444',
       }
     : {
-        position: 'fixed', top: 0,
-        right: panel.side === 'right' ? 0 : 'auto',
-        left:  panel.side === 'left'  ? 0 : 'auto',
-        width: 300, height: '100vh',
+        position: 'fixed', left: 0, right: 0,
+        ...(dockPos === 'top' ? { top: 0 } : { bottom: 0 }),
+        width: '100%', maxHeight: '50vh',
       };
 
   return (
     <>
-      {collapseTab}
       <div data-devmode-ignore style={{
         ...panelStyle,
         background: '#1c1c1c', color: '#e0e0e0',
         fontFamily: 'system-ui, -apple-system, sans-serif',
         fontSize: 12, zIndex: 9999,
         display: 'flex', flexDirection: 'column',
-        boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (panel.side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)'),
+        boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (dockPos === 'top' ? '0 6px 32px rgba(0,0,0,0.5)' : '0 -6px 32px rgba(0,0,0,0.5)'),
         overflow: 'hidden',
       }}>
         {panel.detached && <ResizeHandle onMouseDown={panel.onResizeStart} />}
@@ -271,33 +221,33 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
             </button>
           </div>
           <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-            {/* Dock left/right — only when docked */}
+            {/* Dock top/bottom — only when docked */}
             {!panel.detached && (
               <>
-                <button title="Dock left" onClick={() => panel.setSide('left')} style={{
+                <button title="Dock top" onClick={() => setDockPos('top')} style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: panel.side === 'left' ? '#e0e0e0' : '#555',
+                  color: dockPos === 'top' ? '#e0e0e0' : '#555',
                   padding: '2px 4px', borderRadius: 3, display: 'flex', alignItems: 'center',
                 }}
-                  onMouseEnter={e => { if (panel.side !== 'left') e.currentTarget.style.color = '#aaa'; }}
-                  onMouseLeave={e => { if (panel.side !== 'left') e.currentTarget.style.color = '#555'; }}
+                  onMouseEnter={e => { if (dockPos !== 'top') e.currentTarget.style.color = '#aaa'; }}
+                  onMouseLeave={e => { if (dockPos !== 'top') e.currentTarget.style.color = '#555'; }}
                 >
                   <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
                     <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
-                    <rect x="1" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
+                    <rect x="1" y="1" width="14" height="5" rx="1.5" fill="currentColor"/>
                   </svg>
                 </button>
-                <button title="Dock right" onClick={() => panel.setSide('right')} style={{
+                <button title="Dock bottom" onClick={() => setDockPos('bottom')} style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: panel.side === 'right' ? '#e0e0e0' : '#555',
+                  color: dockPos === 'bottom' ? '#e0e0e0' : '#555',
                   padding: '2px 4px', borderRadius: 3, display: 'flex', alignItems: 'center',
                 }}
-                  onMouseEnter={e => { if (panel.side !== 'right') e.currentTarget.style.color = '#aaa'; }}
-                  onMouseLeave={e => { if (panel.side !== 'right') e.currentTarget.style.color = '#555'; }}
+                  onMouseEnter={e => { if (dockPos !== 'bottom') e.currentTarget.style.color = '#aaa'; }}
+                  onMouseLeave={e => { if (dockPos !== 'bottom') e.currentTarget.style.color = '#555'; }}
                 >
                   <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
                     <rect x="0.5" y="0.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.2"/>
-                    <rect x="9" y="1" width="6" height="12" rx="1.5" fill="currentColor"/>
+                    <rect x="1" y="8" width="14" height="5" rx="1.5" fill="currentColor"/>
                   </svg>
                 </button>
               </>

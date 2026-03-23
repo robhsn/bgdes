@@ -40,20 +40,13 @@
   margin: 0 0 16px;
 }
 
-.st-card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border, #e5e7eb);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
 /* ── Connected account row ───────────────────────────────────── */
 
 .st-account-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 20px;
+  padding: 16px 0;
   border-bottom: 1px solid var(--color-border, #e5e7eb);
 }
 
@@ -226,7 +219,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 16px 0;
   border-bottom: 1px solid var(--color-border, #e5e7eb);
 }
 

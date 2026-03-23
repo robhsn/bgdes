@@ -10,6 +10,7 @@ import SettingsPage from './components/SettingsPage'
 import NotificationsPage from './components/NotificationsPage'
 import TokensPage from './components/TokensPage'
 import SurfacePreviewPage from './components/SurfacePreviewPage'
+import ButtonsSheetPage from './components/ButtonsSheetPage'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
 import CommentsInspector from './components/CommentsInspector'
@@ -41,6 +42,7 @@ const PAGES = [
   { id: 'notifications', label: 'Notifications' },
   { id: 'tokens',         label: 'Design Tokens' },
   { id: 'surface-preview', label: 'Surface Preview' },
+  { id: 'buttons-sheet',   label: 'Buttons Sheet' },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
@@ -56,9 +58,6 @@ function getInitialPage() {
 const INIT_STATES = fileDefaults.states ?? { 'auth.loggedIn': true }
 const INIT_ROLE_OVERRIDES = fileDefaults.roleOverrides ?? {}
 
-/* ─── Shortcut sequences ─────────────────────────────────────── */
-const TOKENS_SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown']
-const STATES_SEQ = ['ArrowLeft','ArrowLeft','ArrowRight','ArrowRight']
 
 /* ─── Role override CSS maps (used by <style> injection) ─────── */
 const RO_PAGE_PREFIX = {
@@ -83,7 +82,17 @@ const RO_BTN_CSS = {
   outline:    'background:transparent!important;color:var(--com-btn-outline-fg)!important;border:2px solid var(--com-btn-outline-border)!important;border-radius:9999px!important;box-shadow:none!important',
   ghost:      'background:transparent!important;color:var(--com-btn-ghost-fg)!important;border:none!important;border-radius:9999px!important;box-shadow:none!important',
   tertiary:   'background:var(--com-btn-tertiary-bg)!important;color:var(--com-btn-tertiary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
-  quaternary: 'background:var(--com-btn-quaternary-bg)!important;color:var(--com-btn-quaternary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
+  quaternary:      'background:var(--com-btn-quaternary-bg)!important;color:var(--com-btn-quaternary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
+  destructive:     'background:var(--com-btn-destructive-bg)!important;color:var(--com-btn-destructive-fg)!important;border:none!important;border-radius:9999px!important',
+  'destructive-ui':'background:var(--com-btn-destructive-ui-bg)!important;color:var(--com-btn-destructive-ui-fg)!important;border:1px solid var(--com-btn-destructive-ui-border)!important;border-radius:8px!important;box-shadow:none!important',
+}
+const RO_BORDER_CSS = {
+  'hairline': 'border:1px solid var(--color-border)!important',
+  'mid':      'border:1.5px solid var(--color-border-mid)!important',
+  'accent':   'border:2px solid var(--color-border-active)!important',
+  'card':     'border:1px solid var(--color-border)!important;border-radius:12px!important',
+  'pill':     'border:1.5px solid var(--color-border-mid)!important;border-radius:9999px!important',
+  'none':     'border:none!important',
 }
 
 /* ─── Convert auto-id to a structural CSS selector ───────────── */
@@ -151,6 +160,9 @@ function App() {
         const btnSel = id.startsWith('_auto:') ? sel : `${sel}.com-btn`
         rules.push(`${btnSel}{${RO_BTN_CSS[ov.variant]}}`)
       }
+      if (ov.border && RO_BORDER_CSS[ov.border]) {
+        rules.push(`${sel}{${RO_BORDER_CSS[ov.border]}}`)
+      }
     }
     el.textContent = rules.join('\n')
   }, [roleOverrides, currentPageId])
@@ -198,29 +210,18 @@ function App() {
     setPageNavOpen(v => !v)
   }, [])
 
-  /* ── Keyboard shortcuts (←←→→ states, ↑↑↓↓ tokens) ──────── */
+  /* ── ESC keyboard shortcut ──────────────────────────────────── */
   const activePanelRef = useRef(activePanel)
   useEffect(() => { activePanelRef.current = activePanel }, [activePanel])
   const pageNavOpenRef = useRef(pageNavOpen)
   useEffect(() => { pageNavOpenRef.current = pageNavOpen }, [pageNavOpen])
 
   useEffect(() => {
-    let ti = 0 // tokens sequence index
-    let si = 0 // states sequence index
     const handler = (e) => {
-      /* ESC → close any open IDP panel or page nav */
       if (e.key === 'Escape') {
         if (activePanelRef.current) { setActivePanel(null); return }
         if (pageNavOpenRef.current) { setPageNavOpen(false); return }
-        return
       }
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return
-      /* ↑↑↓↓ → toggle DME tokens */
-      if (e.key === TOKENS_SEQ[ti]) { ti++; if (ti === TOKENS_SEQ.length) { setActivePanel(p => p === 'dme' ? null : 'dme'); ti = 0 } }
-      else { ti = e.key === TOKENS_SEQ[0] ? 1 : 0 }
-      /* ←←→→ → toggle states panel */
-      if (e.key === STATES_SEQ[si]) { si++; if (si === STATES_SEQ.length) { setActivePanel(p => p === 'states' ? null : 'states'); si = 0 } }
-      else { si = e.key === STATES_SEQ[0] ? 1 : 0 }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
@@ -237,6 +238,7 @@ function App() {
     if (currentPageId === 'notifications') return <NotificationsPage onNavigate={navigateTo} />
     if (currentPageId === 'tokens') return <TokensPage onNavigate={navigateTo} />
     if (currentPageId === 'surface-preview') return <SurfacePreviewPage onNavigate={navigateTo} />
+    if (currentPageId === 'buttons-sheet') return <ButtonsSheetPage onNavigate={navigateTo} />
     return <LearnHubPage onNavigate={navigateTo} />
   }
 

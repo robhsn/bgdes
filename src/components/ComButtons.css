@@ -9,10 +9,11 @@
 .com-btn {
   height: 48px;
   padding: 8px 32px;
-  font-family: 'Inter', var(--font-body), sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1;
+  font-family: var(--font-btn-md), sans-serif;
+  font-weight: var(--font-btn-md-weight);
+  font-size: var(--size-btn-md);
+  letter-spacing: var(--font-btn-md-ls);
+  line-height: var(--font-btn-md-lh);
   border: none;
   border-radius: 9999px;
   cursor: pointer;
@@ -76,6 +77,23 @@
   box-shadow: none;
 }
 
+/* ── Destructive (red pill) ─────────────────────────────────── */
+
+.com-btn--destructive {
+  background: var(--com-btn-destructive-bg);
+  color: var(--com-btn-destructive-fg);
+}
+
+/* ── Destructive UI (red rounded-lg) ──────────────────────── */
+
+.com-btn--destructive-ui {
+  background: var(--com-btn-destructive-ui-bg);
+  color: var(--com-btn-destructive-ui-fg);
+  border: 1px solid var(--com-btn-destructive-ui-border);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
 /* ── Ghost (transparent pill, no border) ───────────────────── */
 
 .com-btn--ghost {
@@ -88,7 +106,11 @@
 
 .com-btn--sm {
   height: 36px;
-  font-size: 13px;
+  font-family: var(--font-btn-sm), sans-serif;
+  font-weight: var(--font-btn-sm-weight);
+  font-size: var(--size-btn-sm);
+  letter-spacing: var(--font-btn-sm-ls);
+  line-height: var(--font-btn-sm-lh);
   padding: 6px 16px;
 }
 
@@ -105,7 +127,11 @@
 
 .com-btn--xsm {
   height: 22px;
-  font-size: 10px;
+  font-family: var(--font-btn-xsm), sans-serif;
+  font-weight: var(--font-btn-xsm-weight);
+  font-size: var(--size-btn-xsm);
+  letter-spacing: var(--font-btn-xsm-ls);
+  line-height: var(--font-btn-xsm-lh);
   padding: 2px 8px;
   gap: 3px;
 }
@@ -114,7 +140,11 @@
 
 .com-btn--lg {
   height: auto;
-  font-size: 20px;
+  font-family: var(--font-btn-lg), sans-serif;
+  font-weight: var(--font-btn-lg-weight);
+  font-size: var(--size-btn-lg);
+  letter-spacing: var(--font-btn-lg-ls);
+  line-height: var(--font-btn-lg-lh);
   padding: 16px 40px;
 }
 

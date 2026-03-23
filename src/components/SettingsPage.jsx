@@ -82,34 +82,32 @@ function ConnectedAccounts({ section }) {
         </div>
       )}
 
-      <div className="st-card">
-        {accounts.map(({ id, name, Icon, connected, email }) => (
-          <div key={id} className="st-account-row">
-            <div className={`st-account-icon st-account-icon--${id}`}>
-              <Icon />
-            </div>
-            <div className="st-account-info">
-              <div className="st-account-name">{name}</div>
-              {connected ? (
-                <div className="st-account-status st-account-status--connected">
-                  Connected{email ? ` · ${email}` : ''}
-                </div>
-              ) : (
-                <div className="st-account-status">Not connected</div>
-              )}
-            </div>
+      {accounts.map(({ id, name, Icon, connected, email }) => (
+        <div key={id} className="st-account-row">
+          <div className={`st-account-icon st-account-icon--${id}`}>
+            <Icon />
+          </div>
+          <div className="st-account-info">
+            <div className="st-account-name">{name}</div>
             {connected ? (
-              <button className="st-account-btn st-account-btn--disconnect">
-                Disconnect
-              </button>
+              <div className="st-account-status st-account-status--connected">
+                Connected{email ? ` · ${email}` : ''}
+              </div>
             ) : (
-              <button className="st-account-btn st-account-btn--connect">
-                Connect
-              </button>
+              <div className="st-account-status">Not connected</div>
             )}
           </div>
-        ))}
-      </div>
+          {connected ? (
+            <button className="st-account-btn st-account-btn--disconnect">
+              Disconnect
+            </button>
+          ) : (
+            <button className="st-account-btn st-account-btn--connect">
+              Connect
+            </button>
+          )}
+        </div>
+      ))}
 
       {/* Disconnect confirmation dialog */}
       {section === 'Disconnect Confirm' && (
@@ -173,19 +171,17 @@ function NotificationPreferences() {
   return (
     <div className="st-section">
       <h2 className="st-section__title">Notification Preferences</h2>
-      <div className="st-card">
-        {prefs.map(({ id, label, desc, on }) => (
-          <div key={id} className="st-pref-row">
-            <div className="st-pref-info">
-              <div className="st-pref-label">{label}</div>
-              <div className="st-pref-desc">{desc}</div>
-            </div>
-            <div className={`st-toggle${on ? ' st-toggle--on' : ''}`}>
-              <div className="st-toggle__knob" />
-            </div>
+      {prefs.map(({ id, label, desc, on }) => (
+        <div key={id} className="st-pref-row">
+          <div className="st-pref-info">
+            <div className="st-pref-label">{label}</div>
+            <div className="st-pref-desc">{desc}</div>
           </div>
+          <div className={`st-toggle${on ? ' st-toggle--on' : ''}`}>
+            <div className="st-toggle__knob" />
+          </div>
+        </div>
         ))}
-      </div>
     </div>
   );
 }

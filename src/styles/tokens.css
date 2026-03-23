@@ -120,6 +120,30 @@
   --prim-type-ui-xsm-lh:      1.3;
   --prim-type-ui-xsm-size:    10px;
 
+  --prim-type-btn-lg:          'Inter', sans-serif;
+  --prim-type-btn-lg-weight:   700;
+  --prim-type-btn-lg-ls:       0em;
+  --prim-type-btn-lg-lh:       1.0;
+  --prim-type-btn-lg-size:     20px;
+
+  --prim-type-btn-md:          'Inter', sans-serif;
+  --prim-type-btn-md-weight:   700;
+  --prim-type-btn-md-ls:       0em;
+  --prim-type-btn-md-lh:       1.0;
+  --prim-type-btn-md-size:     16px;
+
+  --prim-type-btn-sm:          'Inter', sans-serif;
+  --prim-type-btn-sm-weight:   700;
+  --prim-type-btn-sm-ls:       0em;
+  --prim-type-btn-sm-lh:       1.0;
+  --prim-type-btn-sm-size:     13px;
+
+  --prim-type-btn-xsm:         'Inter', sans-serif;
+  --prim-type-btn-xsm-weight:  700;
+  --prim-type-btn-xsm-ls:      0em;
+  --prim-type-btn-xsm-lh:      1.0;
+  --prim-type-btn-xsm-size:    10px;
+
   /* ── Mono Palette ────────────────────────────────────────────── */
   --prim-mono-white: #ffffff;
   --prim-mono-50:    #efefef;
@@ -229,6 +253,10 @@
   --color-border-subtle:  var(--prim-mono-350);
   --color-callout-border: var(--prim-mono-500);
   --color-placeholder:    var(--prim-mono-200);
+  --color-input-bg:          var(--prim-mono-white);
+  --color-input-border:      var(--prim-mono-200);
+  --color-input-text:        var(--prim-mono-900);
+  --color-input-placeholder: var(--prim-mono-350);
   --color-toc-pip:        var(--prim-mono-300);
   --color-toc-pip-active: var(--prim-mono-550);
   --color-toc-heading:    var(--prim-mono-550);
@@ -266,6 +294,13 @@
   --com-btn-tertiary-fg:   var(--prim-mint-150);
   --com-btn-quaternary-bg: var(--prim-mono-white);
   --com-btn-quaternary-fg: var(--prim-mono-black);
+
+  /* ── Destructive Button tokens ─────────────────────────────── */
+  --com-btn-destructive-bg:         #ef4444;
+  --com-btn-destructive-fg:         var(--prim-mono-white);
+  --com-btn-destructive-ui-bg:      transparent;
+  --com-btn-destructive-ui-fg:      #ef4444;
+  --com-btn-destructive-ui-border:  #ef4444;
 
   /* ── Statement component tokens ──────────────────────────────── */
   --color-statement-bg:     var(--prim-mono-100);
@@ -313,6 +348,10 @@
   --sf-muted-border-subtle:  var(--prim-mono-350);
   --sf-muted-callout-border: var(--prim-mono-500);
   --sf-muted-placeholder:    var(--prim-mono-200);
+  --sf-muted-input-bg:          var(--prim-mono-white);
+  --sf-muted-input-border:      var(--prim-mono-200);
+  --sf-muted-input-text:        var(--prim-mono-900);
+  --sf-muted-input-placeholder: var(--prim-mono-350);
   --sf-muted-tag-fill:       var(--prim-mono-150);
   --sf-muted-star:           #FFB800;
   --sf-muted-btn-primary-bg:     var(--prim-mint-400);
@@ -327,6 +366,11 @@
   --sf-muted-btn-tertiary-fg:    var(--prim-mint-150);
   --sf-muted-btn-quaternary-bg:  var(--prim-mono-white);
   --sf-muted-btn-quaternary-fg:  var(--prim-mono-black);
+  --sf-muted-btn-destructive-bg:         #ef4444;
+  --sf-muted-btn-destructive-fg:         var(--prim-mono-white);
+  --sf-muted-btn-destructive-ui-bg:      transparent;
+  --sf-muted-btn-destructive-ui-fg:      #ef4444;
+  --sf-muted-btn-destructive-ui-border:  #ef4444;
   --sf-muted-h1:       var(--prim-mono-900);
   --sf-muted-h2:       var(--prim-mono-900);
   --sf-muted-h3:       var(--prim-mono-900);
@@ -354,6 +398,10 @@
   --sf-inverse-border-subtle:  var(--prim-mono-500);
   --sf-inverse-callout-border: var(--prim-mono-350);
   --sf-inverse-placeholder:    var(--prim-mono-700);
+  --sf-inverse-input-bg:          var(--prim-mono-800);
+  --sf-inverse-input-border:      var(--prim-mono-600);
+  --sf-inverse-input-text:        var(--prim-mono-white);
+  --sf-inverse-input-placeholder: var(--prim-mono-500);
   --sf-inverse-tag-fill:       var(--prim-mono-750);
   --sf-inverse-star:           #FFB800;
   --sf-inverse-btn-primary-bg:     var(--prim-fall-100);
@@ -368,6 +416,11 @@
   --sf-inverse-btn-tertiary-fg:    var(--prim-mint-150);
   --sf-inverse-btn-quaternary-bg:  var(--prim-mono-white);
   --sf-inverse-btn-quaternary-fg:  var(--prim-mono-black);
+  --sf-inverse-btn-destructive-bg:         #dc2626;
+  --sf-inverse-btn-destructive-fg:         var(--prim-mono-white);
+  --sf-inverse-btn-destructive-ui-bg:      transparent;
+  --sf-inverse-btn-destructive-ui-fg:      #f87171;
+  --sf-inverse-btn-destructive-ui-border:  #f87171;
   --sf-inverse-h1:       var(--prim-mono-white);
   --sf-inverse-h2:       var(--prim-mono-white);
   --sf-inverse-h3:       var(--prim-mono-white);
@@ -395,6 +448,10 @@
   --sf-accent-border-subtle:  var(--prim-mono-350);
   --sf-accent-callout-border: var(--prim-mono-250);
   --sf-accent-placeholder:    var(--prim-mono-600);
+  --sf-accent-input-bg:          var(--prim-mono-600);
+  --sf-accent-input-border:      var(--prim-mono-500);
+  --sf-accent-input-text:        var(--prim-mono-white);
+  --sf-accent-input-placeholder: var(--prim-mono-400);
   --sf-accent-tag-fill:       var(--prim-mono-600);
   --sf-accent-star:           #FFB800;
   --sf-accent-btn-primary-bg:     var(--prim-fall-100);
@@ -409,6 +466,11 @@
   --sf-accent-btn-tertiary-fg:    var(--prim-mint-150);
   --sf-accent-btn-quaternary-bg:  var(--prim-mono-white);
   --sf-accent-btn-quaternary-fg:  var(--prim-mono-black);
+  --sf-accent-btn-destructive-bg:         #dc2626;
+  --sf-accent-btn-destructive-fg:         var(--prim-mono-white);
+  --sf-accent-btn-destructive-ui-bg:      transparent;
+  --sf-accent-btn-destructive-ui-fg:      #f87171;
+  --sf-accent-btn-destructive-ui-border:  #f87171;
   --sf-accent-h1:       var(--prim-mono-white);
   --sf-accent-h2:       var(--prim-mono-white);
   --sf-accent-h3:       var(--prim-mono-white);
@@ -436,6 +498,10 @@
   --sf-tertiary-border-subtle:  var(--prim-mono-500);
   --sf-tertiary-callout-border: var(--prim-mono-300);
   --sf-tertiary-placeholder:    var(--prim-mono-600);
+  --sf-tertiary-input-bg:          var(--prim-mono-700);
+  --sf-tertiary-input-border:      var(--prim-mono-550);
+  --sf-tertiary-input-text:        var(--prim-mono-white);
+  --sf-tertiary-input-placeholder: var(--prim-mono-500);
   --sf-tertiary-tag-fill:       var(--prim-mono-700);
   --sf-tertiary-star:           #FFB800;
   --sf-tertiary-logo:           var(--prim-mono-white);
@@ -457,6 +523,11 @@
   --sf-tertiary-btn-tertiary-fg:    var(--prim-mint-150);
   --sf-tertiary-btn-quaternary-bg:  var(--prim-mono-white);
   --sf-tertiary-btn-quaternary-fg:  var(--prim-mono-black);
+  --sf-tertiary-btn-destructive-bg:         #dc2626;
+  --sf-tertiary-btn-destructive-fg:         var(--prim-mono-white);
+  --sf-tertiary-btn-destructive-ui-bg:      transparent;
+  --sf-tertiary-btn-destructive-ui-fg:      #f87171;
+  --sf-tertiary-btn-destructive-ui-border:  #f87171;
   --sf-tertiary-h1:       var(--prim-mono-white);
   --sf-tertiary-h2:       var(--prim-mono-white);
   --sf-tertiary-h3:       var(--prim-mono-white);
@@ -554,6 +625,10 @@
   --font-subheading: var(--prim-type-h2);       /* H2                 */
   --font-section:    var(--prim-type-h3);       /* H3 section titles  */
   --font-label:      var(--prim-type-h4);       /* H4 card/label text */
+  --font-sh1:        var(--prim-type-sh1);      /* Subheading 1       */
+  --font-sh2:        var(--prim-type-sh2);      /* Subheading 2       */
+  --font-sh3:        var(--prim-type-sh3);      /* Subheading 3       */
+  --font-sh4:        var(--prim-type-sh4);      /* Subheading 4       */
   --font-lead:       var(--prim-type-body-lg);  /* intro / lead text  */
   --font-body:       var(--prim-type-body-md);  /* body paragraphs    */
   --font-small:      var(--prim-type-body-sm);  /* captions / small   */
@@ -571,6 +646,10 @@
   --font-ui-md:          var(--prim-type-ui-md);    /* UI medium              */
   --font-ui-sm:          var(--prim-type-ui-sm);    /* UI small               */
   --font-ui-xsm:         var(--prim-type-ui-xsm);  /* UI extra-small         */
+  --font-btn-lg:         var(--prim-type-btn-lg);  /* Button large           */
+  --font-btn-md:         var(--prim-type-btn-md);  /* Button medium          */
+  --font-btn-sm:         var(--prim-type-btn-sm);  /* Button small           */
+  --font-btn-xsm:        var(--prim-type-btn-xsm); /* Button extra-small     */
 
   /* ── Typography companion tokens (weight / letter-spacing / line-height) ── */
   /* These chain L2 semantic names → L1 primitives so elements can write e.g.
@@ -587,6 +666,18 @@
   --font-label-weight:      var(--prim-type-h4-weight);
   --font-label-ls:          var(--prim-type-h4-ls);
   --font-label-lh:          var(--prim-type-h4-lh);
+  --font-sh1-weight:        var(--prim-type-sh1-weight);
+  --font-sh1-ls:            var(--prim-type-sh1-ls);
+  --font-sh1-lh:            var(--prim-type-sh1-lh);
+  --font-sh2-weight:        var(--prim-type-sh2-weight);
+  --font-sh2-ls:            var(--prim-type-sh2-ls);
+  --font-sh2-lh:            var(--prim-type-sh2-lh);
+  --font-sh3-weight:        var(--prim-type-sh3-weight);
+  --font-sh3-ls:            var(--prim-type-sh3-ls);
+  --font-sh3-lh:            var(--prim-type-sh3-lh);
+  --font-sh4-weight:        var(--prim-type-sh4-weight);
+  --font-sh4-ls:            var(--prim-type-sh4-ls);
+  --font-sh4-lh:            var(--prim-type-sh4-lh);
   --font-lead-weight:       var(--prim-type-body-lg-weight);
   --font-lead-ls:           var(--prim-type-body-lg-ls);
   --font-lead-lh:           var(--prim-type-body-lg-lh);
@@ -638,6 +729,18 @@
   --font-ui-xsm-weight:        var(--prim-type-ui-xsm-weight);
   --font-ui-xsm-ls:            var(--prim-type-ui-xsm-ls);
   --font-ui-xsm-lh:            var(--prim-type-ui-xsm-lh);
+  --font-btn-lg-weight:         var(--prim-type-btn-lg-weight);
+  --font-btn-lg-ls:             var(--prim-type-btn-lg-ls);
+  --font-btn-lg-lh:             var(--prim-type-btn-lg-lh);
+  --font-btn-md-weight:         var(--prim-type-btn-md-weight);
+  --font-btn-md-ls:             var(--prim-type-btn-md-ls);
+  --font-btn-md-lh:             var(--prim-type-btn-md-lh);
+  --font-btn-sm-weight:         var(--prim-type-btn-sm-weight);
+  --font-btn-sm-ls:             var(--prim-type-btn-sm-ls);
+  --font-btn-sm-lh:             var(--prim-type-btn-sm-lh);
+  --font-btn-xsm-weight:       var(--prim-type-btn-xsm-weight);
+  --font-btn-xsm-ls:           var(--prim-type-btn-xsm-ls);
+  --font-btn-xsm-lh:           var(--prim-type-btn-xsm-lh);
 
   /* Role sizes — aliased from L1 primitives */
   --size-h1:      var(--prim-type-h1-size);
@@ -660,6 +763,10 @@
   --size-ui-md:   var(--prim-type-ui-md-size);
   --size-ui-sm:   var(--prim-type-ui-sm-size);
   --size-ui-xsm:  var(--prim-type-ui-xsm-size);
+  --size-btn-lg:  var(--prim-type-btn-lg-size);
+  --size-btn-md:  var(--prim-type-btn-md-size);
+  --size-btn-sm:  var(--prim-type-btn-sm-size);
+  --size-btn-xsm: var(--prim-type-btn-xsm-size);
 
   /* Semantic element sizes (independent of L1 roles) */
   --size-logo:  30px;

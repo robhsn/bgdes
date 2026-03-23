@@ -227,6 +227,17 @@ export const STATE_DEFINITIONS = [
     defaultValue: 'Secondary',
   },
 
+  // Buttons Sheet
+  {
+    key: 'buttonsSheet.surface',
+    label: 'Surface',
+    description: 'Select which surface to preview buttons on',
+    type: 'select',
+    page: 'buttons-sheet',
+    options: ['Primary', 'Secondary', 'Inverse', 'Accent', 'Tertiary'],
+    defaultValue: 'Primary',
+  },
+
   // Activity Center (global — shows in header)
   {
     key: 'social.activityCenter',

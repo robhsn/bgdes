@@ -368,9 +368,9 @@ export default function IndexPage({ onNavigate }) {
         <section className="ix-left surface-tertiary" data-section-id="ix-left">
           {/* Header */}
           <div className="ix-header">
-            <a href="https://www.backgammon.com" target="_blank" rel="noopener noreferrer" className="ix-logo">
+            <span className="ix-logo" style={{ cursor: 'default' }}>
               <img src={logoSrc} alt="Backgammon.com" />
-            </a>
+            </span>
             <div className="ix-header-actions">
               {loggedIn ? (
                 <div style={{ '--color-avatar-bg': 'var(--prim-mint-700)' }}>

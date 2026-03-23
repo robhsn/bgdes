@@ -30,8 +30,19 @@ const BTN_VARIANTS = [
   { key: 'dark',       label: 'Dark' },
   { key: 'outline',    label: 'Outline' },
   { key: 'ghost',      label: 'Ghost' },
-  { key: 'tertiary',   label: 'Tertiary' },
-  { key: 'quaternary', label: 'Quaternary' },
+  { key: 'tertiary',       label: 'Tertiary' },
+  { key: 'quaternary',     label: 'Quaternary' },
+  { key: 'destructive',    label: 'Destructive' },
+  { key: 'destructive-ui', label: 'Destructive UI' },
+];
+
+const BORDER_ROLES = [
+  { key: 'none',     label: 'None' },
+  { key: 'hairline', label: 'Hairline' },
+  { key: 'mid',      label: 'Mid' },
+  { key: 'accent',   label: 'Accent' },
+  { key: 'card',     label: 'Card' },
+  { key: 'pill',     label: 'Pill' },
 ];
 
 const TAG_ROLE = { h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'body-sm', h6: 'body-sm' };
@@ -128,9 +139,9 @@ function autoId(el) {
   return `_auto:${sectionPart}${tag}${cls ? '.' + cls : ''}`;
 }
 
-function analyse(el, roleOverrides) {
-  const roleTarget = findRoleTarget(el);
-  const btnEl = findButtonEl(el);
+function analyse(el, roleOverrides, exact = false) {
+  const roleTarget = exact ? null : findRoleTarget(el);
+  const btnEl = exact ? (el.classList?.contains('com-btn') ? el : null) : findButtonEl(el);
   const target = roleTarget || btnEl || el;
   let roleId = target.getAttribute?.('data-role-id');
   if (!roleId) {
@@ -142,14 +153,14 @@ function analyse(el, roleOverrides) {
 
   if (roleOverrides?.[roleId]) {
     const o = roleOverrides[roleId];
-    return { target, roleId, label, rect, kind: o.type, value: o.type === 'font' ? o.role : o.variant };
+    return { target, roleId, label, rect, kind: o.type, value: o.type === 'font' ? o.role : o.variant, borderValue: o.border || 'none' };
   }
 
   if (findButtonEl(target)) {
-    return { target, roleId, label, rect, kind: 'button', value: detectButtonVariant(findButtonEl(target)) };
+    return { target, roleId, label, rect, kind: 'button', value: detectButtonVariant(findButtonEl(target)), borderValue: 'none' };
   }
 
-  return { target, roleId, label, rect, kind: 'font', value: detectFontRole(target) };
+  return { target, roleId, label, rect, kind: 'font', value: detectFontRole(target), borderValue: 'none' };
 }
 
 /* ─── Save: read current file, merge roleOverrides, write back ── */
@@ -208,6 +219,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
   const [canRedo, setCanRedo]     = useState(false);
   const [isDirty, setIsDirty]     = useState(false);
   const rafRef = useRef(null);
+  const depthStackRef = useRef([]);        // tracks parent-nav history for ↓ to go back
   const roRef  = useRef(roleOverrides);   // always-current roleOverrides
   const savedRef = useRef({ ...INIT_SAVED });
   const histRef = useRef([{ ...INIT_SAVED }]);
@@ -279,6 +291,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
       if (shouldSkip(e.target)) return;
       e.preventDefault();
       e.stopPropagation();
+      depthStackRef.current = [];
       setSel(analyse(e.target, roRef.current));
     };
     document.addEventListener('click', handler, true);
@@ -298,19 +311,45 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
     return () => { window.removeEventListener('scroll', update, true); window.removeEventListener('resize', update); };
   }, [visible, sel?.target]);
 
-  /* ── ESC (deselect) + Undo/Redo keyboard shortcuts ──────── */
+  /* ── Navigate selection to parent element ─────────────── */
+  const navigateUp = useCallback(() => {
+    if (!sel) return;
+    let cur = sel.target.parentElement;
+    while (cur && cur !== document.body && cur !== document.documentElement) {
+      if (!shouldSkip(cur)) {
+        depthStackRef.current.push(sel.target);
+        setSel(analyse(cur, roRef.current, true));
+        return;
+      }
+      cur = cur.parentElement;
+    }
+  }, [sel]);
+
+  /* ── Navigate selection back to child element ──────────── */
+  const navigateDown = useCallback(() => {
+    if (!sel || depthStackRef.current.length === 0) return;
+    const child = depthStackRef.current.pop();
+    if (child && child.isConnected) {
+      setSel(analyse(child, roRef.current, true));
+    }
+  }, [sel]);
+
+  /* ── ESC (deselect) + Undo/Redo + ↑↓ depth nav shortcuts ── */
   useEffect(() => {
     if (!visible) return;
     const handler = (e) => {
       // ESC with selection → deselect only (stop so global ESC doesn't also close panel)
-      if (e.key === 'Escape' && sel) { e.stopImmediatePropagation(); setSel(null); return; }
+      if (e.key === 'Escape' && sel) { e.stopImmediatePropagation(); setSel(null); depthStackRef.current = []; return; }
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      // ↑/↓ DOM depth navigation when element is selected
+      if (e.key === 'ArrowUp' && sel) { e.preventDefault(); navigateUp(); return; }
+      if (e.key === 'ArrowDown' && sel) { e.preventDefault(); navigateDown(); return; }
       if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') { e.preventDefault(); undo(); return; }
       if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); redo(); return; }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [visible, sel, undo, redo]);
+  }, [visible, sel, undo, redo, navigateUp, navigateDown]);
 
   /* ── Clear on hide ──────────────────────────────────────── */
   useEffect(() => { if (!visible) { setSel(null); setHoverRect(null); } }, [visible]);
@@ -326,19 +365,45 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
   }, [visible]);
 
   /* ── Handle dropdown change ─────────────────────────────── */
-  const handleChange = useCallback((newValue) => {
+  const handleChange = useCallback((channel, newValue) => {
     if (!sel) return;
-    const { roleId, kind } = sel;
+    const { roleId } = sel;
     const isAuto = roleId.startsWith('_auto:');
     const cur = roRef.current;
-    const entry = kind === 'font'
-      ? { type: 'font', role: newValue }
-      : { type: 'button', variant: newValue };
+    const existing = cur[roleId] || {};
+
+    let entry = { ...existing };
+
+    if (channel === 'border') {
+      if (newValue === 'none') delete entry.border;
+      else entry.border = newValue;
+      // Ensure primary type is set (so the entry is valid)
+      if (!entry.type) {
+        entry.type = sel.kind;
+        if (sel.kind === 'font') entry.role = sel.value;
+        else entry.variant = sel.value;
+      }
+    } else if (channel === 'font') {
+      entry.type = 'font';
+      entry.role = newValue;
+      delete entry.variant;
+    } else if (channel === 'button') {
+      entry.type = 'button';
+      entry.variant = newValue;
+      delete entry.role;
+    }
+
     if (isAuto) entry.page = currentPageId;
     const next = { ...cur, [roleId]: entry };
     onRoleOverridesChange(next);
     pushHistory(next);
-    setSel(prev => prev ? { ...prev, value: newValue } : null);
+
+    // Update sel to reflect new values
+    if (channel === 'border') {
+      setSel(prev => prev ? { ...prev, borderValue: newValue } : null);
+    } else {
+      setSel(prev => prev ? { ...prev, value: newValue } : null);
+    }
   }, [sel, currentPageId, onRoleOverridesChange, pushHistory]);
 
   /* ── Save ────────────────────────────────────────────────── */
@@ -395,6 +460,18 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
       <div data-roletarget-panel style={BAR}>
         {sel ? (
           <>
+            {/* Depth navigation ↑↓ */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, flexShrink: 0 }}>
+              <button title="Select parent (↑)" onClick={navigateUp} style={{
+                background: 'none', border: 'none', padding: '0 2px', cursor: 'pointer',
+                color: '#888', lineHeight: 1, fontSize: 10,
+              }}>▲</button>
+              <button title="Select child (↓)" onClick={navigateDown} disabled={depthStackRef.current.length === 0} style={{
+                background: 'none', border: 'none', padding: '0 2px', cursor: depthStackRef.current.length > 0 ? 'pointer' : 'default',
+                color: depthStackRef.current.length > 0 ? '#888' : '#444', lineHeight: 1, fontSize: 10,
+              }}>▼</button>
+            </div>
+
             <span style={{ color: '#58ddff', fontWeight: 600, fontFamily: 'monospace', fontSize: 12, flexShrink: 0 }}>
               {sel.label}
             </span>
@@ -408,24 +485,35 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
             <span style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
 
             {sel.kind === 'font' && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                 <span style={{ color: '#999', flexShrink: 0 }}>Type:</span>
-                <select value={sel.value} onChange={e => handleChange(e.target.value)} style={DROPDOWN}>
+                <select value={sel.value} onChange={e => handleChange('font', e.target.value)} style={DROPDOWN}>
                   {FONT_ROLES.map(r => <option key={r.key} value={r.key}>{r.label}</option>)}
                 </select>
-                {!hasStableId && <span style={HINT}>(auto-matched — may shift if page structure changes)</span>}
               </div>
             )}
 
             {sel.kind === 'button' && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                 <span style={{ color: '#999', flexShrink: 0 }}>Button:</span>
-                <select value={sel.value} onChange={e => handleChange(e.target.value)} style={DROPDOWN}>
+                <select value={sel.value} onChange={e => handleChange('button', e.target.value)} style={DROPDOWN}>
                   {BTN_VARIANTS.map(v => <option key={v.key} value={v.key}>{v.label}</option>)}
                 </select>
-                {!hasStableId && <span style={HINT}>(auto-matched — may shift if page structure changes)</span>}
               </div>
             )}
+
+            {/* Separator */}
+            <span style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+
+            {/* Border role dropdown */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+              <span style={{ color: '#999', flexShrink: 0 }}>Border:</span>
+              <select value={sel.borderValue} onChange={e => handleChange('border', e.target.value)} style={DROPDOWN}>
+                {BORDER_ROLES.map(r => <option key={r.key} value={r.key}>{r.label}</option>)}
+              </select>
+            </div>
+
+            {!hasStableId && <span style={HINT}>(auto-matched — may shift if page structure changes)</span>}
 
             <button
               onClick={() => setSel(null)}

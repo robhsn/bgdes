@@ -26,6 +26,10 @@
   --color-border-subtle:  var(--sf-muted-border-subtle);
   --color-callout-border: var(--sf-muted-callout-border);
   --color-placeholder:    var(--sf-muted-placeholder);
+  --color-input-bg:          var(--sf-muted-input-bg);
+  --color-input-border:      var(--sf-muted-input-border);
+  --color-input-text:        var(--sf-muted-input-text);
+  --color-input-placeholder: var(--sf-muted-input-placeholder);
   --color-logo:           var(--sf-muted-logo);
   --color-link:           var(--sf-muted-link);
   --color-link-lg:        var(--sf-muted-link-lg);
@@ -63,6 +67,11 @@
   --com-btn-tertiary-fg:      var(--sf-muted-btn-tertiary-fg);
   --com-btn-quaternary-bg:    var(--sf-muted-btn-quaternary-bg);
   --com-btn-quaternary-fg:    var(--sf-muted-btn-quaternary-fg);
+  --com-btn-destructive-bg:         var(--sf-muted-btn-destructive-bg);
+  --com-btn-destructive-fg:         var(--sf-muted-btn-destructive-fg);
+  --com-btn-destructive-ui-bg:      var(--sf-muted-btn-destructive-ui-bg);
+  --com-btn-destructive-ui-fg:      var(--sf-muted-btn-destructive-ui-fg);
+  --com-btn-destructive-ui-border:  var(--sf-muted-btn-destructive-ui-border);
 }
 
 .surface-inverse {
@@ -89,6 +98,10 @@
   --color-border-subtle:  var(--sf-inverse-border-subtle);
   --color-callout-border: var(--sf-inverse-callout-border);
   --color-placeholder:    var(--sf-inverse-placeholder);
+  --color-input-bg:          var(--sf-inverse-input-bg);
+  --color-input-border:      var(--sf-inverse-input-border);
+  --color-input-text:        var(--sf-inverse-input-text);
+  --color-input-placeholder: var(--sf-inverse-input-placeholder);
   --color-logo:           var(--sf-inverse-logo);
   --color-link:           var(--sf-inverse-link);
   --color-link-lg:        var(--sf-inverse-link-lg);
@@ -126,6 +139,11 @@
   --com-btn-tertiary-fg:      var(--sf-inverse-btn-tertiary-fg);
   --com-btn-quaternary-bg:    var(--sf-inverse-btn-quaternary-bg);
   --com-btn-quaternary-fg:    var(--sf-inverse-btn-quaternary-fg);
+  --com-btn-destructive-bg:         var(--sf-inverse-btn-destructive-bg);
+  --com-btn-destructive-fg:         var(--sf-inverse-btn-destructive-fg);
+  --com-btn-destructive-ui-bg:      var(--sf-inverse-btn-destructive-ui-bg);
+  --com-btn-destructive-ui-fg:      var(--sf-inverse-btn-destructive-ui-fg);
+  --com-btn-destructive-ui-border:  var(--sf-inverse-btn-destructive-ui-border);
 }
 
 .surface-accent {
@@ -152,6 +170,10 @@
   --color-border-subtle:  var(--sf-accent-border-subtle);
   --color-callout-border: var(--sf-accent-callout-border);
   --color-placeholder:    var(--sf-accent-placeholder);
+  --color-input-bg:          var(--sf-accent-input-bg);
+  --color-input-border:      var(--sf-accent-input-border);
+  --color-input-text:        var(--sf-accent-input-text);
+  --color-input-placeholder: var(--sf-accent-input-placeholder);
   --color-logo:           var(--sf-accent-logo);
   --color-link:           var(--sf-accent-link);
   --color-link-lg:        var(--sf-accent-link-lg);
@@ -189,6 +211,11 @@
   --com-btn-tertiary-fg:      var(--sf-accent-btn-tertiary-fg);
   --com-btn-quaternary-bg:    var(--sf-accent-btn-quaternary-bg);
   --com-btn-quaternary-fg:    var(--sf-accent-btn-quaternary-fg);
+  --com-btn-destructive-bg:         var(--sf-accent-btn-destructive-bg);
+  --com-btn-destructive-fg:         var(--sf-accent-btn-destructive-fg);
+  --com-btn-destructive-ui-bg:      var(--sf-accent-btn-destructive-ui-bg);
+  --com-btn-destructive-ui-fg:      var(--sf-accent-btn-destructive-ui-fg);
+  --com-btn-destructive-ui-border:  var(--sf-accent-btn-destructive-ui-border);
 }
 
 .surface-tertiary {
@@ -215,6 +242,10 @@
   --color-border-subtle:  var(--sf-tertiary-border-subtle);
   --color-callout-border: var(--sf-tertiary-callout-border);
   --color-placeholder:    var(--sf-tertiary-placeholder);
+  --color-input-bg:          var(--sf-tertiary-input-bg);
+  --color-input-border:      var(--sf-tertiary-input-border);
+  --color-input-text:        var(--sf-tertiary-input-text);
+  --color-input-placeholder: var(--sf-tertiary-input-placeholder);
   --color-logo:           var(--sf-tertiary-logo);
   --color-link:           var(--sf-tertiary-link);
   --color-link-lg:        var(--sf-tertiary-link-lg);
@@ -252,4 +283,9 @@
   --com-btn-tertiary-fg:      var(--sf-tertiary-btn-tertiary-fg);
   --com-btn-quaternary-bg:    var(--sf-tertiary-btn-quaternary-bg);
   --com-btn-quaternary-fg:    var(--sf-tertiary-btn-quaternary-fg);
+  --com-btn-destructive-bg:         var(--sf-tertiary-btn-destructive-bg);
+  --com-btn-destructive-fg:         var(--sf-tertiary-btn-destructive-fg);
+  --com-btn-destructive-ui-bg:      var(--sf-tertiary-btn-destructive-ui-bg);
+  --com-btn-destructive-ui-fg:      var(--sf-tertiary-btn-destructive-ui-fg);
+  --com-btn-destructive-ui-border:  var(--sf-tertiary-btn-destructive-ui-border);
 }
