@@ -175,11 +175,11 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
         }}
       >
         <Avatar src={avatarSrc || avatarImg} alt="Avatar" size="lg" />
-        <span style={{
+        <span className="avatar-username" style={{
           fontFamily: fd, fontWeight: 600, fontSize: 'var(--size-dropdown)',
           color: 'var(--color-heading)', lineHeight: 1,
         }}>Robbbb</span>
-        <span style={{
+        <span className="avatar-chevron" style={{
           color: 'var(--color-heading)', opacity: 0.4,
           display: 'flex', alignItems: 'center',
           transition: 'transform 0.2s',

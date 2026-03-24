@@ -207,6 +207,15 @@ export const STATE_DEFINITIONS = [
     defaultValue: false,
   },
 
+  // Web Header — show desktop header on mobile/tablet
+  {
+    key: 'global.webHeader',
+    label: 'Web Header',
+    description: 'Show desktop-style sticky header on tablet and mobile breakpoints',
+    type: 'global',
+    defaultValue: false,
+  },
+
   // Activity Center — dropdown open state
   {
     key: 'social.activityOpen',

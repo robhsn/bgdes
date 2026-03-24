@@ -58,7 +58,14 @@ function getInitialPage() {
   return 'learn-hub'
 }
 
-const INIT_STATES = fileDefaults.states ?? { 'auth.loggedIn': true }
+const INIT_STATES = (() => {
+  const base = fileDefaults.states ?? { 'auth.loggedIn': true }
+  try {
+    const session = JSON.parse(sessionStorage.getItem('dme-states'))
+    if (session && typeof session === 'object') return { ...base, ...session }
+  } catch {}
+  return base
+})()
 const INIT_ROLE_OVERRIDES = fileDefaults.roleOverrides ?? {}
 
 
@@ -203,7 +210,20 @@ function App() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStateChange = (key, value) =>
-    setDmeStates(s => ({ ...s, [key]: value }))
+    setDmeStates(s => {
+      const next = { ...s, [key]: value }
+      try { sessionStorage.setItem('dme-states', JSON.stringify(next)) } catch {}
+      return next
+    })
+
+  /* ── Sync web-header body attribute for CSS targeting ────────── */
+  useEffect(() => {
+    if (dmeStates['global.webHeader']) {
+      document.body.dataset.webHeader = 'true'
+    } else {
+      delete document.body.dataset.webHeader
+    }
+  }, [dmeStates['global.webHeader']])
 
   /* ── Radial FAB handlers ─────────────────────────────────────── */
   const handleTogglePanel = useCallback((id) => {

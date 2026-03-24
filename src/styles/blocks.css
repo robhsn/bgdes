@@ -716,6 +716,21 @@
   .site-footer { padding-bottom: 96px !important; }
 }
 
+body[data-web-header="true"] .site-header { display: flex !important; }
+body[data-web-header="true"] .site-header__spacer { display: block !important; }
+body[data-web-header="true"] .mobile-nav { display: none !important; }
+body[data-web-header="true"] .mobile-nav__spacer { display: none !important; }
+body[data-web-header="true"] .radial-fab { bottom: 16px !important; }
+body[data-web-header="true"] .site-footer { padding-bottom: 0 !important; }
+
+@media (max-width: 800px) {
+  /* Web Header mobile: smaller logo, avatar-only auth */
+  body[data-web-header="true"] .site-header__logo-img { height: calc(var(--size-logo) / 1.5) !important; }
+  body[data-web-header="true"] [data-section-id="gl-activity-center"] { display: none !important; }
+  body[data-web-header="true"] .site-header__auth .avatar-username { display: none !important; }
+  body[data-web-header="true"] .site-header__auth .avatar-chevron { display: none !important; }
+}
+
 @media (max-width: 480px) {
   .section { padding-top: 32px; padding-bottom: 32px; }
 }
