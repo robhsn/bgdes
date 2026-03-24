@@ -92,10 +92,41 @@
   border-color: rgba(22, 163, 74, 0.3);
 }
 
-.au-summary-stat--fail {
+button.au-summary-stat--fail {
   color: #dc2626;
   background: rgba(220, 38, 38, 0.08);
   border-color: rgba(220, 38, 38, 0.3);
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+button.au-summary-stat--fail:hover {
+  background: rgba(220, 38, 38, 0.14);
+}
+
+button.au-summary-stat--fail.au-summary-stat--active {
+  background: rgba(220, 38, 38, 0.18);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.4);
+}
+
+.au-copy-all-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: transparent;
+  color: var(--color-body);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.au-copy-all-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--color-heading);
 }
 
 .au-summary-stat--total {

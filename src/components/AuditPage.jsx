@@ -54,6 +54,7 @@ function groupByPage(results) {
 export default function AuditPage({ testResults, testRunning, onRunTests }) {
   const [collapsed, setCollapsed] = useState({});
   const [copied, setCopied] = useState(null);
+  const [filterFailed, setFilterFailed] = useState(false);
 
   const results = testResults || loadSavedResults()?.results || [];
   const savedData = loadSavedResults();
@@ -62,7 +63,9 @@ export default function AuditPage({ testResults, testRunning, onRunTests }) {
   const passCount = results.filter(r => r.pass).length;
   const failCount = results.filter(r => !r.pass).length;
   const total = results.length;
-  const grouped = groupByPage(results);
+
+  const displayResults = filterFailed ? results.filter(r => !r.pass) : results;
+  const grouped = groupByPage(displayResults);
 
   function toggleGroup(page) {
     setCollapsed(prev => ({ ...prev, [page]: !prev[page] }));
@@ -72,6 +75,26 @@ export default function AuditPage({ testResults, testRunning, onRunTests }) {
     const prompt = buildFailurePrompt(test, assertion);
     navigator.clipboard.writeText(prompt).then(() => {
       setCopied(`${test.id}-${assertion.label}`);
+      setTimeout(() => setCopied(null), 2000);
+    });
+  }
+
+  function handleCopyAll() {
+    const failedResults = results.filter(r => !r.pass);
+    const byPage = groupByPage(failedResults);
+    const lines = [];
+    for (const [page, pageResults] of Object.entries(byPage)) {
+      lines.push(`## ${page}`);
+      for (const result of pageResults) {
+        const failedAssertions = result.assertions.filter(a => !a.pass);
+        for (const a of failedAssertions) {
+          lines.push(`- ${buildFailurePrompt(result, a)}`);
+        }
+      }
+      lines.push('');
+    }
+    navigator.clipboard.writeText(lines.join('\n').trim()).then(() => {
+      setCopied('all');
       setTimeout(() => setCopied(null), 2000);
     });
   }
@@ -102,8 +125,18 @@ export default function AuditPage({ testResults, testRunning, onRunTests }) {
           {total > 0 && (
             <div className="au-summary">
               <span className="au-summary-stat au-summary-stat--pass">{passCount} passed</span>
-              <span className="au-summary-stat au-summary-stat--fail">{failCount} failed</span>
+              <button
+                className={`au-summary-stat au-summary-stat--fail${filterFailed ? ' au-summary-stat--active' : ''}`}
+                onClick={() => setFilterFailed(f => !f)}
+              >
+                {failCount} failed{filterFailed ? ' (filtered)' : ''}
+              </button>
               <span className="au-summary-stat au-summary-stat--total">{total} total</span>
+              {failCount > 0 && (
+                <button className="au-copy-all-btn" onClick={handleCopyAll}>
+                  {copied === 'all' ? 'Copied!' : 'Copy All Failures'}
+                </button>
+              )}
             </div>
           )}
 
