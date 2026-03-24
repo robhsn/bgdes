@@ -11,6 +11,8 @@ import NotificationsPage from './components/NotificationsPage'
 import TokensPage from './components/TokensPage'
 import SurfacePreviewPage from './components/SurfacePreviewPage'
 import ButtonsSheetPage from './components/ButtonsSheetPage'
+import AuditPage from './components/AuditPage'
+import TEST_DEFINITIONS from './tests/test-definitions'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
 import CommentsInspector from './components/CommentsInspector'
@@ -43,6 +45,7 @@ const PAGES = [
   { id: 'tokens',         label: 'Design Tokens' },
   { id: 'surface-preview', label: 'Surface Preview' },
   { id: 'buttons-sheet',   label: 'Buttons Sheet' },
+  { id: 'idp-audit',       label: 'IDP Audit' },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
@@ -62,7 +65,7 @@ const INIT_ROLE_OVERRIDES = fileDefaults.roleOverrides ?? {}
 /* ─── Role override CSS maps (used by <style> injection) ─────── */
 const RO_PAGE_PREFIX = {
   'learn-article': 'ls', 'learn-article-2': 'ls', 'learn-hub': 'lh', 'profile': 'pp',
-  'play': 'gp', 'settings': 'st', 'index': 'ix', 'notifications': 'nt', 'tokens': 'tk', 'surface-preview': 'sp',
+  'play': 'gp', 'settings': 'st', 'index': 'ix', 'notifications': 'nt', 'tokens': 'tk', 'surface-preview': 'sp', 'idp-audit': 'au',
 }
 const RO_FONT_SIZE = {
   'h1': 'var(--size-h1)', 'h2': 'var(--size-h2)', 'h3': 'var(--size-h3)',
@@ -85,6 +88,7 @@ const RO_BTN_CSS = {
   quaternary:      'background:var(--com-btn-quaternary-bg)!important;color:var(--com-btn-quaternary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
   destructive:     'background:var(--com-btn-destructive-bg)!important;color:var(--com-btn-destructive-fg)!important;border:none!important;border-radius:9999px!important',
   'destructive-ui':'background:var(--com-btn-destructive-ui-bg)!important;color:var(--com-btn-destructive-ui-fg)!important;border:1px solid var(--com-btn-destructive-ui-border)!important;border-radius:8px!important;box-shadow:none!important',
+  pill:'background:var(--com-btn-pill-bg)!important;color:var(--com-btn-pill-fg)!important;border:1.5px solid var(--com-btn-pill-border)!important;border-radius:9999px!important;box-shadow:none!important',
 }
 const RO_BORDER_CSS = {
   'hairline': 'border:1px solid var(--color-border)!important',
@@ -227,6 +231,96 @@ function App() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
+  /* ── IDP Audit test runner ──────────────────────────────────── */
+  const [testRunning, setTestRunning] = useState(false)
+  const [testProgress, setTestProgress] = useState({ current: 0, total: 0 })
+  const testResultsRef = useRef(null)
+  const [, forceRender] = useState(0)
+
+  const runTests = useCallback(async () => {
+    setTestRunning(true)
+    setActivePanel(null)
+    setPageNavOpen(false)
+
+    const savedStates = { ...dmeStates }
+    const savedPage = currentPageId
+    const results = []
+
+    setTestProgress({ current: 0, total: TEST_DEFINITIONS.length })
+
+    for (let i = 0; i < TEST_DEFINITIONS.length; i++) {
+      const test = TEST_DEFINITIONS[i]
+      setTestProgress({ current: i + 1, total: TEST_DEFINITIONS.length })
+
+      // Apply test states
+      setDmeStates(prev => ({ ...prev, ...test.states }))
+      // Navigate to test page
+      setCurrentPageId(test.page)
+
+      // Wait for React render + CSS settle
+      await new Promise(r => setTimeout(r, 250))
+
+      // Run assertions
+      const assertionResults = test.assertions.map(a => {
+        const els = document.querySelectorAll(a.selector)
+        let pass = false
+        let detail = ''
+
+        if (a.expect === 'present') {
+          pass = els.length > 0
+          if (!pass) detail = `selector not found: ${a.selector}`
+        } else if (a.expect === 'absent') {
+          pass = els.length === 0
+          if (!pass) detail = `found ${els.length} element(s) matching: ${a.selector}`
+        } else if (a.expect === 'count') {
+          pass = els.length === a.count
+          if (!pass) detail = `expected ${a.count}, found ${els.length}`
+        } else if (a.expect === 'text') {
+          const el = els[0]
+          pass = el ? el.textContent.includes(a.text) : false
+          if (!pass) detail = el ? `text "${el.textContent.slice(0, 60)}" does not contain "${a.text}"` : `selector not found: ${a.selector}`
+        } else if (a.expect === 'visible') {
+          if (els.length === 0) {
+            pass = false
+            detail = `selector not found: ${a.selector}`
+          } else {
+            const el = els[0]
+            const style = window.getComputedStyle(el)
+            pass = style.display !== 'none' && style.visibility !== 'hidden'
+            if (!pass) detail = `element hidden (display:${style.display}, visibility:${style.visibility})`
+          }
+        }
+
+        return { ...a, pass, detail: pass ? '' : detail }
+      })
+
+      results.push({
+        id: test.id,
+        name: test.name,
+        page: test.page,
+        states: test.states,
+        pass: assertionResults.every(a => a.pass),
+        assertions: assertionResults,
+      })
+    }
+
+    // Restore original states + navigate back
+    setDmeStates(savedStates)
+    setCurrentPageId('idp-audit')
+    sessionStorage.setItem('dme-page', 'idp-audit')
+    const url = new URL(window.location)
+    url.searchParams.set('page', 'idp-audit')
+    window.history.replaceState(null, '', url)
+
+    // Save results
+    testResultsRef.current = results
+    const payload = { results, timestamp: Date.now() }
+    try { localStorage.setItem('idp-audit-results', JSON.stringify(payload)) } catch {}
+
+    setTestRunning(false)
+    forceRender(n => n + 1)
+  }, [dmeStates, currentPageId])
+
   function renderPage() {
     if (currentPageId === 'index') return <IndexPage onNavigate={navigateTo} />
     if (currentPageId === 'learn-hub') return <LearnHubPage onNavigate={navigateTo} />
@@ -239,6 +333,7 @@ function App() {
     if (currentPageId === 'tokens') return <TokensPage onNavigate={navigateTo} />
     if (currentPageId === 'surface-preview') return <SurfacePreviewPage onNavigate={navigateTo} />
     if (currentPageId === 'buttons-sheet') return <ButtonsSheetPage onNavigate={navigateTo} />
+    if (currentPageId === 'idp-audit') return <AuditPage testResults={testResultsRef.current} testRunning={testRunning} onRunTests={runTests} />
     return <LearnHubPage onNavigate={navigateTo} />
   }
 
@@ -294,6 +389,22 @@ function App() {
         onTogglePanel={handleTogglePanel}
         onTogglePageNav={handleTogglePageNav}
       />
+      {testRunning && (
+        <div className="au-testing-overlay">
+          <div className="au-testing-card">
+            <div className="au-testing-title">Running Tests...</div>
+            <div className="au-testing-progress">
+              Test {testProgress.current} of {testProgress.total}
+            </div>
+            <div className="au-testing-bar">
+              <div
+                className="au-testing-bar-fill"
+                style={{ width: `${testProgress.total ? (testProgress.current / testProgress.total) * 100 : 0}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </DMEStatesContext.Provider>
   )
 }

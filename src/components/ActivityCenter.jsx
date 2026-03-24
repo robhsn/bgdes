@@ -240,18 +240,9 @@ function ActivityTab() {
         {FILTERS.map(f => (
           <button
             key={f.key}
+            className={`com-btn com-btn--pill com-btn--pill-sm${filter === f.key ? ' is-active' : ''}`}
+            aria-pressed={filter === f.key ? 'true' : undefined}
             onClick={() => setFilter(f.key)}
-            style={{
-              fontFamily: fm, fontSize: 11, fontWeight: 600,
-              padding: '4px 12px', borderRadius: 999,
-              border: '1px solid',
-              borderColor: filter === f.key ? 'var(--color-accent)' : 'var(--color-border)',
-              background: filter === f.key ? 'var(--color-accent)' : 'transparent',
-              color: filter === f.key ? '#fff' : 'var(--color-body)',
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-              flexShrink: 0,
-            }}
           >
             {f.label}
           </button>

@@ -34,6 +34,7 @@ const VARIANTS = [
   { label: 'Quaternary',     cls: 'com-btn--quaternary',     icon: false },
   { label: 'Destructive',   cls: 'com-btn--destructive',    icon: false },
   { label: 'Destructive UI', cls: 'com-btn--destructive-ui', icon: false },
+  { label: 'Pill',           cls: 'com-btn--pill',           icon: false },
 ];
 
 const SIZES = [
@@ -46,10 +47,17 @@ const SIZES = [
 
 const STATES = [
   { label: 'Default',  props: {} },
+  { label: 'Selected', props: { 'aria-pressed': 'true' }, className: 'is-active' },
   { label: 'Hover',    props: {}, style: { transform: 'scale(1.02)', filter: 'brightness(1.1)' } },
   { label: 'Active',   props: {}, style: { transform: 'scale(0.98)' } },
   { label: 'Focus',    props: {}, style: { outline: '2px solid #58ddff', outlineOffset: '2px' } },
   { label: 'Disabled', props: { disabled: true }, style: { opacity: 0.5, cursor: 'not-allowed' } },
+];
+
+const PILL_SIZES = [
+  { label: 'Large',  cls: 'com-btn--pill-lg' },
+  { label: 'Medium', cls: '' },
+  { label: 'Small',  cls: 'com-btn--pill-sm' },
 ];
 
 /* ── Shared cell + header styles ──────────────────────────────── */
@@ -338,7 +346,7 @@ function SizeSection({ size }) {
               <tr key={state.label}>
                 <td style={rowLabelStyle}>{state.label}</td>
                 {VARIANTS.map(variant => {
-                  const cls = `com-btn ${variant.cls} ${size.cls}`.trim();
+                  const cls = `com-btn ${variant.cls} ${size.cls} ${state.className || ''}`.trim();
                   return (
                     <td key={variant.label} style={tdStyle}>
                       <button
@@ -352,6 +360,72 @@ function SizeSection({ size }) {
                       >
                         {variant.icon && <ProfileIcon sizeCls={size.cls} variant={variant.cls} />}
                         {variant.label}
+                      </button>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ── Section: Pill sizes ────────────────────────────────────── */
+function PillSizeSection() {
+  const pillStates = [
+    { label: 'Default',  props: {}, className: '' },
+    { label: 'Selected', props: { 'aria-pressed': 'true' }, className: 'is-active' },
+    { label: 'Disabled', props: { disabled: true }, className: '' },
+  ];
+
+  return (
+    <div style={{ marginBottom: 48 }}>
+      <h3 style={{
+        fontFamily: 'var(--font-section)',
+        fontWeight: 700,
+        fontSize: 'var(--size-h3)',
+        color: 'var(--color-heading)',
+        marginBottom: 16,
+      }}>
+        Pill Sizes
+        <span style={{
+          fontFamily: 'var(--font-ui-sm), sans-serif',
+          fontSize: 'var(--size-ui-sm)',
+          fontWeight: 400,
+          color: 'var(--color-muted)',
+          marginLeft: 10,
+        }}>
+          .com-btn--pill
+        </span>
+      </h3>
+
+      <div style={{ overflowX: 'auto', borderRadius: 8, border: '1px solid var(--color-border)' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 480 }}>
+          <thead>
+            <tr>
+              <th style={{ ...thStyle, width: 100 }}>Size</th>
+              {pillStates.map(s => (
+                <th key={s.label} style={thStyle}>{s.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {PILL_SIZES.map(size => (
+              <tr key={size.label}>
+                <td style={rowLabelStyle}>{size.label}</td>
+                {pillStates.map(state => {
+                  const cls = `com-btn com-btn--pill ${size.cls} ${state.className}`.trim();
+                  return (
+                    <td key={state.label} style={tdStyle}>
+                      <button
+                        className={cls}
+                        {...state.props}
+                        style={{ transition: 'none', pointerEvents: 'none' }}
+                      >
+                        {size.label}
                       </button>
                     </td>
                   );
@@ -425,6 +499,9 @@ export default function ButtonsSheetPage({ onNavigate }) {
           {SIZES.map(size => (
             <SizeSection key={size.label} size={size} />
           ))}
+
+          {/* Pill sizes */}
+          <PillSizeSection />
 
         </div>
       </div>

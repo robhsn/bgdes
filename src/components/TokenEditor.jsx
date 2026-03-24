@@ -167,6 +167,10 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'input-border':    '--color-input-border',
   'input-text':      '--color-input-text',
   'input-placeholder':'--color-input-placeholder',
+  /* Status */
+  'status-success':  '--color-status-success',
+  'status-warning':  '--color-status-warning',
+  'status-error':    '--color-status-error',
   /* Scrollbar */
   'scrollbar-thumb': '--color-scrollbar-thumb',
   'scrollbar-track': '--color-scrollbar-track',
@@ -188,6 +192,15 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'btn-destructive-ui-bg':     '--com-btn-destructive-ui-bg',
   'btn-destructive-ui-fg':     '--com-btn-destructive-ui-fg',
   'btn-destructive-ui-border': '--com-btn-destructive-ui-border',
+  'btn-pill-bg':               '--com-btn-pill-bg',
+  'btn-pill-fg':               '--com-btn-pill-fg',
+  'btn-pill-border':           '--com-btn-pill-border',
+  'btn-pill-active-bg':        '--com-btn-pill-active-bg',
+  'btn-pill-active-fg':        '--com-btn-pill-active-fg',
+  'btn-pill-active-border':    '--com-btn-pill-active-border',
+  'btn-pill-disabled-bg':      '--com-btn-pill-disabled-bg',
+  'btn-pill-disabled-fg':      '--com-btn-pill-disabled-fg',
+  'btn-pill-disabled-border':  '--com-btn-pill-disabled-border',
 };
 
 /* ─── Pathway button defaults — light & dark surface variants ── */
@@ -200,6 +213,9 @@ const BTN_LIGHT = {
   'btn-quaternary-bg': '--prim-mono-white', 'btn-quaternary-fg': '--prim-mono-black',
   'btn-destructive-bg': '#ef4444', 'btn-destructive-fg': '--prim-mono-white',
   'btn-destructive-ui-bg': 'transparent', 'btn-destructive-ui-fg': '#ef4444', 'btn-destructive-ui-border': '#ef4444',
+  'btn-pill-bg': 'transparent', 'btn-pill-fg': '--prim-mono-900', 'btn-pill-border': '--prim-mono-300',
+  'btn-pill-active-bg': '--prim-mono-900', 'btn-pill-active-fg': '--prim-mono-white', 'btn-pill-active-border': '--prim-mono-900',
+  'btn-pill-disabled-bg': 'transparent', 'btn-pill-disabled-fg': '--prim-mono-350', 'btn-pill-disabled-border': '--prim-mono-200',
 };
 const BTN_DARK = {
   'btn-primary-bg': '--prim-fall-100',  'btn-primary-fg': '--prim-mono-white',
@@ -210,6 +226,9 @@ const BTN_DARK = {
   'btn-quaternary-bg': '--prim-mono-white', 'btn-quaternary-fg': '--prim-mono-black',
   'btn-destructive-bg': '#dc2626', 'btn-destructive-fg': '--prim-mono-white',
   'btn-destructive-ui-bg': 'transparent', 'btn-destructive-ui-fg': '#f87171', 'btn-destructive-ui-border': '#f87171',
+  'btn-pill-bg': 'transparent', 'btn-pill-fg': '--prim-mono-white', 'btn-pill-border': '--prim-mono-500',
+  'btn-pill-active-bg': '--prim-mono-white', 'btn-pill-active-fg': '--prim-mono-900', 'btn-pill-active-border': '--prim-mono-white',
+  'btn-pill-disabled-bg': 'transparent', 'btn-pill-disabled-fg': '--prim-mono-600', 'btn-pill-disabled-border': '--prim-mono-700',
 };
 function btnSurfaceTokens(prefix, suffixMap) {
   const out = {};
@@ -1093,20 +1112,21 @@ const SURFACE_TOKENS = [
                         'body-lg', 'body', 'body-sm',
                         'text-muted-lg', 'text-muted', 'text-muted-sm',
   /* Links */           'link-lg', 'link', 'link-sm',
-  /* Borders */         'border', 'border-light', 'border-mid', 'border-subtle', 'callout-border',
+  /* Borders */         'border', 'border-light', 'border-mid', 'border-subtle', 'border-active', 'callout-border',
   /* Pills & tags */    'pill', 'pill-lg', 'pill-md', 'pill-sm', 'accent',
                         'pill-bg', 'pill-border', 'tag-fill',
   /* UI text */         'ui-xl', 'ui-lg', 'ui-md', 'ui-sm', 'ui-xsm',
   /* Branding */        'logo', 'star',
   /* Form */            'placeholder',
   /* Input fields */    'input-bg', 'input-border', 'input-text', 'input-placeholder',
+  /* Status */          'status-success', 'status-warning', 'status-error',
   /* Scrollbar */       'scrollbar-thumb', 'scrollbar-track',
 ];
-const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg'];
+const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg', 'btn-destructive-bg', 'btn-destructive-fg', 'btn-destructive-ui-bg', 'btn-destructive-ui-fg', 'btn-destructive-ui-border', 'btn-pill-bg', 'btn-pill-fg', 'btn-pill-border', 'btn-pill-active-bg', 'btn-pill-active-fg', 'btn-pill-active-border', 'btn-pill-disabled-bg', 'btn-pill-disabled-fg', 'btn-pill-disabled-border'];
 /* Tokens that start a new visual group (separator rendered before them) */
 const SURFACE_GROUP_STARTS = new Set([
   'heading', 'sh1', 'body-lg', 'text-muted-lg', 'link-lg',
-  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'scrollbar-thumb',
+  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'status-success', 'scrollbar-thumb',
 ]);
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -1563,13 +1583,15 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   const [sectResetKey, setSectResetKey] = useState(0);
   const [sectionSurfaces, setSectionSurfaces] = useState({ ...INIT_SECTION_SURFACES });
   const [sectAllExpanded, setSectAllExpanded] = useState(true);
+  const [searchQuery, setSearchQuery]         = useState('');
+  const [activeSurface, setActiveSurface]     = useState('default');
 
   /* localStorage keys for all Sect/SubSect groups per tab */
   const L2_SECT_KEYS = [
     'dme-sect-Colors', 'dme-sect-Element Sizes', 'dme-sect-Spacing & Layout',
     'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Statement: Links', 'dme-sub-Header Dropdown',
     'dme-sub-Navigation', 'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats',
-    'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Input Fields', 'dme-sub-Modal',
+    'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Input Fields', 'dme-sub-Status', 'dme-sub-Modal',
   ];
   const L1_SECT_KEYS = [
     'dme-sect-Type Roles', 'dme-sect-Color Palettes',
@@ -1933,7 +1955,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     transition: 'color 0.2s',
   };
 
-  if (collapsed && !panel.detached) return (
+  if (collapsed && !panel.detached) return createPortal(
     <>
       <button
         onClick={() => setCollapsed(false)}
@@ -1951,7 +1973,8 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       >
         {tabArrow}
       </button>
-    </>
+    </>,
+    document.body,
   );
 
   /* Panel positioning: docked or floating */
@@ -1969,13 +1992,13 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
         height: '100vh', width: '30vw', minWidth: 380,
       };
 
-  return (
+  return createPortal(
     <>
     <div data-devmode-ignore style={{
       ...panelStyle,
       background: '#1c1c1c', color: '#e0e0e0',
       fontFamily: 'system-ui, -apple-system, sans-serif',
-      fontSize: 12, zIndex: 2147483646,
+      fontSize: 12, zIndex: 2147483647,
       display: 'flex', flexDirection: 'column',
       boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)'),
       overflow: 'hidden',
@@ -2141,16 +2164,44 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
         ))}
       </div>
 
-      {/* ── Expand / Collapse All ─────────────────────────────── */}
-      {tab !== 'app' && (
-      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '5px 16px 4px', flexShrink: 0, borderBottom: '1px solid #222', background: '#181818' }}>
+      {/* ── Search + Expand / Collapse All ───────────────────── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 16px 4px', flexShrink: 0, borderBottom: '1px solid #222', background: '#181818' }}>
+        <div style={{ flex: 1, position: 'relative' }}>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search tokens…"
+            style={{
+              width: '100%', boxSizing: 'border-box',
+              background: '#222', border: '1px solid #333', borderRadius: 4,
+              color: '#ccc', fontSize: 11, fontFamily: 'monospace',
+              padding: '4px 24px 4px 8px', outline: 'none',
+            }}
+            onFocus={e => e.currentTarget.style.borderColor = '#555'}
+            onBlur={e => e.currentTarget.style.borderColor = '#333'}
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              style={{
+                position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)',
+                background: 'none', border: 'none', color: '#666', cursor: 'pointer',
+                fontSize: 13, lineHeight: 1, padding: '0 2px',
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+              onMouseLeave={e => e.currentTarget.style.color = '#666'}
+            >×</button>
+          )}
+        </div>
+        {tab !== 'app' && !searchQuery && (
         <button
           onClick={toggleAllSections}
           title={sectAllExpanded ? 'Collapse all groups' : 'Expand all groups'}
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
             color: '#666', padding: '2px 4px', borderRadius: 3,
-            display: 'flex', alignItems: 'center',
+            display: 'flex', alignItems: 'center', flexShrink: 0,
           }}
           onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
           onMouseLeave={e => e.currentTarget.style.color = '#666'}
@@ -2167,13 +2218,15 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
             </svg>
           )}
         </button>
+        )}
       </div>
-      )}
 
       {/* ── Scrollable body ───────────────────────────────────── */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
-        {tab === 'l2'
-          ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={(k, v) => { onStateChange?.(k, v); setIsDirty(true); }} />
+        {searchQuery
+          ? <SearchResults query={searchQuery} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} activeSurface={activeSurface} />
+          : tab === 'l2'
+          ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={(k, v) => { onStateChange?.(k, v); setIsDirty(true); }} activeSurf={activeSurface} setActiveSurf={setActiveSurface} />
           : tab === 'l1'
           ? <L1View key={sectResetKey} l1={l1} l2={l2} setRole={setL1Role} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
               setL1ColorHex={setL1ColorHex} addL1Color={addL1Color} deleteL1Color={deleteL1Color}
@@ -2196,7 +2249,133 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       </div>
 
     </div>
-    </>
+    </>,
+    document.body,
+  );
+}
+
+/* ── Search Results ────────────────────────────────────────────────── */
+
+/* Suffix-based labels — shared by surface panel and search */
+const SEARCH_LABELS = {
+  bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm',
+  h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4',
+  'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm',
+  border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle',
+  'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo',
+  'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm',
+  pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)',
+  'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star',
+  'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM',
+  'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder',
+  'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error',
+  'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track',
+  'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text',
+  'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border',
+  'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text',
+  'btn-destructive-bg': 'Destructive bg', 'btn-destructive-fg': 'Destructive text',
+  'btn-destructive-ui-bg': 'Destruct. UI bg', 'btn-destructive-ui-fg': 'Destruct. UI text', 'btn-destructive-ui-border': 'Destruct. UI border',
+};
+
+/* Explicit full-name label overrides for tokens whose CSS name doesn't match any suffix pattern */
+const EXPLICIT_TOKEN_LABELS = {
+  '--color-guide-nav-bg': 'TOC background', '--color-toc-pip': 'TOC pip', '--color-toc-pip-active': 'TOC active pip',
+  '--color-toc-heading': 'TOC heading', '--color-toc-text': 'TOC text', '--color-toc-text-active': 'TOC active text',
+  '--color-dot-active': 'Progress dot active', '--color-nav-bg': 'Mobile nav bg', '--color-nav-border': 'Mobile nav border',
+  '--color-nav-icon': 'Mobile nav icon',
+  '--color-statement-bg': 'Statement bg', '--color-statement-border': 'Statement border', '--color-statement-text': 'Statement text',
+  '--color-statement-link-bg': 'Statement link bg', '--color-statement-link-border': 'Statement link border', '--color-statement-link-text': 'Statement link text',
+  '--color-activity-bell': 'Bell icon', '--color-dropdown-bg': 'Dropdown bg', '--color-dropdown-border': 'Dropdown border',
+  '--color-dropdown-text': 'Dropdown text', '--color-dropdown-icon': 'Dropdown icon',
+  '--color-dropdown-soon-bg': 'Soon pill bg', '--color-dropdown-soon-fg': 'Soon pill text', '--color-dropdown-separator': 'Separator',
+  '--color-badge-from': 'Badge gradient start', '--color-badge-to': 'Badge gradient end',
+  '--color-badge-icon': 'Badge icon (cap)', '--color-badge-icon-inner': 'Badge icon (inner)',
+  '--color-badge-unearned-stroke': 'Badge unearned stroke', '--color-badge-unearned-text': 'Badge unearned text',
+  '--color-avatar-bg': 'Avatar bg', '--color-stat-percentile': 'Stat percentile',
+  '--color-match-win-border': 'Match win border', '--color-match-loss-border': 'Match loss border',
+  '--color-match-win-chip-bg': 'Match win chip bg', '--color-match-win-chip-fg': 'Match win chip text',
+  '--btn-primary-bg': 'Btn primary bg', '--btn-primary-fg': 'Btn primary text',
+  '--btn-secondary-bg': 'Btn secondary bg', '--btn-secondary-fg': 'Btn secondary text',
+  '--btn-primary-border': 'Btn primary border', '--btn-secondary-border': 'Btn secondary border',
+  '--color-input-bg': 'Input bg', '--color-input-border': 'Input border',
+  '--color-input-text': 'Input text', '--color-input-placeholder': 'Input placeholder',
+  '--color-status-success': 'Success', '--color-status-warning': 'Warning', '--color-status-error': 'Error',
+  '--modal-bg': 'Modal bg', '--modal-heading': 'Modal heading', '--modal-body': 'Modal body',
+  '--modal-muted': 'Modal muted', '--modal-border': 'Modal border',
+};
+
+function deriveLabel(tokenName) {
+  /* 1. Explicit full-name override (hardcoded L2View labels) */
+  if (EXPLICIT_TOKEN_LABELS[tokenName]) return EXPLICIT_TOKEN_LABELS[tokenName];
+  /* 2. Surface tokens: strip prefix, look up suffix */
+  for (const sf of SURFACE_DEFS) {
+    if (sf.key !== 'default' && tokenName.startsWith(sf.prefix)) {
+      const suffix = tokenName.slice(sf.prefix.length);
+      return SEARCH_LABELS[suffix] || suffix;
+    }
+  }
+  /* 3. Global button tokens */
+  if (tokenName.startsWith('--com-btn-')) {
+    const suffix = tokenName.slice('--com-btn-'.length);
+    return SEARCH_LABELS[suffix] || suffix;
+  }
+  /* 4. Global --color-* tokens: reverse-lookup via DEFAULT_SURFACE_TOKEN_MAP */
+  for (const [suffix, mappedName] of Object.entries(DEFAULT_SURFACE_TOKEN_MAP)) {
+    if (mappedName === tokenName) return SEARCH_LABELS[suffix] || suffix;
+  }
+  /* 5. Fallback: strip --color- or -- prefix, title-case */
+  const raw = tokenName.replace(/^--color-/, '').replace(/^--/, '');
+  return raw.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function deriveSurfaceGroup(tokenName) {
+  if (tokenName.startsWith('--sf-muted-'))    return 'Secondary';
+  if (tokenName.startsWith('--sf-inverse-'))  return 'Inverse';
+  if (tokenName.startsWith('--sf-accent-'))   return 'Accent';
+  if (tokenName.startsWith('--sf-tertiary-')) return 'Tertiary';
+  return 'Primary (Global)';
+}
+
+const SURFACE_KEY_TO_GROUP = {
+  'default': 'Primary (Global)', 'muted': 'Secondary',
+  'inverse': 'Inverse', 'accent': 'Accent', 'tertiary': 'Tertiary',
+};
+
+function SearchResults({ query, l2, set, l1ColorMap, l1Groups, activeSurface }) {
+  const q = query.toLowerCase();
+  const activeGroup = SURFACE_KEY_TO_GROUP[activeSurface] || 'Primary (Global)';
+  const matches = [];
+
+  for (const [tokenName, tokenValue] of Object.entries(l2)) {
+    /* Skip non-color tokens (fonts, numeric values) */
+    if (typeof tokenValue !== 'string') continue;
+    if (!tokenValue.startsWith('--prim-') && !tokenValue.startsWith('#')) continue;
+
+    /* Only include tokens belonging to the active surface */
+    if (deriveSurfaceGroup(tokenName) !== activeGroup) continue;
+
+    const label = deriveLabel(tokenName);
+    const hit =
+      tokenName.toLowerCase().includes(q) ||
+      tokenValue.toLowerCase().includes(q) ||
+      label.toLowerCase().includes(q);
+    if (hit) matches.push({ tokenName, tokenValue, label });
+  }
+
+  return (
+    <div style={{ padding: '6px 0' }}>
+      <div style={{ padding: '2px 16px 6px', fontSize: 10, color: '#666' }}>
+        {matches.length ? `${matches.length} result${matches.length !== 1 ? 's' : ''}` : 'No results'}
+      </div>
+      {matches.map(({ tokenName, label }) => (
+        <ColorRow
+          key={tokenName}
+          label={label}
+          name={tokenName}
+          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -2290,15 +2469,14 @@ function SurfaceSwatch({ surfaceDef, l2, l1ColorMap }) {
 }
 
 /* ─── Surface colour panel — tab bar selects one of 4 surfaces ── */
-function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
-  const [activeSurf, setActiveSurf] = React.useState('default');
+function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChange, activeSurf, setActiveSurf }) {
   const sf = SURFACE_DEFS.find(s => s.key === activeSurf);
   const tokenFor = (suffix) =>
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track' };
-  const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text' };
+  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track' };
+  const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text', 'btn-destructive-bg': 'Destructive bg', 'btn-destructive-fg': 'Destructive text', 'btn-destructive-ui-bg': 'Destruct. UI bg', 'btn-destructive-ui-fg': 'Destruct. UI text', 'btn-destructive-ui-border': 'Destruct. UI border', 'btn-pill-bg': 'Pill bg', 'btn-pill-fg': 'Pill text', 'btn-pill-border': 'Pill border', 'btn-pill-active-bg': 'Pill active bg', 'btn-pill-active-fg': 'Pill active text', 'btn-pill-active-border': 'Pill active border', 'btn-pill-disabled-bg': 'Pill disabled bg', 'btn-pill-disabled-fg': 'Pill disabled text', 'btn-pill-disabled-border': 'Pill disabled border' };
   return (
     <>
       {/* Surface tab bar */}
@@ -2690,12 +2868,12 @@ function AppSectionGroup({ section, currentSurface, isOverridden, onSurfaceChang
 /* ═══════════════════════════════════════════════════════════════
    L2 View
    ═══════════════════════════════════════════════════════════════ */
-function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
+function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange, activeSurf, setActiveSurf }) {
   return (
     <>
       <Sect label="Colors">
         <SubSect label="Surfaces">
-          <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={onStateChange} />
+          <SurfaceColorPanel l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={onStateChange} activeSurf={activeSurf} setActiveSurf={setActiveSurf} />
         </SubSect>
 
         <SubSect label="Statement">
@@ -2773,6 +2951,12 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange }) {
           <ColorRow label="Border"       name="--color-input-border"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Text"         name="--color-input-text"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Placeholder"  name="--color-input-placeholder" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
+        <SubSect label="Status">
+          <ColorRow label="Success"  name="--color-status-success" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Warning"  name="--color-status-warning" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+          <ColorRow label="Error"    name="--color-status-error"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Modal">

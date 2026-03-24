@@ -36,6 +36,13 @@
   transform: scale(0.98);
 }
 
+.com-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
 /* ── Primary (green pill) ─────────────────────────────────────── */
 
 .com-btn--primary {
@@ -100,6 +107,55 @@
   background: transparent;
   color: var(--com-btn-ghost-fg);
   box-shadow: none;
+}
+
+/* ── Pill (filter pill button) ─────────────────────────────── */
+
+.com-btn--pill {
+  background: var(--com-btn-pill-bg);
+  color: var(--com-btn-pill-fg);
+  border: 1.5px solid var(--com-btn-pill-border);
+  border-radius: 9999px;
+  box-shadow: none;
+  height: auto;
+  font-family: var(--font-pill-md), sans-serif;
+  font-weight: var(--font-pill-md-weight);
+  font-size: var(--size-pill-md);
+  letter-spacing: var(--font-pill-md-ls);
+  line-height: var(--font-pill-md-lh);
+  padding: 6px 16px;
+}
+
+.com-btn--pill.is-active,
+.com-btn--pill[aria-pressed="true"] {
+  background: var(--com-btn-pill-active-bg);
+  color: var(--com-btn-pill-active-fg);
+  border-color: var(--com-btn-pill-active-border);
+}
+
+.com-btn--pill:disabled {
+  background: var(--com-btn-pill-disabled-bg);
+  color: var(--com-btn-pill-disabled-fg);
+  border-color: var(--com-btn-pill-disabled-border);
+  opacity: 1;
+}
+
+.com-btn--pill.com-btn--pill-lg {
+  font-family: var(--font-pill-lg), sans-serif;
+  font-weight: var(--font-pill-lg-weight);
+  font-size: var(--size-pill-lg);
+  letter-spacing: var(--font-pill-lg-ls);
+  line-height: var(--font-pill-lg-lh);
+  padding: 8px 20px;
+}
+
+.com-btn--pill.com-btn--pill-sm {
+  font-family: var(--font-pill-sm), sans-serif;
+  font-weight: var(--font-pill-sm-weight);
+  font-size: var(--size-pill-sm);
+  letter-spacing: var(--font-pill-sm-ls);
+  line-height: var(--font-pill-sm-lh);
+  padding: 4px 12px;
 }
 
 /* ── Size: Small ────────────────────────────────────────────── */

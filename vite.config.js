@@ -62,5 +62,5 @@ function devSavePlugin() {
 
 export default defineConfig({
   plugins: [react(), devSavePlugin()],
-  server: { port: parseInt(process.env.PORT) || 5199, host: '127.0.0.1' },
+  server: { port: parseInt(process.env.PORT) || 5199, host: true },
 })

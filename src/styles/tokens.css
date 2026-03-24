@@ -251,6 +251,7 @@
   --color-border-mid:     var(--prim-mono-250);
   --color-tag-fill:       var(--prim-mono-150);
   --color-border-subtle:  var(--prim-mono-350);
+  --color-border-active:  var(--prim-mint-000);
   --color-callout-border: var(--prim-mono-500);
   --color-placeholder:    var(--prim-mono-200);
   --color-input-bg:          var(--prim-mono-white);
@@ -302,6 +303,17 @@
   --com-btn-destructive-ui-fg:      #ef4444;
   --com-btn-destructive-ui-border:  #ef4444;
 
+  /* ── Pill Button tokens ──────────────────────────────────────── */
+  --com-btn-pill-bg:               transparent;
+  --com-btn-pill-fg:               var(--prim-mono-900);
+  --com-btn-pill-border:           var(--prim-mono-300);
+  --com-btn-pill-active-bg:        var(--prim-mono-900);
+  --com-btn-pill-active-fg:        var(--prim-mono-white);
+  --com-btn-pill-active-border:    var(--prim-mono-900);
+  --com-btn-pill-disabled-bg:      transparent;
+  --com-btn-pill-disabled-fg:      var(--prim-mono-350);
+  --com-btn-pill-disabled-border:  var(--prim-mono-200);
+
   /* ── Statement component tokens ──────────────────────────────── */
   --color-statement-bg:     var(--prim-mono-100);
   --color-statement-border: var(--prim-mono-350);
@@ -346,6 +358,7 @@
   --sf-muted-border-light:   var(--prim-mono-150);
   --sf-muted-border-mid:     var(--prim-mono-250);
   --sf-muted-border-subtle:  var(--prim-mono-350);
+  --sf-muted-border-active:  var(--prim-mint-000);
   --sf-muted-callout-border: var(--prim-mono-500);
   --sf-muted-placeholder:    var(--prim-mono-200);
   --sf-muted-input-bg:          var(--prim-mono-white);
@@ -354,6 +367,9 @@
   --sf-muted-input-placeholder: var(--prim-mono-350);
   --sf-muted-tag-fill:       var(--prim-mono-150);
   --sf-muted-star:           #FFB800;
+  --sf-muted-status-success: #22c55e;
+  --sf-muted-status-warning: #f59e0b;
+  --sf-muted-status-error:   #ef4444;
   --sf-muted-btn-primary-bg:     var(--prim-mint-400);
   --sf-muted-btn-primary-fg:     var(--prim-mono-white);
   --sf-muted-btn-dark-bg:        var(--prim-mono-900);
@@ -371,6 +387,15 @@
   --sf-muted-btn-destructive-ui-bg:      transparent;
   --sf-muted-btn-destructive-ui-fg:      #ef4444;
   --sf-muted-btn-destructive-ui-border:  #ef4444;
+  --sf-muted-btn-pill-bg:               transparent;
+  --sf-muted-btn-pill-fg:               var(--prim-mono-900);
+  --sf-muted-btn-pill-border:           var(--prim-mono-300);
+  --sf-muted-btn-pill-active-bg:        var(--prim-mono-900);
+  --sf-muted-btn-pill-active-fg:        var(--prim-mono-white);
+  --sf-muted-btn-pill-active-border:    var(--prim-mono-900);
+  --sf-muted-btn-pill-disabled-bg:      transparent;
+  --sf-muted-btn-pill-disabled-fg:      var(--prim-mono-350);
+  --sf-muted-btn-pill-disabled-border:  var(--prim-mono-200);
   --sf-muted-h1:       var(--prim-mono-900);
   --sf-muted-h2:       var(--prim-mono-900);
   --sf-muted-h3:       var(--prim-mono-900);
@@ -396,6 +421,7 @@
   --sf-inverse-border-light:   var(--prim-mono-750);
   --sf-inverse-border-mid:     var(--prim-mono-550);
   --sf-inverse-border-subtle:  var(--prim-mono-500);
+  --sf-inverse-border-active:  var(--prim-mint-400);
   --sf-inverse-callout-border: var(--prim-mono-350);
   --sf-inverse-placeholder:    var(--prim-mono-700);
   --sf-inverse-input-bg:          var(--prim-mono-800);
@@ -404,6 +430,9 @@
   --sf-inverse-input-placeholder: var(--prim-mono-500);
   --sf-inverse-tag-fill:       var(--prim-mono-750);
   --sf-inverse-star:           #FFB800;
+  --sf-inverse-status-success: #4ade80;
+  --sf-inverse-status-warning: #fbbf24;
+  --sf-inverse-status-error:   #f87171;
   --sf-inverse-btn-primary-bg:     var(--prim-fall-100);
   --sf-inverse-btn-primary-fg:     var(--prim-mono-white);
   --sf-inverse-btn-dark-bg:        var(--prim-mono-600);
@@ -421,6 +450,15 @@
   --sf-inverse-btn-destructive-ui-bg:      transparent;
   --sf-inverse-btn-destructive-ui-fg:      #f87171;
   --sf-inverse-btn-destructive-ui-border:  #f87171;
+  --sf-inverse-btn-pill-bg:               transparent;
+  --sf-inverse-btn-pill-fg:               var(--prim-mono-white);
+  --sf-inverse-btn-pill-border:           var(--prim-mono-500);
+  --sf-inverse-btn-pill-active-bg:        var(--prim-mono-white);
+  --sf-inverse-btn-pill-active-fg:        var(--prim-mono-900);
+  --sf-inverse-btn-pill-active-border:    var(--prim-mono-white);
+  --sf-inverse-btn-pill-disabled-bg:      transparent;
+  --sf-inverse-btn-pill-disabled-fg:      var(--prim-mono-600);
+  --sf-inverse-btn-pill-disabled-border:  var(--prim-mono-700);
   --sf-inverse-h1:       var(--prim-mono-white);
   --sf-inverse-h2:       var(--prim-mono-white);
   --sf-inverse-h3:       var(--prim-mono-white);
@@ -446,6 +484,7 @@
   --sf-accent-border-light:   var(--prim-mono-600);
   --sf-accent-border-mid:     var(--prim-mono-400);
   --sf-accent-border-subtle:  var(--prim-mono-350);
+  --sf-accent-border-active:  var(--prim-mint-300);
   --sf-accent-callout-border: var(--prim-mono-250);
   --sf-accent-placeholder:    var(--prim-mono-600);
   --sf-accent-input-bg:          var(--prim-mono-600);
@@ -454,6 +493,9 @@
   --sf-accent-input-placeholder: var(--prim-mono-400);
   --sf-accent-tag-fill:       var(--prim-mono-600);
   --sf-accent-star:           #FFB800;
+  --sf-accent-status-success: #4ade80;
+  --sf-accent-status-warning: #fbbf24;
+  --sf-accent-status-error:   #f87171;
   --sf-accent-btn-primary-bg:     var(--prim-fall-100);
   --sf-accent-btn-primary-fg:     var(--prim-mono-white);
   --sf-accent-btn-dark-bg:        var(--prim-mono-600);
@@ -471,6 +513,15 @@
   --sf-accent-btn-destructive-ui-bg:      transparent;
   --sf-accent-btn-destructive-ui-fg:      #f87171;
   --sf-accent-btn-destructive-ui-border:  #f87171;
+  --sf-accent-btn-pill-bg:               transparent;
+  --sf-accent-btn-pill-fg:               var(--prim-mono-white);
+  --sf-accent-btn-pill-border:           var(--prim-mono-500);
+  --sf-accent-btn-pill-active-bg:        var(--prim-mono-white);
+  --sf-accent-btn-pill-active-fg:        var(--prim-mono-900);
+  --sf-accent-btn-pill-active-border:    var(--prim-mono-white);
+  --sf-accent-btn-pill-disabled-bg:      transparent;
+  --sf-accent-btn-pill-disabled-fg:      var(--prim-mono-500);
+  --sf-accent-btn-pill-disabled-border:  var(--prim-mono-600);
   --sf-accent-h1:       var(--prim-mono-white);
   --sf-accent-h2:       var(--prim-mono-white);
   --sf-accent-h3:       var(--prim-mono-white);
@@ -496,6 +547,7 @@
   --sf-tertiary-border-light:   var(--prim-mono-700);
   --sf-tertiary-border-mid:     var(--prim-mono-550);
   --sf-tertiary-border-subtle:  var(--prim-mono-500);
+  --sf-tertiary-border-active:  var(--prim-mint-500);
   --sf-tertiary-callout-border: var(--prim-mono-300);
   --sf-tertiary-placeholder:    var(--prim-mono-600);
   --sf-tertiary-input-bg:          var(--prim-mono-700);
@@ -504,6 +556,9 @@
   --sf-tertiary-input-placeholder: var(--prim-mono-500);
   --sf-tertiary-tag-fill:       var(--prim-mono-700);
   --sf-tertiary-star:           #FFB800;
+  --sf-tertiary-status-success: #4ade80;
+  --sf-tertiary-status-warning: #fbbf24;
+  --sf-tertiary-status-error:   #f87171;
   --sf-tertiary-logo:           var(--prim-mono-white);
   --sf-tertiary-link:           var(--prim-mono-200);
   --sf-tertiary-pill:           var(--prim-mono-white);
@@ -528,6 +583,15 @@
   --sf-tertiary-btn-destructive-ui-bg:      transparent;
   --sf-tertiary-btn-destructive-ui-fg:      #f87171;
   --sf-tertiary-btn-destructive-ui-border:  #f87171;
+  --sf-tertiary-btn-pill-bg:               transparent;
+  --sf-tertiary-btn-pill-fg:               var(--prim-mono-white);
+  --sf-tertiary-btn-pill-border:           var(--prim-mono-500);
+  --sf-tertiary-btn-pill-active-bg:        var(--prim-mono-white);
+  --sf-tertiary-btn-pill-active-fg:        var(--prim-mono-900);
+  --sf-tertiary-btn-pill-active-border:    var(--prim-mono-white);
+  --sf-tertiary-btn-pill-disabled-bg:      transparent;
+  --sf-tertiary-btn-pill-disabled-fg:      var(--prim-mono-600);
+  --sf-tertiary-btn-pill-disabled-border:  var(--prim-mono-700);
   --sf-tertiary-h1:       var(--prim-mono-white);
   --sf-tertiary-h2:       var(--prim-mono-white);
   --sf-tertiary-h3:       var(--prim-mono-white);
@@ -789,9 +853,9 @@
   --header-height:     64px;
 
   /* ── Status / Feedback Colors ──────────────────────────────── */
-  --color-status-success:     #2e7d32;
-  --color-status-warning:     #f9a825;
-  --color-status-error:       #c62828;
+  --color-status-success:     #22c55e;
+  --color-status-warning:     #f59e0b;
+  --color-status-error:       #ef4444;
   --color-match-win-chip-bg:  var(--prim-mint-100, #e8f5e9);
   --color-match-win-chip-fg:  var(--prim-mint-500, #2e7d32);
 

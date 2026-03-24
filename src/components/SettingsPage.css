@@ -8,8 +8,11 @@
   background: var(--color-bg);
 }
 
-.st-content {
+.st-body {
   flex: 1;
+}
+
+.st-content {
   width: 100%;
   max-width: var(--content-max-width, 960px);
   margin: 0 auto;
@@ -303,6 +306,26 @@
   font-size: 13px;
   color: var(--color-body);
   line-height: 1.5;
+}
+
+/* ── Settings content footer (standalone page context) ────────── */
+
+.settings-content__footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 16px 0 0;
+  margin-top: 8px;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+/* ── Card wrapper (reusable within settings tabs) ────────────── */
+
+.st-card {
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 12px;
+  padding: 0 16px;
+  background: var(--color-bg, #fff);
 }
 
 /* ── Responsive ──────────────────────────────────────────────── */

@@ -34,6 +34,7 @@ const BTN_VARIANTS = [
   { key: 'quaternary',     label: 'Quaternary' },
   { key: 'destructive',    label: 'Destructive' },
   { key: 'destructive-ui', label: 'Destructive UI' },
+  { key: 'pill',           label: 'Pill' },
 ];
 
 const BORDER_ROLES = [
@@ -86,6 +87,23 @@ function makeLabel(el) {
     ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.')
     : '';
   return `<${tag}${cls}>`;
+}
+
+const SURFACE_CLASS_MAP = {
+  'surface-muted': 'Secondary', 'surface-inverse': 'Inverse',
+  'surface-accent': 'Accent', 'surface-tertiary': 'Tertiary',
+};
+function detectSurface(el) {
+  let cur = el;
+  while (cur && cur !== document.documentElement) {
+    if (cur.classList) {
+      for (const [cls, label] of Object.entries(SURFACE_CLASS_MAP)) {
+        if (cur.classList.contains(cls)) return label;
+      }
+    }
+    cur = cur.parentElement;
+  }
+  return 'Primary';
 }
 
 function detectButtonVariant(btnEl) {
@@ -156,8 +174,9 @@ function analyse(el, roleOverrides, exact = false) {
     return { target, roleId, label, rect, kind: o.type, value: o.type === 'font' ? o.role : o.variant, borderValue: o.border || 'none' };
   }
 
-  if (findButtonEl(target)) {
-    return { target, roleId, label, rect, kind: 'button', value: detectButtonVariant(findButtonEl(target)), borderValue: 'none' };
+  const detectedBtn = btnEl || findButtonEl(target);
+  if (detectedBtn) {
+    return { target, roleId, label, rect, kind: 'button', value: detectButtonVariant(detectedBtn), borderValue: 'none' };
   }
 
   return { target, roleId, label, rect, kind: 'font', value: detectFontRole(target), borderValue: 'none' };
@@ -184,10 +203,9 @@ const OVERLAY_BORDER = 'rgba(88,221,255,0.6)';
 const SEL_COLOR      = 'rgba(88,221,255,0.25)';
 const SEL_BORDER     = 'rgba(88,221,255,0.9)';
 
-const BAR = {
-  position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 10001,
+const BAR_BASE = {
+  position: 'fixed', left: 0, right: 0, zIndex: 10001,
   background: 'rgba(20,20,20,0.96)', backdropFilter: 'blur(12px)',
-  borderTop: '1px solid rgba(255,255,255,0.12)',
   padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 12,
   fontFamily: 'system-ui, -apple-system, sans-serif', fontSize: 13,
   color: '#ccc', minHeight: 44,
@@ -218,6 +236,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
   const [canUndo, setCanUndo]     = useState(false);
   const [canRedo, setCanRedo]     = useState(false);
   const [isDirty, setIsDirty]     = useState(false);
+  const [position, setPosition]   = useState(() => localStorage.getItem('rt-position') || 'bottom');
   const rafRef = useRef(null);
   const depthStackRef = useRef([]);        // tracks parent-nav history for ↓ to go back
   const roRef  = useRef(roleOverrides);   // always-current roleOverrides
@@ -433,6 +452,19 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
   if (!visible) return null;
 
   const hasStableId = sel && sel.roleId && !sel.roleId.startsWith('_auto:');
+  const isTop = position === 'top';
+  const barStyle = {
+    ...BAR_BASE,
+    ...(isTop
+      ? { top: 0, borderBottom: '1px solid rgba(255,255,255,0.12)' }
+      : { bottom: 0, borderTop: '1px solid rgba(255,255,255,0.12)' }),
+  };
+
+  const togglePosition = () => {
+    const next = isTop ? 'bottom' : 'top';
+    setPosition(next);
+    localStorage.setItem('rt-position', next);
+  };
 
   return (
     <>
@@ -456,8 +488,8 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
         }} />
       )}
 
-      {/* Bottom bar */}
-      <div data-roletarget-panel style={BAR}>
+      {/* Bar */}
+      <div data-roletarget-panel style={barStyle}>
         {sel ? (
           <>
             {/* Depth navigation ↑↓ */}
@@ -472,6 +504,9 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
               }}>▼</button>
             </div>
 
+            <span style={{ color: 'rgba(88,221,255,0.6)', fontFamily: 'monospace', fontSize: 10, flexShrink: 0, marginRight: -4 }}>
+              {detectSurface(sel.target)}
+            </span>
             <span style={{ color: '#58ddff', fontWeight: 600, fontFamily: 'monospace', fontSize: 12, flexShrink: 0 }}>
               {sel.label}
             </span>
@@ -544,6 +579,20 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
         </button>
         <button onClick={handleSave} disabled={!isDirty} style={{ ...BTN_BASE, background: isDirty ? '#58ddff' : 'rgba(255,255,255,0.06)', color: isDirty ? '#111' : '#444' }}>
           Save
+        </button>
+
+        {/* Position toggle */}
+        <button
+          title={isTop ? 'Move bar to bottom' : 'Move bar to top'}
+          onClick={togglePosition}
+          style={{ background: 'none', border: 'none', padding: '2px 4px', cursor: 'pointer', color: '#888', lineHeight: 1, flexShrink: 0 }}
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            {isTop
+              ? <path d="M7 3v8M4 8l3 3 3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              : <path d="M7 11V3M4 6l3-3 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+            }
+          </svg>
         </button>
       </div>
     </>

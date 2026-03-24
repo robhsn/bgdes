@@ -159,6 +159,20 @@
 .modal--lg { max-width: 560px; }
 .modal--xl { max-width: 720px; }
 
+/* Mobile / tablet: modals become bottom sheets */
+@media (max-width: 1024px) {
+  .overlay {
+    align-items: flex-end;
+  }
+  .modal {
+    width: 100%;
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    animation: slide-up 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+}
+
 /* ── 6. tooltip — Hover/click tooltip ───────────────────────── */
 
 .tooltip {
@@ -419,6 +433,27 @@
 .side-panel--sm { width: 320px; }
 .side-panel--md { width: 480px; }
 .side-panel--settings { width: 420px; max-width: 420px; }
+
+@media (max-width: 1024px) {
+  .side-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: 0 -4px 32px rgba(0,0,0,0.2);
+    animation: slide-up 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .side-panel--sm,
+  .side-panel--md,
+  .side-panel--settings {
+    width: 100%;
+    max-width: 100%;
+  }
+}
 
 /* ── 10b. bottom-sheet — Slides up from bottom ─────────────── */
 
@@ -2169,13 +2204,6 @@
   color: var(--color-heading);
 }
 
-.profile-header__date {
-  font-family: var(--font-body);
-  font-size: var(--size-body);
-  color: var(--color-body);
-  margin-bottom: 4px;
-}
-
 .profile-header__bio {
   font-family: var(--font-body);
   font-size: var(--size-body);
@@ -2189,21 +2217,24 @@
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   margin-top: 6px;
   margin-bottom: 16px;
 }
 
-.toolbar__date-inline {
-  display: none;
+.toolbar__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-family: var(--font-body);
   font-size: 12px;
   color: var(--color-muted);
   white-space: nowrap;
 }
 
-.toolbar__separator--date {
-  display: none;
+.toolbar__date-icon {
+  flex-shrink: 0;
+  color: var(--color-muted);
 }
 
 .profile-header__actions-row {
@@ -2257,12 +2288,12 @@
 .stat-card {
   flex: 1;
   text-align: center;
-  padding: 5px 16px;
+  padding: 5px 10px;
   border-right: 1px solid var(--color-border);
   position: relative;
 }
 .stat-card:has(.stat-card__percentile) {
-  padding: 24px 16px 5px;
+  padding: 24px 10px 5px;
 }
 
 .stat-card:last-child {
@@ -2272,7 +2303,7 @@
 .stat-card__number {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 30px;
+  font-size: 26px;
   color: var(--color-heading);
   line-height: 1;
   margin-bottom: 6px;
@@ -2581,7 +2612,7 @@
   padding: 3px 9px;
   border-radius: 20px;
   flex-shrink: 0;
-  min-width: 50px;
+  min-width: 60px;
   text-align: center;
   box-sizing: border-box;
 }
@@ -2602,7 +2633,7 @@
   font-weight: 700;
   color: var(--color-heading);
   flex-shrink: 0;
-  min-width: 48px;
+  min-width: 58px;
   text-align: center;
   font-feature-settings: 'lnum' 1, 'pnum' 1;
 }
@@ -2612,7 +2643,7 @@
   font-size: 12px;
   color: var(--color-muted);
   flex-shrink: 0;
-  min-width: 68px;
+  min-width: 82px;
   text-align: center;
 }
 
@@ -2634,7 +2665,7 @@
   font-size: 12px;
   font-weight: 600;
   flex-shrink: 0;
-  min-width: 80px;
+  min-width: 96px;
   text-align: center;
   color: var(--color-muted);
 }
@@ -2735,7 +2766,7 @@
   font-size: 12px;
   color: var(--color-muted);
   flex-shrink: 0;
-  min-width: 48px;
+  min-width: 58px;
   text-align: center;
 }
 
@@ -2765,31 +2796,31 @@
 
 .match-history__th--result {
   flex-shrink: 0;
-  min-width: 50px;
+  min-width: 60px;
   text-align: center;
 }
 
 .match-history__th--improvement {
   flex-shrink: 0;
-  min-width: 80px;
+  min-width: 96px;
   text-align: center;
 }
 
 .match-history__th--score {
   flex-shrink: 0;
-  min-width: 48px;
+  min-width: 58px;
   text-align: center;
 }
 
 .match-history__th--time {
   flex-shrink: 0;
-  min-width: 48px;
+  min-width: 58px;
   text-align: center;
 }
 
 .match-history__th--date {
   flex-shrink: 0;
-  min-width: 68px;
+  min-width: 82px;
   text-align: center;
 }
 
@@ -3460,7 +3491,7 @@
   flex: 1;
   font-family: var(--font-body);
   font-size: 13px;
-  color: var(--color-body);
+  color: var(--color-input-text);
   background: none;
   border: none;
   padding: 8px 10px;
@@ -3512,7 +3543,7 @@
   border: 2px solid var(--color-border);
   overflow: visible;
   cursor: pointer;
-  background: var(--color-bg);
+  background: var(--modal-bg);
   padding: 0;
   transition: border-color 0.15s, transform 0.15s;
 }
@@ -3574,6 +3605,55 @@
   font-size: 12px;
   color: var(--color-muted);
   background: var(--color-border);
+}
+
+/* ── Cover picker ──────────────────────────────────────────── */
+
+.cover-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.cover-picker__item {
+  position: relative;
+  aspect-ratio: 16 / 6;
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.cover-picker__item:hover {
+  border-color: var(--color-border-subtle);
+  transform: scale(1.02);
+}
+
+.cover-picker__item--selected {
+  border-color: var(--color-accent, #4caf50);
+  border-width: 3px;
+}
+
+.cover-picker__check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.cover-picker__preview {
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+}
+
+.cover-picker__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .settings-row {
@@ -3697,8 +3777,8 @@
   font-size: 11px;
   margin-top: 4px;
 }
-.pw-hint--ok { color: var(--color-status-success, #22c55e); }
-.pw-hint--err { color: var(--color-status-error, #ef4444); }
+.pw-hint--ok { color: var(--color-status-success); }
+.pw-hint--err { color: var(--color-status-error); }
 .pw-hint--neutral { color: var(--color-muted); }
 
 /* ── Country flag ────────────────────────────────────────────── */
@@ -4130,18 +4210,6 @@
     width: 12px;
     height: 12px;
     border-width: 2px;
-  }
-
-  .profile-header__date {
-    display: none;
-  }
-
-  .toolbar__date-inline {
-    display: inline;
-  }
-
-  .toolbar__separator--date {
-    display: block;
   }
 
   .profile-header__bio {

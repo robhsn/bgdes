@@ -45,7 +45,6 @@ import avatarKnight from '../imgs/avatars/Knight.png';
 import avatarMummy from '../imgs/avatars/Mummy.png';
 import avatarPrincess from '../imgs/avatars/Princess.png';
 import avatarRobot from '../imgs/avatars/Robot.png';
-import avatarAIPlayer from '../imgs/avatars/AI Player.png';
 import avatarThief from '../imgs/avatars/Thief.png';
 import avatarWolfy from '../imgs/avatars/Wolfy.png';
 import avatarWitch from '../imgs/avatars/Witch.png';
@@ -68,7 +67,7 @@ const PRESET_AVATARS = [
   { key: 'Knight',      src: avatarKnight },
   { key: 'Mummy',       src: avatarMummy },
   { key: 'Princess',    src: avatarPrincess },
-  { key: 'AI Player',   src: avatarAIPlayer },
+  { key: 'Robot',       src: avatarRobot },
   { key: 'Thief',       src: avatarThief },
   { key: 'Wolfy',       src: avatarWolfy },
   { key: 'Witch',       src: avatarWitch },
@@ -666,21 +665,12 @@ const FRIEND_CHECK_ICON = (
   </svg>
 );
 
-function UnfriendModal({ username, onConfirm, onCancel }) {
+function UnfriendModal({ username, avatarSrc, onConfirm, onCancel }) {
   return (
     <div className="overlay overlay--top" onClick={onCancel}>
       <div className="modal modal--sm" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: '50%',
-            background: 'rgba(220, 50, 50, 0.1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d43333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
-              <line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/>
-            </svg>
-          </div>
+          <Avatar src={avatarSrc} alt={username} size="lg" />
         </div>
         <div className="modal__title">Unfriend {username}</div>
         <div style={{
@@ -704,6 +694,36 @@ function UnfriendModal({ username, onConfirm, onCancel }) {
   );
 }
 
+function AddFriendModal({ username, avatarSrc, onConfirm, onCancel }) {
+  const [sent, setSent] = useState(false);
+  return (
+    <div className="overlay overlay--top" onClick={onCancel}>
+      <div className="modal modal--sm" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Avatar src={avatarSrc} alt={username} size="lg" />
+        </div>
+        <div className="modal__title">Add Friend</div>
+        <div style={{
+          fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
+          fontFamily: 'var(--font-body)',
+        }}>
+          Send a friend request to {username}?
+        </div>
+        <div className="modal__footer" style={{ justifyContent: 'center' }}>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel} disabled={sent}>Cancel</button>
+          <button
+            className="com-btn com-btn--primary com-btn--sm"
+            onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
+            disabled={sent}
+          >
+            {sent ? 'Request Sent \u2713' : 'Send Request'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ChallengeModal({ username, avatarSrc, onConfirm, onCancel }) {
   const [sent, setSent] = useState(false);
   const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
@@ -713,46 +733,93 @@ function ChallengeModal({ username, avatarSrc, onConfirm, onCancel }) {
     mql.addEventListener('change', handler);
     return () => mql.removeEventListener('change', handler);
   }, []);
-  const panelClass = isDesktop ? 'popup-panel' : 'bottom-sheet';
   return (
-    <div className="overlay overlay--top" onClick={onCancel}>
-      <div className={`${panelClass} surface-muted`} data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={isDesktop ? {} : { height: '60vh', maxHeight: '60vh' }}>
-        {!isDesktop && <div className="bottom-sheet__handle" />}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '6px 12px', flexShrink: 0 }}>
-          <button className="popup-panel__close" onClick={onCancel}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 24px', gap: 20 }}>
-          <Avatar src={avatarSrc} alt={username} size="xl" />
-          <h2 className="bottom-sheet__title">Challenge {username}</h2>
-          <div style={{
-            fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
-            fontFamily: 'var(--font-body)',
-          }}>
-            Send a challenge request to {username}?
-          </div>
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-            <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
-            <button
-              className="com-btn com-btn--primary com-btn--sm"
-              onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
-              disabled={sent}
-            >
-              {sent ? 'Challenge Sent \u2713' : 'Send Challenge'}
+    <div className="overlay overlay--top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onCancel}>
+      {isDesktop ? (
+        <div
+          className="surface-muted"
+          data-section-id="gl-dropdown"
+          onClick={e => e.stopPropagation()}
+          style={{
+            background: 'var(--color-bg)',
+            borderRadius: 16,
+            boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
+            display: 'flex',
+            flexDirection: 'column',
+            width: 'auto',
+            maxWidth: 400,
+            animation: 'modal-in 0.25s cubic-bezier(0.25, 1, 0.5, 1)',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '6px 12px 0', flexShrink: 0 }}>
+            <button className="popup-panel__close" onClick={onCancel}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
             </button>
           </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 32px 28px', gap: 16 }}>
+            <Avatar src={avatarSrc} alt={username} size="xl" />
+            <h2 className="bottom-sheet__title" style={{ margin: 0 }}>Challenge {username}</h2>
+            <div style={{
+              fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
+              fontFamily: 'var(--font-body)',
+            }}>
+              Send a challenge request to {username}?
+            </div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 4 }}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+              <button
+                className="com-btn com-btn--dark com-btn--sm"
+                onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
+                disabled={sent}
+              >
+                {sent ? 'Challenge Sent \u2713' : 'Send Challenge'}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="bottom-sheet surface-muted" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ height: '60vh', maxHeight: '60vh' }}>
+          <div className="bottom-sheet__handle" />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '6px 12px', flexShrink: 0 }}>
+            <button className="popup-panel__close" onClick={onCancel}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 24px', gap: 20 }}>
+            <Avatar src={avatarSrc} alt={username} size="xl" />
+            <h2 className="bottom-sheet__title">Challenge {username}</h2>
+            <div style={{
+              fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
+              fontFamily: 'var(--font-body)',
+            }}>
+              Send a challenge request to {username}?
+            </div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+              <button
+                className="com-btn com-btn--dark com-btn--sm"
+                onClick={() => { setSent(true); setTimeout(() => onConfirm(), 1200); }}
+                disabled={sent}
+              >
+                {sent ? 'Challenge Sent \u2713' : 'Send Challenge'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-function FriendButton({ status, username }) {
+function FriendButton({ status, username, avatarSrc }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showUnfriendModal, setShowUnfriendModal] = useState(false);
+  const [showAddFriendModal, setShowAddFriendModal] = useState(false);
   const ref = React.useRef(null);
 
   useEffect(() => {
@@ -876,6 +943,7 @@ function FriendButton({ status, username }) {
         {showUnfriendModal && createPortal(
           <UnfriendModal
             username={username}
+            avatarSrc={avatarSrc}
             onCancel={() => setShowUnfriendModal(false)}
             onConfirm={() => setShowUnfriendModal(false)}
           />,
@@ -887,10 +955,21 @@ function FriendButton({ status, username }) {
 
   /* Default: Add Friend CTA */
   return (
-    <button className="com-btn com-btn--primary com-btn--sm">
-      {FRIEND_ADD_ICON}
-      Add Friend
-    </button>
+    <>
+      <button className="com-btn com-btn--primary com-btn--sm" onClick={() => setShowAddFriendModal(true)}>
+        {FRIEND_ADD_ICON}
+        Add Friend
+      </button>
+      {showAddFriendModal && createPortal(
+        <AddFriendModal
+          username={username}
+          avatarSrc={avatarSrc}
+          onCancel={() => setShowAddFriendModal(false)}
+          onConfirm={() => setShowAddFriendModal(false)}
+        />,
+        document.body,
+      )}
+    </>
   );
 }
 
@@ -1300,11 +1379,13 @@ function IconEyeClosed({ size = 18 }) {
   );
 }
 
-/* ── Settings Panel ─────────────────────────────────────────── */
+/* ── Settings Content (shared between panel & standalone page) ─ */
 
-function SettingsPanel({
-  displayName, bio, socialLinks, country, avatarEdit,
-  onSaveAll, onChangeAvatar, onClose,
+export function SettingsContent({
+  displayName, bio, socialLinks, country, avatarEdit, coverEdit,
+  onSaveAll, onChangeAvatar, onChangeCover, onCancel,
+  section,
+  bodyClassName, footerClassName,
 }) {
   const [settingsTab, setSettingsTab] = useState('Profile');
   const [draftName, setDraftName] = useState(displayName);
@@ -1317,6 +1398,11 @@ function SettingsPanel({
     return d;
   });
 
+  /* Email editing state */
+  const [emailEditing, setEmailEditing] = useState(false);
+  const [draftNewEmail, setDraftNewEmail] = useState('');
+  const [draftConfirmEmail, setDraftConfirmEmail] = useState('');
+
   /* Password editing state */
   const [passwordEditing, setPasswordEditing] = useState(false);
   const [draftCurrentPw, setDraftCurrentPw] = useState('');
@@ -1326,14 +1412,6 @@ function SettingsPanel({
   const [showNewPw, setShowNewPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
 
-  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
-  useEffect(() => {
-    const mql = window.matchMedia('(min-width: 801px)');
-    const handler = (e) => setIsDesktop(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
-
   function handleSave() {
     const cleanedSocials = {};
     SOCIALS.forEach(s => {
@@ -1342,6 +1420,16 @@ function SettingsPanel({
     });
     onSaveAll({ displayName: draftName, bio: draftBio, socialLinks: cleanedSocials, country: draftCountry });
   }
+
+  function cancelEmailEdit() {
+    setEmailEditing(false);
+    setDraftNewEmail('');
+    setDraftConfirmEmail('');
+  }
+
+  const emailValid = draftNewEmail.length > 0
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draftNewEmail)
+    && draftNewEmail === draftConfirmEmail;
 
   function cancelPasswordEdit() {
     setPasswordEditing(false);
@@ -1356,11 +1444,6 @@ function SettingsPanel({
   const pwValid = draftCurrentPw.length > 0 && draftNewPw.length >= 8 && draftNewPw === draftConfirmPw;
 
   const countryFlag = draftCountry ? FLAG_LIST.find(f => f.key === draftCountry) : null;
-  const panelClass = isDesktop ? 'side-panel side-panel--settings' : 'bottom-sheet';
-  const headerClass = isDesktop ? 'side-panel__header' : 'popup-panel__header';
-  const titleClass = isDesktop ? 'side-panel__title' : 'popup-panel__title';
-  const closeClass = isDesktop ? 'side-panel__close' : 'popup-panel__close';
-  const bodyClass = isDesktop ? 'side-panel__body' : 'popup-panel__body';
 
   /* Connected accounts data */
   const connectedAccounts = [
@@ -1379,6 +1462,441 @@ function SettingsPanel({
   ];
 
   return (
+    <>
+      {/* Tab bar */}
+      <div className="settings-tab-bar">
+        {['Profile', 'Account', 'Preferences'].map(t => (
+          <span key={t} className={`settings-tab${settingsTab === t ? ' settings-tab--active' : ''}`}
+            onClick={() => setSettingsTab(t)}>{t}</span>
+        ))}
+      </div>
+
+      <div className={bodyClassName || ''}>
+
+        {/* ── Profile tab ─────────────────────────────────────── */}
+        {settingsTab === 'Profile' && (
+          <>
+            {/* Username */}
+            <div className="settings-row">
+              <div className="settings-row__label">Username</div>
+              <input
+                className="profile-header__name-input"
+                style={{ fontSize: 16, marginBottom: 0 }}
+                value={draftName}
+                onChange={e => { if (e.target.value.length <= 24) setDraftName(e.target.value); }}
+                minLength={4}
+                maxLength={24}
+              />
+              {draftName.length < 4 && (
+                <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-status-error)', marginTop: 4 }}>
+                  Username must be at least 4 characters
+                </div>
+              )}
+              {draftName.length >= 4 && (
+                <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 4 }}>
+                  {`${draftName.length}/24 characters`}
+                </div>
+              )}
+            </div>
+
+            {/* Bio */}
+            <div className="settings-row">
+              <div className="settings-row__label">Intro / Bio</div>
+              <input
+                type="text"
+                className="profile-header__bio-input"
+                value={draftBio}
+                onChange={e => setDraftBio(e.target.value)}
+                placeholder="Write something about yourself..."
+                maxLength={60}
+              />
+              <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{draftBio.length}/60</span>
+            </div>
+
+            {/* Social Links */}
+            <div className="settings-row">
+              <div className="settings-row__label">Social Links</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {SOCIALS.map(s => (
+                  <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
+                    <div className="social-editor__label" style={{ minWidth: 90 }}>
+                      <s.Icon />
+                      <span style={{ fontSize: 12 }}>{s.label}</span>
+                    </div>
+                    <div className="social-editor__input-wrap">
+                      <input
+                        className="social-editor__input"
+                        value={draftSocials[s.key]}
+                        onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
+                        placeholder={s.placeholder}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Country */}
+            <div className="settings-row" style={{ position: 'relative' }}>
+              <div className="settings-row__label">Country</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1 }}>
+                <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
+                  {countryFlag ? (
+                    <>
+                      <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
+                      <span>{countryFlag.label}</span>
+                    </>
+                  ) : (
+                    <span style={{ color: 'var(--color-muted)' }}>Select country...</span>
+                  )}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                {countryFlag && (
+                  <button
+                    onClick={() => setDraftCountry(null)}
+                    style={{
+                      background: 'none', border: 'none', padding: 4, cursor: 'pointer',
+                      color: 'var(--color-muted)', display: 'flex', alignItems: 'center',
+                      flexShrink: 0, borderRadius: 4,
+                    }}
+                    title="Clear country"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              {showCountryDropdown && (
+                <CountryFlagDropdown
+                  currentCountry={draftCountry}
+                  onSelect={(key) => { setDraftCountry(key); setShowCountryDropdown(false); }}
+                  onClose={() => setShowCountryDropdown(false)}
+                />
+              )}
+            </div>
+
+            {/* Avatar */}
+            <div className="settings-row">
+              <div className="settings-row__label">Avatar</div>
+              <button className="settings-row__picker-btn" onClick={() => onChangeAvatar?.()}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
+                  border: '2px solid var(--color-border)', flexShrink: 0,
+                  background: 'var(--color-avatar-bg)',
+                }}>
+                  {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+                </div>
+                <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Cover Image */}
+            {onChangeCover && (
+              <div className="settings-row">
+                <div className="settings-row__label">Cover Image</div>
+                <button className="settings-row__picker-btn" onClick={() => onChangeCover()}>
+                  <div style={{
+                    width: 64, height: 24, borderRadius: 4, overflow: 'hidden',
+                    border: '2px solid var(--color-border)', flexShrink: 0,
+                  }}>
+                    {coverEdit?.type === 'preset'
+                      ? <div style={{ width: '100%', height: '100%', backgroundColor: coverEdit.color }} />
+                      : coverEdit?.cropped
+                        ? <img src={coverEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : <div style={{ width: '100%', height: '100%', background: 'var(--color-border)' }} />
+                    }
+                  </div>
+                  <span>{coverEdit?.type === 'preset' ? coverEdit.key : coverEdit?.type === 'custom' ? 'Custom cover' : 'Default'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ── Account tab ─────────────────────────────────────── */}
+        {settingsTab === 'Account' && (
+          <>
+            {/* Email */}
+            {!emailEditing ? (
+              <div className="settings-row">
+                <div className="settings-row__label">Email</div>
+                <div className="settings-row__value">
+                  <span>user@example.com</span>
+                  <button className="settings-row__change-btn" onClick={() => setEmailEditing(true)}>Change</button>
+                </div>
+              </div>
+            ) : (
+              <div className="settings-row" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div className="settings-row__label">Change Email</div>
+
+                {/* New Email */}
+                <div>
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>New Email</div>
+                  <input
+                    type="email"
+                    className="profile-header__bio-input"
+                    value={draftNewEmail}
+                    onChange={e => setDraftNewEmail(e.target.value)}
+                    placeholder="Enter new email address"
+                    style={{ width: '100%' }}
+                  />
+                </div>
+
+                {/* Confirm Email */}
+                <div>
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Confirm Email</div>
+                  <input
+                    type="email"
+                    className="profile-header__bio-input"
+                    value={draftConfirmEmail}
+                    onChange={e => setDraftConfirmEmail(e.target.value)}
+                    placeholder="Confirm new email address"
+                    style={{ width: '100%' }}
+                  />
+                  {draftConfirmEmail.length > 0 && (
+                    <div className={`pw-hint ${draftNewEmail === draftConfirmEmail ? 'pw-hint--ok' : 'pw-hint--err'}`}>
+                      {draftNewEmail === draftConfirmEmail ? 'Emails match' : 'Emails do not match'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Email actions */}
+                <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+                  <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEmailEdit}>Cancel</button>
+                  <button
+                    className="com-btn com-btn--primary com-btn--sm"
+                    disabled={!emailValid}
+                    style={{ opacity: emailValid ? 1 : 0.5 }}
+                  >Update Email</button>
+                </div>
+              </div>
+            )}
+
+            {/* Password */}
+            {!passwordEditing ? (
+              <div className="settings-row">
+                <div className="settings-row__label">Password</div>
+                <div className="settings-row__value">
+                  <span>••••••••</span>
+                  <button className="settings-row__change-btn" onClick={() => setPasswordEditing(true)}>Change</button>
+                </div>
+              </div>
+            ) : (
+              <div className="settings-row" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div className="settings-row__label">Change Password</div>
+
+                {/* Current Password */}
+                <div>
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Current Password</div>
+                  <div className="pw-field">
+                    <input
+                      type={showCurrentPw ? 'text' : 'password'}
+                      className="profile-header__bio-input"
+                      value={draftCurrentPw}
+                      onChange={e => setDraftCurrentPw(e.target.value)}
+                      placeholder="Enter current password"
+                      style={{ width: '100%' }}
+                    />
+                    <button className="pw-toggle" onClick={() => setShowCurrentPw(v => !v)} type="button">
+                      {showCurrentPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* New Password */}
+                <div>
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>New Password</div>
+                  <div className="pw-field">
+                    <input
+                      type={showNewPw ? 'text' : 'password'}
+                      className="profile-header__bio-input"
+                      value={draftNewPw}
+                      onChange={e => setDraftNewPw(e.target.value)}
+                      placeholder="Enter new password"
+                      style={{ width: '100%' }}
+                    />
+                    <button className="pw-toggle" onClick={() => setShowNewPw(v => !v)} type="button">
+                      {showNewPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
+                    </button>
+                  </div>
+                  <div className={`pw-hint ${draftNewPw.length >= 8 ? 'pw-hint--ok' : 'pw-hint--neutral'}`}>
+                    At least 8 characters
+                  </div>
+                </div>
+
+                {/* Confirm Password */}
+                <div>
+                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Confirm Password</div>
+                  <div className="pw-field">
+                    <input
+                      type={showConfirmPw ? 'text' : 'password'}
+                      className="profile-header__bio-input"
+                      value={draftConfirmPw}
+                      onChange={e => setDraftConfirmPw(e.target.value)}
+                      placeholder="Confirm new password"
+                      style={{ width: '100%' }}
+                    />
+                    <button className="pw-toggle" onClick={() => setShowConfirmPw(v => !v)} type="button">
+                      {showConfirmPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
+                    </button>
+                  </div>
+                  {draftConfirmPw.length > 0 && (
+                    <div className={`pw-hint ${draftNewPw === draftConfirmPw ? 'pw-hint--ok' : 'pw-hint--err'}`}>
+                      {draftNewPw === draftConfirmPw ? 'Passwords match' : 'Passwords do not match'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Password actions */}
+                <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+                  <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelPasswordEdit}>Cancel</button>
+                  <button
+                    className="com-btn com-btn--primary com-btn--sm"
+                    disabled={!pwValid}
+                    style={{ opacity: pwValid ? 1 : 0.5 }}
+                  >Update Password</button>
+                </div>
+              </div>
+            )}
+
+            {/* Connected Accounts */}
+            <div style={{ marginTop: 8 }}>
+              <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Connected Accounts</div>
+
+              {section === 'Error - Already Linked' && (
+                <div className="st-error">
+                  <span className="st-error__icon">&#9888;</span>
+                  <span className="st-error__text">
+                    This Facebook account is already linked to another Backgammon.com player.
+                    Please use a different account or contact support.
+                  </span>
+                </div>
+              )}
+
+              {section === 'Guard Rail' && (
+                <div className="st-guardrail">
+                  <span className="st-guardrail__icon">&#9888;</span>
+                  <span className="st-guardrail__text">
+                    Google is your only sign-in method. Disconnecting it will require you to set up
+                    email/password authentication to keep access to your account.
+                  </span>
+                </div>
+              )}
+
+              {connectedAccounts.map(({ id, name, Icon, connected, email }) => (
+                  <div key={id} className="st-account-row">
+                    <div className={`st-account-icon st-account-icon--${id}`}>
+                      <Icon />
+                    </div>
+                    <div className="st-account-info">
+                      <div className="st-account-name">{name}</div>
+                      {connected ? (
+                        <div className="st-account-status st-account-status--connected">
+                          Connected{email ? ` · ${email}` : ''}
+                        </div>
+                      ) : (
+                        <div className="st-account-status">Not connected</div>
+                      )}
+                    </div>
+                    {connected ? (
+                      <button className="st-account-btn st-account-btn--disconnect">Disconnect</button>
+                    ) : (
+                      <button className="st-account-btn st-account-btn--connect">Connect</button>
+                    )}
+                  </div>
+                ))}
+
+              {/* Disconnect confirmation dialog */}
+              {section === 'Disconnect Confirm' && (
+                <div className="st-dialog-overlay">
+                  <div className="st-dialog">
+                    <div className="st-dialog__icon">&#128279;</div>
+                    <h3 className="st-dialog__title">Disconnect Google?</h3>
+                    <p className="st-dialog__desc">
+                      You will no longer be able to sign in with your Google account.
+                      Make sure you have another sign-in method set up.
+                    </p>
+                    <div className="st-dialog__actions">
+                      <button className="com-btn com-btn--outline com-btn--sm">Cancel</button>
+                      <button className="com-btn com-btn--primary com-btn--sm" style={{ background: '#ef4444', borderColor: '#ef4444' }}>
+                        Disconnect
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* ── Preferences tab ─────────────────────────────────── */}
+        {settingsTab === 'Preferences' && (
+          <>
+            <div style={{ marginTop: 4 }}>
+              <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Notification Preferences</div>
+              {notifPrefs.map(({ id, label, desc, on }) => (
+                  <div key={id} className="st-pref-row">
+                    <div className="st-pref-info">
+                      <div className="st-pref-label">{label}</div>
+                      <div className="st-pref-desc">{desc}</div>
+                    </div>
+                    <div className={`st-toggle${on ? ' st-toggle--on' : ''}`}>
+                      <div className="st-toggle__knob" />
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </>
+        )}
+
+      </div>
+
+      {/* Footer */}
+      <div className={footerClassName || 'settings-content__footer'}>
+        <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel}>Cancel</button>
+        <button
+          className="com-btn com-btn--primary com-btn--sm"
+          style={{ opacity: draftName.length < 4 ? 0.5 : 1 }}
+          onClick={handleSave}
+          disabled={draftName.length < 4}
+        >Save Changes</button>
+      </div>
+    </>
+  );
+}
+
+/* ── Settings Panel (thin wrapper around SettingsContent) ────── */
+
+function SettingsPanel({
+  displayName, bio, socialLinks, country, avatarEdit, coverEdit,
+  onSaveAll, onChangeAvatar, onChangeCover, onClose,
+  section,
+}) {
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 801px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  const panelClass = isDesktop ? 'side-panel side-panel--settings' : 'bottom-sheet';
+  const headerClass = isDesktop ? 'side-panel__header' : 'popup-panel__header';
+  const titleClass = isDesktop ? 'side-panel__title' : 'popup-panel__title';
+  const closeClass = isDesktop ? 'side-panel__close' : 'popup-panel__close';
+  const bodyClass = isDesktop ? 'side-panel__body' : 'popup-panel__body';
+  const footerClass = isDesktop ? 'side-panel__footer' : 'popup-panel__footer';
+
+  return (
     <div className="overlay overlay--top" onClick={onClose}>
       <div className={`${panelClass} surface-muted`} data-section-id="pp-settings" onClick={e => e.stopPropagation()} style={!isDesktop ? { height: '85vh', maxHeight: '85vh' } : undefined}>
         {!isDesktop && <div className="bottom-sheet__handle" />}
@@ -1390,313 +1908,26 @@ function SettingsPanel({
             </svg>
           </button>
         </div>
-
-        {/* Tab bar */}
-        <div className="settings-tab-bar">
-          {['Profile', 'Account', 'Preferences'].map(t => (
-            <span key={t} className={`settings-tab${settingsTab === t ? ' settings-tab--active' : ''}`}
-              onClick={() => setSettingsTab(t)}>{t}</span>
-          ))}
-        </div>
-
-        <div className={bodyClass}>
-
-          {/* ── Profile tab ─────────────────────────────────────── */}
-          {settingsTab === 'Profile' && (
-            <>
-              {/* Username */}
-              <div className="settings-row">
-                <div className="settings-row__label">Username</div>
-                <input
-                  className="profile-header__name-input"
-                  style={{ fontSize: 16, marginBottom: 0 }}
-                  value={draftName}
-                  onChange={e => { if (e.target.value.length <= 24) setDraftName(e.target.value); }}
-                  minLength={4}
-                  maxLength={24}
-                />
-                {draftName.length < 4 && (
-                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-status-error)', marginTop: 4 }}>
-                    Username must be at least 4 characters
-                  </div>
-                )}
-                {draftName.length >= 4 && (
-                  <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 4 }}>
-                    {`${draftName.length}/24 characters`}
-                  </div>
-                )}
-              </div>
-
-              {/* Bio */}
-              <div className="settings-row">
-                <div className="settings-row__label">Intro / Bio</div>
-                <input
-                  type="text"
-                  className="profile-header__bio-input"
-                  value={draftBio}
-                  onChange={e => setDraftBio(e.target.value)}
-                  placeholder="Write something about yourself..."
-                  maxLength={60}
-                />
-                <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{draftBio.length}/60</span>
-              </div>
-
-              {/* Social Links */}
-              <div className="settings-row">
-                <div className="settings-row__label">Social Links</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {SOCIALS.map(s => (
-                    <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
-                      <div className="social-editor__label" style={{ minWidth: 90 }}>
-                        <s.Icon />
-                        <span style={{ fontSize: 12 }}>{s.label}</span>
-                      </div>
-                      <div className="social-editor__input-wrap">
-                        <input
-                          className="social-editor__input"
-                          value={draftSocials[s.key]}
-                          onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
-                          placeholder={s.placeholder}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Country */}
-              <div className="settings-row" style={{ position: 'relative' }}>
-                <div className="settings-row__label">Country</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1 }}>
-                  <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
-                    {countryFlag ? (
-                      <>
-                        <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
-                        <span>{countryFlag.label}</span>
-                      </>
-                    ) : (
-                      <span style={{ color: 'var(--color-muted)' }}>Select country...</span>
-                    )}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </button>
-                  {countryFlag && (
-                    <button
-                      onClick={() => setDraftCountry(null)}
-                      style={{
-                        background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                        color: 'var(--color-muted)', display: 'flex', alignItems: 'center',
-                        flexShrink: 0, borderRadius: 4,
-                      }}
-                      title="Clear country"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                        <path d="M18 6L6 18M6 6l12 12" />
-                      </svg>
-                    </button>
-                  )}
-                </div>
-                {showCountryDropdown && (
-                  <CountryFlagDropdown
-                    currentCountry={draftCountry}
-                    onSelect={(key) => { setDraftCountry(key); setShowCountryDropdown(false); }}
-                    onClose={() => setShowCountryDropdown(false)}
-                  />
-                )}
-              </div>
-
-              {/* Avatar */}
-              <div className="settings-row">
-                <div className="settings-row__label">Avatar</div>
-                <button className="settings-row__picker-btn" onClick={() => onChangeAvatar()}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
-                    border: '2px solid var(--color-border)', flexShrink: 0,
-                    background: 'var(--color-avatar-bg)',
-                  }}>
-                    {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-                  </div>
-                  <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </button>
-              </div>
-            </>
-          )}
-
-          {/* ── Account tab ─────────────────────────────────────── */}
-          {settingsTab === 'Account' && (
-            <>
-              {/* Email */}
-              <div className="settings-row">
-                <div className="settings-row__label">Email</div>
-                <div className="settings-row__value">
-                  <span>user@example.com</span>
-                  <button className="settings-row__change-btn">Change</button>
-                </div>
-              </div>
-
-              {/* Password */}
-              {!passwordEditing ? (
-                <div className="settings-row">
-                  <div className="settings-row__label">Password</div>
-                  <div className="settings-row__value">
-                    <span>••••••••</span>
-                    <button className="settings-row__change-btn" onClick={() => setPasswordEditing(true)}>Change</button>
-                  </div>
-                </div>
-              ) : (
-                <div className="settings-row" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  <div className="settings-row__label">Change Password</div>
-
-                  {/* Current Password */}
-                  <div>
-                    <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Current Password</div>
-                    <div className="pw-field">
-                      <input
-                        type={showCurrentPw ? 'text' : 'password'}
-                        className="profile-header__bio-input"
-                        value={draftCurrentPw}
-                        onChange={e => setDraftCurrentPw(e.target.value)}
-                        placeholder="Enter current password"
-                        style={{ width: '100%' }}
-                      />
-                      <button className="pw-toggle" onClick={() => setShowCurrentPw(v => !v)} type="button">
-                        {showCurrentPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* New Password */}
-                  <div>
-                    <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>New Password</div>
-                    <div className="pw-field">
-                      <input
-                        type={showNewPw ? 'text' : 'password'}
-                        className="profile-header__bio-input"
-                        value={draftNewPw}
-                        onChange={e => setDraftNewPw(e.target.value)}
-                        placeholder="Enter new password"
-                        style={{ width: '100%' }}
-                      />
-                      <button className="pw-toggle" onClick={() => setShowNewPw(v => !v)} type="button">
-                        {showNewPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
-                      </button>
-                    </div>
-                    <div className={`pw-hint ${draftNewPw.length >= 8 ? 'pw-hint--ok' : 'pw-hint--neutral'}`}>
-                      At least 8 characters
-                    </div>
-                  </div>
-
-                  {/* Confirm Password */}
-                  <div>
-                    <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Confirm Password</div>
-                    <div className="pw-field">
-                      <input
-                        type={showConfirmPw ? 'text' : 'password'}
-                        className="profile-header__bio-input"
-                        value={draftConfirmPw}
-                        onChange={e => setDraftConfirmPw(e.target.value)}
-                        placeholder="Confirm new password"
-                        style={{ width: '100%' }}
-                      />
-                      <button className="pw-toggle" onClick={() => setShowConfirmPw(v => !v)} type="button">
-                        {showConfirmPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
-                      </button>
-                    </div>
-                    {draftConfirmPw.length > 0 && (
-                      <div className={`pw-hint ${draftNewPw === draftConfirmPw ? 'pw-hint--ok' : 'pw-hint--err'}`}>
-                        {draftNewPw === draftConfirmPw ? 'Passwords match' : 'Passwords do not match'}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Password actions */}
-                  <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
-                    <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelPasswordEdit}>Cancel</button>
-                    <button
-                      className="com-btn com-btn--primary com-btn--sm"
-                      disabled={!pwValid}
-                      style={{ opacity: pwValid ? 1 : 0.5 }}
-                    >Update Password</button>
-                  </div>
-                </div>
-              )}
-
-              {/* Divider */}
-              <div style={{ height: 1, background: 'var(--color-border)', margin: '8px 0' }} />
-
-              {/* Connected Accounts */}
-              <div style={{ marginTop: 8 }}>
-                <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Connected Accounts</div>
-                <div className="st-card">
-                  {connectedAccounts.map(({ id, name, Icon, connected, email }) => (
-                    <div key={id} className="st-account-row">
-                      <div className={`st-account-icon st-account-icon--${id}`}>
-                        <Icon />
-                      </div>
-                      <div className="st-account-info">
-                        <div className="st-account-name">{name}</div>
-                        {connected ? (
-                          <div className="st-account-status st-account-status--connected">
-                            Connected{email ? ` · ${email}` : ''}
-                          </div>
-                        ) : (
-                          <div className="st-account-status">Not connected</div>
-                        )}
-                      </div>
-                      {connected ? (
-                        <button className="st-account-btn st-account-btn--disconnect">Disconnect</button>
-                      ) : (
-                        <button className="st-account-btn st-account-btn--connect">Connect</button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* ── Preferences tab ─────────────────────────────────── */}
-          {settingsTab === 'Preferences' && (
-            <>
-              <div style={{ marginTop: 4 }}>
-                <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Notification Preferences</div>
-                <div className="st-card">
-                  {notifPrefs.map(({ id, label, desc, on }) => (
-                    <div key={id} className="st-pref-row">
-                      <div className="st-pref-info">
-                        <div className="st-pref-label">{label}</div>
-                        <div className="st-pref-desc">{desc}</div>
-                      </div>
-                      <div className={`st-toggle${on ? ' st-toggle--on' : ''}`}>
-                        <div className="st-toggle__knob" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-
-        </div>
-
-        {/* Sticky footer */}
-        <div className={isDesktop ? 'side-panel__footer' : 'popup-panel__footer'}>
-          <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
-          <button
-            className="com-btn com-btn--primary com-btn--sm"
-            style={{ opacity: draftName.length < 4 ? 0.5 : 1 }}
-            onClick={handleSave}
-            disabled={draftName.length < 4}
-          >Save Changes</button>
-        </div>
+        <SettingsContent
+          displayName={displayName}
+          bio={bio}
+          socialLinks={socialLinks}
+          country={country}
+          avatarEdit={avatarEdit}
+          coverEdit={coverEdit}
+          onSaveAll={onSaveAll}
+          onChangeAvatar={onChangeAvatar}
+          onChangeCover={onChangeCover}
+          onCancel={onClose}
+          section={section}
+          bodyClassName={bodyClass}
+          footerClassName={footerClass}
+        />
       </div>
     </div>
   );
 }
+
 
 /* ── Country Flag Dropdown ──────────────────────────────────── */
 
@@ -1837,7 +2068,7 @@ function QRCodeSvg({ text, size = 100 }) {
 
 /* ── Player Card Modal ──────────────────────────────────────── */
 
-function PlayerCardModal({ player, coverImg, avatarImg: avatarSrc, onClose }) {
+function PlayerCardModal({ player, coverImg, coverColor, avatarImg: avatarSrc, onClose }) {
   const cardRef = React.useRef(null);
   const username = player.displayName.toLowerCase();
   const profileUrl = `backgammon.com/player/${username}`;
@@ -1926,7 +2157,7 @@ function PlayerCardModal({ player, coverImg, avatarImg: avatarSrc, onClose }) {
         }
         ctx.drawImage(coverLoaded, sx, sy, sw, sh, 0, 0, W, coverH);
       } else {
-        ctx.fillStyle = '#e0e0e0';
+        ctx.fillStyle = coverColor || '#e0e0e0';
         ctx.fillRect(0, 0, W, coverH);
       }
 
@@ -2082,7 +2313,10 @@ function PlayerCardModal({ player, coverImg, avatarImg: avatarSrc, onClose }) {
   return (
     <div className="overlay overlay--top" onClick={onClose}>
       <div className="player-card" onClick={e => e.stopPropagation()} ref={cardRef}>
-        <img src={coverImg} alt="" className="player-card__cover" crossOrigin="anonymous" />
+        {coverColor
+          ? <div className="player-card__cover" style={{ backgroundColor: coverColor }} />
+          : <img src={coverImg} alt="" className="player-card__cover" crossOrigin="anonymous" />
+        }
         <div className="player-card__avatar-wrap">
           <div className="player-card__avatar">
             {avatarSrc
@@ -2317,10 +2551,11 @@ function ImageCropModal({ src, aspectRatio, circular, initialCropParams, onSave,
 
 /* ── Avatar Selection Modal ──────────────────────────────────── */
 
-function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurrent, onClose }) {
+function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurrent, onClose, isMvp }) {
   const [tab, setTab] = useState('select');
   const [pendingPreset, setPendingPreset] = useState(null);
   const fileRef = React.useRef(null);
+  const showTabs = !isMvp;
 
   function handleFileSelect(e) {
     const file = e.target.files?.[0];
@@ -2335,22 +2570,25 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
   const selectedKey = pendingPreset ? pendingPreset.key : currentPresetKey;
   const hasPresetChange = pendingPreset && pendingPreset.key !== currentPresetKey;
   const hasCustomAvatar = currentAvatar?.type === 'custom' && currentAvatar.cropped;
+  const activeTab = isMvp ? 'select' : tab;
 
   return (
     <div className="overlay overlay--top" onClick={onClose}>
       <div className="modal modal--md" onClick={e => e.stopPropagation()}>
         <div className="modal__title">Choose Avatar</div>
-        <div className="avatar-picker__tabs">
-          <button
-            className={`avatar-picker__tab${tab === 'select' ? ' avatar-picker__tab--active' : ''}`}
-            onClick={() => setTab('select')}
-          >Select</button>
-          <button
-            className={`avatar-picker__tab${tab === 'custom' ? ' avatar-picker__tab--active' : ''}`}
-            onClick={() => setTab('custom')}
-          >Custom</button>
-        </div>
-        {tab === 'select' ? (
+        {showTabs && (
+          <div className="avatar-picker__tabs">
+            <button
+              className={`avatar-picker__tab${activeTab === 'select' ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab('select')}
+            >Select</button>
+            <button
+              className={`avatar-picker__tab${activeTab === 'custom' ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab('custom')}
+            >Custom</button>
+          </div>
+        )}
+        {activeTab === 'select' ? (
           <>
             <div className="avatar-picker__grid">
               {PRESET_AVATARS.map(p => (
@@ -2402,6 +2640,122 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
               )}
               <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
                 {hasCustomAvatar ? 'Upload New' : 'Upload Avatar'}
+              </button>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── Preset cover images (solid-color placeholders) ──────────── */
+const PRESET_COVERS = [
+  { key: 'navy',    color: '#1e3a5f' },
+  { key: 'forest',  color: '#2d5a3d' },
+  { key: 'wine',    color: '#6b2c3e' },
+  { key: 'slate',   color: '#4a5568' },
+  { key: 'amber',   color: '#92400e' },
+  { key: 'indigo',  color: '#3730a3' },
+];
+
+/* ── Cover Image Modal ───────────────────────────────────────── */
+
+function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurrent, onClose, isMvp }) {
+  const [tab, setTab] = useState('select');
+  const [pendingCover, setPendingCover] = useState(null);
+  const fileRef = React.useRef(null);
+  const showTabs = !isMvp;
+
+  function handleFileSelect(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onCustomUpload(reader.result);
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+
+  const currentPresetKey = currentCover?.type === 'preset' ? currentCover.key : null;
+  const selectedKey = pendingCover || currentPresetKey;
+  const hasChange = pendingCover && pendingCover !== currentPresetKey;
+  const hasCustomCover = currentCover?.type === 'custom' && currentCover.cropped;
+  const activeTab = isMvp ? 'select' : tab;
+
+  return (
+    <div className="overlay overlay--top" onClick={onClose}>
+      <div className="modal modal--md" onClick={e => e.stopPropagation()}>
+        <div className="modal__title">Choose Cover Image</div>
+        {showTabs && (
+          <div className="avatar-picker__tabs">
+            <button
+              className={`avatar-picker__tab${activeTab === 'select' ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab('select')}
+            >Select</button>
+            <button
+              className={`avatar-picker__tab${activeTab === 'custom' ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab('custom')}
+            >Custom</button>
+          </div>
+        )}
+        {activeTab === 'select' ? (
+          <>
+            <div className="cover-picker__grid">
+              {PRESET_COVERS.map(c => (
+                <button
+                  key={c.key}
+                  className={`cover-picker__item${selectedKey === c.key ? ' cover-picker__item--selected' : ''}`}
+                  onClick={() => setPendingCover(c.key)}
+                  title={c.key}
+                  style={{ backgroundColor: c.color }}
+                >
+                  {selectedKey === c.key && (
+                    <div className="cover-picker__check">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
+                        <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+              <button
+                className="com-btn com-btn--primary com-btn--sm"
+                style={{ opacity: hasChange ? 1 : 0.5, pointerEvents: hasChange ? 'auto' : 'none' }}
+                onClick={() => {
+                  if (pendingCover) {
+                    const preset = PRESET_COVERS.find(c => c.key === pendingCover);
+                    onSelectPreset(preset);
+                  }
+                }}
+              >Save</button>
+            </div>
+          </>
+        ) : (
+          <div className="avatar-picker__custom">
+            <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileSelect} />
+            <div className="cover-picker__preview">
+              {currentCover?.type === 'custom' && currentCover.cropped
+                ? <img src={currentCover.cropped} alt="Current cover" />
+                : <div className="avatar-picker__empty">No custom cover image</div>
+              }
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {hasCustomCover && (
+                <button className="com-btn com-btn--primary com-btn--sm" onClick={() => onEditCurrent()}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                  Edit
+                </button>
+              )}
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
+                {hasCustomCover ? 'Upload New' : 'Upload Cover Image'}
               </button>
               <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
             </div>
@@ -2614,9 +2968,14 @@ export default function ProfilePage({ onNavigate }) {
     return null;
   })();
   const [avatarEdit, setAvatarEdit] = useState(initAvatar);
-  const [coverEdit, setCoverEdit] = useState(
-    profileData.coverImage ? { original: profileData.coverImage, cropParams: null, cropped: profileData.coverImage } : null
-  );
+  const [coverEdit, setCoverEdit] = useState(() => {
+    if (profileData.coverPreset) {
+      const preset = PRESET_COVERS.find(c => c.key === profileData.coverPreset);
+      if (preset) return { type: 'preset', key: preset.key, color: preset.color, cropped: null };
+    }
+    if (profileData.coverImage) return { type: 'custom', original: profileData.coverImage, cropParams: null, cropped: profileData.coverImage };
+    return null;
+  });
   const [cropModal, setCropModal] = useState(null); // { src, aspectRatio, circular, target }
 
   /* Local celebration state — shown on toggle or manual trigger */
@@ -2627,8 +2986,9 @@ export default function ProfilePage({ onNavigate }) {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
 
-  /* Avatar modal state */
+  /* Avatar / cover modal state */
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [showCoverModal, setShowCoverModal] = useState(false);
 
   /* Social links state */
   const [socialLinks, setSocialLinks] = useState(profileData.socialLinks || {});
@@ -2702,12 +3062,14 @@ export default function ProfilePage({ onNavigate }) {
   /* Persist profile data to git-tracked JSON */
   function persistProfile(overrides = {}) {
     const currentAvatar = overrides.avatarEdit !== undefined ? overrides.avatarEdit : avatarEdit;
+    const currentCover = overrides.coverEdit !== undefined ? overrides.coverEdit : coverEdit;
     const payload = {
       displayName: overrides.displayName !== undefined ? overrides.displayName : savedName,
       bio: overrides.bio !== undefined ? overrides.bio : savedBio,
       avatar: currentAvatar?.type === 'custom' ? currentAvatar.cropped : null,
       avatarPreset: currentAvatar?.type === 'preset' ? currentAvatar.key : null,
-      coverImage: overrides.coverImage !== undefined ? overrides.coverImage : (coverEdit?.cropped || null),
+      coverImage: currentCover?.type === 'custom' ? currentCover.cropped : null,
+      coverPreset: currentCover?.type === 'preset' ? currentCover.key : null,
       socialLinks: overrides.socialLinks !== undefined ? overrides.socialLinks : socialLinks,
       country: overrides.country !== undefined ? overrides.country : country,
     };
@@ -2783,17 +3145,7 @@ export default function ProfilePage({ onNavigate }) {
   }
 
   function handleCoverPencilClick() {
-    if (coverEdit?.original) {
-      setCropModal({
-        src: coverEdit.original,
-        aspectRatio: 16 / 6,
-        circular: false,
-        target: 'cover',
-        initialCropParams: coverEdit.cropParams,
-      });
-    } else {
-      coverInputRef.current?.click();
-    }
+    setShowCoverModal(true);
   }
 
   function handleCropSave(croppedDataUrl, cropParams) {
@@ -2802,8 +3154,9 @@ export default function ProfilePage({ onNavigate }) {
       setAvatarEdit(newAvatar);
       persistProfile({ avatarEdit: newAvatar });
     } else {
-      setCoverEdit({ original: cropModal.src, cropParams, cropped: croppedDataUrl });
-      persistProfile({ coverImage: croppedDataUrl });
+      const newCover = { type: 'custom', original: cropModal.src, cropParams, cropped: croppedDataUrl };
+      setCoverEdit(newCover);
+      persistProfile({ coverEdit: newCover });
     }
     setCropModal(null);
   }
@@ -2833,7 +3186,10 @@ export default function ProfilePage({ onNavigate }) {
 
       {/* ── Cover image ── */}
       <div className={`profile-cover${editMode ? ' profile-cover--editable' : ''}`}>
-        <img src={coverEdit?.cropped || coverDefault} alt="" className="profile-cover__image" aria-hidden="true" />
+        {coverEdit?.type === 'preset'
+          ? <div className="profile-cover__image" style={{ backgroundColor: coverEdit.color }} aria-hidden="true" />
+          : <img src={coverEdit?.cropped || coverDefault} alt="" className="profile-cover__image" aria-hidden="true" />
+        }
         {editMode && (
           <button className="edit-pencil edit-pencil--cover" onClick={handleCoverPencilClick}>
             <IconPencil size={32} />
@@ -2893,7 +3249,6 @@ export default function ProfilePage({ onNavigate }) {
 
           <div className="profile-header__body-row">
             <div className="profile-header__bio-col">
-              <div className="profile-header__date">{player.joinDate}</div>
               <div className="profile-header__name-row">
                 <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
                 {isFavorited && (
@@ -2918,8 +3273,14 @@ export default function ProfilePage({ onNavigate }) {
                 bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
               )}
               <div className="toolbar">
-                <span className="toolbar__date-inline">{shortenJoinDate(player.joinDate)}</span>
-                <div className="toolbar__separator toolbar__separator--date" />
+                <span className="toolbar__date">
+                  <svg className="toolbar__date-icon" width="16" height="16" viewBox="0 0 40 40" fill="currentColor">
+                    <path d="M1.33333 18.6667V34.6667C1.33333 37.6083 3.72499 40 6.66666 40H33.3333C36.275 40 38.6667 37.6083 38.6667 34.6667V18.6667H1.33333Z" />
+                    <path d="M9.33333 2.66667C9.33333 1.19167 10.525 0 12 0C13.475 0 14.6667 1.19167 14.6667 2.66667V5.33333H25.3333V2.66667C25.3333 1.19167 26.525 0 28 0C29.475 0 30.6667 1.19167 30.6667 2.66667V5.33333H33.3333C36.275 5.33333 38.6667 7.725 38.6667 10.6667V14.6667H1.33333V10.6667C1.33333 7.725 3.72499 5.33333 6.66666 5.33333H9.33333V2.66667Z" />
+                  </svg>
+                  {shortenJoinDate(player.joinDate)}
+                </span>
+                <div className="toolbar__separator" />
                 {countryFlag && (
                   <>
                     <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
@@ -2961,9 +3322,6 @@ export default function ProfilePage({ onNavigate }) {
               </div>
             </div>
             <div className="profile-header__stats-col">
-              {isNewPlayer && (
-                <span className="milestone-category__hint pp-new-player-hint" style={{ marginBottom: 8, display: 'block' }}>Play your first game to start tracking!</span>
-              )}
               <GatedSection isGated={isGated}>
                 <div className="stat-grid">
                   {[
@@ -3020,7 +3378,7 @@ export default function ProfilePage({ onNavigate }) {
           )}
           {showOtherProfile && !isUnregistered && (
             <div className="profile-header__actions-row profile-header__actions-row--other">
-              <FriendButton status={friendStatus} username={player.displayName} />
+              <FriendButton status={isGuest ? 'Add Friend' : friendStatus} username={player.displayName} avatarSrc={player.avatar} />
               <button className="com-btn com-btn--primary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
                 <IconCheckerStack />
                 Challenge
@@ -3148,7 +3506,8 @@ export default function ProfilePage({ onNavigate }) {
       {showPlayerCard && (
         <PlayerCardModal
           player={{ ...player, displayName, bio, stats }}
-          coverImg={coverEdit?.cropped || coverDefault}
+          coverImg={coverEdit?.type === 'preset' ? null : (coverEdit?.cropped || coverDefault)}
+          coverColor={coverEdit?.type === 'preset' ? coverEdit.color : null}
           avatarImg={avatarEdit?.cropped || player.avatar}
           onClose={() => setShowPlayerCard(false)}
         />
@@ -3201,6 +3560,44 @@ export default function ProfilePage({ onNavigate }) {
             }
           }}
           onClose={() => setShowAvatarModal(false)}
+          isMvp={isMvp}
+        />
+      )}
+
+      {/* ── Cover image selection modal ── */}
+      {showCoverModal && (
+        <CoverModal
+          currentCover={coverEdit}
+          onSelectPreset={(preset) => {
+            const newCover = { type: 'preset', key: preset.key, color: preset.color, cropped: null };
+            setCoverEdit(newCover);
+            persistProfile({ coverEdit: newCover });
+            setShowCoverModal(false);
+          }}
+          onCustomUpload={(dataUrl) => {
+            setShowCoverModal(false);
+            setCropModal({
+              src: dataUrl,
+              aspectRatio: 16 / 6,
+              circular: false,
+              target: 'cover',
+              initialCropParams: null,
+            });
+          }}
+          onEditCurrent={() => {
+            if (coverEdit?.type === 'custom' && coverEdit.original) {
+              setShowCoverModal(false);
+              setCropModal({
+                src: coverEdit.original,
+                aspectRatio: 16 / 6,
+                circular: false,
+                target: 'cover',
+                initialCropParams: coverEdit.cropParams || null,
+              });
+            }
+          }}
+          onClose={() => setShowCoverModal(false)}
+          isMvp={isMvp}
         />
       )}
 
@@ -3212,6 +3609,7 @@ export default function ProfilePage({ onNavigate }) {
           socialLinks={socialLinks}
           country={country}
           avatarEdit={avatarEdit}
+          coverEdit={coverEdit}
           onSaveAll={({ displayName: name, bio: newBio, socialLinks: links, country: newCountry }) => {
             setSavedName(name);
             setSavedBio(newBio);
@@ -3221,6 +3619,7 @@ export default function ProfilePage({ onNavigate }) {
             setShowSettings(false);
           }}
           onChangeAvatar={() => { setShowSettings(false); setShowAvatarModal(true); }}
+          onChangeCover={() => { setShowSettings(false); setShowCoverModal(true); }}
           onClose={() => setShowSettings(false)}
         />
       )}
@@ -3266,3 +3665,5 @@ export default function ProfilePage({ onNavigate }) {
     </div>
   );
 }
+
+export { AvatarModal, CoverModal, ImageCropModal, PRESET_AVATARS, PRESET_COVERS, getAvatarSrc };

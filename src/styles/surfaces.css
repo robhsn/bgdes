@@ -24,6 +24,7 @@
   --color-border-light:   var(--sf-muted-border-light);
   --color-border-mid:     var(--sf-muted-border-mid);
   --color-border-subtle:  var(--sf-muted-border-subtle);
+  --color-border-active:  var(--sf-muted-border-active);
   --color-callout-border: var(--sf-muted-callout-border);
   --color-placeholder:    var(--sf-muted-placeholder);
   --color-input-bg:          var(--sf-muted-input-bg);
@@ -43,6 +44,9 @@
   --color-pill-border:    var(--sf-muted-pill-border);
   --color-tag-fill:       var(--sf-muted-tag-fill);
   --color-star:           var(--sf-muted-star);
+  --color-status-success: var(--sf-muted-status-success);
+  --color-status-warning: var(--sf-muted-status-warning);
+  --color-status-error:   var(--sf-muted-status-error);
   --color-ui-xl:          var(--sf-muted-ui-xl);
   --color-ui-lg:          var(--sf-muted-ui-lg);
   --color-ui-md:          var(--sf-muted-ui-md);
@@ -72,6 +76,15 @@
   --com-btn-destructive-ui-bg:      var(--sf-muted-btn-destructive-ui-bg);
   --com-btn-destructive-ui-fg:      var(--sf-muted-btn-destructive-ui-fg);
   --com-btn-destructive-ui-border:  var(--sf-muted-btn-destructive-ui-border);
+  --com-btn-pill-bg:               var(--sf-muted-btn-pill-bg);
+  --com-btn-pill-fg:               var(--sf-muted-btn-pill-fg);
+  --com-btn-pill-border:           var(--sf-muted-btn-pill-border);
+  --com-btn-pill-active-bg:        var(--sf-muted-btn-pill-active-bg);
+  --com-btn-pill-active-fg:        var(--sf-muted-btn-pill-active-fg);
+  --com-btn-pill-active-border:    var(--sf-muted-btn-pill-active-border);
+  --com-btn-pill-disabled-bg:      var(--sf-muted-btn-pill-disabled-bg);
+  --com-btn-pill-disabled-fg:      var(--sf-muted-btn-pill-disabled-fg);
+  --com-btn-pill-disabled-border:  var(--sf-muted-btn-pill-disabled-border);
 }
 
 .surface-inverse {
@@ -96,6 +109,7 @@
   --color-border-light:   var(--sf-inverse-border-light);
   --color-border-mid:     var(--sf-inverse-border-mid);
   --color-border-subtle:  var(--sf-inverse-border-subtle);
+  --color-border-active:  var(--sf-inverse-border-active);
   --color-callout-border: var(--sf-inverse-callout-border);
   --color-placeholder:    var(--sf-inverse-placeholder);
   --color-input-bg:          var(--sf-inverse-input-bg);
@@ -115,6 +129,9 @@
   --color-pill-border:    var(--sf-inverse-pill-border);
   --color-tag-fill:       var(--sf-inverse-tag-fill);
   --color-star:           var(--sf-inverse-star);
+  --color-status-success: var(--sf-inverse-status-success);
+  --color-status-warning: var(--sf-inverse-status-warning);
+  --color-status-error:   var(--sf-inverse-status-error);
   --color-ui-xl:          var(--sf-inverse-ui-xl);
   --color-ui-lg:          var(--sf-inverse-ui-lg);
   --color-ui-md:          var(--sf-inverse-ui-md);
@@ -144,6 +161,15 @@
   --com-btn-destructive-ui-bg:      var(--sf-inverse-btn-destructive-ui-bg);
   --com-btn-destructive-ui-fg:      var(--sf-inverse-btn-destructive-ui-fg);
   --com-btn-destructive-ui-border:  var(--sf-inverse-btn-destructive-ui-border);
+  --com-btn-pill-bg:               var(--sf-inverse-btn-pill-bg);
+  --com-btn-pill-fg:               var(--sf-inverse-btn-pill-fg);
+  --com-btn-pill-border:           var(--sf-inverse-btn-pill-border);
+  --com-btn-pill-active-bg:        var(--sf-inverse-btn-pill-active-bg);
+  --com-btn-pill-active-fg:        var(--sf-inverse-btn-pill-active-fg);
+  --com-btn-pill-active-border:    var(--sf-inverse-btn-pill-active-border);
+  --com-btn-pill-disabled-bg:      var(--sf-inverse-btn-pill-disabled-bg);
+  --com-btn-pill-disabled-fg:      var(--sf-inverse-btn-pill-disabled-fg);
+  --com-btn-pill-disabled-border:  var(--sf-inverse-btn-pill-disabled-border);
 }
 
 .surface-accent {
@@ -168,6 +194,7 @@
   --color-border-light:   var(--sf-accent-border-light);
   --color-border-mid:     var(--sf-accent-border-mid);
   --color-border-subtle:  var(--sf-accent-border-subtle);
+  --color-border-active:  var(--sf-accent-border-active);
   --color-callout-border: var(--sf-accent-callout-border);
   --color-placeholder:    var(--sf-accent-placeholder);
   --color-input-bg:          var(--sf-accent-input-bg);
@@ -187,6 +214,9 @@
   --color-pill-border:    var(--sf-accent-pill-border);
   --color-tag-fill:       var(--sf-accent-tag-fill);
   --color-star:           var(--sf-accent-star);
+  --color-status-success: var(--sf-accent-status-success);
+  --color-status-warning: var(--sf-accent-status-warning);
+  --color-status-error:   var(--sf-accent-status-error);
   --color-ui-xl:          var(--sf-accent-ui-xl);
   --color-ui-lg:          var(--sf-accent-ui-lg);
   --color-ui-md:          var(--sf-accent-ui-md);
@@ -216,6 +246,15 @@
   --com-btn-destructive-ui-bg:      var(--sf-accent-btn-destructive-ui-bg);
   --com-btn-destructive-ui-fg:      var(--sf-accent-btn-destructive-ui-fg);
   --com-btn-destructive-ui-border:  var(--sf-accent-btn-destructive-ui-border);
+  --com-btn-pill-bg:               var(--sf-accent-btn-pill-bg);
+  --com-btn-pill-fg:               var(--sf-accent-btn-pill-fg);
+  --com-btn-pill-border:           var(--sf-accent-btn-pill-border);
+  --com-btn-pill-active-bg:        var(--sf-accent-btn-pill-active-bg);
+  --com-btn-pill-active-fg:        var(--sf-accent-btn-pill-active-fg);
+  --com-btn-pill-active-border:    var(--sf-accent-btn-pill-active-border);
+  --com-btn-pill-disabled-bg:      var(--sf-accent-btn-pill-disabled-bg);
+  --com-btn-pill-disabled-fg:      var(--sf-accent-btn-pill-disabled-fg);
+  --com-btn-pill-disabled-border:  var(--sf-accent-btn-pill-disabled-border);
 }
 
 .surface-tertiary {
@@ -240,6 +279,7 @@
   --color-border-light:   var(--sf-tertiary-border-light);
   --color-border-mid:     var(--sf-tertiary-border-mid);
   --color-border-subtle:  var(--sf-tertiary-border-subtle);
+  --color-border-active:  var(--sf-tertiary-border-active);
   --color-callout-border: var(--sf-tertiary-callout-border);
   --color-placeholder:    var(--sf-tertiary-placeholder);
   --color-input-bg:          var(--sf-tertiary-input-bg);
@@ -259,6 +299,9 @@
   --color-pill-border:    var(--sf-tertiary-pill-border);
   --color-tag-fill:       var(--sf-tertiary-tag-fill);
   --color-star:           var(--sf-tertiary-star);
+  --color-status-success: var(--sf-tertiary-status-success);
+  --color-status-warning: var(--sf-tertiary-status-warning);
+  --color-status-error:   var(--sf-tertiary-status-error);
   --color-ui-xl:          var(--sf-tertiary-ui-xl);
   --color-ui-lg:          var(--sf-tertiary-ui-lg);
   --color-ui-md:          var(--sf-tertiary-ui-md);
@@ -288,4 +331,13 @@
   --com-btn-destructive-ui-bg:      var(--sf-tertiary-btn-destructive-ui-bg);
   --com-btn-destructive-ui-fg:      var(--sf-tertiary-btn-destructive-ui-fg);
   --com-btn-destructive-ui-border:  var(--sf-tertiary-btn-destructive-ui-border);
+  --com-btn-pill-bg:               var(--sf-tertiary-btn-pill-bg);
+  --com-btn-pill-fg:               var(--sf-tertiary-btn-pill-fg);
+  --com-btn-pill-border:           var(--sf-tertiary-btn-pill-border);
+  --com-btn-pill-active-bg:        var(--sf-tertiary-btn-pill-active-bg);
+  --com-btn-pill-active-fg:        var(--sf-tertiary-btn-pill-active-fg);
+  --com-btn-pill-active-border:    var(--sf-tertiary-btn-pill-active-border);
+  --com-btn-pill-disabled-bg:      var(--sf-tertiary-btn-pill-disabled-bg);
+  --com-btn-pill-disabled-fg:      var(--sf-tertiary-btn-pill-disabled-fg);
+  --com-btn-pill-disabled-border:  var(--sf-tertiary-btn-pill-disabled-border);
 }

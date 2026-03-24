@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 /* ─── Child button definitions ───────────────────────────────── */
 const CHILDREN = [
@@ -138,7 +139,7 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
 
   const anyActive = activePanel != null || pageNavOpen;
 
-  return (
+  return createPortal(
     <div
       className="radial-fab"
       data-devmode-ignore
@@ -148,7 +149,7 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
         position: 'fixed',
         bottom: 60,
         right: 16,
-        zIndex: 9998,
+        zIndex: 2147483647,
         /* Cover the vertical stack + 20px safe area so mouse can travel between buttons */
         width: open ? 70 : 50,
         height: open ? CHILDREN.length * CHILD_GAP + 70 : CHILDREN.length * CHILD_GAP + 50,
@@ -220,6 +221,7 @@ export default function RadialFAB({ activePanel, pageNavOpen, onTogglePanel, onT
       >
         <SmileyIcon bright={anyActive || open} />
       </button>
-    </div>
+    </div>,
+    document.body,
   );
 }

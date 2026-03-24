@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDMEState } from '../context/dme-states';
 import BOARD_PRESETS from '../data/board-presets';
 import { MOCK_FRIENDS } from '../data/social-mock-data';
 import avatarDrac from '../imgs/avatars/Drac.png';
 import avatarSoldier from '../imgs/avatars/Soldier.png';
 import avatarKing from '../imgs/avatars/King.png';
+import avatarGhosty from '../imgs/avatars/Ghosty.png';
+import avatarGobby from '../imgs/avatars/Gobby.png';
+import friendAddIcon from '../imgs/icons/Friend Add.svg';
 import Avatar from './Avatar';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import './PlayPage.css';
@@ -324,7 +327,7 @@ function AvatarRing({ src }) {
   );
 }
 
-function PlayerBadge({ name, color, avatarSrc, isRight }) {
+function PlayerBadge({ name, color, avatarSrc, isRight, onClick }) {
   const label = color === 'white' ? 'White' : 'Black';
 
   const meta = (
@@ -340,7 +343,7 @@ function PlayerBadge({ name, color, avatarSrc, isRight }) {
   );
 
   return (
-    <div className={`gp-player ${isRight ? 'gp-player--right' : ''}`}>
+    <div className={`gp-player ${isRight ? 'gp-player--right' : ''}`} onClick={onClick} style={onClick ? { cursor: 'pointer' } : undefined}>
       {!isRight && <AvatarRing src={avatarSrc} />}
       {meta}
       {isRight && <AvatarRing src={avatarSrc} />}
@@ -348,7 +351,7 @@ function PlayerBadge({ name, color, avatarSrc, isRight }) {
   );
 }
 
-function TopBar({ logoSrc, onNavigate }) {
+function TopBar({ logoSrc, onNavigate, onOpponentClick }) {
   return (
     <div className="gp-topbar">
       {/* Row 1: logo (mobile) — hidden on desktop where logo is in center */}
@@ -359,7 +362,7 @@ function TopBar({ logoSrc, onNavigate }) {
       {/* Row 2 (mobile) / Single row (desktop): players + logo + menu */}
       <div className="gp-topbar-players-row">
         <div className="gp-topbar-left">
-          <PlayerBadge name="NimblePip" color="white" avatarSrc={avatarDrac} />
+          <PlayerBadge name="RobertTHeathIsMyFullName" color="white" avatarSrc={avatarDrac} />
         </div>
 
         <div className="gp-topbar-center">
@@ -367,7 +370,7 @@ function TopBar({ logoSrc, onNavigate }) {
         </div>
 
         <div className="gp-topbar-right">
-          <PlayerBadge name="Rusty (Beginner Bot)" color="black" avatarSrc={avatarSoldier} isRight />
+          <PlayerBadge name="Rusty (Beginner Bot)" color="black" avatarSrc={avatarSoldier} isRight onClick={onOpponentClick} />
           <button className="gp-menu-btn" aria-label="Menu">
             <span className="gp-menu-label">Menu</span>
             <span className="gp-menu-dots-circle">
@@ -422,10 +425,8 @@ function ToggleRow({ label, defaultOn }) {
 
 function MenuModal() {
   return (
-    <div className="gp-modal-card">
-      <div className="gp-modal-header">
-        <h2 className="gp-modal-title">Menu</h2>
-      </div>
+    <div className="modal modal--sm gp-modal-center">
+      <h2 className="modal__title">Menu</h2>
       <ToggleRow label="Sound effects" defaultOn={true} />
       <ToggleRow label="Automatic moves" defaultOn={true} />
       <div className="gp-modal-divider" />
@@ -436,10 +437,8 @@ function MenuModal() {
 
 function ResignModal() {
   return (
-    <div className="gp-modal-card">
-      <div className="gp-modal-header">
-        <h2 className="gp-modal-title">Resign</h2>
-      </div>
+    <div className="modal modal--sm gp-modal-center">
+      <h2 className="modal__title">Resign</h2>
       <p className="gp-modal-question">Are you sure you want to Resign?</p>
       <button className="gp-modal-btn gp-modal-btn--resign">Resign</button>
       <button className="gp-modal-btn gp-modal-btn--outline">Go back</button>
@@ -448,54 +447,56 @@ function ResignModal() {
 }
 
 function GameOverModal({ isVictory }) {
-  const opponentIsFriend = useDMEState('play.opponentIsFriend', false);
+  const [friendSent, setFriendSent] = useState(false);
 
   return (
-    <div className="gp-modal-card gp-modal-card--gameover">
+    <div className="modal modal--sm gp-modal-center">
       <div className="gp-modal-emoji">{isVictory ? '🏆' : '😨'}</div>
-      <h2 className="gp-modal-title">{isVictory ? 'Victory!' : 'Defeat!'}</h2>
+      <h2 className="modal__title">{isVictory ? 'Victory!' : 'Defeat!'}</h2>
       <p className="gp-modal-desc">
         {isVictory
           ? 'Congratulations! You won the game.'
           : 'Better luck next time!'}
       </p>
-      <button className="gp-modal-btn gp-modal-btn--primary">Play again</button>
-      <button className="gp-modal-btn gp-modal-btn--outline">Play a friend</button>
-      <button className="gp-modal-link">Review game</button>
-
-      {/* Opponent baseball card */}
-      <div className="gp-opponent-card">
-        <div className="gp-opponent-card__left">
-          <Avatar src={avatarKing} alt="GammonKing42" size="xl" />
-          <div className="gp-opponent-card__info">
-            <span className="gp-opponent-card__name">GammonKing42</span>
-            <span className="gp-opponent-card__intro">Backgammon enthusiast</span>
+      {/* Players matchup row */}
+      <div className="gp-matchup">
+        {/* Left player (you) */}
+        <div className="gp-matchup__player">
+          <span className={`gp-matchup__winner-pill${isVictory ? '' : ' gp-matchup__winner-pill--hidden'}`}>Winner!</span>
+          <div className="gp-matchup__avatar-wrap">
+            <Avatar src={avatarGhosty} alt="RobertTHeathIsMyFullName" size="xl" />
           </div>
+          <span className="gp-matchup__name">RobertTHeathIsMyFullName</span>
         </div>
-        <div className="gp-opponent-card__stats">
-          <div className="gp-opponent-card__stat">
-            <span className="gp-opponent-card__stat-value">12</span>
-            <span className="gp-opponent-card__stat-label">Games</span>
+        {/* Center score */}
+        <div className="gp-matchup__score-center">
+          <span className="gp-matchup__score-num">15</span>
+          <span className="gp-matchup__score-sep">|</span>
+          <span className="gp-matchup__score-num">4</span>
+        </div>
+        {/* Right player (opponent) */}
+        <div className="gp-matchup__player">
+          <span className={`gp-matchup__winner-pill${!isVictory ? '' : ' gp-matchup__winner-pill--hidden'}`}>Winner!</span>
+          <div className="gp-matchup__avatar-wrap">
+            <Avatar src={avatarGobby} alt="Michael" size="xl" />
+            <button
+              className={`gp-matchup__add-friend${friendSent ? ' gp-matchup__add-friend--sent' : ''}`}
+              onClick={() => setFriendSent(true)}
+              disabled={friendSent}
+              title={friendSent ? 'Request sent' : 'Add friend'}
+            >
+              <img src={friendAddIcon} alt="Add friend" width="18" height="18" />
+            </button>
           </div>
-          <div className="gp-opponent-card__stat">
-            <span className="gp-opponent-card__stat-value">7</span>
-            <span className="gp-opponent-card__stat-label">Wins</span>
-          </div>
-          <div className="gp-opponent-card__stat">
-            <span className="gp-opponent-card__stat-value">5</span>
-            <span className="gp-opponent-card__stat-label">Losses</span>
-          </div>
+          <span className="gp-matchup__name">Michael</span>
         </div>
       </div>
-      {!opponentIsFriend && (
-        <button className="gp-modal-btn gp-modal-btn--primary" style={{ marginTop: 8 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 6 }}>
-            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
-            <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
-          </svg>
-          Add Friend
-        </button>
-      )}
+
+      <button className="com-btn com-btn--dark" style={{ width: '100%' }}>Rematch</button>
+      <div className="surface-inverse" style={{ width: '100%', background: 'transparent' }}>
+        <button className="com-btn com-btn--outline" style={{ width: '100%' }}>New Quick Play</button>
+      </div>
+      <button className="gp-modal-link">Back to Backgammon.com</button>
     </div>
   );
 }
@@ -504,10 +505,8 @@ function SettingsModal() {
   const difficulties = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
   const speeds = ['Slow', 'Normal', 'Fast'];
   return (
-    <div className="gp-modal-card gp-modal-card--settings">
-      <div className="gp-modal-header">
-        <h2 className="gp-modal-title">Game Settings</h2>
-      </div>
+    <div className="modal modal--sm gp-modal-center">
+      <h2 className="modal__title">Game Settings</h2>
       <label className="gp-modal-label">Difficulty</label>
       <div className="gp-settings-grid">
         {difficulties.map((d, i) => (
@@ -529,7 +528,7 @@ function SettingsModal() {
 function ModalOverlay({ modalType }) {
   if (!modalType || modalType === 'None') return null;
   return (
-    <div className="gp-modal-overlay">
+    <div className="overlay overlay--dark">
       {modalType === 'Menu' && <MenuModal />}
       {modalType === 'Resign' && <ResignModal />}
       {modalType === 'Victory' && <GameOverModal isVictory={true} />}
@@ -552,8 +551,8 @@ function InGameProfileCard({ onClose }) {
   };
 
   return (
-    <div className="gp-profile-card-overlay" onClick={onClose}>
-      <div className="gp-profile-card" onClick={e => e.stopPropagation()}>
+    <div className="overlay overlay--dark" onClick={onClose}>
+      <div className="modal modal--sm gp-profile-card" onClick={e => e.stopPropagation()}>
         <button className="gp-profile-card__close" onClick={onClose}>&times;</button>
         <div className="gp-profile-card__cover" />
         <div className="gp-profile-card__avatar">
@@ -592,6 +591,7 @@ function InGameProfileCard({ onClose }) {
 
 /* ═══════════════════════════════════════════════════════════════
    Challenge Modal — send/receive/expired challenge states
+
    ═══════════════════════════════════════════════════════════════ */
 
 function ChallengeModal({ type }) {
@@ -627,12 +627,12 @@ function ChallengeModal({ type }) {
 
   // Send Challenge
   return (
-    <div className="gp-modal-overlay">
-      <div className="gp-modal-card gp-modal-card--challenge">
+    <div className="overlay overlay--dark">
+      <div className="modal modal--sm gp-modal-center">
         <div className="gp-challenge-avatar">
           <img src={avatarKing} alt="GammonKing42" />
         </div>
-        <h2 className="gp-modal-title">GammonKing42</h2>
+        <h2 className="modal__title">GammonKing42</h2>
         <div className="gp-challenge-rating">1650</div>
         <label className="gp-modal-label">Match Format</label>
         <div className="gp-settings-grid">
@@ -654,8 +654,10 @@ function ChallengeModal({ type }) {
 export default function PlayPage({ onNavigate }) {
   const boardState = useDMEState('play.boardState', 'Opening');
   const modalState = useDMEState('play.modal', 'None');
-  const showProfileCard = useDMEState('play.profileCard', false);
+  const dmeProfileCard = useDMEState('play.profileCard', false);
   const challengeModal = useDMEState('play.challengeModal', 'None');
+  const [localProfileCard, setLocalProfileCard] = useState(false);
+  const showProfileCard = dmeProfileCard || localProfileCard;
   const preset = BOARD_PRESETS[boardState] || BOARD_PRESETS['Opening'];
 
   const effectiveModal = (modalState === 'None' && preset.autoModal)
@@ -665,7 +667,7 @@ export default function PlayPage({ onNavigate }) {
   return (
     <div className="gp-page" data-section-id="gp-board">
       <div className="gp-page-inner">
-        <TopBar logoSrc={logoBlack} onNavigate={onNavigate} />
+        <TopBar logoSrc={logoBlack} onNavigate={onNavigate} onOpponentClick={() => setLocalProfileCard(true)} />
         <TimerBar preset={preset} />
         <div className="gp-game-area">
           <div className="gp-game-container">
@@ -675,7 +677,7 @@ export default function PlayPage({ onNavigate }) {
         </div>
       </div>
       <ModalOverlay modalType={effectiveModal} />
-      {showProfileCard && <InGameProfileCard onClose={() => {}} />}
+      {showProfileCard && <InGameProfileCard onClose={() => setLocalProfileCard(false)} />}
       <ChallengeModal type={challengeModal} />
     </div>
   );

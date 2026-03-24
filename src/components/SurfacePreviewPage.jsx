@@ -206,6 +206,7 @@ function Buttons() {
     { label: 'Quaternary', cls: 'com-btn--quaternary' },
     { label: 'Destructive', cls: 'com-btn--destructive' },
     { label: 'Destructive UI', cls: 'com-btn--destructive-ui' },
+    { label: 'Pill', cls: 'com-btn--pill' },
   ];
 
   const sizes = [
@@ -267,7 +268,36 @@ function UIText() {
   );
 }
 
-/* ── 6. Misc ──────────────────────────────────────────────────── */
+/* ── 6. Status ─────────────────────────────────────────────────── */
+function Status() {
+  const items = [
+    { label: 'Success — Passwords match', var: '--color-status-success' },
+    { label: 'Warning — Password is weak', var: '--color-status-warning' },
+    { label: 'Error — Passwords do not match', var: '--color-status-error' },
+  ];
+
+  return (
+    <Section title="Status / Validation">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {items.map(({ label, var: v }) => (
+          <div key={label}>
+            <span style={{
+              fontFamily: fm, fontWeight: 600,
+              fontSize: 'var(--size-body-sm)',
+              color: `var(${v})`,
+              lineHeight: 1.4,
+            }}>
+              {label}
+            </span>
+            <TokenLabel name={v} />
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+/* ── 7. Misc ──────────────────────────────────────────────────── */
 function Misc() {
   return (
     <Section title="Miscellaneous">
@@ -313,6 +343,47 @@ function Misc() {
           }} />
           <TokenLabel name="--color-scrollbar-track" />
         </div>
+      </div>
+    </Section>
+  );
+}
+
+/* ── 8. Pill Buttons ─────────────────────────────────────────── */
+function PillButtons() {
+  const sizes = [
+    { label: 'Large',  cls: 'com-btn--pill-lg' },
+    { label: 'Medium', cls: '' },
+    { label: 'Small',  cls: 'com-btn--pill-sm' },
+  ];
+  const states = [
+    { label: 'Default',  props: {}, className: '' },
+    { label: 'Active',   props: { 'aria-pressed': 'true' }, className: 'is-active' },
+    { label: 'Disabled', props: { disabled: true }, className: '' },
+  ];
+
+  return (
+    <Section title="Pill Buttons">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        {sizes.map(({ label: sizeLabel, cls: sizeCls }) => (
+          <div key={sizeLabel}>
+            <div style={{
+              fontFamily: fm, fontSize: 'var(--size-meta)',
+              color: 'var(--color-muted)', marginBottom: 10,
+            }}>{sizeLabel}</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+              {states.map(({ label, props, className }) => (
+                <button
+                  key={label}
+                  className={`com-btn com-btn--pill ${sizeCls} ${className}`.trim()}
+                  {...props}
+                  style={{ transition: 'none' }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </Section>
   );
@@ -370,7 +441,9 @@ export default function SurfacePreviewPage({ onNavigate }) {
           <Borders />
           <PillsTags />
           <Buttons />
+          <PillButtons />
           <UIText />
+          <Status />
           <Misc />
         </div>
       </div>

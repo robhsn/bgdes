@@ -25,3 +25,7 @@ Repeating UI elements (inputs, search bars, toggles, cards, etc.) **must always 
 5. If a page needs a minor variation, extend via a modifier class (e.g. `.search-bar--compact`), not a separate component
 
 No two instances of the same UI pattern should ever have divergent styling unless explicitly requested. When you encounter existing duplicates, unify them into the global component.
+
+## Modal / Popup Rule
+
+All modals and popups **must** use the global `.overlay` + `.modal` classes defined in `blocks.css`. On tablet and mobile (`max-width: 1024px`), every modal automatically becomes a bottom-sheet popup (slides up from the bottom, full-width, rounded top corners). Never create page-specific overlay/modal wrappers — always use the global system so behavior is consistent across all pages and breakpoints.
