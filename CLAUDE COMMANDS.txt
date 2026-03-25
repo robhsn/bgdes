@@ -1,0 +1,12 @@
+Claude Commands
+
+
+cd '/Users/robheath/Library/CloudStorage/GoogleDrive-rob@heath.co/My Drive/08 - Backgammon/bgdes'
+
+
+claude --worktree XXX
+
+
+
+claude --dangerously-skip-permissions
+

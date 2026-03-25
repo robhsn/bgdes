@@ -31,8 +31,8 @@ export const STATE_DEFINITIONS = [
     options: [
       'Own - Established',
       'Own - New Player',
-      'Friend - Game History',
-      'Guest - Game History',
+      'Friend - Match History',
+      'Guest - Match History',
       'Guest - Unregistered',
       'Profile B',
     ],
@@ -123,7 +123,7 @@ export const STATE_DEFINITIONS = [
     page: 'profile',
     options: ['Add Friend', 'Pending', 'Accept Request', 'Friends'],
     defaultValue: 'Add Friend',
-    visibleWhen: { 'profile.viewType': ['Friend - Game History', 'Guest - Game History'] },
+    visibleWhen: { 'profile.viewType': ['Friend - Match History', 'Guest - Match History'] },
   },
 
   // Profile Page — tab + friends
@@ -133,8 +133,8 @@ export const STATE_DEFINITIONS = [
     description: 'Switch between profile content tabs',
     type: 'select',
     page: 'profile',
-    options: ['Game History', 'Achievements', 'Friends'],
-    defaultValue: 'Game History',
+    options: ['Match History', 'Achievements', 'Friends'],
+    defaultValue: 'Match History',
   },
   {
     key: 'profile.friendsView',
@@ -187,6 +187,30 @@ export const STATE_DEFINITIONS = [
     description: 'Show in-game mini profile card',
     type: 'play',
     defaultValue: false,
+  },
+  {
+    key: 'play.cardShowQR',
+    label: 'Card: QR Code',
+    description: 'Show QR code on player card',
+    type: 'play',
+    defaultValue: true,
+    visibleWhen: { 'play.profileCard': [true] },
+  },
+  {
+    key: 'play.cardShowLogo',
+    label: 'Card: Logo',
+    description: 'Show Backgammon.com logo on player card',
+    type: 'play',
+    defaultValue: true,
+    visibleWhen: { 'play.profileCard': [true] },
+  },
+  {
+    key: 'play.cardShowDownload',
+    label: 'Card: Download',
+    description: 'Show download button on player card',
+    type: 'play',
+    defaultValue: true,
+    visibleWhen: { 'play.profileCard': [true] },
   },
   {
     key: 'play.challengeModal',

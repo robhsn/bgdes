@@ -297,7 +297,124 @@ function Status() {
   );
 }
 
-/* ── 7. Misc ──────────────────────────────────────────────────── */
+/* ── 7a. Match History Chips ──────────────────────────────────── */
+function MatchChips() {
+  return (
+    <Section title="Match History Chips">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+        <span className="match-row__result match-row__result--win">Win</span>
+        <span className="match-row__result match-row__result--loss">Loss</span>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 12 }}>
+        <TokenLabel name="--color-match-win-chip-bg / fg" />
+        <TokenLabel name="--color-match-loss-chip-bg / fg" />
+      </div>
+    </Section>
+  );
+}
+
+/* ── 7b. Friend Button ───────────────────────────────────────── */
+function FriendButton() {
+  return (
+    <Section title="Friend Button">
+      <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            position: 'relative', width: 48, height: 48,
+            borderRadius: '50%', background: 'var(--color-avatar-bg)',
+          }}>
+            <div style={{
+              position: 'absolute', bottom: -6, right: -6,
+              width: 30, height: 30, borderRadius: '50%',
+              background: 'var(--color-friend-btn-bg)',
+              color: 'var(--color-friend-btn-icon)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+              fontSize: 16, fontWeight: 700,
+            }}>+</div>
+          </div>
+          <TokenLabel name="--color-friend-btn-*" />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            position: 'relative', width: 48, height: 48,
+            borderRadius: '50%', background: 'var(--color-avatar-bg)',
+          }}>
+            <div style={{
+              position: 'absolute', bottom: -6, right: -6,
+              width: 30, height: 30, borderRadius: '50%',
+              background: 'var(--color-friend-btn-bg)',
+              color: 'var(--color-friend-btn-icon)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+              fontSize: 14, opacity: 0.4,
+            }}>&#10003;</div>
+          </div>
+          <TokenLabel name="sent state" />
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/* ── 7c. Toggle ──────────────────────────────────────────────── */
+function Toggle() {
+  return (
+    <Section title="Toggle">
+      <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+        {/* Off state */}
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: 44, height: 26, borderRadius: 13,
+            background: 'var(--color-toggle-off-bg)',
+            position: 'relative',
+          }}>
+            <div style={{
+              width: 22, height: 22, borderRadius: '50%',
+              background: 'var(--color-toggle-knob)',
+              position: 'absolute', top: 2, left: 2,
+              boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+            }} />
+          </div>
+          <TokenLabel name="off" />
+        </div>
+        {/* On state */}
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: 44, height: 26, borderRadius: 13,
+            background: 'var(--color-toggle-on-bg)',
+            position: 'relative',
+          }}>
+            <div style={{
+              width: 22, height: 22, borderRadius: '50%',
+              background: 'var(--color-toggle-knob)',
+              position: 'absolute', top: 2, left: 20,
+              boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+            }} />
+          </div>
+          <TokenLabel name="on" />
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/* ── 7c. UI Elements ──────────────────────────────────────────── */
+function UIElements() {
+  return (
+    <Section title="UI Elements">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <svg width="16" height="16" viewBox="0 0 40 40" fill="var(--color-statement-link-icon)" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32.5 40H10C5.85938 40 2.5 36.6406 2.5 32.5V7.5C2.5 3.35938 5.85938 0 10 0H33.75C35.8203 0 37.5 1.67969 37.5 3.75V26.25C37.5 27.8828 36.4531 29.2734 35 29.7891V35C36.3828 35 37.5 36.1172 37.5 37.5C37.5 38.8828 36.3828 40 35 40H32.5ZM10 30C8.61719 30 7.5 31.1172 7.5 32.5C7.5 33.8828 8.61719 35 10 35H30V30H10ZM12.5 11.875C12.5 12.9141 13.3359 13.75 14.375 13.75H28.125C29.1641 13.75 30 12.9141 30 11.875C30 10.8359 29.1641 10 28.125 10H14.375C13.3359 10 12.5 10.8359 12.5 11.875ZM14.375 17.5C13.3359 17.5 12.5 18.3359 12.5 19.375C12.5 20.4141 13.3359 21.25 14.375 21.25H28.125C29.1641 21.25 30 20.4141 30 19.375C30 18.3359 29.1641 17.5 28.125 17.5H14.375Z" />
+        </svg>
+        <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-body)' }}>Article link icon</span>
+      </div>
+      <TokenLabel name="--color-statement-link-icon" />
+    </Section>
+  );
+}
+
+/* ── 7d. Misc ─────────────────────────────────────────────────── */
 function Misc() {
   return (
     <Section title="Miscellaneous">
@@ -342,6 +459,17 @@ function Misc() {
             border: '1px solid var(--color-border-subtle)',
           }} />
           <TokenLabel name="--color-scrollbar-track" />
+        </div>
+
+        {/* Avatar bg swatch */}
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: '50%',
+            background: 'var(--color-avatar-bg)',
+            border: '2px solid var(--color-bg)',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+          }} />
+          <TokenLabel name="--color-avatar-bg" />
         </div>
       </div>
     </Section>
@@ -444,6 +572,10 @@ export default function SurfacePreviewPage({ onNavigate }) {
           <PillButtons />
           <UIText />
           <Status />
+          <MatchChips />
+          <FriendButton />
+          <Toggle />
+          <UIElements />
           <Misc />
         </div>
       </div>

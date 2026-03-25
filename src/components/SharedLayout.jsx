@@ -149,7 +149,7 @@ const MENU_ITEMS = [
   { id: 'settings', label: 'Settings',           Icon: IconSettings, nav: 'settings' },
   { id: 'learn',    label: 'Learn to play',       Icon: IconLearn,    nav: 'learn-hub' },
   { id: 'boards',   label: 'Boards & themes',    Icon: IconPalette,  soon: true },
-  { id: 'history',  label: 'Game history',        Icon: IconHistory,  nav: 'profile', tab: 'Game History' },
+  { id: 'history',  label: 'Match history',        Icon: IconHistory,  nav: 'profile', tab: 'Match History' },
 ];
 
 export function AvatarDropdown({ avatarSrc, onNavigate }) {

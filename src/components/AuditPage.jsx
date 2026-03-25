@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SiteHeader, SiteFooter } from './SharedLayout';
 import './AuditPage.css';
 
@@ -51,14 +51,71 @@ function groupByPage(results) {
   return groups;
 }
 
-export default function AuditPage({ testResults, testRunning, onRunTests }) {
+/* ── Format filename into readable label ────────────────────── */
+function formatLogLabel(filename) {
+  // audit-2026-03-24-153042.json → "Mar 24, 2026 — 3:30 PM"
+  const m = filename.match(/audit-(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})(\d{2})\.json/);
+  if (!m) return filename;
+  const d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
+  return d.toLocaleString(undefined, {
+    month: 'short', day: 'numeric', year: 'numeric',
+    hour: 'numeric', minute: '2-digit',
+  });
+}
+
+export default function AuditPage({ testResults, testRunning, onRunTests, onNavigate }) {
   const [collapsed, setCollapsed] = useState({});
   const [copied, setCopied] = useState(null);
   const [filterFailed, setFilterFailed] = useState(false);
 
-  const results = testResults || loadSavedResults()?.results || [];
-  const savedData = loadSavedResults();
-  const timestamp = savedData?.timestamp || null;
+  /* ── History log state ──────────────────────────────────────── */
+  const [logFiles, setLogFiles] = useState([]);
+  const [selectedLog, setSelectedLog] = useState('latest');
+  const [logData, setLogData] = useState(null);
+  const [logOpen, setLogOpen] = useState(false);
+  const logRef = useRef(null);
+
+  // Fetch log list on mount and after each run
+  useEffect(() => {
+    fetchLogList();
+  }, [testRunning]);
+
+  function fetchLogList() {
+    fetch('/__audit_list')
+      .then(r => r.json())
+      .then(files => setLogFiles(files || []))
+      .catch(() => {});
+  }
+
+  // Load a specific log file when selected
+  useEffect(() => {
+    if (selectedLog === 'latest') {
+      setLogData(null);
+      return;
+    }
+    fetch(`/__audit_read?file=${encodeURIComponent(selectedLog)}`)
+      .then(r => r.json())
+      .then(data => setLogData(data))
+      .catch(() => setLogData(null));
+  }, [selectedLog]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    if (!logOpen) return;
+    const handler = (e) => {
+      if (logRef.current && !logRef.current.contains(e.target)) setLogOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [logOpen]);
+
+  // Resolve which results to display
+  const activeData = selectedLog === 'latest'
+    ? { results: testResults || loadSavedResults()?.results || [], timestamp: loadSavedResults()?.timestamp || null }
+    : logData || { results: [], timestamp: null };
+
+  const results = activeData.results;
+  const timestamp = activeData.timestamp;
 
   const passCount = results.filter(r => r.pass).length;
   const failCount = results.filter(r => !r.pass).length;
@@ -99,9 +156,16 @@ export default function AuditPage({ testResults, testRunning, onRunTests }) {
     });
   }
 
+  function handleSelectLog(file) {
+    setSelectedLog(file);
+    setLogOpen(false);
+    setFilterFailed(false);
+    setCollapsed({});
+  }
+
   return (
     <div className="au-page">
-      <SiteHeader onLogoClick={() => {}} />
+      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
       <div className="au-body">
         <div className="au-content">
@@ -109,14 +173,55 @@ export default function AuditPage({ testResults, testRunning, onRunTests }) {
             <h1 className="au-title">IDP Audit</h1>
             <button
               className="au-run-btn"
-              onClick={onRunTests}
+              onClick={() => { setSelectedLog('latest'); onRunTests(); }}
               disabled={testRunning}
             >
               {testRunning ? 'Running...' : 'Run Tests'}
             </button>
           </div>
 
-          {timestamp && (
+          {/* ── History dropdown ────────────────────────────────── */}
+          {logFiles.length > 0 && (
+            <div className="au-log-row">
+              <div className="au-log-dropdown" ref={logRef}>
+                <button className="au-log-trigger" onClick={() => setLogOpen(o => !o)}>
+                  <span className="au-log-trigger-label">
+                    {selectedLog === 'latest' ? 'Latest run' : formatLogLabel(selectedLog)}
+                  </span>
+                  <span className={`au-log-trigger-chevron${logOpen ? ' au-log-trigger-chevron--open' : ''}`}>
+                    &#x25BC;
+                  </span>
+                </button>
+                {logOpen && (
+                  <div className="au-log-menu">
+                    <button
+                      className={`au-log-item${selectedLog === 'latest' ? ' au-log-item--active' : ''}`}
+                      onClick={() => handleSelectLog('latest')}
+                    >
+                      Latest run
+                    </button>
+                    {logFiles.map(file => (
+                      <button
+                        key={file}
+                        className={`au-log-item${selectedLog === file ? ' au-log-item--active' : ''}`}
+                        onClick={() => handleSelectLog(file)}
+                      >
+                        {formatLogLabel(file)}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {timestamp && (
+                <span className="au-timestamp" style={{ margin: 0 }}>
+                  {new Date(timestamp).toLocaleString()}
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* ── Timestamp fallback when no logs yet ────────────── */}
+          {logFiles.length === 0 && timestamp && (
             <div className="au-timestamp">
               Last run: {new Date(timestamp).toLocaleString()}
             </div>

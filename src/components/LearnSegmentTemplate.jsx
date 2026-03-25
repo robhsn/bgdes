@@ -160,7 +160,7 @@ function BadgeIcon() {
 }
 
 /** Two-tone pill breadcrumb — clips both halves into one capsule */
-function BreadcrumbPills({ course, lesson }) {
+function BreadcrumbPills({ course, lesson, onNavigate }) {
   const pillBase = {
     display: 'flex',
     alignItems: 'center',
@@ -181,7 +181,13 @@ function BreadcrumbPills({ course, lesson }) {
   };
   return (
     <div className="pill-row">
-      <div style={{ ...pillBase, background: 'var(--color-pill)', paddingLeft: 16, paddingRight: 12 }}>
+      <div
+        style={{ ...pillBase, background: 'var(--color-pill)', paddingLeft: 16, paddingRight: 12, cursor: 'pointer' }}
+        onClick={() => {
+          sessionStorage.setItem('learnhub-scroll-intent', 'lh-lessons');
+          onNavigate?.('learn-hub');
+        }}
+      >
         <span style={pillText}>{course}</span>
       </div>
       <div style={{ ...pillBase, background: 'var(--color-accent)', paddingLeft: 12, paddingRight: 16 }}>
@@ -955,7 +961,7 @@ export default function LearnSegmentTemplate({ onNavigate }) {
 
           <div className="breadcrumb" data-role-id="ls-breadcrumb">
             <div className="breadcrumb__trail">
-              <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" />
+              <BreadcrumbPills course="Intro to Backgammon" lesson="Lesson 1" onNavigate={onNavigate} />
             </div>
             {!launchMvp && (
               <div className="xp-badge">

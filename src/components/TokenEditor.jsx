@@ -167,6 +167,18 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'input-border':    '--color-input-border',
   'input-text':      '--color-input-text',
   'input-placeholder':'--color-input-placeholder',
+  /* Friend Button */
+  'friend-btn-bg':       '--color-friend-btn-bg',
+  'friend-btn-icon':     '--color-friend-btn-icon',
+  /* Match History */
+  'match-win-chip-bg':   '--color-match-win-chip-bg',
+  'match-win-chip-fg':   '--color-match-win-chip-fg',
+  'match-loss-chip-bg':  '--color-match-loss-chip-bg',
+  'match-loss-chip-fg':  '--color-match-loss-chip-fg',
+  /* Toggle */
+  'toggle-off-bg':       '--color-toggle-off-bg',
+  'toggle-on-bg':        '--color-toggle-on-bg',
+  'toggle-knob':         '--color-toggle-knob',
   /* Status */
   'status-success':  '--color-status-success',
   'status-warning':  '--color-status-warning',
@@ -299,6 +311,7 @@ const THEMES = {
       '--color-statement-link-bg':     '--prim-mono-100',
       '--color-statement-link-border': '--prim-mono-350',
       '--color-statement-link-text':   '--prim-mono-700',
+      '--color-statement-link-icon':  '--prim-mono-350',
       '--color-activity-bell':       '--prim-mono-900',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-mono-350',
@@ -319,8 +332,15 @@ const THEMES = {
       '--btn-secondary-border':   '--prim-mono-900',
       '--color-match-win-border':   '--prim-orange-500',
       '--color-match-loss-border':  '--prim-mono-250',
-      '--color-match-win-chip-bg':  '--prim-mint-100',
-      '--color-match-win-chip-fg':  '--prim-mint-500',
+      '--color-match-win-chip-bg':   '--prim-mint-100',
+      '--color-match-win-chip-fg':   '--prim-mint-500',
+      '--color-match-loss-chip-bg':  '--prim-mono-150',
+      '--color-match-loss-chip-fg':  '--prim-mono-500',
+      '--color-friend-btn-bg':       '--prim-mono-white',
+      '--color-friend-btn-icon':     '--prim-mono-900',
+      '--color-toggle-off-bg':       '--prim-mint-300',
+      '--color-toggle-on-bg':        '#39b592',
+      '--color-toggle-knob':         '--prim-mono-white',
     },
     surfaces: {
       default: {
@@ -381,6 +401,7 @@ const THEMES = {
         '--sf-muted-tag-fill':       '--prim-mono-150',
         '--sf-muted-scrollbar-thumb': '--prim-mono-300',
         '--sf-muted-scrollbar-track': '--prim-mono-100',
+
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
         ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-900', '--prim-mono-350'),
@@ -412,6 +433,7 @@ const THEMES = {
         '--sf-inverse-tag-fill':     '--prim-mono-750',
         '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
+
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
         ...inputTokens('--sf-inverse-', '--prim-mono-800', '--prim-mono-600', '--prim-mono-white', '--prim-mono-500'),
@@ -443,6 +465,7 @@ const THEMES = {
         '--sf-accent-tag-fill':      '--prim-mono-600',
         '--sf-accent-scrollbar-thumb': '--prim-mono-400',
         '--sf-accent-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mono-100', '--prim-mono-250'),
         ...inputTokens('--sf-accent-', '--prim-mono-600', '--prim-mono-500', '--prim-mono-white', '--prim-mono-400'),
@@ -474,6 +497,7 @@ const THEMES = {
         '--sf-tertiary-tag-fill':    '--prim-mono-700',
         '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
         ...inputTokens('--sf-tertiary-', '--prim-mono-700', '--prim-mono-550', '--prim-mono-white', '--prim-mono-500'),
@@ -503,6 +527,7 @@ const THEMES = {
       '--color-statement-link-bg':     '--prim-butter-700',
       '--color-statement-link-border': '--prim-orange-300',
       '--color-statement-link-text':   '--prim-sapphire-700',
+      '--color-statement-link-icon':  '--prim-orange-300',
       '--color-activity-bell':       '--prim-sapphire-500',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-splash-300',
@@ -523,8 +548,15 @@ const THEMES = {
       '--btn-secondary-border':   '--prim-sapphire-500',
       '--color-match-win-border':   '--prim-orange-500',
       '--color-match-loss-border':  '--prim-mono-250',
-      '--color-match-win-chip-bg':  '--prim-mint-100',
-      '--color-match-win-chip-fg':  '--prim-mint-500',
+      '--color-match-win-chip-bg':   '--prim-mint-100',
+      '--color-match-win-chip-fg':   '--prim-mint-500',
+      '--color-match-loss-chip-bg':  '--prim-mono-150',
+      '--color-match-loss-chip-fg':  '--prim-mono-500',
+      '--color-friend-btn-bg':       '--prim-mono-white',
+      '--color-friend-btn-icon':     '--prim-mono-900',
+      '--color-toggle-off-bg':       '--prim-mint-300',
+      '--color-toggle-on-bg':        '#39b592',
+      '--color-toggle-knob':         '--prim-mono-white',
     },
     surfaces: {
       default: {
@@ -585,6 +617,7 @@ const THEMES = {
         '--sf-muted-tag-fill':       '--prim-splash-200',
         '--sf-muted-scrollbar-thumb': '--prim-mono-300',
         '--sf-muted-scrollbar-track': '--prim-mono-100',
+
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
         ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-600', '--prim-splash-300'),
@@ -616,6 +649,7 @@ const THEMES = {
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
+
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
         ...inputTokens('--sf-inverse-', '--prim-sapphire-800', '--prim-sapphire-500', '--prim-butter-500', '--prim-sapphire-500'),
@@ -647,6 +681,7 @@ const THEMES = {
         '--sf-accent-tag-fill':      '--prim-orange-500',
         '--sf-accent-scrollbar-thumb': '--prim-mono-400',
         '--sf-accent-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
         ...inputTokens('--sf-accent-', '--prim-orange-700', '--prim-orange-900', '--prim-mono-white', '--prim-orange-700'),
@@ -678,6 +713,7 @@ const THEMES = {
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
         ...inputTokens('--sf-tertiary-', '--prim-sapphire-700', '--prim-sapphire-400', '--prim-mono-white', '--prim-sapphire-400'),
@@ -707,6 +743,7 @@ const THEMES = {
       '--color-statement-link-bg':     '--prim-butter-700',
       '--color-statement-link-border': '--prim-orange-300',
       '--color-statement-link-text':   '--prim-sapphire-700',
+      '--color-statement-link-icon':  '--prim-orange-300',
       '--color-activity-bell':       '--prim-sapphire-500',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-splash-300',
@@ -727,8 +764,15 @@ const THEMES = {
       '--btn-secondary-border':   '--prim-sapphire-500',
       '--color-match-win-border':   '--prim-orange-500',
       '--color-match-loss-border':  '--prim-mono-250',
-      '--color-match-win-chip-bg':  '--prim-mint-100',
-      '--color-match-win-chip-fg':  '--prim-mint-500',
+      '--color-match-win-chip-bg':   '--prim-mint-100',
+      '--color-match-win-chip-fg':   '--prim-mint-500',
+      '--color-match-loss-chip-bg':  '--prim-mono-150',
+      '--color-match-loss-chip-fg':  '--prim-mono-500',
+      '--color-friend-btn-bg':       '--prim-mono-white',
+      '--color-friend-btn-icon':     '--prim-mono-900',
+      '--color-toggle-off-bg':       '--prim-mint-300',
+      '--color-toggle-on-bg':        '#39b592',
+      '--color-toggle-knob':         '--prim-mono-white',
     },
     surfaces: {
       default: {
@@ -789,6 +833,7 @@ const THEMES = {
         '--sf-muted-tag-fill':       '--prim-splash-200',
         '--sf-muted-scrollbar-thumb': '--prim-mono-300',
         '--sf-muted-scrollbar-track': '--prim-mono-100',
+
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
         ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-600', '--prim-splash-300'),
@@ -820,6 +865,7 @@ const THEMES = {
         '--sf-inverse-tag-fill':     '--prim-sapphire-700',
         '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
+
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
         ...inputTokens('--sf-inverse-', '--prim-sapphire-800', '--prim-sapphire-500', '--prim-butter-500', '--prim-sapphire-500'),
@@ -851,6 +897,7 @@ const THEMES = {
         '--sf-accent-tag-fill':      '--prim-orange-500',
         '--sf-accent-scrollbar-thumb': '--prim-mono-400',
         '--sf-accent-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
         ...inputTokens('--sf-accent-', '--prim-orange-700', '--prim-orange-900', '--prim-mono-white', '--prim-orange-700'),
@@ -882,6 +929,7 @@ const THEMES = {
         '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
         '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
         ...inputTokens('--sf-tertiary-', '--prim-sapphire-700', '--prim-sapphire-400', '--prim-mono-white', '--prim-sapphire-400'),
@@ -911,6 +959,7 @@ const THEMES = {
       '--color-statement-link-bg':     '--prim-mint-100',
       '--color-statement-link-border': '--prim-fall-300',
       '--color-statement-link-text':   '--prim-mint-700',
+      '--color-statement-link-icon':  '--prim-fall-300',
       '--color-activity-bell':       '--prim-mint-900',
       '--color-dropdown-bg':         '--prim-mono-white',
       '--color-dropdown-border':     '--prim-mint-300',
@@ -931,8 +980,15 @@ const THEMES = {
       '--btn-secondary-border':   '--prim-mint-700',
       '--color-match-win-border':   '--prim-fall-500',
       '--color-match-loss-border':  '--prim-mint-300',
-      '--color-match-win-chip-bg':  '--prim-mint-100',
-      '--color-match-win-chip-fg':  '--prim-mint-500',
+      '--color-match-win-chip-bg':   '--prim-mint-100',
+      '--color-match-win-chip-fg':   '--prim-mint-500',
+      '--color-match-loss-chip-bg':  '--prim-mono-150',
+      '--color-match-loss-chip-fg':  '--prim-mono-500',
+      '--color-friend-btn-bg':       '--prim-mono-white',
+      '--color-friend-btn-icon':     '--prim-mono-900',
+      '--color-toggle-off-bg':       '--prim-mint-300',
+      '--color-toggle-on-bg':        '#39b592',
+      '--color-toggle-knob':         '--prim-mono-white',
     },
     surfaces: {
       default: {
@@ -993,6 +1049,7 @@ const THEMES = {
         '--sf-muted-tag-fill':       '--prim-mint-200',
         '--sf-muted-scrollbar-thumb': '--prim-mono-300',
         '--sf-muted-scrollbar-track': '--prim-mono-100',
+
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
         ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-900', '--prim-mint-300'),
@@ -1024,6 +1081,7 @@ const THEMES = {
         '--sf-inverse-tag-fill':     '--prim-mint-700',
         '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
         '--sf-inverse-scrollbar-track': '--prim-mono-750',
+
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
         ...inputTokens('--sf-inverse-', '--prim-mint-700', '--prim-mint-600', '--prim-mono-white', '--prim-mint-500'),
@@ -1055,6 +1113,7 @@ const THEMES = {
         '--sf-accent-tag-fill':      '--prim-mint-600',
         '--sf-accent-scrollbar-thumb': '--prim-mono-400',
         '--sf-accent-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
         ...inputTokens('--sf-accent-', '--prim-mint-600', '--prim-mint-500', '--prim-mono-white', '--prim-mint-400'),
@@ -1086,6 +1145,7 @@ const THEMES = {
         '--sf-tertiary-tag-fill':    '--prim-mint-800',
         '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
         '--sf-tertiary-scrollbar-track': '--prim-mono-600',
+
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
         ...inputTokens('--sf-tertiary-', '--prim-mint-800', '--prim-mint-700', '--prim-mono-white', '--prim-mint-600'),
@@ -1121,6 +1181,9 @@ const SURFACE_TOKENS = [
   /* Branding */        'logo', 'star',
   /* Form */            'placeholder',
   /* Input fields */    'input-bg', 'input-border', 'input-text', 'input-placeholder',
+  /* Match History */   'match-win-chip-bg', 'match-win-chip-fg', 'match-loss-chip-bg', 'match-loss-chip-fg',
+  /* Friend Button */  'friend-btn-bg', 'friend-btn-icon',
+  /* Toggle */         'toggle-off-bg', 'toggle-on-bg', 'toggle-knob',
   /* Status */          'status-success', 'status-warning', 'status-error',
   /* Scrollbar */       'scrollbar-thumb', 'scrollbar-track',
   /* Avatar */          'avatar-bg',
@@ -1129,13 +1192,13 @@ const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', '
 /* Tokens that start a new visual group (separator rendered before them) */
 const SURFACE_GROUP_STARTS = new Set([
   'heading', 'sh1', 'body-lg', 'text-muted-lg', 'link-lg',
-  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'status-success', 'scrollbar-thumb', 'avatar-bg',
+  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'friend-btn-bg', 'match-win-chip-bg', 'toggle-off-bg', 'status-success', 'scrollbar-thumb', 'avatar-bg',
 ]);
 const SURFACE_GROUP_LABELS = {
   bg: 'Background', heading: 'Headings', sh1: 'Subheadings', 'body-lg': 'Body Text',
   'text-muted-lg': 'Muted Text', 'link-lg': 'Links', border: 'Borders', pill: 'Pills & Tags',
   'ui-xl': 'UI Text', logo: 'Branding', placeholder: 'Form', 'input-bg': 'Input Fields',
-  'status-success': 'Status', 'scrollbar-thumb': 'Scrollbar', 'avatar-bg': 'Avatar',
+  'friend-btn-bg': 'Friend Button', 'match-win-chip-bg': 'Match History', 'toggle-off-bg': 'Toggle', 'status-success': 'Status', 'scrollbar-thumb': 'Scrollbar', 'avatar-bg': 'Avatar',
 };
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -1162,7 +1225,7 @@ const PAGE_SECTIONS = {
     { id: 'pp-header',       label: 'Profile Header',           defaultSurface: 'default' },
     { id: 'pp-tabs',         label: 'Tab Bar',                  defaultSurface: 'muted' },
     { id: 'pp-achievements', label: 'Achievements',             defaultSurface: 'muted' },
-    { id: 'pp-history',      label: 'Game History',             defaultSurface: 'tertiary' },
+    { id: 'pp-history',      label: 'Match History',             defaultSurface: 'tertiary' },
     { id: 'pp-friends',      label: 'Friends',                  defaultSurface: 'muted' },
     { id: 'pp-settings',     label: 'Settings Popover',          defaultSurface: 'muted' },
   ],
@@ -1596,11 +1659,15 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   const [activeSurface, setActiveSurface]     = useState('default');
 
   /* localStorage keys for all Sect/SubSect groups per tab */
+  const SFG_KEYS = SURFACE_DEFS.flatMap(s =>
+    ['bg', ...SURFACE_GROUP_STARTS, 'btn'].map(g => `dme-sfg-${s.key}-${g}`)
+  );
   const L2_SECT_KEYS = [
     'dme-sect-Colors', 'dme-sect-Element Sizes', 'dme-sect-Spacing & Layout',
-    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Statement: Links', 'dme-sub-Header Dropdown',
+    'dme-sub-Surfaces', 'dme-sub-Statement', 'dme-sub-Statement: Links', 'dme-sub-UI Elements', 'dme-sub-Header Dropdown',
     'dme-sub-Navigation', 'dme-sub-Badge', 'dme-sub-Avatar', 'dme-sub-Stats',
     'dme-sub-Match History', 'dme-sub-Buttons', 'dme-sub-Input Fields', 'dme-sub-Status', 'dme-sub-Modal',
+    ...SFG_KEYS,
   ];
   const L1_SECT_KEYS = [
     'dme-sect-Type Roles', 'dme-sect-Color Palettes',
@@ -2293,7 +2360,7 @@ const EXPLICIT_TOKEN_LABELS = {
   '--color-dot-active': 'Progress dot active', '--color-nav-bg': 'Mobile nav bg', '--color-nav-border': 'Mobile nav border',
   '--color-nav-icon': 'Mobile nav icon',
   '--color-statement-bg': 'Statement bg', '--color-statement-border': 'Statement border', '--color-statement-text': 'Statement text',
-  '--color-statement-link-bg': 'Statement link bg', '--color-statement-link-border': 'Statement link border', '--color-statement-link-text': 'Statement link text',
+  '--color-statement-link-bg': 'Statement link bg', '--color-statement-link-border': 'Statement link border', '--color-statement-link-text': 'Statement link text', '--color-statement-link-icon': 'Statement link icon',
   '--color-activity-bell': 'Bell icon', '--color-dropdown-bg': 'Dropdown bg', '--color-dropdown-border': 'Dropdown border',
   '--color-dropdown-text': 'Dropdown text', '--color-dropdown-icon': 'Dropdown icon',
   '--color-dropdown-soon-bg': 'Soon pill bg', '--color-dropdown-soon-fg': 'Soon pill text', '--color-dropdown-separator': 'Separator',
@@ -2303,6 +2370,9 @@ const EXPLICIT_TOKEN_LABELS = {
   '--color-avatar-bg': 'Avatar bg', '--color-stat-percentile': 'Stat percentile',
   '--color-match-win-border': 'Match win border', '--color-match-loss-border': 'Match loss border',
   '--color-match-win-chip-bg': 'Match win chip bg', '--color-match-win-chip-fg': 'Match win chip text',
+  '--color-match-loss-chip-bg': 'Match loss chip bg', '--color-match-loss-chip-fg': 'Match loss chip text',
+  '--color-friend-btn-bg': 'Friend btn bg', '--color-friend-btn-icon': 'Friend btn icon',
+  '--color-toggle-off-bg': 'Toggle off bg', '--color-toggle-on-bg': 'Toggle on bg', '--color-toggle-knob': 'Toggle knob',
   '--btn-primary-bg': 'Btn primary bg', '--btn-primary-fg': 'Btn primary text',
   '--btn-secondary-bg': 'Btn secondary bg', '--btn-secondary-fg': 'Btn secondary text',
   '--btn-primary-border': 'Btn primary border', '--btn-secondary-border': 'Btn secondary border',
@@ -2491,8 +2561,8 @@ function SurfaceGroup({ label, storageKey, children }) {
           borderTop: '1px solid #2a2a2a', marginTop: 2,
         }}
       >
-        <span style={{ fontSize: 11, color: '#aaa' }}>{label}</span>
-        <span style={{ color: '#666', fontSize: 8, marginRight: 2 }}>{open ? '▾' : '▸'}</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: '#ccc' }}>{label}</span>
+        <span style={{ color: '#888', fontSize: 9, marginRight: 2 }}>{open ? '▾' : '▸'}</span>
       </div>
       {open && children}
     </div>
@@ -2538,6 +2608,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
           cur.items.push(suffix);
         });
         groups.push(cur);
+        groups.sort((a, b) => (SURFACE_GROUP_LABELS[a.start] || a.start).localeCompare(SURFACE_GROUP_LABELS[b.start] || b.start));
         return groups.map(g => (
           <SurfaceGroup
             key={g.start}
@@ -2931,6 +3002,10 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange, activeSu
           <ColorRow label="Text"         name="--color-statement-link-text"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
+        <SubSect label="UI Elements">
+          <ColorRow label="Article link icon"  name="--color-statement-link-icon"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
+        </SubSect>
+
         <SubSect label="Header Dropdown">
           <ColorRow label="Bell icon"   name="--color-activity-bell"      l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Background"  name="--color-dropdown-bg"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
@@ -2976,8 +3051,6 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange, activeSu
         <SubSect label="Match History">
           <ColorRow label="Win border"      name="--color-match-win-border"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="Loss border"     name="--color-match-loss-border"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-          <ColorRow label="Win chip bg"     name="--color-match-win-chip-bg"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
-          <ColorRow label="Win chip text"   name="--color-match-win-chip-fg"  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
         </SubSect>
 
         <SubSect label="Buttons">

@@ -47,6 +47,15 @@
   --color-status-success: var(--sf-muted-status-success);
   --color-status-warning: var(--sf-muted-status-warning);
   --color-status-error:   var(--sf-muted-status-error);
+  --color-match-win-chip-bg:   var(--sf-muted-match-win-chip-bg);
+  --color-match-win-chip-fg:   var(--sf-muted-match-win-chip-fg);
+  --color-match-loss-chip-bg:  var(--sf-muted-match-loss-chip-bg);
+  --color-match-loss-chip-fg:  var(--sf-muted-match-loss-chip-fg);
+  --color-friend-btn-bg:       var(--sf-muted-friend-btn-bg);
+  --color-friend-btn-icon:     var(--sf-muted-friend-btn-icon);
+  --color-toggle-off-bg:       var(--sf-muted-toggle-off-bg);
+  --color-toggle-on-bg:        var(--sf-muted-toggle-on-bg);
+  --color-toggle-knob:         var(--sf-muted-toggle-knob);
   --color-ui-xl:          var(--sf-muted-ui-xl);
   --color-ui-lg:          var(--sf-muted-ui-lg);
   --color-ui-md:          var(--sf-muted-ui-md);
@@ -54,6 +63,8 @@
   --color-ui-xsm:         var(--sf-muted-ui-xsm);
   --color-scrollbar-thumb: var(--sf-muted-scrollbar-thumb);
   --color-scrollbar-track: var(--sf-muted-scrollbar-track);
+  --color-avatar-bg:       var(--sf-muted-avatar-bg);
+
   --color-glossary-underline: var(--prim-mono-350);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-250);
@@ -132,6 +143,15 @@
   --color-status-success: var(--sf-inverse-status-success);
   --color-status-warning: var(--sf-inverse-status-warning);
   --color-status-error:   var(--sf-inverse-status-error);
+  --color-match-win-chip-bg:   var(--sf-inverse-match-win-chip-bg);
+  --color-match-win-chip-fg:   var(--sf-inverse-match-win-chip-fg);
+  --color-match-loss-chip-bg:  var(--sf-inverse-match-loss-chip-bg);
+  --color-match-loss-chip-fg:  var(--sf-inverse-match-loss-chip-fg);
+  --color-friend-btn-bg:       var(--sf-inverse-friend-btn-bg);
+  --color-friend-btn-icon:     var(--sf-inverse-friend-btn-icon);
+  --color-toggle-off-bg:       var(--sf-inverse-toggle-off-bg);
+  --color-toggle-on-bg:        var(--sf-inverse-toggle-on-bg);
+  --color-toggle-knob:         var(--sf-inverse-toggle-knob);
   --color-ui-xl:          var(--sf-inverse-ui-xl);
   --color-ui-lg:          var(--sf-inverse-ui-lg);
   --color-ui-md:          var(--sf-inverse-ui-md);
@@ -139,6 +159,8 @@
   --color-ui-xsm:         var(--sf-inverse-ui-xsm);
   --color-scrollbar-thumb: var(--sf-inverse-scrollbar-thumb);
   --color-scrollbar-track: var(--sf-inverse-scrollbar-track);
+  --color-avatar-bg:       var(--sf-inverse-avatar-bg);
+
   --color-glossary-underline: var(--prim-mono-550);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-550);
@@ -217,6 +239,15 @@
   --color-status-success: var(--sf-accent-status-success);
   --color-status-warning: var(--sf-accent-status-warning);
   --color-status-error:   var(--sf-accent-status-error);
+  --color-match-win-chip-bg:   var(--sf-accent-match-win-chip-bg);
+  --color-match-win-chip-fg:   var(--sf-accent-match-win-chip-fg);
+  --color-match-loss-chip-bg:  var(--sf-accent-match-loss-chip-bg);
+  --color-match-loss-chip-fg:  var(--sf-accent-match-loss-chip-fg);
+  --color-friend-btn-bg:       var(--sf-accent-friend-btn-bg);
+  --color-friend-btn-icon:     var(--sf-accent-friend-btn-icon);
+  --color-toggle-off-bg:       var(--sf-accent-toggle-off-bg);
+  --color-toggle-on-bg:        var(--sf-accent-toggle-on-bg);
+  --color-toggle-knob:         var(--sf-accent-toggle-knob);
   --color-ui-xl:          var(--sf-accent-ui-xl);
   --color-ui-lg:          var(--sf-accent-ui-lg);
   --color-ui-md:          var(--sf-accent-ui-md);
@@ -224,6 +255,8 @@
   --color-ui-xsm:         var(--sf-accent-ui-xsm);
   --color-scrollbar-thumb: var(--sf-accent-scrollbar-thumb);
   --color-scrollbar-track: var(--sf-accent-scrollbar-track);
+  --color-avatar-bg:       var(--sf-accent-avatar-bg);
+
   --color-glossary-underline: var(--prim-mono-500);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-500);
@@ -302,6 +335,15 @@
   --color-status-success: var(--sf-tertiary-status-success);
   --color-status-warning: var(--sf-tertiary-status-warning);
   --color-status-error:   var(--sf-tertiary-status-error);
+  --color-match-win-chip-bg:   var(--sf-tertiary-match-win-chip-bg);
+  --color-match-win-chip-fg:   var(--sf-tertiary-match-win-chip-fg);
+  --color-match-loss-chip-bg:  var(--sf-tertiary-match-loss-chip-bg);
+  --color-match-loss-chip-fg:  var(--sf-tertiary-match-loss-chip-fg);
+  --color-friend-btn-bg:       var(--sf-tertiary-friend-btn-bg);
+  --color-friend-btn-icon:     var(--sf-tertiary-friend-btn-icon);
+  --color-toggle-off-bg:       var(--sf-tertiary-toggle-off-bg);
+  --color-toggle-on-bg:        var(--sf-tertiary-toggle-on-bg);
+  --color-toggle-knob:         var(--sf-tertiary-toggle-knob);
   --color-ui-xl:          var(--sf-tertiary-ui-xl);
   --color-ui-lg:          var(--sf-tertiary-ui-lg);
   --color-ui-md:          var(--sf-tertiary-ui-md);
@@ -309,6 +351,8 @@
   --color-ui-xsm:         var(--sf-tertiary-ui-xsm);
   --color-scrollbar-thumb: var(--sf-tertiary-scrollbar-thumb);
   --color-scrollbar-track: var(--sf-tertiary-scrollbar-track);
+  --color-avatar-bg:       var(--sf-tertiary-avatar-bg);
+
   --color-glossary-underline: var(--prim-mono-550);
   /* --color-guide-nav-bg: controlled by L2 DME token */
   --color-guide-nav-border:   var(--prim-mono-550);

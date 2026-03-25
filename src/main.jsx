@@ -332,10 +332,15 @@ function App() {
     url.searchParams.set('page', 'idp-audit')
     window.history.replaceState(null, '', url)
 
-    // Save results
+    // Save results to ref, localStorage, and server
     testResultsRef.current = results
     const payload = { results, timestamp: Date.now() }
     try { localStorage.setItem('idp-audit-results', JSON.stringify(payload)) } catch {}
+    fetch('/__audit_save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).catch(() => {})
 
     setTestRunning(false)
     forceRender(n => n + 1)
@@ -353,7 +358,7 @@ function App() {
     if (currentPageId === 'tokens') return <TokensPage onNavigate={navigateTo} />
     if (currentPageId === 'surface-preview') return <SurfacePreviewPage onNavigate={navigateTo} />
     if (currentPageId === 'buttons-sheet') return <ButtonsSheetPage onNavigate={navigateTo} />
-    if (currentPageId === 'idp-audit') return <AuditPage testResults={testResultsRef.current} testRunning={testRunning} onRunTests={runTests} />
+    if (currentPageId === 'idp-audit') return <AuditPage testResults={testResultsRef.current} testRunning={testRunning} onRunTests={runTests} onNavigate={navigateTo} />
     return <LearnHubPage onNavigate={navigateTo} />
   }
 

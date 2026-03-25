@@ -29,5 +29,8 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Audit logs (generated at runtime)
+src/data/audit-logs/
+
 # Claude dev files
 .claude/

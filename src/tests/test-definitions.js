@@ -64,30 +64,30 @@ const TEST_DEFINITIONS = [
     id: 'profile-friend-buttons',
     name: 'Friend view shows Friend + Challenge buttons',
     page: 'profile',
-    states: { 'profile.viewType': 'Friend - Game History', 'auth.loggedIn': true, 'profile.friendStatus': 'Add Friend' },
+    states: { 'profile.viewType': 'Friend - Match History', 'auth.loggedIn': true, 'profile.friendStatus': 'Add Friend' },
     assertions: [
-      { selector: '.friend-btn', expect: 'present', label: 'Friend button present' },
-      { selector: '.com-btn--primary', expect: 'present', label: 'Challenge button present' },
+      { selector: '.profile-header__actions-row--other .com-btn', expect: 'present', label: 'Friend/action buttons present' },
+      { selector: '.profile-header__actions-row--other .com-btn--primary', expect: 'present', label: 'Challenge button present' },
     ],
   },
   {
     id: 'profile-friend-no-edit',
     name: 'Friend view hides Edit Profile',
     page: 'profile',
-    states: { 'profile.viewType': 'Friend - Game History', 'auth.loggedIn': true },
+    states: { 'profile.viewType': 'Friend - Match History', 'auth.loggedIn': true },
     assertions: [
       { selector: '.pp-edit-profile-btn', expect: 'absent', label: 'No edit button on friend profile' },
     ],
   },
 
-  // ── Guest - Game History ───────────────────────────────────────
+  // ── Guest - Match History ───────────────────────────────────────
   {
-    id: 'profile-guest-no-friend',
-    name: 'Guest view hides Friend button',
+    id: 'profile-guest-action-btns',
+    name: 'Guest (non-unregistered) shows action buttons',
     page: 'profile',
-    states: { 'profile.viewType': 'Guest - Game History', 'auth.loggedIn': true },
+    states: { 'profile.viewType': 'Guest - Match History', 'auth.loggedIn': true },
     assertions: [
-      { selector: '.friend-btn', expect: 'present', label: 'Friend button present for guest (non-unregistered)' },
+      { selector: '.profile-header__actions-row--other .com-btn', expect: 'present', label: 'Action buttons present for guest' },
       { selector: '[data-section-id="pp-header"]', expect: 'present', label: 'Header still visible' },
     ],
   },
@@ -95,30 +95,31 @@ const TEST_DEFINITIONS = [
   // ── Guest - Unregistered ───────────────────────────────────────
   {
     id: 'profile-unregistered-gate',
-    name: 'Unregistered guest shows gate overlay',
+    name: 'Unregistered guest shows Create Account + disabled Challenge',
     page: 'profile',
     states: { 'profile.viewType': 'Guest - Unregistered', 'auth.loggedIn': true },
     assertions: [
-      { selector: '.gated__overlay', expect: 'present', label: 'Guest gate blur overlay present' },
+      { selector: '.profile-header__actions-row .com-btn--primary', expect: 'present', label: 'Create Account CTA present' },
+      { selector: '.profile-header__actions-row .com-btn--primary[disabled]', expect: 'present', label: 'Disabled Challenge button present' },
       { selector: '[data-section-id="pp-header"]', expect: 'present', label: 'Header section visible' },
     ],
   },
   {
-    id: 'profile-unregistered-cta',
-    name: 'Unregistered guest shows Create Account CTA',
+    id: 'profile-unregistered-no-other-actions',
+    name: 'Unregistered guest hides Friend view action row',
     page: 'profile',
     states: { 'profile.viewType': 'Guest - Unregistered', 'auth.loggedIn': true },
     assertions: [
-      { selector: '.gated__overlay .com-btn--primary', expect: 'present', label: 'Create Account CTA button present' },
+      { selector: '.profile-header__actions-row--other', expect: 'absent', label: 'No friend/challenge row for unregistered' },
     ],
   },
 
   // ── Tabs ───────────────────────────────────────────────────────
   {
     id: 'profile-tab-history',
-    name: 'Game History tab shows history section',
+    name: 'Match History tab shows history section',
     page: 'profile',
-    states: { 'profile.viewType': 'Own - Established', 'profile.tab': 'Game History', 'auth.loggedIn': true },
+    states: { 'profile.viewType': 'Own - Established', 'profile.tab': 'Match History', 'auth.loggedIn': true },
     assertions: [
       { selector: '[data-section-id="pp-history"]', expect: 'present', label: 'History section visible' },
     ],
@@ -136,7 +137,7 @@ const TEST_DEFINITIONS = [
     id: 'profile-tab-achievements-mvp-on',
     name: 'Achievements tab hidden when MVP on',
     page: 'profile',
-    states: { 'profile.viewType': 'Own - Established', 'profile.tab': 'Game History', 'profile.mvp': true, 'auth.loggedIn': true },
+    states: { 'profile.viewType': 'Own - Established', 'profile.tab': 'Match History', 'profile.mvp': true, 'auth.loggedIn': true },
     assertions: [
       { selector: '[data-section-id="pp-achievements"]', expect: 'absent', label: 'Achievements section not rendered' },
     ],
@@ -170,7 +171,7 @@ const TEST_DEFINITIONS = [
     page: 'profile',
     states: { 'profile.viewType': 'Own - Established', 'profile.onlineStatus': 'Online', 'auth.loggedIn': true },
     assertions: [
-      { selector: '.avatar__status--online', expect: 'present', label: 'Online indicator visible' },
+      { selector: '.avatar-component__indicator--online', expect: 'present', label: 'Online indicator visible' },
     ],
   },
 

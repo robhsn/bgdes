@@ -836,6 +836,81 @@
 .gp-modal-btn--outline { background: #fff; color: var(--gp-dark-green); border: 1.5px solid #bcd4d1; }
 .gp-modal-btn--resign { background: var(--gp-red-resign); color: #fff; }
 
+.gp-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ── Friend confirmation slider ───────────────────────────── */
+.gp-modal-slider-clip {
+  padding: 0;       /* override .modal padding — lives inside panels instead */
+  gap: 0;
+}
+
+.gp-modal-slider-track {
+  overflow: hidden;
+  width: 100%;
+}
+
+.gp-modal-slider {
+  display: flex;
+  width: 200%;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gp-modal-slider--confirm {
+  transform: translateX(-50%);
+}
+
+.gp-modal-slider__panel {
+  width: 50%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 24px 24px;
+  box-sizing: border-box;
+}
+
+.gp-modal-slider__panel--confirm {
+  padding: 16px 24px 24px;
+}
+
+.gp-modal-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gp-dark-green);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 0;
+  align-self: flex-start;
+}
+
+.gp-confirm-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  width: 100%;
+}
+
+.gp-confirm-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gp-dark-green);
+  text-align: center;
+  line-height: 1.4;
+  margin: 0;
+}
+
 .gp-modal-link {
   background: none;
   border: none;
@@ -861,19 +936,19 @@
   width: 44px;
   height: 26px;
   border-radius: 13px;
-  background: #8cb4a8;
+  background: var(--color-toggle-off-bg);
   position: relative;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.gp-toggle--on { background: var(--gp-green-toggle); }
+.gp-toggle--on { background: var(--color-toggle-on-bg); }
 
 .gp-toggle-knob {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-toggle-knob);
   position: absolute;
   top: 2px;
   left: 2px;
@@ -1353,31 +1428,7 @@
   color: #bbb;
 }
 
-.gp-matchup__add-friend {
-  position: absolute;
-  bottom: -6px;
-  right: -6px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #fff;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 4px;
-  transition: opacity 0.2s;
-}
-
-.gp-matchup__add-friend:hover:not(:disabled) {
-  opacity: 0.8;
-}
-
-.gp-matchup__add-friend--sent {
-  opacity: 0.4;
-  cursor: default;
-}
+/* .gp-matchup__add-friend — unified into global .add-friend-btn in blocks.css */
 
 .gp-matchup__winner-pill {
   display: inline-block;
