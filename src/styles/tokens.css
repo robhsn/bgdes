@@ -323,6 +323,7 @@
   --color-statement-link-bg:     var(--prim-mono-100);
   --color-statement-link-border: var(--prim-mono-350);
   --color-statement-link-text:   var(--prim-mono-700);
+  --color-statement-link-icon:   var(--prim-mono-350);
 
   /* ── Surface-specific logo / link / pill / accent ────────────── */
   --sf-muted-logo:    var(--prim-mono-900);
@@ -411,6 +412,8 @@
   --sf-muted-ui-md:    var(--prim-mono-600);
   --sf-muted-ui-sm:    var(--prim-mono-600);
   --sf-muted-ui-xsm:   var(--prim-mono-750);
+  --sf-muted-avatar-bg:var(--prim-mono-200);
+
 
   /* ── Inverse surface ────────────────────────────────────────── */
   --sf-inverse-bg:             var(--prim-mono-900);
@@ -474,6 +477,8 @@
   --sf-inverse-ui-md:    var(--prim-mono-200);
   --sf-inverse-ui-sm:    var(--prim-mono-200);
   --sf-inverse-ui-xsm:   var(--prim-mono-350);
+  --sf-inverse-avatar-bg:var(--prim-mono-600);
+
 
   /* ── Accent surface ─────────────────────────────────────────── */
   --sf-accent-bg:             var(--prim-mono-700);
@@ -537,6 +542,8 @@
   --sf-accent-ui-md:    var(--prim-mono-100);
   --sf-accent-ui-sm:    var(--prim-mono-100);
   --sf-accent-ui-xsm:   var(--prim-mono-250);
+  --sf-accent-avatar-bg:var(--prim-mono-550);
+
 
   /* ── Tertiary surface ────────────────────────────────────────── */
   --sf-tertiary-bg:             var(--prim-mono-750);
@@ -607,6 +614,8 @@
   --sf-tertiary-ui-md:    var(--prim-mono-200);
   --sf-tertiary-ui-sm:    var(--prim-mono-200);
   --sf-tertiary-ui-xsm:   var(--prim-mono-350);
+  --sf-tertiary-avatar-bg:var(--prim-mono-600);
+
 
   /* ── Badge gradient ───────────────────────────────────────── */
   --color-badge-from: var(--prim-mono-700);
@@ -856,8 +865,19 @@
   --color-status-success:     #22c55e;
   --color-status-warning:     #f59e0b;
   --color-status-error:       #ef4444;
-  --color-match-win-chip-bg:  var(--prim-mint-100, #e8f5e9);
-  --color-match-win-chip-fg:  var(--prim-mint-500, #2e7d32);
+  /* ── Friend Button ────────────────────────────────────────── */
+  --color-friend-btn-bg:       var(--prim-mono-white, #fff);
+  --color-friend-btn-icon:     var(--prim-mono-900, #1a1a1a);
+
+  /* ── Toggle ───────────────────────────────────────────────── */
+  --color-toggle-off-bg:       var(--prim-mint-300, #8cb4a8);
+  --color-toggle-on-bg:        #39b592;
+  --color-toggle-knob:         var(--prim-mono-white, #fff);
+
+  --color-match-win-chip-bg:   var(--prim-mint-100, #e8f5e9);
+  --color-match-win-chip-fg:   var(--prim-mint-500, #2e7d32);
+  --color-match-loss-chip-bg:  var(--prim-mono-150, #ececec);
+  --color-match-loss-chip-fg:  var(--prim-mono-500, #737373);
 
   /* ── Border Radius Scale ───────────────────────────────────── */
   --radius-sm:    6px;

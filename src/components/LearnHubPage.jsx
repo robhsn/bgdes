@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import wbfLogo from '../imgs/wbf-logo.png';
@@ -271,6 +271,18 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
 export default function LearnHubPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn', true);
   const acState = useDMEState('social.activityCenter', 'Activity - Unread');
+
+  useEffect(() => {
+    const intent = sessionStorage.getItem('learnhub-scroll-intent');
+    if (intent) {
+      sessionStorage.removeItem('learnhub-scroll-intent');
+      requestAnimationFrame(() => {
+        const el = document.querySelector(`[data-section-id="${intent}"]`);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }, []);
+
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 

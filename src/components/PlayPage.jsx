@@ -9,7 +9,9 @@ import avatarGhosty from '../imgs/avatars/Ghosty.png';
 import avatarGobby from '../imgs/avatars/Gobby.png';
 import friendAddIcon from '../imgs/icons/Friend Add.svg';
 import Avatar from './Avatar';
+import PlayerCardModal from './PlayerCardModal';
 import logoBlack from '../imgs/logo/Logo Black.svg';
+import coverDefault from '../imgs/cover-image.jpg';
 import './PlayPage.css';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -447,56 +449,90 @@ function ResignModal() {
 }
 
 function GameOverModal({ isVictory }) {
-  const [friendSent, setFriendSent] = useState(false);
+  const [friendStep, setFriendStep] = useState('main'); // 'main' | 'confirm' | 'sent'
+  const friendSent = friendStep === 'sent';
 
   return (
-    <div className="modal modal--sm gp-modal-center">
-      <div className="gp-modal-emoji">{isVictory ? '🏆' : '😨'}</div>
-      <h2 className="modal__title">{isVictory ? 'Victory!' : 'Defeat!'}</h2>
-      <p className="gp-modal-desc">
-        {isVictory
-          ? 'Congratulations! You won the game.'
-          : 'Better luck next time!'}
-      </p>
-      {/* Players matchup row */}
-      <div className="gp-matchup">
-        {/* Left player (you) */}
-        <div className="gp-matchup__player">
-          <span className={`gp-matchup__winner-pill${isVictory ? '' : ' gp-matchup__winner-pill--hidden'}`}>Winner!</span>
-          <div className="gp-matchup__avatar-wrap">
-            <Avatar src={avatarGhosty} alt="RobertTHeathIsMyFullName" size="xl" />
+    <div className="modal modal--sm gp-modal-center gp-modal-slider-clip">
+      <div className="gp-modal-slider-track">
+      <div className={`gp-modal-slider${friendStep === 'confirm' ? ' gp-modal-slider--confirm' : ''}`}>
+        {/* ── Panel 1: Main ── */}
+        <div className="gp-modal-slider__panel">
+          <div className="gp-modal-emoji">{isVictory ? '🏆' : '😨'}</div>
+          <h2 className="modal__title">{isVictory ? 'Victory!' : 'Defeat!'}</h2>
+          <p className="gp-modal-desc">
+            {isVictory
+              ? 'Congratulations! You won the game.'
+              : 'Better luck next time!'}
+          </p>
+          {/* Players matchup row */}
+          <div className="gp-matchup">
+            {/* Left player (you) */}
+            <div className="gp-matchup__player">
+              <span className={`gp-matchup__winner-pill${isVictory ? '' : ' gp-matchup__winner-pill--hidden'}`}>Winner!</span>
+              <div className="gp-matchup__avatar-wrap">
+                <Avatar src={avatarGhosty} alt="RobertTHeathIsMyFullName" size="xl" />
+              </div>
+              <span className="gp-matchup__name">RobertTHeathIsMyFullName</span>
+            </div>
+            {/* Center score */}
+            <div className="gp-matchup__score-center">
+              <span className="gp-matchup__score-num">15</span>
+              <span className="gp-matchup__score-sep">|</span>
+              <span className="gp-matchup__score-num">4</span>
+            </div>
+            {/* Right player (opponent) */}
+            <div className="gp-matchup__player">
+              <span className={`gp-matchup__winner-pill${!isVictory ? '' : ' gp-matchup__winner-pill--hidden'}`}>Winner!</span>
+              <div className="gp-matchup__avatar-wrap">
+                <Avatar src={avatarGobby} alt="Michael" size="xl" />
+                <button
+                  className={`add-friend-btn${friendSent ? ' add-friend-btn--sent' : ''}`}
+                  onClick={() => setFriendStep('confirm')}
+                  disabled={friendSent}
+                  title={friendSent ? 'Request sent' : 'Add friend'}
+                >
+                  <img src={friendAddIcon} alt="Add friend" width="18" height="18" />
+                </button>
+              </div>
+              <span className="gp-matchup__name">Michael</span>
+            </div>
           </div>
-          <span className="gp-matchup__name">RobertTHeathIsMyFullName</span>
-        </div>
-        {/* Center score */}
-        <div className="gp-matchup__score-center">
-          <span className="gp-matchup__score-num">15</span>
-          <span className="gp-matchup__score-sep">|</span>
-          <span className="gp-matchup__score-num">4</span>
-        </div>
-        {/* Right player (opponent) */}
-        <div className="gp-matchup__player">
-          <span className={`gp-matchup__winner-pill${!isVictory ? '' : ' gp-matchup__winner-pill--hidden'}`}>Winner!</span>
-          <div className="gp-matchup__avatar-wrap">
-            <Avatar src={avatarGobby} alt="Michael" size="xl" />
-            <button
-              className={`gp-matchup__add-friend${friendSent ? ' gp-matchup__add-friend--sent' : ''}`}
-              onClick={() => setFriendSent(true)}
-              disabled={friendSent}
-              title={friendSent ? 'Request sent' : 'Add friend'}
-            >
-              <img src={friendAddIcon} alt="Add friend" width="18" height="18" />
-            </button>
-          </div>
-          <span className="gp-matchup__name">Michael</span>
-        </div>
-      </div>
 
-      <button className="com-btn com-btn--dark" style={{ width: '100%' }}>Rematch</button>
-      <div className="surface-inverse" style={{ width: '100%', background: 'transparent' }}>
-        <button className="com-btn com-btn--outline" style={{ width: '100%' }}>New Quick Play</button>
+          <div className="gp-modal-actions">
+            <button className="com-btn com-btn--dark" style={{ width: '100%' }}>Rematch</button>
+            <div className="surface-inverse" style={{ width: '100%', background: 'transparent' }}>
+              <button className="com-btn com-btn--outline" style={{ width: '100%' }}>New Quick Play</button>
+            </div>
+          </div>
+          <button className="gp-modal-link">Back to Backgammon.com</button>
+        </div>
+
+        {/* ── Panel 2: Confirm friend request ── */}
+        <div className="gp-modal-slider__panel gp-modal-slider__panel--confirm">
+          <button className="gp-modal-back" onClick={() => setFriendStep('main')}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            <span>Back</span>
+          </button>
+          <div className="gp-confirm-content">
+            <Avatar src={avatarGobby} alt="Michael" size="xl" />
+            <p className="gp-confirm-text">Send a friend request to <strong>Michael</strong>?</p>
+            <button
+              className="com-btn com-btn--dark"
+              style={{ width: '100%' }}
+              onClick={() => setFriendStep('sent')}
+            >
+              Send Friend Request
+            </button>
+            <div className="surface-inverse" style={{ width: '100%', background: 'transparent' }}>
+              <button className="com-btn com-btn--outline" style={{ width: '100%' }} onClick={() => setFriendStep('main')}>Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <button className="gp-modal-link">Back to Backgammon.com</button>
+      </div>{/* close slider-track */}
     </div>
   );
 }
@@ -539,53 +575,36 @@ function ModalOverlay({ modalType }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   In-Game Profile Card — mini popover for opponent info
+   In-Game Profile Card — uses the baseball card (PlayerCardModal)
    ═══════════════════════════════════════════════════════════════ */
 
+const OPPONENT_PLAYER = {
+  displayName: 'GammonKing42',
+  joinDate: 'Joined August 2023',
+  stats: { wins: 842, gamesPlayed: 1247, currentStreak: 12, highestStreak: 28 },
+};
+
 function InGameProfileCard({ onClose }) {
-  const opponent = {
-    name: 'GammonKing42',
-    rating: 1650,
-    online: true,
-    stats: { wins: 842, games: 1247, streak: 12, best: 28 },
-  };
+  const showQR = useDMEState('play.cardShowQR', true);
+  const showLogo = useDMEState('play.cardShowLogo', true);
+  const showDownload = useDMEState('play.cardShowDownload', true);
+  const opponentIsFriend = useDMEState('play.opponentIsFriend', false);
+  const [friendSent, setFriendSent] = useState(false);
 
   return (
-    <div className="overlay overlay--dark" onClick={onClose}>
-      <div className="modal modal--sm gp-profile-card" onClick={e => e.stopPropagation()}>
-        <button className="gp-profile-card__close" onClick={onClose}>&times;</button>
-        <div className="gp-profile-card__cover" />
-        <div className="gp-profile-card__avatar">
-          <Avatar src={avatarKing} alt={opponent.name} size="xl" online={opponent.online} />
-        </div>
-        <div className="gp-profile-card__body">
-          <div className="gp-profile-card__name-row">
-            <span className="gp-profile-card__name">{opponent.name}</span>
-          </div>
-          <div className="gp-profile-card__rating">{opponent.rating}</div>
-          <div className="gp-profile-card__stats">
-            {[
-              { label: 'Wins', value: opponent.stats.wins },
-              { label: 'Games', value: opponent.stats.games },
-              { label: 'Streak', value: opponent.stats.streak },
-              { label: 'Best', value: opponent.stats.best },
-            ].map((s, i) => (
-              <div key={s.label} className="gp-profile-card__stat">
-                <div className="gp-profile-card__stat-num">{s.value.toLocaleString()}</div>
-                <div className="gp-profile-card__stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-          <div className="gp-profile-card__actions">
-            <button className="friend-btn friend-btn--add-friend">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-              Add Friend
-            </button>
-            <span className="gp-profile-card__view-link">View Profile</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <PlayerCardModal
+      player={OPPONENT_PLAYER}
+      coverImg={coverDefault}
+      coverColor={null}
+      avatarImg={avatarKing}
+      showQR={showQR}
+      showLogo={showLogo}
+      showDownload={showDownload}
+      showAddFriend={!opponentIsFriend}
+      friendSent={friendSent}
+      onAddFriend={() => setFriendSent(true)}
+      onClose={onClose}
+    />
   );
 }
 
