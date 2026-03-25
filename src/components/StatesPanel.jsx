@@ -112,7 +112,7 @@ function StateGroup({ label, defs, states, onStateChange, open, onToggle }) {
 function StatesView({ states, onStateChange, currentPageId, expanded, onToggleGroup }) {
   const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global');
   const pageDefs = STATE_DEFINITIONS.filter(def =>
-    def.type !== 'global' && (def.type === currentPageId || def.page === currentPageId)
+    def.type !== 'global' && (def.type === currentPageId || def.page === currentPageId || currentPageId?.startsWith(def.type))
   );
 
   return (

@@ -151,6 +151,9 @@
     "--color-nav-border": "--prim-mint-200",
     "--color-nav-icon": "--prim-mint-700",
     "--color-guide-nav-bg": "--prim-mint-000",
+    "--color-guide-nav-border": "--prim-mint-200",
+    "--color-guide-nav-label": "--prim-mono-500",
+    "--color-guide-nav-title": "--prim-mint-700",
     "--btn-primary-bg": "--prim-mint-999",
     "--btn-primary-fg": "--prim-mint-000",
     "--btn-secondary-bg": "--prim-mint-600",
@@ -521,7 +524,11 @@
     "--sf-muted-sh1": "--prim-mint-000",
     "--sf-muted-sh2": "--prim-mint-000",
     "--sf-muted-sh3": "--prim-mint-000",
-    "--sf-muted-sh4": "--prim-mint-000"
+    "--sf-muted-sh4": "--prim-mint-000",
+    "--sf-inverse-guide-nav-title": "--prim-mint-500",
+    "--sf-inverse-guide-nav-label": "--prim-mint-400",
+    "--sf-inverse-guide-nav-border": "--prim-mint-200",
+    "--sf-inverse-guide-nav-bg": "--prim-mint-100"
   },
   "l1Colors": {
     "--prim-mono-white": "#ffffff",
@@ -1079,6 +1086,9 @@
       "--color-nav-border": "--prim-mint-200",
       "--color-nav-icon": "--prim-mint-700",
       "--color-guide-nav-bg": "--prim-mint-000",
+      "--color-guide-nav-border": "--prim-mint-200",
+      "--color-guide-nav-label": "--prim-mono-500",
+      "--color-guide-nav-title": "--prim-mint-700",
       "--btn-primary-bg": "--prim-mint-999",
       "--btn-primary-fg": "--prim-mint-000",
       "--btn-secondary-bg": "--prim-mint-600",
@@ -1449,7 +1459,11 @@
       "--sf-muted-sh1": "--prim-mint-000",
       "--sf-muted-sh2": "--prim-mint-000",
       "--sf-muted-sh3": "--prim-mint-000",
-      "--sf-muted-sh4": "--prim-mint-000"
+      "--sf-muted-sh4": "--prim-mint-000",
+      "--sf-inverse-guide-nav-title": "--prim-mint-500",
+      "--sf-inverse-guide-nav-label": "--prim-mint-400",
+      "--sf-inverse-guide-nav-border": "--prim-mint-200",
+      "--sf-inverse-guide-nav-bg": "--prim-mint-100"
     }
   },
   "sectionSurfaces": {
@@ -1708,6 +1722,8 @@
     "profile.friendStatus": "Friends",
     "surfacePreview.surface": "Secondary",
     "buttonsSheet.surface": "Primary",
-    "play.modal": "None"
+    "play.modal": "None",
+    "global.webHeader": false,
+    "learnArticle.launchMvp": true
   }
 }

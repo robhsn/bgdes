@@ -2547,12 +2547,7 @@ body[data-web-header="true"] .site-footer { padding-bottom: 0 !important; }
   align-items: center;
   gap: 12px;
   padding: 14px 12px;
-  border-bottom: 1px solid var(--color-border);
   transition: background 0.15s ease;
-}
-
-.match-row:last-child {
-  border-bottom: none;
 }
 
 .match-row:hover {
@@ -4933,11 +4928,6 @@ body[data-web-header="true"] .site-footer { padding-bottom: 0 !important; }
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.pp-friend-row:last-child {
-  border-bottom: none;
 }
 
 .pp-friend-row__avatar {

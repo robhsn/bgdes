@@ -179,6 +179,11 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'toggle-off-bg':       '--color-toggle-off-bg',
   'toggle-on-bg':        '--color-toggle-on-bg',
   'toggle-knob':         '--color-toggle-knob',
+  /* Guide Nav */
+  'guide-nav-bg':        '--color-guide-nav-bg',
+  'guide-nav-border':    '--color-guide-nav-border',
+  'guide-nav-label':     '--color-guide-nav-label',
+  'guide-nav-title':     '--color-guide-nav-title',
   /* Status */
   'status-success':  '--color-status-success',
   'status-warning':  '--color-status-warning',
@@ -324,6 +329,9 @@ const THEMES = {
       '--color-nav-border':       '--prim-mono-250',
       '--color-nav-icon':         '--prim-mono-900',
       '--color-guide-nav-bg':     '--prim-mono-white',
+      '--color-guide-nav-border': '--prim-mono-250',
+      '--color-guide-nav-label':  '--prim-mono-500',
+      '--color-guide-nav-title':  '--prim-mono-900',
       '--btn-primary-bg':         '--prim-mono-250',
       '--btn-primary-fg':         '--prim-mono-900',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -540,6 +548,9 @@ const THEMES = {
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
       '--color-guide-nav-bg':     '--prim-mono-white',
+      '--color-guide-nav-border': '--prim-mono-250',
+      '--color-guide-nav-label':  '--prim-mono-500',
+      '--color-guide-nav-title':  '--prim-sapphire-500',
       '--btn-primary-bg':         '--prim-butter-900',
       '--btn-primary-fg':         '--prim-sapphire-500',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -756,6 +767,9 @@ const THEMES = {
       '--color-nav-border':       '--prim-butter-900',
       '--color-nav-icon':         '--prim-sapphire-500',
       '--color-guide-nav-bg':     '--prim-mono-white',
+      '--color-guide-nav-border': '--prim-mono-250',
+      '--color-guide-nav-label':  '--prim-mono-500',
+      '--color-guide-nav-title':  '--prim-sapphire-500',
       '--btn-primary-bg':         '--prim-butter-900',
       '--btn-primary-fg':         '--prim-sapphire-500',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -972,6 +986,9 @@ const THEMES = {
       '--color-nav-border':       '--prim-mint-200',
       '--color-nav-icon':         '--prim-mint-700',
       '--color-guide-nav-bg':     '--prim-mono-white',
+      '--color-guide-nav-border': '--prim-mint-200',
+      '--color-guide-nav-label':  '--prim-mono-500',
+      '--color-guide-nav-title':  '--prim-mint-700',
       '--btn-primary-bg':         '--prim-mint-700',
       '--btn-primary-fg':         '--prim-mono-white',
       '--btn-secondary-bg':       '--prim-mono-white',
@@ -1184,6 +1201,7 @@ const SURFACE_TOKENS = [
   /* Match History */   'match-win-chip-bg', 'match-win-chip-fg', 'match-loss-chip-bg', 'match-loss-chip-fg',
   /* Friend Button */  'friend-btn-bg', 'friend-btn-icon',
   /* Toggle */         'toggle-off-bg', 'toggle-on-bg', 'toggle-knob',
+  /* Guide Nav */      'guide-nav-bg', 'guide-nav-border', 'guide-nav-label', 'guide-nav-title',
   /* Status */          'status-success', 'status-warning', 'status-error',
   /* Scrollbar */       'scrollbar-thumb', 'scrollbar-track',
   /* Avatar */          'avatar-bg',
@@ -1192,13 +1210,13 @@ const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', '
 /* Tokens that start a new visual group (separator rendered before them) */
 const SURFACE_GROUP_STARTS = new Set([
   'heading', 'sh1', 'body-lg', 'text-muted-lg', 'link-lg',
-  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'friend-btn-bg', 'match-win-chip-bg', 'toggle-off-bg', 'status-success', 'scrollbar-thumb', 'avatar-bg',
+  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'match-win-chip-bg', 'guide-nav-bg', 'status-success', 'scrollbar-thumb', 'avatar-bg',
 ]);
 const SURFACE_GROUP_LABELS = {
   bg: 'Background', heading: 'Headings', sh1: 'Subheadings', 'body-lg': 'Body Text',
   'text-muted-lg': 'Muted Text', 'link-lg': 'Links', border: 'Borders', pill: 'Pills & Tags',
   'ui-xl': 'UI Text', logo: 'Branding', placeholder: 'Form', 'input-bg': 'Input Fields',
-  'friend-btn-bg': 'Friend Button', 'match-win-chip-bg': 'Match History', 'toggle-off-bg': 'Toggle', 'status-success': 'Status', 'scrollbar-thumb': 'Scrollbar', 'avatar-bg': 'Avatar',
+  'match-win-chip-bg': 'UI Elements', 'guide-nav-bg': 'Guide Nav', 'status-success': 'Status', 'scrollbar-thumb': 'Scrollbar', 'avatar-bg': 'Avatar',
 };
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
@@ -2345,6 +2363,7 @@ const SEARCH_LABELS = {
   'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM',
   'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder',
   'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error',
+  'guide-nav-bg': 'Nav bg', 'guide-nav-border': 'Nav border', 'guide-nav-label': 'Nav label', 'guide-nav-title': 'Nav title',
   'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track',
   'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text',
   'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border',
@@ -2355,7 +2374,9 @@ const SEARCH_LABELS = {
 
 /* Explicit full-name label overrides for tokens whose CSS name doesn't match any suffix pattern */
 const EXPLICIT_TOKEN_LABELS = {
-  '--color-guide-nav-bg': 'TOC background', '--color-toc-pip': 'TOC pip', '--color-toc-pip-active': 'TOC active pip',
+  '--color-guide-nav-bg': 'Guide nav bg', '--color-guide-nav-border': 'Guide nav border',
+  '--color-guide-nav-label': 'Guide nav label', '--color-guide-nav-title': 'Guide nav title',
+  '--color-toc-pip': 'TOC pip', '--color-toc-pip-active': 'TOC active pip',
   '--color-toc-heading': 'TOC heading', '--color-toc-text': 'TOC text', '--color-toc-text-active': 'TOC active text',
   '--color-dot-active': 'Progress dot active', '--color-nav-bg': 'Mobile nav bg', '--color-nav-border': 'Mobile nav border',
   '--color-nav-icon': 'Mobile nav icon',
@@ -2576,7 +2597,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track', 'avatar-bg': 'Avatar bg' };
+  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'match-win-chip-bg': 'Win chip bg', 'match-win-chip-fg': 'Win chip text', 'match-loss-chip-bg': 'Loss chip bg', 'match-loss-chip-fg': 'Loss chip text', 'friend-btn-bg': 'Friend btn bg', 'friend-btn-icon': 'Friend btn icon', 'toggle-off-bg': 'Off bg', 'toggle-on-bg': 'On bg', 'toggle-knob': 'Knob', 'guide-nav-bg': 'Background', 'guide-nav-border': 'Border', 'guide-nav-label': 'Label', 'guide-nav-title': 'Title', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track', 'avatar-bg': 'Avatar bg' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text', 'btn-destructive-bg': 'Destructive bg', 'btn-destructive-fg': 'Destructive text', 'btn-destructive-ui-bg': 'Destruct. UI bg', 'btn-destructive-ui-fg': 'Destruct. UI text', 'btn-destructive-ui-border': 'Destruct. UI border', 'btn-pill-bg': 'Pill bg', 'btn-pill-fg': 'Pill text', 'btn-pill-border': 'Pill border', 'btn-pill-active-bg': 'Pill active bg', 'btn-pill-active-fg': 'Pill active text', 'btn-pill-active-border': 'Pill active border', 'btn-pill-disabled-bg': 'Pill disabled bg', 'btn-pill-disabled-fg': 'Pill disabled text', 'btn-pill-disabled-border': 'Pill disabled border' };
   return (
     <>
@@ -3018,7 +3039,6 @@ function L2View({ l2, set, l1ColorMap, l1Groups, states, onStateChange, activeSu
         </SubSect>
 
         <SubSect label="Navigation">
-          <ColorRow label="TOC background"  name="--color-guide-nav-bg"   l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC pip"          name="--color-toc-pip"        l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC active pip"   name="--color-toc-pip-active" l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />
           <ColorRow label="TOC heading"      name="--color-toc-heading"    l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups} />

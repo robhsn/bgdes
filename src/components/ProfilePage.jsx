@@ -1051,13 +1051,13 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
         <div className="match-history__table-header">
           <span className="match-history__th match-history__th--player">Player</span>
           <span className="match-history__th match-history__th--result">Result</span>
-          <span className="match-history__th match-history__th--improvement">
+          {!isMvp && <span className="match-history__th match-history__th--improvement">
             Improvement
             <span className="info-tip">
               <span className="info-tip__icon">i</span>
               <span className="info-tip__text">Your overall game improvement ranking based on error rate trends across recent matches.</span>
             </span>
-          </span>
+          </span>}
           <span className="match-history__th match-history__th--score">Score</span>
           <span className="match-history__th match-history__th--time">Time</span>
           <span className="match-history__th match-history__th--date">Date</span>
@@ -1087,7 +1087,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
             <span className="match-row__error-rate" style={{ display: 'none', color: getErrorRateColor(m.errorRate) }}>
               {m.errorRate}%
             </span>
-            <span className="match-row__improvement">
+            {!isMvp && <span className="match-row__improvement">
               {m.improvement ? (
                 <span className="match-row__improvement-value">
                   {m.improvement}%↑
@@ -1097,7 +1097,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
                   </span>
                 </span>
               ) : '–'}
-            </span>
+            </span>}
             <span className="match-row__score">{m.score}</span>
             <span className="match-row__time">{m.duration}</span>
             <span className="match-row__date">{m.date}</span>

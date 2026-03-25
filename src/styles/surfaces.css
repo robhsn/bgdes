@@ -66,10 +66,10 @@
   --color-avatar-bg:       var(--sf-muted-avatar-bg);
 
   --color-glossary-underline: var(--prim-mono-350);
-  /* --color-guide-nav-bg: controlled by L2 DME token */
-  --color-guide-nav-border:   var(--prim-mono-250);
-  --color-guide-nav-label:    var(--prim-mono-500);
-  --color-guide-nav-title:    var(--prim-mono-900);
+  --color-guide-nav-bg:       var(--sf-muted-guide-nav-bg);
+  --color-guide-nav-border:   var(--sf-muted-guide-nav-border);
+  --color-guide-nav-label:    var(--sf-muted-guide-nav-label);
+  --color-guide-nav-title:    var(--sf-muted-guide-nav-title);
   --com-btn-primary-bg:       var(--sf-muted-btn-primary-bg);
   --com-btn-primary-fg:       var(--sf-muted-btn-primary-fg);
   --com-btn-dark-bg:          var(--sf-muted-btn-dark-bg);
@@ -162,10 +162,10 @@
   --color-avatar-bg:       var(--sf-inverse-avatar-bg);
 
   --color-glossary-underline: var(--prim-mono-550);
-  /* --color-guide-nav-bg: controlled by L2 DME token */
-  --color-guide-nav-border:   var(--prim-mono-550);
-  --color-guide-nav-label:    var(--prim-mono-350);
-  --color-guide-nav-title:    var(--prim-mono-white);
+  --color-guide-nav-bg:       var(--sf-inverse-guide-nav-bg);
+  --color-guide-nav-border:   var(--sf-inverse-guide-nav-border);
+  --color-guide-nav-label:    var(--sf-inverse-guide-nav-label);
+  --color-guide-nav-title:    var(--sf-inverse-guide-nav-title);
   --com-btn-primary-bg:       var(--sf-inverse-btn-primary-bg);
   --com-btn-primary-fg:       var(--sf-inverse-btn-primary-fg);
   --com-btn-dark-bg:          var(--sf-inverse-btn-dark-bg);
@@ -258,10 +258,10 @@
   --color-avatar-bg:       var(--sf-accent-avatar-bg);
 
   --color-glossary-underline: var(--prim-mono-500);
-  /* --color-guide-nav-bg: controlled by L2 DME token */
-  --color-guide-nav-border:   var(--prim-mono-500);
-  --color-guide-nav-label:    var(--prim-mono-250);
-  --color-guide-nav-title:    var(--prim-mono-white);
+  --color-guide-nav-bg:       var(--sf-accent-guide-nav-bg);
+  --color-guide-nav-border:   var(--sf-accent-guide-nav-border);
+  --color-guide-nav-label:    var(--sf-accent-guide-nav-label);
+  --color-guide-nav-title:    var(--sf-accent-guide-nav-title);
   --com-btn-primary-bg:       var(--sf-accent-btn-primary-bg);
   --com-btn-primary-fg:       var(--sf-accent-btn-primary-fg);
   --com-btn-dark-bg:          var(--sf-accent-btn-dark-bg);
@@ -354,10 +354,10 @@
   --color-avatar-bg:       var(--sf-tertiary-avatar-bg);
 
   --color-glossary-underline: var(--prim-mono-550);
-  /* --color-guide-nav-bg: controlled by L2 DME token */
-  --color-guide-nav-border:   var(--prim-mono-550);
-  --color-guide-nav-label:    var(--prim-mono-350);
-  --color-guide-nav-title:    var(--prim-mono-white);
+  --color-guide-nav-bg:       var(--sf-tertiary-guide-nav-bg);
+  --color-guide-nav-border:   var(--sf-tertiary-guide-nav-border);
+  --color-guide-nav-label:    var(--sf-tertiary-guide-nav-label);
+  --color-guide-nav-title:    var(--sf-tertiary-guide-nav-title);
   --com-btn-primary-bg:       var(--sf-tertiary-btn-primary-bg);
   --com-btn-primary-fg:       var(--sf-tertiary-btn-primary-fg);
   --com-btn-dark-bg:          var(--sf-tertiary-btn-dark-bg);

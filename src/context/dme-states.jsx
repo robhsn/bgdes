@@ -80,7 +80,7 @@ export const STATE_DEFINITIONS = [
     label: 'Launch MVP',
     description: 'Hide badge/achievement visuals from article page',
     type: 'learn-article',
-    defaultValue: false,
+    defaultValue: true,
   },
   {
     key: 'play.boardState',

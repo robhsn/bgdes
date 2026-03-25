@@ -254,7 +254,7 @@
   width: 44px;
   height: 24px;
   border-radius: 12px;
-  background: var(--color-border, #d1d5db);
+  background: var(--color-toggle-off-bg, var(--color-border, #d1d5db));
   position: relative;
   cursor: pointer;
   transition: background 0.2s;
@@ -262,14 +262,14 @@
 }
 
 .st-toggle--on {
-  background: var(--prim-mint-700, #0d9488);
+  background: var(--color-toggle-on-bg, var(--prim-mint-700, #0d9488));
 }
 
 .st-toggle__knob {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-toggle-knob, #fff);
   position: absolute;
   top: 2px;
   left: 2px;
