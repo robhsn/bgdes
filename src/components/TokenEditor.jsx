@@ -174,6 +174,8 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   /* Scrollbar */
   'scrollbar-thumb': '--color-scrollbar-thumb',
   'scrollbar-track': '--color-scrollbar-track',
+  /* Avatar */
+  'avatar-bg':       '--color-avatar-bg',
   /* Buttons */
   'btn-primary-bg':    '--com-btn-primary-bg',
   'btn-primary-fg':    '--com-btn-primary-fg',
@@ -1121,13 +1123,20 @@ const SURFACE_TOKENS = [
   /* Input fields */    'input-bg', 'input-border', 'input-text', 'input-placeholder',
   /* Status */          'status-success', 'status-warning', 'status-error',
   /* Scrollbar */       'scrollbar-thumb', 'scrollbar-track',
+  /* Avatar */          'avatar-bg',
 ];
 const BTN_SURFACE_TOKENS = ['btn-primary-bg', 'btn-primary-fg', 'btn-dark-bg', 'btn-dark-fg', 'btn-ghost-fg', 'btn-ghost-icon', 'btn-outline-fg', 'btn-outline-border', 'btn-tertiary-bg', 'btn-tertiary-fg', 'btn-quaternary-bg', 'btn-quaternary-fg', 'btn-destructive-bg', 'btn-destructive-fg', 'btn-destructive-ui-bg', 'btn-destructive-ui-fg', 'btn-destructive-ui-border', 'btn-pill-bg', 'btn-pill-fg', 'btn-pill-border', 'btn-pill-active-bg', 'btn-pill-active-fg', 'btn-pill-active-border', 'btn-pill-disabled-bg', 'btn-pill-disabled-fg', 'btn-pill-disabled-border'];
 /* Tokens that start a new visual group (separator rendered before them) */
 const SURFACE_GROUP_STARTS = new Set([
   'heading', 'sh1', 'body-lg', 'text-muted-lg', 'link-lg',
-  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'status-success', 'scrollbar-thumb',
+  'border', 'pill', 'ui-xl', 'logo', 'placeholder', 'input-bg', 'status-success', 'scrollbar-thumb', 'avatar-bg',
 ]);
+const SURFACE_GROUP_LABELS = {
+  bg: 'Background', heading: 'Headings', sh1: 'Subheadings', 'body-lg': 'Body Text',
+  'text-muted-lg': 'Muted Text', 'link-lg': 'Links', border: 'Borders', pill: 'Pills & Tags',
+  'ui-xl': 'UI Text', logo: 'Branding', placeholder: 'Form', 'input-bg': 'Input Fields',
+  'status-success': 'Status', 'scrollbar-thumb': 'Scrollbar', 'avatar-bg': 'Avatar',
+};
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
   { key: 'muted',    label: 'Secondary', prefix: '--sf-muted-',     bgToken: '--sf-muted-bg'       },
@@ -2468,6 +2477,28 @@ function SurfaceSwatch({ surfaceDef, l2, l1ColorMap }) {
   );
 }
 
+/* ─── Collapsible group heading for surface token groups ─── */
+function SurfaceGroup({ label, storageKey, children }) {
+  const [open, setOpen] = useState(() => localStorage.getItem(storageKey) !== 'closed');
+  const toggle = () => setOpen(o => { const next = !o; localStorage.setItem(storageKey, next ? 'open' : 'closed'); return next; });
+  return (
+    <div>
+      <div
+        onClick={toggle}
+        style={{
+          padding: '5px 16px 2px', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          borderTop: '1px solid #2a2a2a', marginTop: 2,
+        }}
+      >
+        <span style={{ fontSize: 11, color: '#aaa' }}>{label}</span>
+        <span style={{ color: '#666', fontSize: 8, marginRight: 2 }}>{open ? '▾' : '▸'}</span>
+      </div>
+      {open && children}
+    </div>
+  );
+}
+
 /* ─── Surface colour panel — tab bar selects one of 4 surfaces ── */
 function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChange, activeSurf, setActiveSurf }) {
   const sf = SURFACE_DEFS.find(s => s.key === activeSurf);
@@ -2475,7 +2506,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track' };
+  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track', 'avatar-bg': 'Avatar bg' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text', 'btn-destructive-bg': 'Destructive bg', 'btn-destructive-fg': 'Destructive text', 'btn-destructive-ui-bg': 'Destruct. UI bg', 'btn-destructive-ui-fg': 'Destruct. UI text', 'btn-destructive-ui-border': 'Destruct. UI border', 'btn-pill-bg': 'Pill bg', 'btn-pill-fg': 'Pill text', 'btn-pill-border': 'Pill border', 'btn-pill-active-bg': 'Pill active bg', 'btn-pill-active-fg': 'Pill active text', 'btn-pill-active-border': 'Pill active border', 'btn-pill-disabled-bg': 'Pill disabled bg', 'btn-pill-disabled-fg': 'Pill disabled text', 'btn-pill-disabled-border': 'Pill disabled border' };
   return (
     <>
@@ -2495,55 +2526,67 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
         ))}
       </div>
       <SurfaceSwatch surfaceDef={sf} l2={l2} l1ColorMap={l1ColorMap} />
-      {SURFACE_TOKENS.map(suffix => {
-        const sep = SURFACE_GROUP_STARTS.has(suffix)
-          ? <div key={`sep-${suffix}`} style={{ borderTop: '1px solid #2a2a2a', margin: '4px 16px' }} />
-          : null;
-        if (suffix === 'logo') {
-          const logoVal = states?.['global.logoVariant'] ?? 'Black';
-          return (
-            <React.Fragment key={suffix}>
-              {sep}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 16px' }}>
-                <span style={{ fontSize: 12, color: '#ccc' }}>Logo</span>
-                <select
-                  value={logoVal}
-                  onChange={e => onStateChange?.('global.logoVariant', e.target.value)}
-                  style={{
-                    background: '#222', border: '1px solid #444', borderRadius: 6,
-                    color: '#e0e0e0', fontSize: 11, padding: '4px 8px', cursor: 'pointer',
-                  }}
-                >
-                  <option value="Black">Black</option>
-                  <option value="White">White</option>
-                </select>
-              </div>
-            </React.Fragment>
-          );
-        }
-        return (
-          <React.Fragment key={suffix}>
-            {sep}
-            <ColorRow
-              label={LABELS[suffix]}
-              name={tokenFor(suffix)}
-              l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
-            />
-          </React.Fragment>
-        );
-      })}
+      {(() => {
+        /* Split SURFACE_TOKENS into groups by SURFACE_GROUP_STARTS boundaries */
+        const groups = [];
+        let cur = { start: SURFACE_TOKENS[0], items: [] };
+        SURFACE_TOKENS.forEach(suffix => {
+          if (SURFACE_GROUP_STARTS.has(suffix) && cur.items.length) {
+            groups.push(cur);
+            cur = { start: suffix, items: [] };
+          }
+          cur.items.push(suffix);
+        });
+        groups.push(cur);
+        return groups.map(g => (
+          <SurfaceGroup
+            key={g.start}
+            label={SURFACE_GROUP_LABELS[g.start] || g.start}
+            storageKey={`dme-sfg-${activeSurf}-${g.start}`}
+          >
+            {g.items.map(suffix => {
+              if (suffix === 'logo') {
+                const logoVal = states?.['global.logoVariant'] ?? 'Black';
+                return (
+                  <div key={suffix} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 16px' }}>
+                    <span style={{ fontSize: 12, color: '#ccc' }}>Logo</span>
+                    <select
+                      value={logoVal}
+                      onChange={e => onStateChange?.('global.logoVariant', e.target.value)}
+                      style={{
+                        background: '#222', border: '1px solid #444', borderRadius: 6,
+                        color: '#e0e0e0', fontSize: 11, padding: '4px 8px', cursor: 'pointer',
+                      }}
+                    >
+                      <option value="Black">Black</option>
+                      <option value="White">White</option>
+                    </select>
+                  </div>
+                );
+              }
+              return (
+                <ColorRow
+                  key={suffix}
+                  label={LABELS[suffix]}
+                  name={tokenFor(suffix)}
+                  l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+                />
+              );
+            })}
+          </SurfaceGroup>
+        ));
+      })()}
       {/* Pathway button tokens per surface */}
-      <div style={{ padding: '8px 16px 2px', color: '#999', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', borderTop: '1px solid #2a2a2a', marginTop: 4 }}>
-        Pathway Buttons
-      </div>
-      {BTN_SURFACE_TOKENS.map(suffix => (
-        <ColorRow
-          key={suffix}
-          label={BTN_LABELS[suffix]}
-          name={tokenFor(suffix)}
-          l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
-        />
-      ))}
+      <SurfaceGroup label="Pathway Buttons" storageKey={`dme-sfg-${activeSurf}-btn`}>
+        {BTN_SURFACE_TOKENS.map(suffix => (
+          <ColorRow
+            key={suffix}
+            label={BTN_LABELS[suffix]}
+            name={tokenFor(suffix)}
+            l2={l2} set={set} l1ColorMap={l1ColorMap} l1Groups={l1Groups}
+          />
+        ))}
+      </SurfaceGroup>
     </>
   );
 }
