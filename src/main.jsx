@@ -218,12 +218,16 @@ function App() {
 
   /* ── Sync web-header body attribute for CSS targeting ────────── */
   useEffect(() => {
-    if (dmeStates['global.webHeader']) {
+    const isLearnPage = currentPageId?.startsWith('learn')
+    const isProfilePage = currentPageId === 'profile'
+    const mvpOn = (isLearnPage && dmeStates['learnArticle.launchMvp']) || (isProfilePage && dmeStates['profile.mvp'])
+    const show = dmeStates['global.webHeader'] || mvpOn
+    if (show) {
       document.body.dataset.webHeader = 'true'
     } else {
       delete document.body.dataset.webHeader
     }
-  }, [dmeStates['global.webHeader']])
+  }, [dmeStates['global.webHeader'], dmeStates['learnArticle.launchMvp'], dmeStates['profile.mvp'], currentPageId])
 
   /* ── Radial FAB handlers ─────────────────────────────────────── */
   const handleTogglePanel = useCallback((id) => {

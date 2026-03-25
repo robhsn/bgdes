@@ -77,9 +77,9 @@ export const STATE_DEFINITIONS = [
   },
   {
     key: 'learnArticle.launchMvp',
-    label: 'Launch MVP',
-    description: 'Hide badge/achievement visuals from article page',
-    type: 'learn-article',
+    label: 'MVP',
+    description: 'Hide badge/achievement visuals from learn pages',
+    type: 'learn',
     defaultValue: true,
   },
   {

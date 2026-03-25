@@ -3115,12 +3115,12 @@ export default function ProfilePage({ onNavigate }) {
       )}
 
       <SiteFooter sectionId="gl-footer" />
-      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" onActivityOpen={() => setActivityOpen(true)} />
+      {!isMvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" onActivityOpen={() => setActivityOpen(true)} />}
       {activityOpen && createPortal(
         <ActivityCenter onNavigate={onNavigate} externalOpen onExternalClose={() => setActivityOpen(false)} />,
         document.body,
       )}
-      <div className="mobile-nav__spacer" />
+      {!isMvp && <div className="mobile-nav__spacer" />}
 
       {/* ── Badge celebration ── */}
       {celebrating && (

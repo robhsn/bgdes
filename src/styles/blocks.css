@@ -731,6 +731,7 @@ body[data-web-header="true"] .site-footer { padding-bottom: 0 !important; }
   body[data-web-header="true"] .site-header__auth .avatar-chevron { display: none !important; }
 }
 
+
 @media (max-width: 480px) {
   .section { padding-top: 32px; padding-bottom: 32px; }
 }

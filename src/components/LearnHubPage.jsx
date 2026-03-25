@@ -271,6 +271,7 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
 export default function LearnHubPage({ onNavigate }) {
   const loggedIn = useDMEState('auth.loggedIn', true);
   const acState = useDMEState('social.activityCenter', 'Activity - Unread');
+  const mvp = useDMEState('learnArticle.launchMvp', true);
 
   useEffect(() => {
     const intent = sessionStorage.getItem('learnhub-scroll-intent');
@@ -483,8 +484,8 @@ export default function LearnHubPage({ onNavigate }) {
       <PlayNowCta sectionId="gl-cta" />
       <SiteFooter sectionId="gl-footer" />
 
-      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />
-      <div className="mobile-nav__spacer" />
+      {!mvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />}
+      {!mvp && <div className="mobile-nav__spacer" />}
 
     </div>
   );

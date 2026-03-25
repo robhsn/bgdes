@@ -1192,7 +1192,7 @@ export default function LearnArticle2({ onNavigate }) {
           {/* Guide navigation */}
           <GuideCTAs />
 
-          <div className="mobile-nav__spacer" />
+          {!launchMvp && <div className="mobile-nav__spacer" />}
 
         </div>
       </section>
@@ -1207,7 +1207,7 @@ export default function LearnArticle2({ onNavigate }) {
       <TableOfContents />
 
       {/* ── MOBILE BOTTOM NAV ── */}
-      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />
+      {!launchMvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />}
 
     </div>
   );
