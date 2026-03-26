@@ -137,39 +137,39 @@ const MOCK_PROFILE_B = {
 };
 
 const MATCH_HISTORY_B = [
-  { id: 101, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'win',  score: '5–2', date: 'Mar 7',  duration: '18m', errorRate: 14, improvement: null },
-  { id: 102, opponent: 'MarinaD',                 avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 22, improvement: null },
-  { id: 103, opponent: 'Felix_B',                 avatarKey: 'Wizard',   result: 'win',  score: '5–4', date: 'Mar 4',  duration: '20m', errorRate: 16, improvement: 4  },
-  { id: 104, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'loss', score: '2–5', date: 'Mar 2',  duration: '14m', errorRate: 28, improvement: null },
-  { id: 105, opponent: 'BoardMaster',             avatarKey: 'King',     result: 'win',  score: '5–1', date: 'Mar 1',  duration: '10m', errorRate: 9,  improvement: 6  },
-  { id: 106, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'win',  score: '5–0', date: 'Feb 28', duration: '5m',  errorRate: 4,  improvement: 11 },
-  { id: 107, opponent: 'SarahM',                  avatarKey: 'Witch',    result: 'win',  score: '5–3', date: 'Feb 26', duration: '16m', errorRate: 13, improvement: null },
-  { id: 108, opponent: 'Felix_B',                 avatarKey: 'Wizard',   result: 'loss', score: '4–5', date: 'Feb 24', duration: '19m', errorRate: 25, improvement: null },
-  { id: 109, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'loss', score: '3–5', date: 'Feb 22', duration: '17m', errorRate: 20, improvement: null },
-  { id: 110, opponent: 'TommyV',                  avatarKey: 'Knight',   result: 'win',  score: '5–2', date: 'Feb 20', duration: '12m', errorRate: 10, improvement: 3  },
+  { id: 101, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'win',  score: '5–2', date: 'Mar 7',  duration: '18m', errorRate: 14, improvement: null, online: false },
+  { id: 102, opponent: 'MarinaD',                 avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 22, improvement: null, online: true  },
+  { id: 103, opponent: 'Felix_B',                 avatarKey: 'Wizard',   result: 'win',  score: '5–4', date: 'Mar 4',  duration: '20m', errorRate: 16, improvement: 4,   online: false },
+  { id: 104, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'loss', score: '2–5', date: 'Mar 2',  duration: '14m', errorRate: 28, improvement: null, online: false },
+  { id: 105, opponent: 'BoardMaster',             avatarKey: 'King',     result: 'win',  score: '5–1', date: 'Mar 1',  duration: '10m', errorRate: 9,  improvement: 6,   online: true  },
+  { id: 106, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'win',  score: '5–0', date: 'Feb 28', duration: '5m',  errorRate: 4,  improvement: 11,  online: false },
+  { id: 107, opponent: 'SarahM',                  avatarKey: 'Witch',    result: 'win',  score: '5–3', date: 'Feb 26', duration: '16m', errorRate: 13, improvement: null, online: true  },
+  { id: 108, opponent: 'Felix_B',                 avatarKey: 'Wizard',   result: 'loss', score: '4–5', date: 'Feb 24', duration: '19m', errorRate: 25, improvement: null, online: false },
+  { id: 109, opponent: 'MyReallyLongCoolUsername', avatarKey: 'Dink',     result: 'loss', score: '3–5', date: 'Feb 22', duration: '17m', errorRate: 20, improvement: null, online: false },
+  { id: 110, opponent: 'TommyV',                  avatarKey: 'Knight',   result: 'win',  score: '5–2', date: 'Feb 20', duration: '12m', errorRate: 10, improvement: 3,   online: true  },
 ];
 
 const MATCH_HISTORY = [
-  { id: 1,  opponent: 'MarinaD',       avatarKey: 'Princess', result: 'win',  score: '5–3', date: 'Today',  duration: '12m', errorRate: 8,  improvement: 8  },
-  { id: 2,  opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–1', date: 'Today',  duration: '8m',  errorRate: 12, improvement: null },
-  { id: 3,  opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'loss', score: '2–5', date: 'Mar 7',  duration: '18m', errorRate: 31, improvement: null },
-  { id: 4,  opponent: 'TommyV',        avatarKey: 'Knight',   result: 'win',  score: '5–4', date: 'Mar 7',  duration: '22m', errorRate: 18, improvement: 3  },
-  { id: 5,  opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–0', date: 'Mar 6',  duration: '6m',  errorRate: 5,  improvement: 12 },
-  { id: 6,  opponent: 'MarinaD',       avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 27, improvement: null },
-  { id: 7,  opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'win',  score: '5–2', date: 'Mar 4',  duration: '14m', errorRate: 14, improvement: null },
-  { id: 8,  opponent: 'SarahM',        avatarKey: 'Witch',    result: 'loss', score: '1–5', date: 'Mar 3',  duration: '9m',  errorRate: 35, improvement: null },
-  { id: 9,  opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–3', date: 'Mar 2',  duration: '17m', errorRate: 9,  improvement: 5  },
-  { id: 10, opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–2', date: 'Mar 1',  duration: '7m',  errorRate: 7,  improvement: null },
-  { id: 11, opponent: 'TommyV',        avatarKey: 'Knight',   result: 'loss', score: '4–5', date: 'Feb 28', duration: '20m', errorRate: 22, improvement: null },
-  { id: 12, opponent: 'MarinaD',       avatarKey: 'Princess', result: 'win',  score: '5–1', date: 'Feb 27', duration: '10m', errorRate: 6,  improvement: 9  },
-  { id: 13, opponent: 'SarahM',        avatarKey: 'Witch',    result: 'win',  score: '5–4', date: 'Feb 26', duration: '19m', errorRate: 15, improvement: null },
-  { id: 14, opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'loss', score: '2–5', date: 'Feb 25', duration: '11m', errorRate: 29, improvement: null },
-  { id: 15, opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'win',  score: '5–0', date: 'Feb 24', duration: '5m',  errorRate: 4,  improvement: 7  },
-  { id: 16, opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–3', date: 'Feb 23', duration: '13m', errorRate: 11, improvement: null },
-  { id: 17, opponent: 'TommyV',        avatarKey: 'Knight',   result: 'win',  score: '5–2', date: 'Feb 22', duration: '16m', errorRate: 13, improvement: 2  },
-  { id: 18, opponent: 'MarinaD',       avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Feb 21', duration: '14m', errorRate: 33, improvement: null },
-  { id: 19, opponent: 'SarahM',        avatarKey: 'Witch',    result: 'win',  score: '5–1', date: 'Feb 20', duration: '8m',  errorRate: 8,  improvement: 6  },
-  { id: 20, opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–4', date: 'Feb 19', duration: '21m', errorRate: 16, improvement: null },
+  { id: 1,  opponent: 'MarinaD',       avatarKey: 'Princess', result: 'win',  score: '5–3', date: 'Today',  duration: '12m', errorRate: 8,  improvement: 8,    online: true  },
+  { id: 2,  opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–1', date: 'Today',  duration: '8m',  errorRate: 12, improvement: null,  online: false },
+  { id: 3,  opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'loss', score: '2–5', date: 'Mar 7',  duration: '18m', errorRate: 31, improvement: null,  online: true  },
+  { id: 4,  opponent: 'TommyV',        avatarKey: 'Knight',   result: 'win',  score: '5–4', date: 'Mar 7',  duration: '22m', errorRate: 18, improvement: 3,    online: true  },
+  { id: 5,  opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–0', date: 'Mar 6',  duration: '6m',  errorRate: 5,  improvement: 12,   online: true  },
+  { id: 6,  opponent: 'MarinaD',       avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Mar 5',  duration: '15m', errorRate: 27, improvement: null,  online: true  },
+  { id: 7,  opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'win',  score: '5–2', date: 'Mar 4',  duration: '14m', errorRate: 14, improvement: null,  online: true  },
+  { id: 8,  opponent: 'SarahM',        avatarKey: 'Witch',    result: 'loss', score: '1–5', date: 'Mar 3',  duration: '9m',  errorRate: 35, improvement: null,  online: false },
+  { id: 9,  opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–3', date: 'Mar 2',  duration: '17m', errorRate: 9,  improvement: 5,    online: false },
+  { id: 10, opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–2', date: 'Mar 1',  duration: '7m',  errorRate: 7,  improvement: null,  online: true  },
+  { id: 11, opponent: 'TommyV',        avatarKey: 'Knight',   result: 'loss', score: '4–5', date: 'Feb 28', duration: '20m', errorRate: 22, improvement: null,  online: true  },
+  { id: 12, opponent: 'MarinaD',       avatarKey: 'Princess', result: 'win',  score: '5–1', date: 'Feb 27', duration: '10m', errorRate: 6,  improvement: 9,    online: true  },
+  { id: 13, opponent: 'SarahM',        avatarKey: 'Witch',    result: 'win',  score: '5–4', date: 'Feb 26', duration: '19m', errorRate: 15, improvement: null,  online: false },
+  { id: 14, opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'loss', score: '2–5', date: 'Feb 25', duration: '11m', errorRate: 29, improvement: null,  online: false },
+  { id: 15, opponent: 'GammonKing42',  avatarKey: 'Timothy',  result: 'win',  score: '5–0', date: 'Feb 24', duration: '5m',  errorRate: 4,  improvement: 7,    online: true  },
+  { id: 16, opponent: 'AIPlayer',      avatarKey: 'AI Player',result: 'win',  score: '5–3', date: 'Feb 23', duration: '13m', errorRate: 11, improvement: null,  online: true  },
+  { id: 17, opponent: 'TommyV',        avatarKey: 'Knight',   result: 'win',  score: '5–2', date: 'Feb 22', duration: '16m', errorRate: 13, improvement: 2,    online: true  },
+  { id: 18, opponent: 'MarinaD',       avatarKey: 'Princess', result: 'loss', score: '3–5', date: 'Feb 21', duration: '14m', errorRate: 33, improvement: null,  online: true  },
+  { id: 19, opponent: 'SarahM',        avatarKey: 'Witch',    result: 'win',  score: '5–1', date: 'Feb 20', duration: '8m',  errorRate: 8,  improvement: 6,    online: false },
+  { id: 20, opponent: 'Felix_B',       avatarKey: 'Wizard',   result: 'win',  score: '5–4', date: 'Feb 19', duration: '21m', errorRate: 16, improvement: null,  online: false },
 ];
 
 const BADGE_THRESHOLDS = {
@@ -990,7 +990,6 @@ function getErrorRateColor(rate) {
 const MATCHES_PER_PAGE = 10;
 
 const FRIEND_USERNAMES = new Set(MOCK_FRIENDS.map(f => f.username));
-const FRIEND_ONLINE_MAP = Object.fromEntries(MOCK_FRIENDS.map(f => [f.username, f.online]));
 
 function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -1074,7 +1073,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
               src={getAvatarSrc(m.avatarKey)}
               alt={m.opponent}
               size="lg"
-              online={FRIEND_ONLINE_MAP[m.opponent]}
+              online={m.online}
               clickable={!!onPlayerClick}
               onClick={() => onPlayerClick?.(m.opponent)}
             />
