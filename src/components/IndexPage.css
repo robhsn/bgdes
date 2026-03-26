@@ -86,7 +86,6 @@
 
 .ix-btn:hover {
   transform: scale(1.02);
-  filter: brightness(1.1);
 }
 
 .ix-btn:active {
@@ -182,7 +181,6 @@
 
 .ix-cta:hover {
   transform: scale(1.02);
-  filter: brightness(1.1);
 }
 
 .ix-cta:active {
@@ -289,7 +287,6 @@ section.ix-right {
 
 .ix-card-cta:hover {
   transform: scale(1.02);
-  filter: brightness(1.1);
 }
 
 .ix-card-cta:active {

@@ -11,6 +11,34 @@ function loadSavedResults() {
   } catch { return null; }
 }
 
+/* ── Human-readable summary for a failed assertion ─────────── */
+function buildHumanSummary(test, assertion) {
+  const stateEntries = Object.entries(test.states);
+  const viewHint = stateEntries
+    .map(([k, v]) => {
+      if (k.includes('viewType')) return v;
+      if (k.includes('modal')) return `${v} modal`;
+      if (k.includes('loggedIn')) return v === true || v === 'true' ? 'logged in' : 'logged out';
+      return null;
+    })
+    .filter(Boolean)
+    .join(', ');
+
+  const context = viewHint ? ` (${viewHint})` : '';
+
+  if (assertion.expect === 'absent')
+    return `"${assertion.label}" is showing up when it shouldn't on the ${test.page} page${context}.`;
+  if (assertion.expect === 'present')
+    return `"${assertion.label}" is missing on the ${test.page} page${context}.`;
+  if (assertion.expect === 'count')
+    return `Wrong number of "${assertion.label}" on the ${test.page} page${context} — expected ${assertion.count}, got a different count.`;
+  if (assertion.expect === 'text')
+    return `"${assertion.label}" doesn't contain the expected text on the ${test.page} page${context}.`;
+  if (assertion.expect === 'visible')
+    return `"${assertion.label}" exists but is hidden on the ${test.page} page${context}.`;
+  return `"${assertion.label}" failed on the ${test.page} page${context}.`;
+}
+
 /* ── Build clipboard prompt for a failed assertion ──────────── */
 function buildFailurePrompt(test, assertion) {
   const expectLabel = assertion.expect === 'absent'
@@ -145,7 +173,8 @@ export default function AuditPage({ testResults, testRunning, onRunTests, onNavi
       for (const result of pageResults) {
         const failedAssertions = result.assertions.filter(a => !a.pass);
         for (const a of failedAssertions) {
-          lines.push(`- ${buildFailurePrompt(result, a)}`);
+          lines.push(`- ${buildHumanSummary(result, a)}`);
+          lines.push(`  > ${buildFailurePrompt(result, a)}`);
         }
       }
       lines.push('');
@@ -283,16 +312,19 @@ export default function AuditPage({ testResults, testRunning, onRunTests, onNavi
 
                     <div className="au-assertions">
                       {result.assertions.map((a, i) => (
-                        <div className="au-assertion" key={i}>
+                        <div className={`au-assertion${!a.pass ? ' au-assertion--fail' : ''}`} key={i}>
                           <span className={`au-assertion-icon au-assertion-icon--${a.pass ? 'pass' : 'fail'}`}>
                             {a.pass ? '\u2713' : '\u2717'}
                           </span>
-                          <span className="au-assertion-label">
-                            {a.label}
-                            {!a.pass && a.detail && (
-                              <span className="au-assertion-detail"> — {a.detail}</span>
+                          <div className="au-assertion-content">
+                            <span className="au-assertion-label">{a.label}</span>
+                            {!a.pass && (
+                              <span className="au-assertion-summary">{buildHumanSummary(result, a)}</span>
                             )}
-                          </span>
+                            {!a.pass && a.detail && (
+                              <span className="au-assertion-detail">{a.detail}</span>
+                            )}
+                          </div>
                           {!a.pass && (
                             <button
                               className="au-copy-btn"

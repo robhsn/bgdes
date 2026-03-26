@@ -273,6 +273,23 @@ function inputTokens(prefix, bg, border, text, placeholder) {
     [`${prefix}input-placeholder`]: placeholder,
   };
 }
+function uiComponentTokens(prefix) {
+  return {
+    [`${prefix}match-win-chip-bg`]:   '--prim-mint-100',
+    [`${prefix}match-win-chip-fg`]:   '--prim-mint-500',
+    [`${prefix}match-loss-chip-bg`]:  '--prim-mono-150',
+    [`${prefix}match-loss-chip-fg`]:  '--prim-mono-500',
+    [`${prefix}friend-btn-bg`]:       '--prim-mono-white',
+    [`${prefix}friend-btn-icon`]:     '--prim-mono-900',
+    [`${prefix}toggle-off-bg`]:       '--prim-mint-300',
+    [`${prefix}toggle-on-bg`]:        '#39b592',
+    [`${prefix}toggle-knob`]:         '--prim-mono-white',
+    [`${prefix}guide-nav-bg`]:        '--prim-mono-white',
+    [`${prefix}guide-nav-border`]:    '--prim-mono-250',
+    [`${prefix}guide-nav-label`]:     '--prim-mono-500',
+    [`${prefix}guide-nav-title`]:     '--prim-mono-900',
+  };
+}
 
 /* ─── Per-role type color tokens for surfaces ───────────────── */
 function typeRoleTokens(prefix, headingVal, bodyVal, mutedVal) {
@@ -292,664 +309,8 @@ function typeRoleTokens(prefix, headingVal, bodyVal, mutedVal) {
 }
 
 /* ─── Themes — L2 colors reference L1 token names ────────────── */
+/* Only mvp-green remains — used as a reset template, not a hidden fallback */
 const THEMES = {
-  mono: {
-    label: 'Mono',
-    globals: {
-      '--color-toc-pip':        '--prim-mono-300',
-      '--color-toc-pip-active': '--prim-mono-550',
-      '--color-toc-heading':    '--prim-mono-550',
-      '--color-toc-text':       '--prim-mono-750',
-      '--color-toc-text-active':'--prim-mono-550',
-      '--color-dot-active':     '--prim-orange-500',
-      '--color-badge-from':     '--prim-mono-700',
-      '--color-badge-to':       '--prim-mono-900',
-      '--color-badge-icon':     '--prim-mono-750',
-      '--color-badge-icon-inner': '--prim-mono-100',
-      '--color-badge-unearned-stroke': '--prim-mono-500',
-      '--color-badge-unearned-text':   '--prim-mono-500',
-      '--color-avatar-bg':        '--prim-mono-200',
-      '--color-stat-percentile':  '--prim-orange-500',
-      '--color-statement-bg':     '--prim-mono-100',
-      '--color-statement-border': '--prim-mono-350',
-      '--color-statement-text':   '--prim-mono-700',
-      '--color-statement-link-bg':     '--prim-mono-100',
-      '--color-statement-link-border': '--prim-mono-350',
-      '--color-statement-link-text':   '--prim-mono-700',
-      '--color-statement-link-icon':  '--prim-mono-350',
-      '--color-activity-bell':       '--prim-mono-900',
-      '--color-dropdown-bg':         '--prim-mono-white',
-      '--color-dropdown-border':     '--prim-mono-350',
-      '--color-dropdown-text':       '--prim-mono-900',
-      '--color-dropdown-icon':       '--prim-mono-500',
-      '--color-dropdown-soon-bg':    '--prim-mono-200',
-      '--color-dropdown-soon-fg':    '--prim-mono-600',
-      '--color-dropdown-separator':  '--prim-mono-100',
-      '--color-nav-bg':           '--prim-mono-100',
-      '--color-nav-border':       '--prim-mono-250',
-      '--color-nav-icon':         '--prim-mono-900',
-      '--color-guide-nav-bg':     '--prim-mono-white',
-      '--color-guide-nav-border': '--prim-mono-250',
-      '--color-guide-nav-label':  '--prim-mono-500',
-      '--color-guide-nav-title':  '--prim-mono-900',
-      '--btn-primary-bg':         '--prim-mono-250',
-      '--btn-primary-fg':         '--prim-mono-900',
-      '--btn-secondary-bg':       '--prim-mono-white',
-      '--btn-secondary-fg':       '--prim-mono-900',
-      '--btn-primary-border':     '--prim-mono-900',
-      '--btn-secondary-border':   '--prim-mono-900',
-      '--color-match-win-border':   '--prim-orange-500',
-      '--color-match-loss-border':  '--prim-mono-250',
-      '--color-match-win-chip-bg':   '--prim-mint-100',
-      '--color-match-win-chip-fg':   '--prim-mint-500',
-      '--color-match-loss-chip-bg':  '--prim-mono-150',
-      '--color-match-loss-chip-fg':  '--prim-mono-500',
-      '--color-friend-btn-bg':       '--prim-mono-white',
-      '--color-friend-btn-icon':     '--prim-mono-900',
-      '--color-toggle-off-bg':       '--prim-mint-300',
-      '--color-toggle-on-bg':        '#39b592',
-      '--color-toggle-knob':         '--prim-mono-white',
-    },
-    surfaces: {
-      default: {
-        '--color-bg':             '--prim-mono-white',
-        '--color-heading':        '--prim-mono-900',
-        '--color-body':           '--prim-mono-600',
-        '--color-muted':          '--prim-mono-750',
-        '--color-muted-lg':       '--prim-mono-750',
-        '--color-muted-sm':       '--prim-mono-750',
-        '--color-border':         '--prim-mono-100',
-        '--color-border-light':   '--prim-mono-150',
-        '--color-border-mid':     '--prim-mono-250',
-        '--color-border-subtle':  '--prim-mono-350',
-        '--color-callout-border': '--prim-mono-500',
-        '--color-placeholder':    '--prim-mono-200',
-        '--color-logo':           '--prim-mono-900',
-        '--color-link':           '--prim-mono-700',
-        '--color-link-lg':        '--prim-mono-700',
-        '--color-link-sm':        '--prim-mono-700',
-        '--color-pill':           '--prim-mono-900',
-        '--color-pill-lg':        '--prim-mono-900',
-        '--color-pill-md':        '--prim-mono-900',
-        '--color-pill-sm':        '--prim-mono-900',
-        '--color-accent':         '--prim-mono-700',
-        '--color-pill-bg':        '--prim-mono-white',
-        '--color-pill-border':    '--prim-mono-900',
-        '--color-tag-fill':       '--prim-mono-150',
-        '--color-scrollbar-thumb': '--prim-mono-300',
-        '--color-scrollbar-track': '--prim-mono-100',
-      ...btnDefaultTokens(BTN_LIGHT),
-      ...typeRoleTokens('--color-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
-      ...inputTokens('--color-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-900', '--prim-mono-350'),
-      },
-      muted: {
-        '--sf-muted-bg':             '--prim-mono-50',
-        '--sf-muted-heading':        '--prim-mono-900',
-        '--sf-muted-body':           '--prim-mono-600',
-        '--sf-muted-text-muted':     '--prim-mono-750',
-        '--sf-muted-text-muted-lg':  '--prim-mono-750',
-        '--sf-muted-text-muted-sm':  '--prim-mono-750',
-        '--sf-muted-border':         '--prim-mono-100',
-        '--sf-muted-border-light':   '--prim-mono-150',
-        '--sf-muted-border-mid':     '--prim-mono-250',
-        '--sf-muted-border-subtle':  '--prim-mono-350',
-        '--sf-muted-callout-border': '--prim-mono-500',
-        '--sf-muted-placeholder':    '--prim-mono-200',
-        '--sf-muted-logo':           '--prim-mono-900',
-        '--sf-muted-link':           '--prim-mono-700',
-        '--sf-muted-link-lg':        '--prim-mono-700',
-        '--sf-muted-link-sm':        '--prim-mono-700',
-        '--sf-muted-pill':           '--prim-mono-900',
-        '--sf-muted-pill-lg':        '--prim-mono-900',
-        '--sf-muted-pill-md':        '--prim-mono-900',
-        '--sf-muted-pill-sm':        '--prim-mono-900',
-        '--sf-muted-accent':         '--prim-mono-700',
-        '--sf-muted-pill-bg':        '--prim-mono-50',
-        '--sf-muted-pill-border':    '--prim-mono-900',
-        '--sf-muted-tag-fill':       '--prim-mono-150',
-        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
-        '--sf-muted-scrollbar-track': '--prim-mono-100',
-
-        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
-        ...typeRoleTokens('--sf-muted-', '--prim-mono-900', '--prim-mono-600', '--prim-mono-750'),
-        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-900', '--prim-mono-350'),
-      },
-      inverse: {
-        '--sf-inverse-bg':             '--prim-mono-900',
-        '--sf-inverse-heading':        '--prim-mono-white',
-        '--sf-inverse-body':           '--prim-mono-200',
-        '--sf-inverse-text-muted':     '--prim-mono-350',
-        '--sf-inverse-text-muted-lg':  '--prim-mono-350',
-        '--sf-inverse-text-muted-sm':  '--prim-mono-350',
-        '--sf-inverse-border':         '--prim-mono-700',
-        '--sf-inverse-border-light':   '--prim-mono-750',
-        '--sf-inverse-border-mid':     '--prim-mono-550',
-        '--sf-inverse-border-subtle':  '--prim-mono-500',
-        '--sf-inverse-callout-border': '--prim-mono-350',
-        '--sf-inverse-placeholder':    '--prim-mono-700',
-        '--sf-inverse-logo':           '--prim-mono-white',
-        '--sf-inverse-link':           '--prim-mono-300',
-        '--sf-inverse-link-lg':        '--prim-mono-300',
-        '--sf-inverse-link-sm':        '--prim-mono-300',
-        '--sf-inverse-pill':           '--prim-mono-white',
-        '--sf-inverse-pill-lg':        '--prim-mono-white',
-        '--sf-inverse-pill-md':        '--prim-mono-white',
-        '--sf-inverse-pill-sm':        '--prim-mono-white',
-        '--sf-inverse-accent':         '--prim-mono-500',
-        '--sf-inverse-pill-bg':        '--prim-mono-900',
-        '--sf-inverse-pill-border':    '--prim-mono-white',
-        '--sf-inverse-tag-fill':     '--prim-mono-750',
-        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
-        '--sf-inverse-scrollbar-track': '--prim-mono-750',
-
-        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
-        ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
-        ...inputTokens('--sf-inverse-', '--prim-mono-800', '--prim-mono-600', '--prim-mono-white', '--prim-mono-500'),
-      },
-      accent: {
-        '--sf-accent-bg':             '--prim-mono-700',
-        '--sf-accent-heading':        '--prim-mono-white',
-        '--sf-accent-body':           '--prim-mono-100',
-        '--sf-accent-text-muted':     '--prim-mono-250',
-        '--sf-accent-text-muted-lg':  '--prim-mono-250',
-        '--sf-accent-text-muted-sm':  '--prim-mono-250',
-        '--sf-accent-border':         '--prim-mono-550',
-        '--sf-accent-border-light':   '--prim-mono-600',
-        '--sf-accent-border-mid':     '--prim-mono-400',
-        '--sf-accent-border-subtle':  '--prim-mono-350',
-        '--sf-accent-callout-border': '--prim-mono-250',
-        '--sf-accent-placeholder':    '--prim-mono-600',
-        '--sf-accent-logo':           '--prim-mono-white',
-        '--sf-accent-link':           '--prim-mono-300',
-        '--sf-accent-link-lg':        '--prim-mono-300',
-        '--sf-accent-link-sm':        '--prim-mono-300',
-        '--sf-accent-pill':           '--prim-mono-white',
-        '--sf-accent-pill-lg':        '--prim-mono-white',
-        '--sf-accent-pill-md':        '--prim-mono-white',
-        '--sf-accent-pill-sm':        '--prim-mono-white',
-        '--sf-accent-accent':         '--prim-mono-900',
-        '--sf-accent-pill-bg':        '--prim-mono-700',
-        '--sf-accent-pill-border':    '--prim-mono-white',
-        '--sf-accent-tag-fill':      '--prim-mono-600',
-        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
-        '--sf-accent-scrollbar-track': '--prim-mono-600',
-
-        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
-        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mono-100', '--prim-mono-250'),
-        ...inputTokens('--sf-accent-', '--prim-mono-600', '--prim-mono-500', '--prim-mono-white', '--prim-mono-400'),
-      },
-      tertiary: {
-        '--sf-tertiary-bg':             '--prim-mono-750',
-        '--sf-tertiary-heading':        '--prim-mono-white',
-        '--sf-tertiary-body':           '--prim-mono-200',
-        '--sf-tertiary-text-muted':     '--prim-mono-350',
-        '--sf-tertiary-text-muted-lg':  '--prim-mono-350',
-        '--sf-tertiary-text-muted-sm':  '--prim-mono-350',
-        '--sf-tertiary-border':         '--prim-mono-600',
-        '--sf-tertiary-border-light':   '--prim-mono-700',
-        '--sf-tertiary-border-mid':     '--prim-mono-550',
-        '--sf-tertiary-border-subtle':  '--prim-mono-500',
-        '--sf-tertiary-callout-border': '--prim-mono-300',
-        '--sf-tertiary-placeholder':    '--prim-mono-600',
-        '--sf-tertiary-logo':           '--prim-mono-white',
-        '--sf-tertiary-link':           '--prim-mono-200',
-        '--sf-tertiary-link-lg':        '--prim-mono-200',
-        '--sf-tertiary-link-sm':        '--prim-mono-200',
-        '--sf-tertiary-pill':           '--prim-mono-white',
-        '--sf-tertiary-pill-lg':        '--prim-mono-white',
-        '--sf-tertiary-pill-md':        '--prim-mono-white',
-        '--sf-tertiary-pill-sm':        '--prim-mono-white',
-        '--sf-tertiary-accent':         '--prim-mono-500',
-        '--sf-tertiary-pill-bg':        '--prim-mono-750',
-        '--sf-tertiary-pill-border':    '--prim-mono-white',
-        '--sf-tertiary-tag-fill':    '--prim-mono-700',
-        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
-        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
-
-        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
-        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-200', '--prim-mono-350'),
-        ...inputTokens('--sf-tertiary-', '--prim-mono-700', '--prim-mono-550', '--prim-mono-white', '--prim-mono-500'),
-      },
-    },
-  },
-  'coral-tide': {
-    label: 'Coral Tide',
-    globals: {
-      '--color-toc-pip':          '--prim-sapphire-50',
-      '--color-toc-pip-active':   '--prim-orange-500',
-      '--color-toc-heading':      '--prim-orange-500',
-      '--color-toc-text':         '--prim-sapphire-500',
-      '--color-toc-text-active':  '--prim-orange-500',
-      '--color-dot-active':       '--prim-orange-500',
-      '--color-badge-from':       '--prim-sapphire-500',
-      '--color-badge-to':         '--prim-sapphire-50',
-      '--color-badge-icon':       '--prim-sapphire-500',
-      '--color-badge-icon-inner': '--prim-splash-400',
-      '--color-badge-unearned-stroke': '--prim-sapphire-400',
-      '--color-badge-unearned-text':   '--prim-sapphire-400',
-      '--color-avatar-bg':        '--prim-sapphire-600',
-      '--color-stat-percentile':  '--prim-orange-500',
-      '--color-statement-bg':     '--prim-butter-700',
-      '--color-statement-border': '--prim-orange-300',
-      '--color-statement-text':   '--prim-sapphire-700',
-      '--color-statement-link-bg':     '--prim-butter-700',
-      '--color-statement-link-border': '--prim-orange-300',
-      '--color-statement-link-text':   '--prim-sapphire-700',
-      '--color-statement-link-icon':  '--prim-orange-300',
-      '--color-activity-bell':       '--prim-sapphire-500',
-      '--color-dropdown-bg':         '--prim-mono-white',
-      '--color-dropdown-border':     '--prim-splash-300',
-      '--color-dropdown-text':       '--prim-sapphire-500',
-      '--color-dropdown-icon':       '--prim-sapphire-300',
-      '--color-dropdown-soon-bg':    '--prim-butter-700',
-      '--color-dropdown-soon-fg':    '--prim-sapphire-500',
-      '--color-dropdown-separator':  '--prim-orange-50',
-      '--color-nav-bg':           '--prim-butter-500',
-      '--color-nav-border':       '--prim-butter-900',
-      '--color-nav-icon':         '--prim-sapphire-500',
-      '--color-guide-nav-bg':     '--prim-mono-white',
-      '--color-guide-nav-border': '--prim-mono-250',
-      '--color-guide-nav-label':  '--prim-mono-500',
-      '--color-guide-nav-title':  '--prim-sapphire-500',
-      '--btn-primary-bg':         '--prim-butter-900',
-      '--btn-primary-fg':         '--prim-sapphire-500',
-      '--btn-secondary-bg':       '--prim-mono-white',
-      '--btn-secondary-fg':       '--prim-sapphire-500',
-      '--btn-primary-border':     '--prim-sapphire-500',
-      '--btn-secondary-border':   '--prim-sapphire-500',
-      '--color-match-win-border':   '--prim-orange-500',
-      '--color-match-loss-border':  '--prim-mono-250',
-      '--color-match-win-chip-bg':   '--prim-mint-100',
-      '--color-match-win-chip-fg':   '--prim-mint-500',
-      '--color-match-loss-chip-bg':  '--prim-mono-150',
-      '--color-match-loss-chip-fg':  '--prim-mono-500',
-      '--color-friend-btn-bg':       '--prim-mono-white',
-      '--color-friend-btn-icon':     '--prim-mono-900',
-      '--color-toggle-off-bg':       '--prim-mint-300',
-      '--color-toggle-on-bg':        '#39b592',
-      '--color-toggle-knob':         '--prim-mono-white',
-    },
-    surfaces: {
-      default: {
-        '--color-bg':             '--prim-mono-white',
-        '--color-heading':        '--prim-sapphire-500',
-        '--color-body':           '--prim-sapphire-500',
-        '--color-muted':          '--prim-sapphire-700',
-        '--color-muted-lg':       '--prim-sapphire-700',
-        '--color-muted-sm':       '--prim-sapphire-700',
-        '--color-border':         '--prim-orange-50',
-        '--color-border-light':   '--prim-butter-700',
-        '--color-border-mid':     '--prim-butter-900',
-        '--color-border-subtle':  '--prim-splash-300',
-        '--color-callout-border': '--prim-splash-700',
-        '--color-placeholder':    '--prim-splash-300',
-        '--color-logo':           '--prim-sapphire-400',
-        '--color-link':           '--prim-splash-700',
-        '--color-link-lg':        '--prim-splash-700',
-        '--color-link-sm':        '--prim-splash-700',
-        '--color-pill':           '--prim-orange-500',
-        '--color-pill-lg':        '--prim-orange-500',
-        '--color-pill-md':        '--prim-orange-500',
-        '--color-pill-sm':        '--prim-orange-500',
-        '--color-accent':         '--prim-orange-300',
-        '--color-pill-bg':        '--prim-mono-white',
-        '--color-pill-border':    '--prim-orange-500',
-        '--color-tag-fill':       '--prim-butter-700',
-        '--color-scrollbar-thumb': '--prim-mono-300',
-        '--color-scrollbar-track': '--prim-mono-100',
-      ...btnDefaultTokens(BTN_LIGHT),
-      ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
-      ...inputTokens('--color-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-500', '--prim-splash-300'),
-      },
-      muted: {
-        '--sf-muted-bg':             '--prim-splash-50',
-        '--sf-muted-heading':        '--prim-sapphire-600',
-        '--sf-muted-body':           '--prim-sapphire-700',
-        '--sf-muted-text-muted':     '--prim-sapphire-500',
-        '--sf-muted-text-muted-lg':  '--prim-sapphire-500',
-        '--sf-muted-text-muted-sm':  '--prim-sapphire-500',
-        '--sf-muted-border':         '--prim-butter-900',
-        '--sf-muted-border-light':   '--prim-splash-200',
-        '--sf-muted-border-mid':     '--prim-butter-900',
-        '--sf-muted-border-subtle':  '--prim-orange-300',
-        '--sf-muted-callout-border': '--prim-sapphire-300',
-        '--sf-muted-placeholder':    '--prim-splash-300',
-        '--sf-muted-logo':           '--prim-sapphire-900',
-        '--sf-muted-link':           '--prim-splash-700',
-        '--sf-muted-link-lg':        '--prim-splash-700',
-        '--sf-muted-link-sm':        '--prim-splash-700',
-        '--sf-muted-pill':           '--prim-sapphire-900',
-        '--sf-muted-pill-lg':        '--prim-sapphire-900',
-        '--sf-muted-pill-md':        '--prim-sapphire-900',
-        '--sf-muted-pill-sm':        '--prim-sapphire-900',
-        '--sf-muted-accent':         '--prim-orange-300',
-        '--sf-muted-pill-bg':        '--prim-splash-50',
-        '--sf-muted-pill-border':    '--prim-sapphire-900',
-        '--sf-muted-tag-fill':       '--prim-splash-200',
-        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
-        '--sf-muted-scrollbar-track': '--prim-mono-100',
-
-        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
-        ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
-        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-600', '--prim-splash-300'),
-      },
-      inverse: {
-        '--sf-inverse-bg':             '--prim-sapphire-900',
-        '--sf-inverse-heading':        '--prim-butter-500',
-        '--sf-inverse-body':           '--prim-butter-700',
-        '--sf-inverse-text-muted':     '--prim-butter-900',
-        '--sf-inverse-text-muted-lg':  '--prim-butter-900',
-        '--sf-inverse-text-muted-sm':  '--prim-butter-900',
-        '--sf-inverse-border':         '--prim-sapphire-700',
-        '--sf-inverse-border-light':   '--prim-sapphire-700',
-        '--sf-inverse-border-mid':     '--prim-sapphire-500',
-        '--sf-inverse-border-subtle':  '--prim-sapphire-300',
-        '--sf-inverse-callout-border': '--prim-orange-300',
-        '--sf-inverse-placeholder':    '--prim-sapphire-700',
-        '--sf-inverse-logo':           '--prim-butter-500',
-        '--sf-inverse-link':           '--prim-splash-500',
-        '--sf-inverse-link-lg':        '--prim-splash-500',
-        '--sf-inverse-link-sm':        '--prim-splash-500',
-        '--sf-inverse-pill':           '--prim-butter-500',
-        '--sf-inverse-pill-lg':        '--prim-butter-500',
-        '--sf-inverse-pill-md':        '--prim-butter-500',
-        '--sf-inverse-pill-sm':        '--prim-butter-500',
-        '--sf-inverse-accent':         '--prim-orange-300',
-        '--sf-inverse-pill-bg':        '--prim-sapphire-900',
-        '--sf-inverse-pill-border':    '--prim-butter-500',
-        '--sf-inverse-tag-fill':     '--prim-sapphire-700',
-        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
-        '--sf-inverse-scrollbar-track': '--prim-mono-750',
-
-        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
-        ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
-        ...inputTokens('--sf-inverse-', '--prim-sapphire-800', '--prim-sapphire-500', '--prim-butter-500', '--prim-sapphire-500'),
-      },
-      accent: {
-        '--sf-accent-bg':             '--prim-orange-500',
-        '--sf-accent-heading':        '--prim-mono-white',
-        '--sf-accent-body':           '--prim-butter-500',
-        '--sf-accent-text-muted':     '--prim-butter-700',
-        '--sf-accent-text-muted-lg':  '--prim-butter-700',
-        '--sf-accent-text-muted-sm':  '--prim-butter-700',
-        '--sf-accent-border':         '--prim-orange-700',
-        '--sf-accent-border-light':   '--prim-orange-500',
-        '--sf-accent-border-mid':     '--prim-orange-700',
-        '--sf-accent-border-subtle':  '--prim-orange-900',
-        '--sf-accent-callout-border': '--prim-splash-700',
-        '--sf-accent-placeholder':    '--prim-orange-700',
-        '--sf-accent-logo':           '--prim-mono-white',
-        '--sf-accent-link':           '--prim-splash-300',
-        '--sf-accent-link-lg':        '--prim-splash-300',
-        '--sf-accent-link-sm':        '--prim-splash-300',
-        '--sf-accent-pill':           '--prim-mono-white',
-        '--sf-accent-pill-lg':        '--prim-mono-white',
-        '--sf-accent-pill-md':        '--prim-mono-white',
-        '--sf-accent-pill-sm':        '--prim-mono-white',
-        '--sf-accent-accent':         '--prim-orange-900',
-        '--sf-accent-pill-bg':        '--prim-orange-500',
-        '--sf-accent-pill-border':    '--prim-mono-white',
-        '--sf-accent-tag-fill':      '--prim-orange-500',
-        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
-        '--sf-accent-scrollbar-track': '--prim-mono-600',
-
-        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
-        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
-        ...inputTokens('--sf-accent-', '--prim-orange-700', '--prim-orange-900', '--prim-mono-white', '--prim-orange-700'),
-      },
-      tertiary: {
-        '--sf-tertiary-bg':             '--prim-sapphire-800',
-        '--sf-tertiary-heading':        '--prim-mono-white',
-        '--sf-tertiary-body':           '--prim-mono-white',
-        '--sf-tertiary-text-muted':     '--prim-splash-200',
-        '--sf-tertiary-text-muted-lg':  '--prim-splash-200',
-        '--sf-tertiary-text-muted-sm':  '--prim-splash-200',
-        '--sf-tertiary-border':         '--prim-sapphire-400',
-        '--sf-tertiary-border-light':   '--prim-sapphire-500',
-        '--sf-tertiary-border-mid':     '--prim-sapphire-300',
-        '--sf-tertiary-border-subtle':  '--prim-sapphire-200',
-        '--sf-tertiary-callout-border': '--prim-splash-700',
-        '--sf-tertiary-placeholder':    '--prim-mono-black',
-        '--sf-tertiary-logo':           '--prim-mono-black',
-        '--sf-tertiary-link':           '--prim-splash-500',
-        '--sf-tertiary-link-lg':        '--prim-splash-500',
-        '--sf-tertiary-link-sm':        '--prim-splash-500',
-        '--sf-tertiary-pill':           '--prim-splash-300',
-        '--sf-tertiary-pill-lg':        '--prim-splash-300',
-        '--sf-tertiary-pill-md':        '--prim-splash-300',
-        '--sf-tertiary-pill-sm':        '--prim-splash-300',
-        '--sf-tertiary-accent':         '--prim-orange-300',
-        '--sf-tertiary-pill-bg':        '--prim-sapphire-800',
-        '--sf-tertiary-pill-border':    '--prim-splash-300',
-        '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
-        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
-        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
-
-        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
-        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
-        ...inputTokens('--sf-tertiary-', '--prim-sapphire-700', '--prim-sapphire-400', '--prim-mono-white', '--prim-sapphire-400'),
-      },
-    },
-  },
-  'coral-tide-alt': {
-    label: 'Coral Tide Alt',
-    globals: {
-      '--color-toc-pip':          '--prim-sapphire-50',
-      '--color-toc-pip-active':   '--prim-orange-500',
-      '--color-toc-heading':      '--prim-orange-500',
-      '--color-toc-text':         '--prim-sapphire-500',
-      '--color-toc-text-active':  '--prim-orange-500',
-      '--color-dot-active':       '--prim-orange-500',
-      '--color-badge-from':       '--prim-sapphire-500',
-      '--color-badge-to':         '--prim-sapphire-50',
-      '--color-badge-icon':       '--prim-sapphire-500',
-      '--color-badge-icon-inner': '--prim-splash-400',
-      '--color-badge-unearned-stroke': '--prim-sapphire-400',
-      '--color-badge-unearned-text':   '--prim-sapphire-400',
-      '--color-avatar-bg':        '--prim-sapphire-600',
-      '--color-stat-percentile':  '--prim-orange-500',
-      '--color-statement-bg':     '--prim-butter-700',
-      '--color-statement-border': '--prim-orange-300',
-      '--color-statement-text':   '--prim-sapphire-700',
-      '--color-statement-link-bg':     '--prim-butter-700',
-      '--color-statement-link-border': '--prim-orange-300',
-      '--color-statement-link-text':   '--prim-sapphire-700',
-      '--color-statement-link-icon':  '--prim-orange-300',
-      '--color-activity-bell':       '--prim-sapphire-500',
-      '--color-dropdown-bg':         '--prim-mono-white',
-      '--color-dropdown-border':     '--prim-splash-300',
-      '--color-dropdown-text':       '--prim-sapphire-500',
-      '--color-dropdown-icon':       '--prim-sapphire-300',
-      '--color-dropdown-soon-bg':    '--prim-butter-700',
-      '--color-dropdown-soon-fg':    '--prim-sapphire-500',
-      '--color-dropdown-separator':  '--prim-orange-50',
-      '--color-nav-bg':           '--prim-butter-500',
-      '--color-nav-border':       '--prim-butter-900',
-      '--color-nav-icon':         '--prim-sapphire-500',
-      '--color-guide-nav-bg':     '--prim-mono-white',
-      '--color-guide-nav-border': '--prim-mono-250',
-      '--color-guide-nav-label':  '--prim-mono-500',
-      '--color-guide-nav-title':  '--prim-sapphire-500',
-      '--btn-primary-bg':         '--prim-butter-900',
-      '--btn-primary-fg':         '--prim-sapphire-500',
-      '--btn-secondary-bg':       '--prim-mono-white',
-      '--btn-secondary-fg':       '--prim-sapphire-500',
-      '--btn-primary-border':     '--prim-sapphire-500',
-      '--btn-secondary-border':   '--prim-sapphire-500',
-      '--color-match-win-border':   '--prim-orange-500',
-      '--color-match-loss-border':  '--prim-mono-250',
-      '--color-match-win-chip-bg':   '--prim-mint-100',
-      '--color-match-win-chip-fg':   '--prim-mint-500',
-      '--color-match-loss-chip-bg':  '--prim-mono-150',
-      '--color-match-loss-chip-fg':  '--prim-mono-500',
-      '--color-friend-btn-bg':       '--prim-mono-white',
-      '--color-friend-btn-icon':     '--prim-mono-900',
-      '--color-toggle-off-bg':       '--prim-mint-300',
-      '--color-toggle-on-bg':        '#39b592',
-      '--color-toggle-knob':         '--prim-mono-white',
-    },
-    surfaces: {
-      default: {
-        '--color-bg':             '--prim-mono-white',
-        '--color-heading':        '--prim-sapphire-500',
-        '--color-body':           '--prim-sapphire-500',
-        '--color-muted':          '--prim-sapphire-700',
-        '--color-muted-lg':       '--prim-sapphire-700',
-        '--color-muted-sm':       '--prim-sapphire-700',
-        '--color-border':         '--prim-orange-50',
-        '--color-border-light':   '--prim-butter-700',
-        '--color-border-mid':     '--prim-butter-900',
-        '--color-border-subtle':  '--prim-splash-300',
-        '--color-callout-border': '--prim-splash-700',
-        '--color-placeholder':    '--prim-splash-300',
-        '--color-logo':           '--prim-sapphire-400',
-        '--color-link':           '--prim-splash-700',
-        '--color-link-lg':        '--prim-splash-700',
-        '--color-link-sm':        '--prim-splash-700',
-        '--color-pill':           '--prim-orange-500',
-        '--color-pill-lg':        '--prim-orange-500',
-        '--color-pill-md':        '--prim-orange-500',
-        '--color-pill-sm':        '--prim-orange-500',
-        '--color-accent':         '--prim-orange-300',
-        '--color-pill-bg':        '--prim-mono-white',
-        '--color-pill-border':    '--prim-orange-500',
-        '--color-tag-fill':       '--prim-butter-700',
-        '--color-scrollbar-thumb': '--prim-mono-300',
-        '--color-scrollbar-track': '--prim-mono-100',
-      ...btnDefaultTokens(BTN_LIGHT),
-      ...typeRoleTokens('--color-', '--prim-sapphire-500', '--prim-sapphire-500', '--prim-sapphire-700'),
-      ...inputTokens('--color-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-500', '--prim-splash-300'),
-      },
-      muted: {
-        '--sf-muted-bg':             '--prim-splash-50',
-        '--sf-muted-heading':        '--prim-sapphire-600',
-        '--sf-muted-body':           '--prim-sapphire-700',
-        '--sf-muted-text-muted':     '--prim-sapphire-500',
-        '--sf-muted-text-muted-lg':  '--prim-sapphire-500',
-        '--sf-muted-text-muted-sm':  '--prim-sapphire-500',
-        '--sf-muted-border':         '--prim-butter-900',
-        '--sf-muted-border-light':   '--prim-splash-200',
-        '--sf-muted-border-mid':     '--prim-butter-900',
-        '--sf-muted-border-subtle':  '--prim-orange-300',
-        '--sf-muted-callout-border': '--prim-sapphire-300',
-        '--sf-muted-placeholder':    '--prim-splash-300',
-        '--sf-muted-logo':           '--prim-sapphire-900',
-        '--sf-muted-link':           '--prim-splash-700',
-        '--sf-muted-link-lg':        '--prim-splash-700',
-        '--sf-muted-link-sm':        '--prim-splash-700',
-        '--sf-muted-pill':           '--prim-sapphire-900',
-        '--sf-muted-pill-lg':        '--prim-sapphire-900',
-        '--sf-muted-pill-md':        '--prim-sapphire-900',
-        '--sf-muted-pill-sm':        '--prim-sapphire-900',
-        '--sf-muted-accent':         '--prim-orange-300',
-        '--sf-muted-pill-bg':        '--prim-splash-50',
-        '--sf-muted-pill-border':    '--prim-sapphire-900',
-        '--sf-muted-tag-fill':       '--prim-splash-200',
-        '--sf-muted-scrollbar-thumb': '--prim-mono-300',
-        '--sf-muted-scrollbar-track': '--prim-mono-100',
-
-        ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
-        ...typeRoleTokens('--sf-muted-', '--prim-sapphire-600', '--prim-sapphire-700', '--prim-sapphire-500'),
-        ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-splash-300', '--prim-sapphire-600', '--prim-splash-300'),
-      },
-      inverse: {
-        '--sf-inverse-bg':             '--prim-sapphire-900',
-        '--sf-inverse-heading':        '--prim-butter-500',
-        '--sf-inverse-body':           '--prim-butter-700',
-        '--sf-inverse-text-muted':     '--prim-butter-900',
-        '--sf-inverse-text-muted-lg':  '--prim-butter-900',
-        '--sf-inverse-text-muted-sm':  '--prim-butter-900',
-        '--sf-inverse-border':         '--prim-sapphire-700',
-        '--sf-inverse-border-light':   '--prim-sapphire-700',
-        '--sf-inverse-border-mid':     '--prim-sapphire-500',
-        '--sf-inverse-border-subtle':  '--prim-sapphire-300',
-        '--sf-inverse-callout-border': '--prim-orange-300',
-        '--sf-inverse-placeholder':    '--prim-sapphire-700',
-        '--sf-inverse-logo':           '--prim-butter-500',
-        '--sf-inverse-link':           '--prim-splash-500',
-        '--sf-inverse-link-lg':        '--prim-splash-500',
-        '--sf-inverse-link-sm':        '--prim-splash-500',
-        '--sf-inverse-pill':           '--prim-butter-500',
-        '--sf-inverse-pill-lg':        '--prim-butter-500',
-        '--sf-inverse-pill-md':        '--prim-butter-500',
-        '--sf-inverse-pill-sm':        '--prim-butter-500',
-        '--sf-inverse-accent':         '--prim-orange-300',
-        '--sf-inverse-pill-bg':        '--prim-sapphire-900',
-        '--sf-inverse-pill-border':    '--prim-butter-500',
-        '--sf-inverse-tag-fill':     '--prim-sapphire-700',
-        '--sf-inverse-scrollbar-thumb': '--prim-mono-550',
-        '--sf-inverse-scrollbar-track': '--prim-mono-750',
-
-        ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
-        ...typeRoleTokens('--sf-inverse-', '--prim-butter-500', '--prim-butter-700', '--prim-butter-900'),
-        ...inputTokens('--sf-inverse-', '--prim-sapphire-800', '--prim-sapphire-500', '--prim-butter-500', '--prim-sapphire-500'),
-      },
-      accent: {
-        '--sf-accent-bg':             '--prim-orange-500',
-        '--sf-accent-heading':        '--prim-mono-white',
-        '--sf-accent-body':           '--prim-butter-500',
-        '--sf-accent-text-muted':     '--prim-butter-700',
-        '--sf-accent-text-muted-lg':  '--prim-butter-700',
-        '--sf-accent-text-muted-sm':  '--prim-butter-700',
-        '--sf-accent-border':         '--prim-orange-700',
-        '--sf-accent-border-light':   '--prim-orange-500',
-        '--sf-accent-border-mid':     '--prim-orange-700',
-        '--sf-accent-border-subtle':  '--prim-orange-900',
-        '--sf-accent-callout-border': '--prim-splash-700',
-        '--sf-accent-placeholder':    '--prim-orange-700',
-        '--sf-accent-logo':           '--prim-mono-white',
-        '--sf-accent-link':           '--prim-splash-300',
-        '--sf-accent-link-lg':        '--prim-splash-300',
-        '--sf-accent-link-sm':        '--prim-splash-300',
-        '--sf-accent-pill':           '--prim-mono-white',
-        '--sf-accent-pill-lg':        '--prim-mono-white',
-        '--sf-accent-pill-md':        '--prim-mono-white',
-        '--sf-accent-pill-sm':        '--prim-mono-white',
-        '--sf-accent-accent':         '--prim-orange-900',
-        '--sf-accent-pill-bg':        '--prim-orange-500',
-        '--sf-accent-pill-border':    '--prim-mono-white',
-        '--sf-accent-tag-fill':      '--prim-orange-500',
-        '--sf-accent-scrollbar-thumb': '--prim-mono-400',
-        '--sf-accent-scrollbar-track': '--prim-mono-600',
-
-        ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
-        ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-butter-500', '--prim-butter-700'),
-        ...inputTokens('--sf-accent-', '--prim-orange-700', '--prim-orange-900', '--prim-mono-white', '--prim-orange-700'),
-      },
-      tertiary: {
-        '--sf-tertiary-bg':             '--prim-sapphire-800',
-        '--sf-tertiary-heading':        '--prim-mono-white',
-        '--sf-tertiary-body':           '--prim-mono-white',
-        '--sf-tertiary-text-muted':     '--prim-splash-200',
-        '--sf-tertiary-text-muted-lg':  '--prim-splash-200',
-        '--sf-tertiary-text-muted-sm':  '--prim-splash-200',
-        '--sf-tertiary-border':         '--prim-sapphire-400',
-        '--sf-tertiary-border-light':   '--prim-sapphire-500',
-        '--sf-tertiary-border-mid':     '--prim-sapphire-300',
-        '--sf-tertiary-border-subtle':  '--prim-sapphire-200',
-        '--sf-tertiary-callout-border': '--prim-splash-700',
-        '--sf-tertiary-placeholder':    '--prim-mono-black',
-        '--sf-tertiary-logo':           '--prim-mono-black',
-        '--sf-tertiary-link':           '--prim-splash-500',
-        '--sf-tertiary-link-lg':        '--prim-splash-500',
-        '--sf-tertiary-link-sm':        '--prim-splash-500',
-        '--sf-tertiary-pill':           '--prim-splash-300',
-        '--sf-tertiary-pill-lg':        '--prim-splash-300',
-        '--sf-tertiary-pill-md':        '--prim-splash-300',
-        '--sf-tertiary-pill-sm':        '--prim-splash-300',
-        '--sf-tertiary-accent':         '--prim-orange-300',
-        '--sf-tertiary-pill-bg':        '--prim-sapphire-800',
-        '--sf-tertiary-pill-border':    '--prim-splash-300',
-        '--sf-tertiary-tag-fill':    '--prim-sapphire-500',
-        '--sf-tertiary-scrollbar-thumb': '--prim-mono-400',
-        '--sf-tertiary-scrollbar-track': '--prim-mono-600',
-
-        ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
-        ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mono-white', '--prim-splash-200'),
-        ...inputTokens('--sf-tertiary-', '--prim-sapphire-700', '--prim-sapphire-400', '--prim-mono-white', '--prim-sapphire-400'),
-      },
-    },
-  },
   'mvp-green': {
     label: 'MVP Green',
     globals: {
@@ -1070,6 +431,7 @@ const THEMES = {
         ...btnSurfaceTokens('--sf-muted-', BTN_LIGHT),
         ...typeRoleTokens('--sf-muted-', '--prim-mint-900', '--prim-fall-900', '--prim-fall-700'),
         ...inputTokens('--sf-muted-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-900', '--prim-mint-300'),
+        ...uiComponentTokens('--sf-muted-'),
       },
       inverse: {
         '--sf-inverse-bg':             '--prim-mint-800',
@@ -1102,6 +464,7 @@ const THEMES = {
         ...btnSurfaceTokens('--sf-inverse-', BTN_DARK),
         ...typeRoleTokens('--sf-inverse-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
         ...inputTokens('--sf-inverse-', '--prim-mint-700', '--prim-mint-600', '--prim-mono-white', '--prim-mint-500'),
+        ...uiComponentTokens('--sf-inverse-'),
       },
       accent: {
         '--sf-accent-bg':             '--prim-mint-700',
@@ -1134,6 +497,7 @@ const THEMES = {
         ...btnSurfaceTokens('--sf-accent-', BTN_DARK),
         ...typeRoleTokens('--sf-accent-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
         ...inputTokens('--sf-accent-', '--prim-mint-600', '--prim-mint-500', '--prim-mono-white', '--prim-mint-400'),
+        ...uiComponentTokens('--sf-accent-'),
       },
       tertiary: {
         '--sf-tertiary-bg':             '--prim-mint-900',
@@ -1166,6 +530,7 @@ const THEMES = {
         ...btnSurfaceTokens('--sf-tertiary-', BTN_DARK),
         ...typeRoleTokens('--sf-tertiary-', '--prim-mono-white', '--prim-mint-200', '--prim-mint-300'),
         ...inputTokens('--sf-tertiary-', '--prim-mint-800', '--prim-mint-700', '--prim-mono-white', '--prim-mint-600'),
+        ...uiComponentTokens('--sf-tertiary-'),
       },
     },
   },
@@ -1445,23 +810,6 @@ const L2_SIZE_TO_L1 = {
 };
 
 /* ─── L2 non-color defaults ──────────────────────────────────── */
-const DEFAULT_L2_EXTRA = {
-  /* Semantic element sizes (not tied to a single L1 role) */
-  '--size-logo':       '30',
-  '--size-pill':       '18',
-  '--size-toc':        '12',
-  '--size-meta':       '14',
-  '--size-dropdown':       '15',
-  '--size-dropdown-badge': '10',
-  /* spacing & layout */
-  '--spacing-section-v':   '64',
-  '--spacing-content-gap': '24',
-  '--content-max-width':   '900',
-  '--badge-angle':         '135',
-};
-
-const DEFAULT_L2 = { ...themeAllColorTokens('mono'), ...DEFAULT_L2_EXTRA };
-
 /* ─── Migration: old 3-role type keys → new 7-role keys ──────── */
 function migrateL1(saved) {
   if (!saved) return saved;
@@ -1507,21 +855,11 @@ function migrateL2SizesToL1(savedL1, savedL2) {
 }
 
 /* ─── Initial state from committed file ──────────────────────── */
-/* dme-defaults.json is the sole source of truth; Save writes to it via Vite middleware */
-const INIT_THEME        = fileDefaults.theme    ?? 'mono';
+/* dme-defaults.json is the sole, complete source of truth for all L2 tokens.
+   No hidden fallback layers — what's saved is what you get. */
+const INIT_THEME        = 'mvp-green';
 const INIT_L1           = { ...DEFAULT_L1, ...migrateL2SizesToL1(migrateL1(fileDefaults.l1 ?? {}), fileDefaults.l2 ?? {}) };
-/* Seed surface tokens from saved theme (so switching themes applies correct surface defaults),
-   then overlay any explicit user customizations from the saved file */
-const INIT_L2           = {
-  ...DEFAULT_L2,
-  ...(THEMES[INIT_THEME] ? themeAllColorTokens(INIT_THEME) : {}),
-  ...migrateL2(fileDefaults.l2 ?? {}),
-};
-/* Per-theme l2 snapshots — persisted so switching themes restores saved edits */
-const INIT_THEME_STATES = Object.fromEntries(
-  Object.entries(fileDefaults.themeStates ?? {}).map(([t, s]) => [t, migrateL2(s)])
-);
-INIT_THEME_STATES[INIT_THEME] = { ...INIT_L2 };
+const INIT_L2           = migrateL2(fileDefaults.l2 ?? {});
 const INIT_L1_COLOR_MAP = { ...L1_COLOR_MAP,  ...(fileDefaults.l1Colors ?? {}) };
 const INIT_L1_GROUPS    = fileDefaults.l1Groups
   ?? L1_COLOR_PALETTES.map(p => ({ name: p.name, tokens: [...p.tokens] }));
@@ -1561,7 +899,7 @@ function applyL1(name, value) {
 }
 
 function removeAllOverrides() {
-  [...Object.keys(DEFAULT_L2), ...Object.keys(DEFAULT_L1)].forEach(k => {
+  [...Object.keys(INIT_L2), ...Object.keys(DEFAULT_L1)].forEach(k => {
     document.documentElement.style.removeProperty(k);
   });
 }
@@ -1716,7 +1054,6 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   const themeRef       = useRef(INIT_THEME);
   const l1ColorMapRef  = useRef({ ...INIT_L1_COLOR_MAP });
   const l1GroupsRef    = useRef([...INIT_L1_GROUPS]);
-  const themeStatesRef = useRef({ ...INIT_THEME_STATES });
   const sectionSurfacesRef = useRef({ ...INIT_SECTION_SURFACES });
   const histRef       = useRef([{ theme: INIT_THEME, l1: { ...INIT_L1 }, l2: { ...INIT_L2 } }]);
   const idxRef        = useRef(0);
@@ -1817,21 +1154,10 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   }, [pushHistory]);
 
   const switchTheme = useCallback((key) => {
-    /* Snapshot current theme before leaving */
-    themeStatesRef.current[themeRef.current] = { ...l2Ref.current };
-
-    const savedState = themeStatesRef.current[key];
-    let next;
-    if (savedState) {
-      /* Restore full saved state for this theme */
-      Object.entries(savedState).forEach(([k, v]) => applyL2(k, v));
-      next = { ...savedState };
-    } else {
-      /* First visit — seed from hardcoded template */
-      const colors = themeAllColorTokens(key);
-      Object.entries(colors).forEach(([k, v]) => applyL2(k, v));
-      next = { ...l2Ref.current, ...colors };
-    }
+    /* Apply theme template tokens directly (used as "reset to defaults") */
+    const colors = themeAllColorTokens(key);
+    Object.entries(colors).forEach(([k, v]) => applyL2(k, v));
+    const next = { ...l2Ref.current, ...colors };
     l2Ref.current = next; themeRef.current = key;
     setL2(next); setActiveTheme(key);
     pushHistory();
@@ -1963,25 +1289,31 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
 
   /* ── Save ─────────────────────────────────────────────────── */
   const handleSave = useCallback(() => {
-    /* Always snapshot current theme before saving */
-    themeStatesRef.current[themeRef.current] = { ...l2Ref.current };
-    const state = {
+    const tokenState = {
       theme:       themeRef.current,
       l1:          l1Ref.current,
       l2:          l2Ref.current,
       l1Colors:    l1ColorMapRef.current,
       l1Groups:    l1GroupsRef.current,
-      themeStates: themeStatesRef.current,
       sectionSurfaces: sectionSurfacesRef.current,
-      roleOverrides: roleOverrides || {},
       states,
     };
-    /* Write to src/tokens/dme-defaults.json via Vite dev middleware */
-    fetch('/__dme_save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(state),
-    }).catch(() => {});
+    /* Read current file first to preserve roleOverrides saved by RoleTargeter */
+    fetch('/__dme_read').then(r => r.json()).then(current => {
+      const state = { ...current, ...tokenState };
+      fetch('/__dme_save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state),
+      });
+    }).catch(() => {
+      /* Fallback: save without reading (preserves roleOverrides from prop) */
+      fetch('/__dme_save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...tokenState, roleOverrides: roleOverrides || {} }),
+      });
+    });
     /* Update the reset baseline to this saved state */
     savedSnapshotRef.current = {
       theme:    themeRef.current,
@@ -2195,20 +1527,6 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
                 {p.id === 'tokens' && <option disabled>{'─'.repeat(20)}</option>}
                 <option value={p.id}>{p.label}</option>
               </React.Fragment>
-            ))}
-          </select>
-          <select
-            value={activeTheme}
-            onChange={e => switchTheme(e.target.value)}
-            style={{
-              width: '100%', background: '#222', border: '1px solid #333',
-              borderRadius: 6, color: '#e0e0e0', fontSize: 11, fontWeight: 600,
-              padding: '6px 8px', cursor: 'pointer',
-              fontFamily: 'system-ui, -apple-system, sans-serif',
-            }}
-          >
-            {Object.entries(THEMES).map(([key, t]) => (
-              <option key={key} value={key}>{t.label}</option>
             ))}
           </select>
         </div>

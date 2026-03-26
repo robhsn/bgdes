@@ -1064,13 +1064,13 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
         </div>
         {pageItems.map(m => (
           <div key={m.id} className={`match-row match-row--${m.result}`}>
-            {!isMvp && <Avatar
+            <Avatar
               src={getAvatarSrc(m.avatarKey)}
               alt={m.opponent}
               size="lg"
               clickable={!!onPlayerClick}
               onClick={() => onPlayerClick?.(m.opponent)}
-            />}
+            />
             <span
               className={`match-row__name${onPlayerClick ? ' match-row__name--clickable' : ''}`}
               onClick={() => onPlayerClick?.(m.opponent)}
@@ -2239,7 +2239,7 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
               ))}
             </div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={onClose}>Cancel</button>
               <button
                 className="com-btn com-btn--primary com-btn--sm"
                 style={{ opacity: hasPresetChange ? 1 : 0.5, pointerEvents: hasPresetChange ? 'auto' : 'none' }}
@@ -2269,7 +2269,7 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
               <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
                 {hasCustomAvatar ? 'Upload New' : 'Upload Avatar'}
               </button>
-              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={onClose}>Cancel</button>
             </div>
           </div>
         )}
@@ -2350,7 +2350,7 @@ function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurren
               ))}
             </div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={onClose}>Cancel</button>
               <button
                 className="com-btn com-btn--primary com-btn--sm"
                 style={{ opacity: hasChange ? 1 : 0.5, pointerEvents: hasChange ? 'auto' : 'none' }}
@@ -2385,7 +2385,7 @@ function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurren
               <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
                 {hasCustomCover ? 'Upload New' : 'Upload Cover Image'}
               </button>
-              <button className="com-btn com-btn--outline com-btn--sm" onClick={onClose}>Cancel</button>
+              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={onClose}>Cancel</button>
             </div>
           </div>
         )}
@@ -2459,7 +2459,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
           <div className="pp-friends-list">
             {filteredFriends.map(f => (
               <div key={f.id} className="pp-friend-row">
-                {!isMvp && <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />}
+                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                 </div>
@@ -2467,12 +2467,6 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
                   <button className="com-btn com-btn--primary com-btn--sm">
                     <IconCheckerStack />
                     Challenge
-                  </button>
-                  <button className="com-btn com-btn--outline com-btn--sm">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                    <span className="pp-friend-btn-label">Unfriend</span>
                   </button>
                 </div>
               </div>
@@ -2493,7 +2487,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
               <div className="pp-friends-list__title">Friends</div>
               {MOCK_SEARCH_RESULTS.friends.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  {!isMvp && <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />}
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
@@ -2507,7 +2501,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
               <div className="pp-friends-list__title">Players</div>
               {MOCK_SEARCH_RESULTS.players.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  {!isMvp && <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />}
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
                   </div>
@@ -2878,7 +2872,21 @@ export default function ProfilePage({ onNavigate }) {
           <div className="profile-header__body-row">
             <div className="profile-header__bio-col">
               <div className="profile-header__name-row">
-                <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
+                {editMode ? (
+                  <div>
+                    <input
+                      type="text"
+                      className="profile-header__bio-input"
+                      value={editName}
+                      onChange={e => setEditName(e.target.value)}
+                      placeholder="Username"
+                      maxLength={20}
+                    />
+                    <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editName.length}/20</span>
+                  </div>
+                ) : (
+                  <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
+                )}
                 {isFavorited && (
                   <svg width="20" height="20" viewBox="0 0 40 40" fill="var(--color-star)" style={{ flexShrink: 0 }}>
                     <path d="M21.5625 1.84553C21.2644 1.26389 20.661 0.893097 20.0066 0.893097C19.3523 0.893097 18.7488 1.26389 18.4508 1.84553L13.0997 12.3295L1.47422 14.1762C0.827144 14.278 0.28913 14.7361 0.0855567 15.3613C-0.118016 15.9866 0.0492043 16.67 0.507244 17.1353L8.82466 25.46L6.9925 37.0855C6.89071 37.7326 7.15972 38.3869 7.69046 38.7722C8.22121 39.1576 8.91917 39.2157 9.50808 38.9176L20.0066 33.5811L30.4979 38.9176C31.0796 39.2157 31.7848 39.1576 32.3155 38.7722C32.8463 38.3869 33.1153 37.7398 33.0135 37.0855L31.1741 25.46L39.4915 17.1353C39.9568 16.67 40.1168 15.9866 39.9132 15.3613C39.7096 14.7361 39.1789 14.278 38.5245 14.1762L26.9063 12.3295L21.5625 1.84553Z" />
@@ -2902,10 +2910,6 @@ export default function ProfilePage({ onNavigate }) {
               )}
               <div className="toolbar">
                 <span className="toolbar__date">
-                  <svg className="toolbar__date-icon" width="16" height="16" viewBox="0 0 40 40" fill="currentColor">
-                    <path d="M1.33333 18.6667V34.6667C1.33333 37.6083 3.72499 40 6.66666 40H33.3333C36.275 40 38.6667 37.6083 38.6667 34.6667V18.6667H1.33333Z" />
-                    <path d="M9.33333 2.66667C9.33333 1.19167 10.525 0 12 0C13.475 0 14.6667 1.19167 14.6667 2.66667V5.33333H25.3333V2.66667C25.3333 1.19167 26.525 0 28 0C29.475 0 30.6667 1.19167 30.6667 2.66667V5.33333H33.3333C36.275 5.33333 38.6667 7.725 38.6667 10.6667V14.6667H1.33333V10.6667C1.33333 7.725 3.72499 5.33333 6.66666 5.33333H9.33333V2.66667Z" />
-                  </svg>
                   {shortenJoinDate(player.joinDate)}
                 </span>
                 <div className="toolbar__separator" />

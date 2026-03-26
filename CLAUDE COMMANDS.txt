@@ -11,5 +11,3 @@ claude --worktree XXX
 claude --dangerously-skip-permissions
 
 
-
-https://vercel.com/rob-heathcos-projects/bgdes

@@ -29,7 +29,6 @@
 
 .com-btn:hover {
   transform: scale(1.02);
-  filter: brightness(1.1);
 }
 
 .com-btn:active {
