@@ -776,11 +776,10 @@
 .gp-modal-emoji {
   font-size: 48px;
   line-height: 1;
-  margin: -4px 0 -6px;
 }
 
 .gp-modal-center .modal__title {
-  margin: -4px 0 -6px;
+  margin: 0;
 }
 
 .gp-modal-title {
@@ -793,7 +792,7 @@
 .gp-modal-desc {
   font-size: 14px;
   color: #507268;
-  margin: -6px 0 2px;
+  margin: 0;
 }
 
 .gp-modal-question {
@@ -897,8 +896,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
-  padding-top: 16px;
+  flex: 1;
   width: 100%;
 }
 

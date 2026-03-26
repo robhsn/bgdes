@@ -8,6 +8,11 @@ import coverDefault from '../imgs/cover-image.jpg';
 import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
 import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
+import fbPic1 from '../imgs/fb photos/fb-pic-1.jpg';
+import fbPic2 from '../imgs/fb photos/fb-pic-2.jpg';
+import fbPic3 from '../imgs/fb photos/fb-pic-3.jpg';
+
+const FB_PHOTOS = [fbPic1, fbPic2, fbPic3];
 import Avatar from './Avatar';
 import ActivityCenter from './ActivityCenter';
 import PlayerCardModal from './PlayerCardModal';
@@ -2425,9 +2430,9 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
             <span>{MOCK_FB_FRIENDS.length} Facebook friends found on Backgammon.com!</span>
           </div>
           <div className="pp-fb-card__list">
-            {MOCK_FB_FRIENDS.map(f => (
+            {MOCK_FB_FRIENDS.map((f, idx) => (
               <div key={f.id} className="pp-friend-row">
-                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" />
+                <Avatar src={FB_PHOTOS[idx] || getAvatarSrc(f.avatar)} alt={f.username} size="lg" />
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name">{f.username}</span>
                   <span className="pp-friend-row__meta">{f.fbName} · {f.rating}</span>
