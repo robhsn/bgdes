@@ -4269,6 +4269,13 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
     justify-content: center;
   }
 
+  .pp-tab {
+    flex: 1;
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   .stat-card {
     padding: 5px 8px;
   }

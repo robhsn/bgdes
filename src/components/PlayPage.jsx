@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
 import BOARD_PRESETS from '../data/board-presets';
 import { MOCK_FRIENDS } from '../data/social-mock-data';
 import avatarDrac from '../imgs/avatars/Drac.png';
@@ -448,12 +448,17 @@ function ResignModal() {
   );
 }
 
-function GameOverModal({ isVictory }) {
+function GameOverModal({ isVictory, onClose }) {
   const [friendStep, setFriendStep] = useState('main'); // 'main' | 'confirm' | 'sent'
   const friendSent = friendStep === 'sent';
 
   return (
     <div className="modal modal--sm gp-modal-center gp-modal-slider-clip">
+      <button className="gp-modal-close" onClick={onClose} aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
       <div className="gp-modal-slider-track">
       <div className={`gp-modal-slider${friendStep === 'confirm' ? ' gp-modal-slider--confirm' : ''}`}>
         {/* ── Panel 1: Main ── */}
@@ -562,13 +567,15 @@ function SettingsModal() {
 }
 
 function ModalOverlay({ modalType }) {
+  const setDmeStates = useDMESetState();
+  const closeModal = () => setDmeStates(prev => ({ ...prev, 'play.modal': 'None' }));
   if (!modalType || modalType === 'None') return null;
   return (
     <div className="overlay overlay--dark">
       {modalType === 'Menu' && <MenuModal />}
       {modalType === 'Resign' && <ResignModal />}
-      {modalType === 'Victory' && <GameOverModal isVictory={true} />}
-      {modalType === 'Defeat' && <GameOverModal isVictory={false} />}
+      {modalType === 'Victory' && <GameOverModal isVictory={true} onClose={closeModal} />}
+      {modalType === 'Defeat' && <GameOverModal isVictory={false} onClose={closeModal} />}
       {modalType === 'Settings' && <SettingsModal />}
     </div>
   );

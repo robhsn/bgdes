@@ -20,7 +20,7 @@ import PageNavigator from './components/PageNavigator'
 import RadialFAB from './components/RadialFAB'
 import RoleTargeter from './components/RoleTargeter'
 import StatesPanel from './components/StatesPanel'
-import { DMEStatesContext } from './context/dme-states'
+import { DMEStatesContext, DMESetStatesContext } from './context/dme-states'
 import './styles/tokens.css'
 import './styles/surfaces.css'
 import './styles/animations.css'
@@ -368,6 +368,7 @@ function App() {
 
   return (
     <DMEStatesContext.Provider value={dmeStates}>
+    <DMESetStatesContext.Provider value={setDmeStates}>
       {renderPage()}
       <TokenEditor
         visible={activePanel === 'dme'}
@@ -434,6 +435,7 @@ function App() {
           </div>
         </div>
       )}
+    </DMESetStatesContext.Provider>
     </DMEStatesContext.Provider>
   )
 }

@@ -1,9 +1,14 @@
 import { createContext, useContext } from 'react';
 
 export const DMEStatesContext = createContext({});
+export const DMESetStatesContext = createContext(() => {});
 
 export function useDMEState(key, defaultValue = false) {
   return useContext(DMEStatesContext)[key] ?? defaultValue;
+}
+
+export function useDMESetState() {
+  return useContext(DMESetStatesContext);
 }
 
 /**

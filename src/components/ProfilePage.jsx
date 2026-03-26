@@ -990,6 +990,7 @@ function getErrorRateColor(rate) {
 const MATCHES_PER_PAGE = 10;
 
 const FRIEND_USERNAMES = new Set(MOCK_FRIENDS.map(f => f.username));
+const FRIEND_ONLINE_MAP = Object.fromEntries(MOCK_FRIENDS.map(f => [f.username, f.online]));
 
 function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -1073,6 +1074,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
               src={getAvatarSrc(m.avatarKey)}
               alt={m.opponent}
               size="lg"
+              online={FRIEND_ONLINE_MAP[m.opponent]}
               clickable={!!onPlayerClick}
               onClick={() => onPlayerClick?.(m.opponent)}
             />

@@ -1050,7 +1050,7 @@
     "profile.friendStatus": "Friends",
     "surfacePreview.surface": "Secondary",
     "buttonsSheet.surface": "Primary",
-    "play.modal": "Victory",
+    "play.modal": "None",
     "global.webHeader": false,
     "learnArticle.launchMvp": true
   }
