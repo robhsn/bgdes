@@ -735,6 +735,9 @@
   --color-body-lg:   var(--prim-fall-900);
   /* --color-body already defined above */
   --color-body-sm:   var(--prim-fall-700);
+  --color-body-hl-lg: var(--prim-mint-700);
+  --color-body-hl:    var(--prim-mint-700);
+  --color-body-hl-sm: var(--prim-mint-700);
   --color-ui-xl:     var(--prim-mint-900);
   --color-ui-lg:     var(--prim-mint-900);
   --color-ui-md:     var(--prim-fall-900);

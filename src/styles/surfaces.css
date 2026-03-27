@@ -20,6 +20,9 @@
   --color-sh4:            var(--sf-muted-sh4);
   --color-body-lg:        var(--sf-muted-body-lg);
   --color-body-sm:        var(--sf-muted-body-sm);
+  --color-body-hl-lg:     var(--sf-muted-body-hl-lg);
+  --color-body-hl:        var(--sf-muted-body-hl);
+  --color-body-hl-sm:     var(--sf-muted-body-hl-sm);
   --color-border:         var(--sf-muted-border);
   --color-border-light:   var(--sf-muted-border-light);
   --color-border-mid:     var(--sf-muted-border-mid);
@@ -116,6 +119,9 @@
   --color-sh4:            var(--sf-inverse-sh4);
   --color-body-lg:        var(--sf-inverse-body-lg);
   --color-body-sm:        var(--sf-inverse-body-sm);
+  --color-body-hl-lg:     var(--sf-inverse-body-hl-lg);
+  --color-body-hl:        var(--sf-inverse-body-hl);
+  --color-body-hl-sm:     var(--sf-inverse-body-hl-sm);
   --color-border:         var(--sf-inverse-border);
   --color-border-light:   var(--sf-inverse-border-light);
   --color-border-mid:     var(--sf-inverse-border-mid);
@@ -212,6 +218,9 @@
   --color-sh4:            var(--sf-accent-sh4);
   --color-body-lg:        var(--sf-accent-body-lg);
   --color-body-sm:        var(--sf-accent-body-sm);
+  --color-body-hl-lg:     var(--sf-accent-body-hl-lg);
+  --color-body-hl:        var(--sf-accent-body-hl);
+  --color-body-hl-sm:     var(--sf-accent-body-hl-sm);
   --color-border:         var(--sf-accent-border);
   --color-border-light:   var(--sf-accent-border-light);
   --color-border-mid:     var(--sf-accent-border-mid);
@@ -308,6 +317,9 @@
   --color-sh4:            var(--sf-tertiary-sh4);
   --color-body-lg:        var(--sf-tertiary-body-lg);
   --color-body-sm:        var(--sf-tertiary-body-sm);
+  --color-body-hl-lg:     var(--sf-tertiary-body-hl-lg);
+  --color-body-hl:        var(--sf-tertiary-body-hl);
+  --color-body-hl-sm:     var(--sf-tertiary-body-hl-sm);
   --color-border:         var(--sf-tertiary-border);
   --color-border-light:   var(--sf-tertiary-border-light);
   --color-border-mid:     var(--sf-tertiary-border-mid);

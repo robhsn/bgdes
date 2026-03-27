@@ -102,7 +102,7 @@ export const L1_COLOR_MAP = {
 };
 
 /* Palette groups for the picker UI */
-const L1_COLOR_PALETTES = [
+export const L1_COLOR_PALETTES = [
   { name: 'Mono',     tokens: ['--prim-mono-white','--prim-mono-50','--prim-mono-100','--prim-mono-150','--prim-mono-200','--prim-mono-250','--prim-mono-300','--prim-mono-350','--prim-mono-500','--prim-mono-550','--prim-mono-600','--prim-mono-700','--prim-mono-750','--prim-mono-900','--prim-mono-black'] },
   { name: 'Sapphire', tokens: ['--prim-sapphire-50','--prim-sapphire-100','--prim-sapphire-200','--prim-sapphire-300','--prim-sapphire-400','--prim-sapphire-500','--prim-sapphire-600','--prim-sapphire-700','--prim-sapphire-800','--prim-sapphire-900','--prim-sapphire-950'] },
   { name: 'Splash',   tokens: ['--prim-splash-50','--prim-splash-100','--prim-splash-200','--prim-splash-300','--prim-splash-400','--prim-splash-500','--prim-splash-600','--prim-splash-700','--prim-splash-800','--prim-splash-900','--prim-splash-950'] },
@@ -113,7 +113,7 @@ const L1_COLOR_PALETTES = [
 ];
 
 /* Default-surface uses different names for some semantic tokens */
-const DEFAULT_SURFACE_TOKEN_MAP = {
+export const DEFAULT_SURFACE_TOKEN_MAP = {
   /* Background */
   'bg':              '--color-bg',
   /* Text hierarchy */
@@ -129,6 +129,9 @@ const DEFAULT_SURFACE_TOKEN_MAP = {
   'body-lg':         '--color-body-lg',
   'body':            '--color-body',
   'body-sm':         '--color-body-sm',
+  'body-hl-lg':      '--color-body-hl-lg',
+  'body-hl':         '--color-body-hl',
+  'body-hl-sm':      '--color-body-hl-sm',
   'text-muted-lg':   '--color-muted-lg',
   'text-muted':      '--color-muted',
   'text-muted-sm':   '--color-muted-sm',
@@ -383,6 +386,9 @@ const THEMES = {
         '--color-callout-border': '--prim-mint-500',
         '--color-placeholder':    '--prim-mint-200',
         '--color-logo':           '--prim-mint-900',
+        '--color-body-hl-lg':     '--prim-mint-700',
+        '--color-body-hl':        '--prim-mint-700',
+        '--color-body-hl-sm':     '--prim-mint-700',
         '--color-link':           '--prim-mint-600',
         '--color-link-lg':        '--prim-mint-600',
         '--color-link-sm':        '--prim-mint-600',
@@ -414,6 +420,9 @@ const THEMES = {
         '--sf-muted-callout-border': '--prim-mint-500',
         '--sf-muted-placeholder':    '--prim-mint-300',
         '--sf-muted-logo':           '--prim-mint-900',
+        '--sf-muted-body-hl-lg':     '--prim-mint-700',
+        '--sf-muted-body-hl':        '--prim-mint-700',
+        '--sf-muted-body-hl-sm':     '--prim-mint-700',
         '--sf-muted-link':           '--prim-mint-600',
         '--sf-muted-link-lg':        '--prim-mint-600',
         '--sf-muted-link-sm':        '--prim-mint-600',
@@ -447,6 +456,9 @@ const THEMES = {
         '--sf-inverse-callout-border': '--prim-fall-300',
         '--sf-inverse-placeholder':    '--prim-mint-700',
         '--sf-inverse-logo':           '--prim-mono-white',
+        '--sf-inverse-body-hl-lg':     '--prim-mint-300',
+        '--sf-inverse-body-hl':        '--prim-mint-300',
+        '--sf-inverse-body-hl-sm':     '--prim-mint-300',
         '--sf-inverse-link':           '--prim-mint-300',
         '--sf-inverse-link-lg':        '--prim-mint-300',
         '--sf-inverse-link-sm':        '--prim-mint-300',
@@ -480,6 +492,9 @@ const THEMES = {
         '--sf-accent-callout-border': '--prim-fall-300',
         '--sf-accent-placeholder':    '--prim-mint-600',
         '--sf-accent-logo':           '--prim-mono-white',
+        '--sf-accent-body-hl-lg':     '--prim-mint-300',
+        '--sf-accent-body-hl':        '--prim-mint-300',
+        '--sf-accent-body-hl-sm':     '--prim-mint-300',
         '--sf-accent-link':           '--prim-mint-200',
         '--sf-accent-link-lg':        '--prim-mint-200',
         '--sf-accent-link-sm':        '--prim-mint-200',
@@ -513,6 +528,9 @@ const THEMES = {
         '--sf-tertiary-callout-border': '--prim-fall-300',
         '--sf-tertiary-placeholder':    '--prim-mint-700',
         '--sf-tertiary-logo':           '--prim-mono-white',
+        '--sf-tertiary-body-hl-lg':     '--prim-mint-300',
+        '--sf-tertiary-body-hl':        '--prim-mint-300',
+        '--sf-tertiary-body-hl-sm':     '--prim-mint-300',
         '--sf-tertiary-link':           '--prim-mint-200',
         '--sf-tertiary-link-lg':        '--prim-mint-200',
         '--sf-tertiary-link-sm':        '--prim-mint-200',
@@ -553,7 +571,9 @@ function themeAllColorTokens(key) {
 const SURFACE_TOKENS = [
   /* Background */      'bg',
   /* Text hierarchy */  'heading', 'h1', 'h2', 'h3', 'h4', 'sh1', 'sh2', 'sh3', 'sh4',
-                        'body-lg', 'body', 'body-sm',
+                        'body-lg', 'body-hl-lg',
+                        'body', 'body-hl',
+                        'body-sm', 'body-hl-sm',
                         'text-muted-lg', 'text-muted', 'text-muted-sm',
   /* Links */           'link-lg', 'link', 'link-sm',
   /* Borders */         'border', 'border-light', 'border-mid', 'border-subtle', 'border-active', 'callout-border',
@@ -583,6 +603,21 @@ const SURFACE_GROUP_LABELS = {
   'ui-xl': 'UI Text', logo: 'Branding', placeholder: 'Form', 'input-bg': 'Input Fields',
   'match-win-chip-bg': 'UI Elements', 'guide-nav-bg': 'Guide Nav', 'status-success': 'Status', 'scrollbar-thumb': 'Scrollbar', 'avatar-bg': 'Avatar',
 };
+/* Pre-compute grouped surface tokens (avoids re-computing on every render) */
+const SURFACE_TOKEN_GROUPS = (() => {
+  const groups = [];
+  let cur = { start: SURFACE_TOKENS[0], items: [] };
+  SURFACE_TOKENS.forEach(suffix => {
+    if (SURFACE_GROUP_STARTS.has(suffix) && cur.items.length) {
+      groups.push(cur);
+      cur = { start: suffix, items: [] };
+    }
+    cur.items.push(suffix);
+  });
+  groups.push(cur);
+  groups.sort((a, b) => (SURFACE_GROUP_LABELS[a.start] || a.start).localeCompare(SURFACE_GROUP_LABELS[b.start] || b.start));
+  return groups;
+})();
 const SURFACE_DEFS = [
   { key: 'default',  label: 'Primary',   prefix: '--color-',        bgToken: '--color-bg'          },
   { key: 'muted',    label: 'Secondary', prefix: '--sf-muted-',     bgToken: '--sf-muted-bg'       },
@@ -593,7 +628,8 @@ const SURFACE_DEFS = [
 /* ─── Page section registry — drives Application panel ───────── */
 const PAGE_SECTIONS = {
   index: [
-    { id: 'ix-left',         label: 'Left Panel (Hero/Login)',  defaultSurface: 'tertiary' },
+    { id: 'ix-left',         label: 'Left Panel (Hero)',        defaultSurface: 'tertiary' },
+    { id: 'ix-auth',         label: 'Auth (Login / Sign Up)',   defaultSurface: 'default' },
     { id: 'ix-right',        label: 'Right Panel (Board)',      defaultSurface: 'muted' },
   ],
   'learn-hub': [
@@ -610,10 +646,8 @@ const PAGE_SECTIONS = {
     { id: 'pp-achievements', label: 'Achievements',             defaultSurface: 'muted' },
     { id: 'pp-history',      label: 'Match History',             defaultSurface: 'tertiary' },
     { id: 'pp-friends',      label: 'Friends',                  defaultSurface: 'muted' },
-    { id: 'pp-settings',     label: 'Settings Popover',          defaultSurface: 'muted' },
   ],
   settings: [
-    { id: 'st-content',      label: 'Settings Content',         defaultSurface: 'muted' },
   ],
   play: [
     { id: 'gp-board',        label: 'Game Board',               defaultSurface: 'default' },
@@ -645,6 +679,7 @@ const GLOBAL_SECTIONS = [
   { id: 'gl-modal',           label: 'Modals',           defaultSurface: 'default' },
   { id: 'gl-cta',             label: 'Ready to Play',    defaultSurface: 'accent' },
   { id: 'gl-footer',          label: 'Footer',           defaultSurface: 'inverse' },
+  { id: 'gl-settings',        label: 'Settings',         defaultSurface: 'muted' },
 ];
 
 const SURFACE_CLASSES = ['surface-muted', 'surface-inverse', 'surface-accent', 'surface-tertiary'];
@@ -866,36 +901,53 @@ const INIT_L1_GROUPS    = fileDefaults.l1Groups
 const INIT_SECTION_SURFACES = fileDefaults.sectionSurfaces ?? {};
 
 /* ─── Helpers ────────────────────────────────────────────────── */
+
+/* Format an L2 value for CSS (no DOM write) */
+function formatL2(name, rawVal) {
+  if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) return `var(${rawVal})`;
+  if (name === '--badge-angle') return rawVal + 'deg';
+  if (name.startsWith('--size-') || name.startsWith('--spacing-') || name === '--content-max-width') return rawVal + 'px';
+  return rawVal;
+}
+
+/* Format an L1 value for CSS (no DOM write) — returns null for font-family (needs side effects) */
+function formatL1(name, value) {
+  if (name.endsWith('-weight')) return value;
+  if (name.endsWith('-ls')) return (Number(value) / 100) + 'em';
+  if (name.endsWith('-lh')) return (Number(value) / 10).toFixed(2);
+  if (name.endsWith('-size')) return value + 'px';
+  return null; /* font family — handled separately */
+}
+
 function applyL2(name, rawVal) {
-  let css = rawVal;
-  if (typeof rawVal === 'string' && rawVal.startsWith('--prim-')) {
-    /* rawVal is an L1 token name like '--prim-mono-900' → CSS var reference */
-    css = `var(${rawVal})`;
-  } else if (name === '--badge-angle') {
-    css = rawVal + 'deg';
-  } else if (name.startsWith('--size-') || name.startsWith('--spacing-') || name === '--content-max-width') {
-    css = rawVal + 'px';
-  }
-  document.documentElement.style.setProperty(name, css);
+  document.documentElement.style.setProperty(name, formatL2(name, rawVal));
 }
 
 function applyL1(name, value) {
-  if (name.endsWith('-weight')) {
-    document.documentElement.style.setProperty(name, value);
-  } else if (name.endsWith('-ls')) {
-    /* stored as integer hundredths of em → apply as em value */
-    document.documentElement.style.setProperty(name, (Number(value) / 100) + 'em');
-  } else if (name.endsWith('-lh')) {
-    /* stored as integer tenths → apply as unitless value */
-    document.documentElement.style.setProperty(name, (Number(value) / 10).toFixed(2));
-  } else if (name.endsWith('-size')) {
-    /* stored as integer px → apply with unit */
-    document.documentElement.style.setProperty(name, value + 'px');
+  const css = formatL1(name, value);
+  if (css !== null) {
+    document.documentElement.style.setProperty(name, css);
   } else {
     /* font family */
     loadGoogleFont(value);
     document.documentElement.style.setProperty(name, fontStack(value));
   }
+}
+
+/* Build a single CSS text block for all initial tokens (avoids ~900 individual setProperty calls) */
+function buildInitStylesheet() {
+  const decls = [];
+  for (const [k, v] of Object.entries(INIT_L1)) {
+    const css = formatL1(k, v);
+    if (css !== null) decls.push(`${k}: ${css}`);
+  }
+  for (const [k, v] of Object.entries(INIT_L2)) {
+    decls.push(`${k}: ${formatL2(k, v)}`);
+  }
+  for (const [tok, hex] of Object.entries(INIT_L1_COLOR_MAP)) {
+    decls.push(`${tok}: ${hex}`);
+  }
+  return `:root { ${decls.join('; ')} }`;
 }
 
 function removeAllOverrides() {
@@ -1012,6 +1064,11 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
   const [sectionSurfaces, setSectionSurfaces] = useState({ ...INIT_SECTION_SURFACES });
   const [sectAllExpanded, setSectAllExpanded] = useState(true);
   const [searchQuery, setSearchQuery]         = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(searchQuery), 150);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
   const [activeSurface, setActiveSurface]     = useState('default');
 
   /* localStorage keys for all Sect/SubSect groups per tab */
@@ -1066,13 +1123,16 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     sectionSurfaces: { ...INIT_SECTION_SURFACES },
   });
 
-  /* Apply committed file defaults to DOM on mount */
+  /* Apply committed file defaults to DOM on mount — batched as a single <style> to avoid ~900 individual setProperty calls */
   useEffect(() => {
-    Object.entries(INIT_L1).forEach(([k, v]) => applyL1(k, v));
-    Object.entries(INIT_L2).forEach(([k, v]) => applyL2(k, v));
-    Object.entries(INIT_L1_COLOR_MAP).forEach(([tok, hex]) => {
-      document.documentElement.style.setProperty(tok, hex);
-    });
+    const style = document.createElement('style');
+    style.id = 'dme-init-tokens';
+    style.textContent = buildInitStylesheet();
+    document.head.appendChild(style);
+    /* Font families need side-effect loading (Google Fonts <link> tags) */
+    for (const [k, v] of Object.entries(INIT_L1)) {
+      if (formatL1(k, v) === null) { loadGoogleFont(v); document.documentElement.style.setProperty(k, fontStack(v)); }
+    }
     /* Apply saved section surface overrides */
     Object.entries(INIT_SECTION_SURFACES).forEach(([sectionId, surfaceKey]) => {
       applySurfaceToDOM(sectionId, surfaceKey);
@@ -1090,7 +1150,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
       });
     });
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); style.remove(); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refreshHistoryState = () => {
@@ -1635,8 +1695,8 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
 
       {/* ── Scrollable body ───────────────────────────────────── */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
-        {searchQuery
-          ? <SearchResults query={searchQuery} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} activeSurface={activeSurface} />
+        {debouncedSearch
+          ? <SearchResults query={debouncedSearch} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} activeSurface={activeSurface} />
           : tab === 'l2'
           ? <L2View key={sectResetKey} l2={l2} set={setL2Token} l1ColorMap={l1ColorMap} l1Groups={l1Groups} states={states} onStateChange={(k, v) => { onStateChange?.(k, v); setIsDirty(true); }} activeSurf={activeSurface} setActiveSurf={setActiveSurface} />
           : tab === 'l1'
@@ -1672,7 +1732,8 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
 const SEARCH_LABELS = {
   bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm',
   h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4',
-  'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm',
+  'body-lg': 'Body LG', body: 'Body MD', 'body-sm': 'Body SM',
+  'body-hl-lg': 'Body LG HL', 'body-hl': 'Body MD HL', 'body-hl-sm': 'Body SM HL',
   border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle',
   'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo',
   'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm',
@@ -1759,8 +1820,15 @@ const SURFACE_KEY_TO_GROUP = {
   'inverse': 'Inverse', 'accent': 'Accent', 'tertiary': 'Tertiary',
 };
 
+function fuzzyMatch(haystack, words) {
+  // Every query word must appear somewhere in the haystack
+  // Normalise hyphens/underscores to spaces so "btn pill" matches "btn-pill"
+  const h = haystack.toLowerCase().replace(/[-_]/g, ' ');
+  return words.every(w => h.includes(w));
+}
+
 function SearchResults({ query, l2, set, l1ColorMap, l1Groups, activeSurface }) {
-  const q = query.toLowerCase();
+  const words = query.toLowerCase().split(/[\s\-_]+/).filter(Boolean);
   const activeGroup = SURFACE_KEY_TO_GROUP[activeSurface] || 'Primary (Global)';
   const matches = [];
 
@@ -1774,9 +1842,9 @@ function SearchResults({ query, l2, set, l1ColorMap, l1Groups, activeSurface }) 
 
     const label = deriveLabel(tokenName);
     const hit =
-      tokenName.toLowerCase().includes(q) ||
-      tokenValue.toLowerCase().includes(q) ||
-      label.toLowerCase().includes(q);
+      fuzzyMatch(tokenName, words) ||
+      fuzzyMatch(tokenValue, words) ||
+      fuzzyMatch(label, words);
     if (hit) matches.push({ tokenName, tokenValue, label });
   }
 
@@ -1915,7 +1983,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
     sf.key === 'default'
       ? DEFAULT_SURFACE_TOKEN_MAP[suffix]
       : `${sf.prefix}${suffix}`;
-  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body lg', body: 'Body', 'body-sm': 'Body sm', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'match-win-chip-bg': 'Win chip bg', 'match-win-chip-fg': 'Win chip text', 'match-loss-chip-bg': 'Loss chip bg', 'match-loss-chip-fg': 'Loss chip text', 'friend-btn-bg': 'Friend btn bg', 'friend-btn-icon': 'Friend btn icon', 'toggle-off-bg': 'Off bg', 'toggle-on-bg': 'On bg', 'toggle-knob': 'Knob', 'guide-nav-bg': 'Background', 'guide-nav-border': 'Border', 'guide-nav-label': 'Label', 'guide-nav-title': 'Title', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track', 'avatar-bg': 'Avatar bg' };
+  const LABELS = { bg: 'Background', heading: 'Heading', 'text-muted-lg': 'Muted lg', 'text-muted': 'Muted', 'text-muted-sm': 'Muted sm', h1: 'H1', h2: 'H2', h3: 'H3', h4: 'H4', sh1: 'Subheading 1', sh2: 'Subheading 2', sh3: 'Subheading 3', sh4: 'Subheading 4', 'body-lg': 'Body LG', body: 'Body MD', 'body-sm': 'Body SM', 'body-hl-lg': 'Body LG HL', 'body-hl': 'Body MD HL', 'body-hl-sm': 'Body SM HL', border: 'Border', 'border-light': 'Border light', 'border-mid': 'Border mid', 'border-subtle': 'Border subtle', 'border-active': 'Border active', 'callout-border': 'Callout border', placeholder: 'Placeholder', logo: 'Logo', 'link-lg': 'Link lg', link: 'Link', 'link-sm': 'Link sm', pill: 'Pill text', 'pill-lg': 'Pill lg', 'pill-md': 'Pill md', 'pill-sm': 'Pill sm', accent: 'Pill (accent)', 'pill-bg': 'Pill bg', 'pill-border': 'Pill border', 'tag-fill': 'Tag fill', star: 'Star', 'ui-xl': 'UI XL', 'ui-lg': 'UI Large', 'ui-md': 'UI Medium', 'ui-sm': 'UI Small', 'ui-xsm': 'UI XSM', 'input-bg': 'Input bg', 'input-border': 'Input border', 'input-text': 'Input text', 'input-placeholder': 'Input placeholder', 'match-win-chip-bg': 'Win chip bg', 'match-win-chip-fg': 'Win chip text', 'match-loss-chip-bg': 'Loss chip bg', 'match-loss-chip-fg': 'Loss chip text', 'friend-btn-bg': 'Friend btn bg', 'friend-btn-icon': 'Friend btn icon', 'toggle-off-bg': 'Off bg', 'toggle-on-bg': 'On bg', 'toggle-knob': 'Knob', 'guide-nav-bg': 'Background', 'guide-nav-border': 'Border', 'guide-nav-label': 'Label', 'guide-nav-title': 'Title', 'status-success': 'Success', 'status-warning': 'Warning', 'status-error': 'Error', 'scrollbar-thumb': 'Scrollbar thumb', 'scrollbar-track': 'Scrollbar track', 'avatar-bg': 'Avatar bg' };
   const BTN_LABELS = { 'btn-primary-bg': 'Primary bg', 'btn-primary-fg': 'Primary text', 'btn-dark-bg': 'Dark bg', 'btn-dark-fg': 'Dark text', 'btn-ghost-fg': 'Ghost text', 'btn-ghost-icon': 'Ghost icon', 'btn-outline-fg': 'Outline text', 'btn-outline-border': 'Outline border', 'btn-tertiary-bg': 'Tertiary bg', 'btn-tertiary-fg': 'Tertiary text', 'btn-quaternary-bg': 'Quaternary bg', 'btn-quaternary-fg': 'Quaternary text', 'btn-destructive-bg': 'Destructive bg', 'btn-destructive-fg': 'Destructive text', 'btn-destructive-ui-bg': 'Destruct. UI bg', 'btn-destructive-ui-fg': 'Destruct. UI text', 'btn-destructive-ui-border': 'Destruct. UI border', 'btn-pill-bg': 'Pill bg', 'btn-pill-fg': 'Pill text', 'btn-pill-border': 'Pill border', 'btn-pill-active-bg': 'Pill active bg', 'btn-pill-active-fg': 'Pill active text', 'btn-pill-active-border': 'Pill active border', 'btn-pill-disabled-bg': 'Pill disabled bg', 'btn-pill-disabled-fg': 'Pill disabled text', 'btn-pill-disabled-border': 'Pill disabled border' };
   return (
     <>
@@ -1935,20 +2003,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
         ))}
       </div>
       <SurfaceSwatch surfaceDef={sf} l2={l2} l1ColorMap={l1ColorMap} />
-      {(() => {
-        /* Split SURFACE_TOKENS into groups by SURFACE_GROUP_STARTS boundaries */
-        const groups = [];
-        let cur = { start: SURFACE_TOKENS[0], items: [] };
-        SURFACE_TOKENS.forEach(suffix => {
-          if (SURFACE_GROUP_STARTS.has(suffix) && cur.items.length) {
-            groups.push(cur);
-            cur = { start: suffix, items: [] };
-          }
-          cur.items.push(suffix);
-        });
-        groups.push(cur);
-        groups.sort((a, b) => (SURFACE_GROUP_LABELS[a.start] || a.start).localeCompare(SURFACE_GROUP_LABELS[b.start] || b.start));
-        return groups.map(g => (
+      {SURFACE_TOKEN_GROUPS.map(g => (
           <SurfaceGroup
             key={g.start}
             label={SURFACE_GROUP_LABELS[g.start] || g.start}
@@ -1984,8 +2039,7 @@ function SurfaceColorPanel({ l2, set, l1ColorMap, l1Groups, states, onStateChang
               );
             })}
           </SurfaceGroup>
-        ));
-      })()}
+        ))}
       {/* Pathway button tokens per surface */}
       <SurfaceGroup label="Pathway Buttons" storageKey={`dme-sfg-${activeSurf}-btn`}>
         {BTN_SURFACE_TOKENS.map(suffix => (

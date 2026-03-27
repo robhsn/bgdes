@@ -67,6 +67,9 @@ function TextHierarchy() {
     { label: 'Body LG', var: '--color-body-lg', size: '--size-body-lg', font: fld, weight: 400 },
     { label: 'Body MD', var: '--color-body',    size: '--size-body',    font: fb,  weight: 400 },
     { label: 'Body SM', var: '--color-body-sm', size: '--size-body-sm', font: fsm, weight: 400 },
+    { label: 'Body HL LG', var: '--color-body-hl-lg', size: '--size-body-lg', font: fld, weight: 400 },
+    { label: 'Body HL',    var: '--color-body-hl',    size: '--size-body',    font: fb,  weight: 400 },
+    { label: 'Body HL SM', var: '--color-body-hl-sm', size: '--size-body-sm', font: fsm, weight: 400 },
     { label: 'Muted LG', var: '--color-muted-lg', size: '--size-body-lg', font: fld, weight: 400 },
     { label: 'Muted',    var: '--color-muted',    size: '--size-body',    font: fb,  weight: 400 },
     { label: 'Muted SM', var: '--color-muted-sm', size: '--size-body-sm', font: fsm, weight: 400 },
@@ -206,7 +209,9 @@ function Buttons() {
     { label: 'Quaternary', cls: 'com-btn--quaternary' },
     { label: 'Destructive', cls: 'com-btn--destructive' },
     { label: 'Destructive UI', cls: 'com-btn--destructive-ui' },
-    { label: 'Pill', cls: 'com-btn--pill' },
+    { label: 'Pill MD', cls: 'com-btn--pill' },
+    { label: 'Pill LG', cls: 'com-btn--pill com-btn--pill-lg' },
+    { label: 'Pill SM', cls: 'com-btn--pill com-btn--pill-sm' },
   ];
 
   const sizes = [

@@ -80,6 +80,8 @@ const RO_FONT_SIZE = {
   'sh3': 'var(--size-sh3)', 'sh4': 'var(--size-sh4)',
   'body-lg': 'var(--size-body-lg)', 'body-md': 'var(--size-body)',
   'body-sm': 'var(--size-body-sm)',
+  'body-hl-lg': 'var(--size-body-lg)', 'body-hl': 'var(--size-body)',
+  'body-hl-sm': 'var(--size-body-sm)',
   'pill-lg': 'var(--size-pill-lg)', 'pill-md': 'var(--size-pill-md)',
   'pill-sm': 'var(--size-pill-sm)',
   'ui-xl': 'var(--size-ui-xl)', 'ui-lg': 'var(--size-ui-lg)',
@@ -95,7 +97,22 @@ const RO_BTN_CSS = {
   quaternary:      'background:var(--com-btn-quaternary-bg)!important;color:var(--com-btn-quaternary-fg)!important;border:none!important;border-radius:8px!important;box-shadow:none!important',
   destructive:     'background:var(--com-btn-destructive-bg)!important;color:var(--com-btn-destructive-fg)!important;border:none!important;border-radius:9999px!important',
   'destructive-ui':'background:var(--com-btn-destructive-ui-bg)!important;color:var(--com-btn-destructive-ui-fg)!important;border:1px solid var(--com-btn-destructive-ui-border)!important;border-radius:8px!important;box-shadow:none!important',
-  pill:'background:var(--com-btn-pill-bg)!important;color:var(--com-btn-pill-fg)!important;border:1.5px solid var(--com-btn-pill-border)!important;border-radius:9999px!important;box-shadow:none!important',
+  pill:'background:var(--com-btn-pill-bg)!important;color:var(--com-btn-pill-fg)!important;border:1.5px solid var(--com-btn-pill-border)!important;border-radius:9999px!important;box-shadow:none!important;font-family:var(--font-pill-md),sans-serif!important;font-weight:var(--font-pill-md-weight)!important;font-size:var(--size-pill-md)!important;letter-spacing:var(--font-pill-md-ls)!important;line-height:var(--font-pill-md-lh)!important',
+  'pill-lg':'background:var(--com-btn-pill-bg)!important;color:var(--com-btn-pill-fg)!important;border:1.5px solid var(--com-btn-pill-border)!important;border-radius:9999px!important;box-shadow:none!important;font-family:var(--font-pill-lg),sans-serif!important;font-weight:var(--font-pill-lg-weight)!important;font-size:var(--size-pill-lg)!important;letter-spacing:var(--font-pill-lg-ls)!important;line-height:var(--font-pill-lg-lh)!important;padding:8px 20px!important;height:auto!important',
+  'pill-sm':'background:var(--com-btn-pill-bg)!important;color:var(--com-btn-pill-fg)!important;border:1.5px solid var(--com-btn-pill-border)!important;border-radius:9999px!important;box-shadow:none!important;font-family:var(--font-pill-sm),sans-serif!important;font-weight:var(--font-pill-sm-weight)!important;font-size:var(--size-pill-sm)!important;letter-spacing:var(--font-pill-sm-ls)!important;line-height:var(--font-pill-sm-lh)!important;padding:4px 12px!important;height:auto!important',
+}
+/* Pill font/sizing props applied regardless of active state (pillExclude strips these otherwise) */
+const RO_PILL_FONT_CSS = {
+  pill:'font-family:var(--font-pill-md),sans-serif!important;font-weight:var(--font-pill-md-weight)!important;font-size:var(--size-pill-md)!important;letter-spacing:var(--font-pill-md-ls)!important;line-height:var(--font-pill-md-lh)!important',
+  'pill-lg':'font-family:var(--font-pill-lg),sans-serif!important;font-weight:var(--font-pill-lg-weight)!important;font-size:var(--size-pill-lg)!important;letter-spacing:var(--font-pill-lg-ls)!important;line-height:var(--font-pill-lg-lh)!important;padding:8px 20px!important;height:auto!important',
+  'pill-sm':'font-family:var(--font-pill-sm),sans-serif!important;font-weight:var(--font-pill-sm-weight)!important;font-size:var(--size-pill-sm)!important;letter-spacing:var(--font-pill-sm-ls)!important;line-height:var(--font-pill-sm-lh)!important;padding:4px 12px!important;height:auto!important',
+}
+/* Body-hl roles share typography with their body counterpart but override color */
+const RO_TYPE_ALIAS = {
+  'body-hl-lg': 'body-lg', 'body-hl': 'body-md', 'body-hl-sm': 'body-sm',
+}
+const RO_COLOR_OVERRIDE = {
+  'body-hl-lg': 'var(--color-body-hl-lg)', 'body-hl': 'var(--color-body-hl)', 'body-hl-sm': 'var(--color-body-hl-sm)',
 }
 const RO_BORDER_CSS = {
   'hairline': 'border:1px solid var(--color-border)!important',
@@ -165,11 +182,19 @@ function App() {
       }
       if (ov.type === 'font') {
         const r = ov.role
-        rules.push(`${sel}{font-family:var(--prim-type-${r})!important;font-weight:var(--prim-type-${r}-weight)!important;font-size:${RO_FONT_SIZE[r] || 'var(--size-body)'}!important;line-height:var(--prim-type-${r}-lh)!important;letter-spacing:var(--prim-type-${r}-ls)!important}`)
+        const t = RO_TYPE_ALIAS[r] || r
+        const colorPart = RO_COLOR_OVERRIDE[r] ? `;color:${RO_COLOR_OVERRIDE[r]}!important` : ''
+        rules.push(`${sel}{font-family:var(--prim-type-${t})!important;font-weight:var(--prim-type-${t}-weight)!important;font-size:${RO_FONT_SIZE[r] || 'var(--size-body)'}!important;line-height:var(--prim-type-${t}-lh)!important;letter-spacing:var(--prim-type-${t}-ls)!important${colorPart}}`)
       } else if (ov.type === 'button' && RO_BTN_CSS[ov.variant]) {
         // For auto-ids the structural selector already includes .com-btn
         const btnSel = id.startsWith('_auto:') ? sel : `${sel}.com-btn`
-        rules.push(`${btnSel}{${RO_BTN_CSS[ov.variant]}}`)
+        // Pill variant: exclude active state so .is-active CSS can apply
+        const pillExclude = ov.variant?.startsWith('pill') ? ':not(.is-active):not([aria-pressed="true"])' : ''
+        rules.push(`${btnSel}${pillExclude}{${RO_BTN_CSS[ov.variant]}}`)
+        // Pill font/sizing must also apply to active state
+        if (RO_PILL_FONT_CSS[ov.variant]) {
+          rules.push(`${btnSel}{${RO_PILL_FONT_CSS[ov.variant]}}`)
+        }
       }
       if (ov.border && RO_BORDER_CSS[ov.border]) {
         rules.push(`${sel}{${RO_BORDER_CSS[ov.border]}}`)
