@@ -20,7 +20,7 @@ import PageNavigator from './components/PageNavigator'
 import RadialFAB from './components/RadialFAB'
 import RoleTargeter from './components/RoleTargeter'
 import StatesPanel from './components/StatesPanel'
-import { DMEStatesContext, DMESetStatesContext } from './context/dme-states'
+import { DMEStatesContext, DMESetStatesContext, STATE_DEFINITIONS } from './context/dme-states'
 import './styles/tokens.css'
 import './styles/surfaces.css'
 import './styles/animations.css'
@@ -50,6 +50,53 @@ const PAGES = [
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
 
+/* ─── URL ↔ State sync ────────────────────────────────────── */
+const STATE_DEFAULTS = Object.fromEntries(
+  STATE_DEFINITIONS.map(d => [d.key, d.defaultValue])
+)
+const STATE_DEF_MAP = Object.fromEntries(
+  STATE_DEFINITIONS.map(d => [d.key, d])
+)
+
+function parseURLStates(searchParams) {
+  const result = {}
+  for (const [key, raw] of searchParams.entries()) {
+    if (key === 'page') continue
+    const def = STATE_DEF_MAP[key]
+    if (!def) continue
+    if (def.type === 'select') {
+      if (def.options && def.options.includes(raw)) result[key] = raw
+    } else {
+      // boolean toggle
+      if (raw === 'true') result[key] = true
+      else if (raw === 'false') result[key] = false
+    }
+  }
+  return result
+}
+
+function stateRelevantToPage(def, pageId) {
+  const scope = def.page || def.type
+  if (scope === 'global') return true
+  if (scope === pageId) return true
+  if (scope === 'learn' && pageId.startsWith('learn')) return true
+  if (scope === 'learn-article' && pageId.startsWith('learn-article')) return true
+  return false
+}
+
+function syncStatesToURL(states, pageId) {
+  const params = new URLSearchParams()
+  params.set('page', pageId)
+  for (const [key, val] of Object.entries(states)) {
+    const def = STATE_DEF_MAP[key]
+    if (!def) continue
+    if (val === STATE_DEFAULTS[key]) continue
+    if (!stateRelevantToPage(def, pageId)) continue
+    params.set(key, String(val))
+  }
+  window.history.replaceState(null, '', '?' + params.toString())
+}
+
 function getInitialPage() {
   const urlPage = new URLSearchParams(window.location.search).get('page')
   if (urlPage && PAGE_IDS.has(urlPage)) return urlPage
@@ -62,8 +109,11 @@ const INIT_STATES = (() => {
   const base = fileDefaults.states ?? { 'auth.loggedIn': true }
   try {
     const session = JSON.parse(sessionStorage.getItem('dme-states'))
-    if (session && typeof session === 'object') return { ...base, ...session }
+    if (session && typeof session === 'object') Object.assign(base, session)
   } catch {}
+  // URL params override everything
+  const urlStates = parseURLStates(new URLSearchParams(window.location.search))
+  Object.assign(base, urlStates)
   return base
 })()
 const INIT_ROLE_OVERRIDES = fileDefaults.roleOverrides ?? {}
@@ -220,24 +270,19 @@ function App() {
   const navigateTo = useCallback((id) => {
     setCurrentPageId(id)
     sessionStorage.setItem('dme-page', id)
-    const url = new URL(window.location)
-    url.searchParams.set('page', id)
-    window.history.replaceState(null, '', url)
+    setDmeStates(s => { syncStatesToURL(s, id); return s })
   }, [])
 
-  /* Sync URL param on mount */
+  /* Sync URL params (page + states) on mount */
   useEffect(() => {
-    const url = new URL(window.location)
-    if (url.searchParams.get('page') !== currentPageId) {
-      url.searchParams.set('page', currentPageId)
-      window.history.replaceState(null, '', url)
-    }
+    syncStatesToURL(dmeStates, currentPageId)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStateChange = (key, value) =>
     setDmeStates(s => {
       const next = { ...s, [key]: value }
       try { sessionStorage.setItem('dme-states', JSON.stringify(next)) } catch {}
+      syncStatesToURL(next, currentPageId)
       return next
     })
 
@@ -294,6 +339,7 @@ function App() {
     const savedStates = { ...dmeStates }
     const savedPage = currentPageId
     const results = []
+    let runningStates = { ...dmeStates }
 
     setTestProgress({ current: 0, total: TEST_DEFINITIONS.length })
 
@@ -302,6 +348,7 @@ function App() {
       setTestProgress({ current: i + 1, total: TEST_DEFINITIONS.length })
 
       // Apply test states
+      runningStates = { ...runningStates, ...test.states }
       setDmeStates(prev => ({ ...prev, ...test.states }))
       // Navigate to test page
       setCurrentPageId(test.page)
@@ -309,9 +356,12 @@ function App() {
       // Wait for React render + CSS settle
       await new Promise(r => setTimeout(r, 250))
 
+      // Sync URL so URL-based assertions can inspect it
+      syncStatesToURL(runningStates, test.page)
+
       // Run assertions
       const assertionResults = test.assertions.map(a => {
-        const els = document.querySelectorAll(a.selector)
+        const els = a.selector ? document.querySelectorAll(a.selector) : []
         let pass = false
         let detail = ''
 
@@ -338,6 +388,15 @@ function App() {
             pass = style.display !== 'none' && style.visibility !== 'hidden'
             if (!pass) detail = `element hidden (display:${style.display}, visibility:${style.visibility})`
           }
+        } else if (a.expect === 'urlParam') {
+          const params = new URLSearchParams(window.location.search)
+          const actual = params.get(a.param)
+          pass = actual === a.value
+          if (!pass) detail = `expected ${a.param}="${a.value}", got "${actual}"`
+        } else if (a.expect === 'urlAbsent') {
+          const params = new URLSearchParams(window.location.search)
+          pass = !params.has(a.param)
+          if (!pass) detail = `${a.param} should not be in URL, found "${params.get(a.param)}"`
         }
 
         return { ...a, pass, detail: pass ? '' : detail }
@@ -430,6 +489,7 @@ function App() {
         states={dmeStates}
         onStateChange={handleStateChange}
         currentPageId={currentPageId}
+        pages={PAGES}
       />
       <PageNavigator
         open={pageNavOpen}

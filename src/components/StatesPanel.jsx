@@ -131,10 +131,120 @@ function StatesView({ states, onStateChange, currentPageId, expanded, onToggleGr
   );
 }
 
+/* ─── Generate valid state URL combinations for a single page ── */
+function generatePageStateURLs(pageId, pageLabel) {
+  const SKIP = new Set([
+    'profile.onlineStatus', 'social.activityCenter', 'social.unreadCount',
+    'social.activityOpen', 'global.webHeader',
+  ]);
+
+  const defaults = Object.fromEntries(STATE_DEFINITIONS.map(d => [d.key, d.defaultValue]));
+  const baseURL = window.location.origin + window.location.pathname;
+
+  function pageScoped(def) {
+    const scope = def.page || def.type;
+    if (scope === 'global') return true;
+    if (scope === pageId) return true;
+    if (scope === 'learn' && pageId.startsWith('learn')) return true;
+    if (scope === 'learn-article' && pageId.startsWith('learn-article')) return true;
+    return false;
+  }
+
+  function cartesian(arrays) {
+    return arrays.reduce((acc, arr) =>
+      acc.flatMap(combo => arr.map(val => [...combo, val])), [[]]);
+  }
+
+  function isInvalid(combo) {
+    const loggedIn = combo['auth.loggedIn'] ?? defaults['auth.loggedIn'];
+
+    if (pageId === 'profile') {
+      const viewType = combo['profile.viewType'] ?? defaults['profile.viewType'];
+      const tab = combo['profile.tab'] ?? defaults['profile.tab'];
+      if (!loggedIn && viewType.startsWith('Own')) return true;
+      if (loggedIn && viewType.startsWith('Guest')) return true;
+      if (!viewType.startsWith('Own') && tab === 'Friends') return true;
+      if (!viewType.startsWith('Own') && tab === 'Achievements') return true;
+    }
+
+    if (pageId === 'index') {
+      const indexView = combo['index.view'] ?? defaults['index.view'];
+      if (loggedIn && ['Login', 'Sign Up', 'Login Error'].includes(indexView)) return true;
+    }
+
+    if (pageId === 'settings' && !loggedIn) return true;
+
+    return false;
+  }
+
+  const defs = STATE_DEFINITIONS.filter(def => {
+    if (SKIP.has(def.key)) return false;
+    if (def.key === 'auth.loggedIn') return true;
+    if (def.type !== 'select') return false;
+    return pageScoped(def);
+  });
+
+  if (defs.length === 0) {
+    return `## ${pageLabel}\n\n- **${pageLabel} — Default**\n  ${baseURL}?page=${pageId}`;
+  }
+
+  const keys = defs.map(d => d.key);
+  const optionArrays = defs.map(d =>
+    d.key === 'auth.loggedIn' ? [true, false] : d.options
+  );
+
+  const products = cartesian(optionArrays);
+  const urlSet = new Set();
+  const entries = [];
+
+  for (const values of products) {
+    const combo = {};
+    keys.forEach((k, i) => combo[k] = values[i]);
+
+    // Collapse hidden children to default
+    for (const def of defs) {
+      if (!def.visibleWhen) continue;
+      const visible = Object.entries(def.visibleWhen).every(([pk, allowed]) =>
+        allowed.includes(combo[pk] ?? defaults[pk])
+      );
+      if (!visible) combo[def.key] = defaults[def.key];
+    }
+
+    if (isInvalid(combo)) continue;
+
+    // Build URL params
+    const params = new URLSearchParams();
+    params.set('page', pageId);
+    const labelParts = [];
+    for (const key of keys) {
+      const val = combo[key];
+      if (val === defaults[key]) continue;
+      params.set(key, String(val));
+      if (key === 'auth.loggedIn' && val === false) {
+        labelParts.push('Logged Out');
+      } else {
+        labelParts.push(String(val));
+      }
+    }
+
+    const url = baseURL + '?' + params.toString();
+    if (urlSet.has(url)) continue;
+    urlSet.add(url);
+
+    const heading = labelParts.length === 0
+      ? `${pageLabel} — Default`
+      : `${pageLabel} — ${labelParts.join(' / ')}`;
+
+    entries.push(`- **${heading}**\n  ${url}`);
+  }
+
+  return `## ${pageLabel}\n\n${entries.join('\n\n')}`;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    StatesPanel — standalone detachable panel
    ═══════════════════════════════════════════════════════════════ */
-export default function StatesPanel({ visible, onClose, states, onStateChange, currentPageId }) {
+export default function StatesPanel({ visible, onClose, states, onStateChange, currentPageId, pages }) {
   const panel = useDetachablePanel(
     { x: Math.round(window.innerWidth / 2 - 150), y: 80 },
     { w: 300, h: 380 },
@@ -142,11 +252,24 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
   );
   const [dockPos, setDockPos] = useState('bottom'); // 'top' | 'bottom'
   const [expanded, setExpanded] = useState({ global: true, page: true });
+  const [copyFeedback, setCopyFeedback] = useState(null);
   const allExpanded = expanded.global && expanded.page;
   const toggleGroup = (key) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
   const toggleAll = () => {
     const next = !allExpanded;
     setExpanded({ global: next, page: next });
+  };
+
+  const handleCopyURLs = async () => {
+    try {
+      const pageDef = pages?.find(p => p.id === currentPageId);
+      const text = generatePageStateURLs(currentPageId, pageDef?.label || currentPageId);
+      await navigator.clipboard.writeText(text);
+      setCopyFeedback('Copied!');
+    } catch {
+      setCopyFeedback('Failed');
+    }
+    setTimeout(() => setCopyFeedback(null), 2000);
   };
 
   if (!visible) return null;
@@ -218,6 +341,21 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
                   <path d="M4 13l4-3 4 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               )}
+            </button>
+            <button
+              onClick={handleCopyURLs}
+              title="Copy all valid state URL combinations as markdown"
+              style={{
+                background: copyFeedback === 'Copied!' ? '#2a5a3a' : '#333',
+                border: 'none', borderRadius: 9999, cursor: 'pointer',
+                color: copyFeedback === 'Copied!' ? '#4caf82' : '#999',
+                fontSize: 9, padding: '3px 8px', whiteSpace: 'nowrap',
+                transition: 'background 0.2s, color 0.2s',
+              }}
+              onMouseEnter={e => { if (!copyFeedback) { e.currentTarget.style.background = '#444'; e.currentTarget.style.color = '#ccc'; } }}
+              onMouseLeave={e => { if (!copyFeedback) { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#999'; } }}
+            >
+              {copyFeedback || 'Copy State URLs'}
             </button>
           </div>
           <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
