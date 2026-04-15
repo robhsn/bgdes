@@ -56,6 +56,26 @@ import avatarWolfy from '../imgs/avatars/Wolfy.png';
 import avatarWitch from '../imgs/avatars/Witch.png';
 import avatarSoldier from '../imgs/avatars/Soldier.png';
 import avatarLincoln from '../imgs/avatars/Lincoln.png';
+import coverPhoto1        from '../imgs/cover images/cover--photo-1.jpg';
+import coverPhoto2        from '../imgs/cover images/cover--photo-2.jpg';
+import coverPhoto3        from '../imgs/cover images/cover--photo-3.jpg';
+import coverPhoto4        from '../imgs/cover images/cover--photo-4.jpg';
+import coverGradientBlue   from '../imgs/cover images/cover-gradient--blue.jpg';
+import coverGradientGray   from '../imgs/cover images/cover-gradient--gray.jpg';
+import coverGradientGreen  from '../imgs/cover images/cover-gradient--green.jpg';
+import coverGradientOrange from '../imgs/cover images/cover-gradient--orange.jpg';
+import coverGradientPink   from '../imgs/cover images/cover-gradient--pink.jpg';
+import coverGradientPurple from '../imgs/cover images/cover-gradient--purple.jpg';
+import coverGradientRed    from '../imgs/cover images/cover-gradient--red.jpg';
+import coverGradientYellow from '../imgs/cover images/cover-gradient--yellow.jpg';
+import coverSolidBlue      from '../imgs/cover images/cover-solid--blue.jpg';
+import coverSolidGray      from '../imgs/cover images/cover-solid--gray.jpg';
+import coverSolidGreen     from '../imgs/cover images/cover-solid--green.jpg';
+import coverSolidOrange    from '../imgs/cover images/cover-solid--orange.jpg';
+import coverSolidPink      from '../imgs/cover images/cover-solid--pink.jpg';
+import coverSolidPurple    from '../imgs/cover images/cover-solid--purple.jpg';
+import coverSolidRed       from '../imgs/cover images/cover-solid--red.jpg';
+import coverSolidYellow    from '../imgs/cover images/cover-solid--yellow.jpg';
 
 const PRESET_AVATARS = [
   { key: 'Empty',       src: avatarEmpty },
@@ -1066,6 +1086,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
           <span className="match-history__th match-history__th--score">Score</span>
           <span className="match-history__th match-history__th--time">Time</span>
           <span className="match-history__th match-history__th--date">Date</span>
+          <span className="match-history__th match-history__th--action" />
         </div>
         {pageItems.map(m => (
           <div key={m.id} className={`match-row match-row--${m.result}`}>
@@ -1075,11 +1096,11 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
               size="lg"
               online={m.online}
               clickable={!!onPlayerClick}
-              onClick={() => onPlayerClick?.(m.opponent)}
+              onClick={() => onPlayerClick?.(m.opponent, m.avatarKey)}
             />
             <span
               className={`match-row__name${onPlayerClick ? ' match-row__name--clickable' : ''}`}
-              onClick={() => onPlayerClick?.(m.opponent)}
+              onClick={() => onPlayerClick?.(m.opponent, m.avatarKey)}
             >
               {FRIEND_USERNAMES.has(m.opponent) && (
                 <span className="match-row__friend-pill">Friend</span>
@@ -1107,6 +1128,12 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
             <span className="match-row__score">{m.score}</span>
             <span className="match-row__time">{m.duration}</span>
             <span className="match-row__date">{m.date}</span>
+            <span className="match-row__action">
+              <button className="com-btn com-btn--quaternary com-btn--sm">
+                <IconCheckerStack />
+                Challenge
+              </button>
+            </span>
           </div>
         ))}
         {pageItems.length === 0 && (
@@ -1487,8 +1514,7 @@ export function SettingsContent({
             <div className="settings-row">
               <div className="settings-row__label">Username</div>
               <input
-                className="profile-header__name-input"
-                style={{ fontSize: 16, marginBottom: 0 }}
+                className="form-input"
                 value={draftName}
                 onChange={e => { if (e.target.value.length <= 24) setDraftName(e.target.value); }}
                 minLength={4}
@@ -1511,36 +1537,13 @@ export function SettingsContent({
               <div className="settings-row__label">Intro / Bio</div>
               <input
                 type="text"
-                className="profile-header__bio-input"
+                className="form-input"
                 value={draftBio}
                 onChange={e => setDraftBio(e.target.value)}
                 placeholder="Write something about yourself..."
                 maxLength={60}
               />
-              <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{draftBio.length}/60</span>
-            </div>
-
-            {/* Social Links */}
-            <div className="settings-row">
-              <div className="settings-row__label">Social Links</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {SOCIALS.map(s => (
-                  <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
-                    <div className="social-editor__label" style={{ minWidth: 90 }}>
-                      <s.Icon />
-                      <span style={{ fontSize: 12 }}>{s.label}</span>
-                    </div>
-                    <div className="social-editor__input-wrap">
-                      <input
-                        className="social-editor__input"
-                        value={draftSocials[s.key]}
-                        onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
-                        placeholder={s.placeholder}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginTop: 4 }}>{draftBio.length}/60</div>
             </div>
 
             {/* Country */}
@@ -1585,47 +1588,68 @@ export function SettingsContent({
               )}
             </div>
 
-            {/* Avatar */}
-            <div className="settings-row">
-              <div className="settings-row__label">Avatar</div>
-              <button className="settings-row__picker-btn" onClick={() => onChangeAvatar?.()}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
-                  border: '2px solid var(--color-border)', flexShrink: 0,
-                  background: 'var(--color-avatar-bg)',
-                }}>
-                  {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-                </div>
-                <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Cover Image */}
-            {onChangeCover && (
-              <div className="settings-row">
-                <div className="settings-row__label">Cover Image</div>
-                <button className="settings-row__picker-btn" onClick={() => onChangeCover()}>
+            {/* Avatar & Cover Image */}
+            <div className="settings-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'stretch' }}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className="settings-row__label">Avatar</div>
+                <button className="settings-row__picker-btn" style={{ flex: 1 }} onClick={() => onChangeAvatar?.()}>
                   <div style={{
-                    width: 64, height: 24, borderRadius: 4, overflow: 'hidden',
+                    width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
                     border: '2px solid var(--color-border)', flexShrink: 0,
+                    background: 'var(--color-avatar-bg)',
                   }}>
-                    {coverEdit?.type === 'preset'
-                      ? <div style={{ width: '100%', height: '100%', backgroundColor: coverEdit.color }} />
-                      : coverEdit?.cropped
-                        ? <img src={coverEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        : <div style={{ width: '100%', height: '100%', background: 'var(--color-border)' }} />
-                    }
+                    {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                   </div>
-                  <span>{coverEdit?.type === 'preset' ? coverEdit.key : coverEdit?.type === 'custom' ? 'Custom cover' : 'Default'}</span>
+                  <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
                     <path d="m9 18 6-6-6-6" />
                   </svg>
                 </button>
               </div>
-            )}
+              {onChangeCover && (
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div className="settings-row__label">Cover Image</div>
+                  <button className="settings-row__picker-btn" style={{ flex: 1 }} onClick={() => onChangeCover()}>
+                    <div style={{
+                      width: 64, height: 24, borderRadius: 4, overflow: 'hidden',
+                      border: '2px solid var(--color-border)', flexShrink: 0,
+                    }}>
+                      {coverEdit?.cropped
+                        ? <img src={coverEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : <div style={{ width: '100%', height: '100%', background: 'var(--color-border)' }} />
+                      }
+                    </div>
+                    <span>{coverEdit?.type === 'preset' ? (PRESET_COVERS.find(c => c.key === coverEdit.key)?.label || coverEdit.key) : coverEdit?.type === 'custom' ? 'Custom cover' : 'Default'}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Social Links */}
+            <div className="settings-row">
+              <div className="settings-row__label">Social Links</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {SOCIALS.map(s => (
+                  <div key={s.key} className="social-editor__row" style={{ gap: 8 }}>
+                    <div className="social-editor__label" style={{ minWidth: 90 }}>
+                      <s.Icon />
+                      <span style={{ fontSize: 12 }}>{s.label}</span>
+                    </div>
+                    <div className="social-editor__input-wrap">
+                      <input
+                        className="social-editor__input"
+                        value={draftSocials[s.key]}
+                        onChange={e => setDraftSocials(prev => ({ ...prev, [s.key]: e.target.value }))}
+                        placeholder={s.placeholder}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </>
         )}
 
@@ -1650,11 +1674,10 @@ export function SettingsContent({
                   <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>New Email</div>
                   <input
                     type="email"
-                    className="profile-header__bio-input"
+                    className="form-input"
                     value={draftNewEmail}
                     onChange={e => setDraftNewEmail(e.target.value)}
                     placeholder="Enter new email address"
-                    style={{ width: '100%' }}
                   />
                 </div>
 
@@ -1663,11 +1686,10 @@ export function SettingsContent({
                   <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Confirm Email</div>
                   <input
                     type="email"
-                    className="profile-header__bio-input"
+                    className="form-input"
                     value={draftConfirmEmail}
                     onChange={e => setDraftConfirmEmail(e.target.value)}
                     placeholder="Confirm new email address"
-                    style={{ width: '100%' }}
                   />
                   {draftConfirmEmail.length > 0 && (
                     <div className={`pw-hint ${draftNewEmail === draftConfirmEmail ? 'pw-hint--ok' : 'pw-hint--err'}`}>
@@ -1707,11 +1729,10 @@ export function SettingsContent({
                   <div className="pw-field">
                     <input
                       type={showCurrentPw ? 'text' : 'password'}
-                      className="profile-header__bio-input"
+                      className="form-input"
                       value={draftCurrentPw}
                       onChange={e => setDraftCurrentPw(e.target.value)}
                       placeholder="Enter current password"
-                      style={{ width: '100%' }}
                     />
                     <button className="pw-toggle" onClick={() => setShowCurrentPw(v => !v)} type="button">
                       {showCurrentPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
@@ -1725,11 +1746,10 @@ export function SettingsContent({
                   <div className="pw-field">
                     <input
                       type={showNewPw ? 'text' : 'password'}
-                      className="profile-header__bio-input"
+                      className="form-input"
                       value={draftNewPw}
                       onChange={e => setDraftNewPw(e.target.value)}
                       placeholder="Enter new password"
-                      style={{ width: '100%' }}
                     />
                     <button className="pw-toggle" onClick={() => setShowNewPw(v => !v)} type="button">
                       {showNewPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
@@ -1746,11 +1766,10 @@ export function SettingsContent({
                   <div className="pw-field">
                     <input
                       type={showConfirmPw ? 'text' : 'password'}
-                      className="profile-header__bio-input"
+                      className="form-input"
                       value={draftConfirmPw}
                       onChange={e => setDraftConfirmPw(e.target.value)}
                       placeholder="Confirm new password"
-                      style={{ width: '100%' }}
                     />
                     <button className="pw-toggle" onClick={() => setShowConfirmPw(v => !v)} type="button">
                       {showConfirmPw ? <IconEyeClosed size={16} /> : <IconEyeOpen size={16} />}
@@ -1848,7 +1867,7 @@ export function SettingsContent({
         {/* ── Preferences tab ─────────────────────────────────── */}
         {settingsTab === 'Preferences' && (
           <>
-            <div style={{ marginTop: 4 }}>
+            <div style={{ marginTop: 16 }}>
               <div style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Notification Preferences</div>
               {notifPrefs.map(({ id, label, desc, on }) => (
                   <div key={id} className="st-pref-row">
@@ -1886,7 +1905,12 @@ export function SettingsContent({
 function SettingsPanel({
   displayName, bio, socialLinks, country, avatarEdit, coverEdit,
   onSaveAll, onChangeAvatar, onChangeCover, onClose,
-  section,
+  section, embedded,
+  /* embedded-only callbacks for inline avatar/cover picker */
+  onAvatarPresetSelect, onCoverPresetSelect,
+  onAvatarCustomUpload, onCoverCustomUpload,
+  onAvatarEditCurrent, onCoverEditCurrent,
+  isMvp,
 }) {
   const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
   useEffect(() => {
@@ -1896,6 +1920,8 @@ function SettingsPanel({
     return () => mql.removeEventListener('change', handler);
   }, []);
 
+  const [subPage, setSubPage] = useState(null); // null | 'avatar' | 'cover'
+
   const panelClass = isDesktop ? 'side-panel side-panel--settings' : 'bottom-sheet';
   const headerClass = isDesktop ? 'side-panel__header' : 'popup-panel__header';
   const titleClass = isDesktop ? 'side-panel__title' : 'popup-panel__title';
@@ -1903,35 +1929,328 @@ function SettingsPanel({
   const bodyClass = isDesktop ? 'side-panel__body' : 'popup-panel__body';
   const footerClass = isDesktop ? 'side-panel__footer' : 'popup-panel__footer';
 
+  const handleChangeAvatar = embedded ? () => setSubPage('avatar') : onChangeAvatar;
+  const handleChangeCover = embedded ? () => setSubPage('cover') : onChangeCover;
+
   return (
     <div className="overlay overlay--top" onClick={onClose}>
-      <div className={`${panelClass} surface-muted`} data-section-id="pp-settings" onClick={e => e.stopPropagation()} style={!isDesktop ? { height: '85vh', maxHeight: '85vh' } : undefined}>
+      <div className={panelClass} data-section-id="gl-settings" onClick={e => e.stopPropagation()} style={!isDesktop ? { height: '85vh', maxHeight: '85vh' } : undefined}>
         {!isDesktop && <div className="bottom-sheet__handle" />}
-        <div className={headerClass}>
-          <h2 className={titleClass}>Settings</h2>
+
+        {/* Header — always shows close; shows back arrow on subPage */}
+        <div className={headerClass} style={
+          subPage
+            ? { borderBottom: 'none' }
+            : embedded
+              ? { justifyContent: 'flex-end', padding: '10px 16px', borderBottom: 'none' }
+              : undefined
+        }>
+          {subPage ? (
+            <button
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', display: 'flex', alignItems: 'center', gap: 6, padding: 0, fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 15 }}
+              onClick={() => setSubPage(null)}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+              {subPage === 'avatar' ? 'Choose Avatar' : 'Choose Cover Image'}
+            </button>
+          ) : (
+            !embedded && <h2 className={titleClass}>Settings</h2>
+          )}
           <button className={closeClass} onClick={onClose}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
-        <SettingsContent
-          displayName={displayName}
-          bio={bio}
-          socialLinks={socialLinks}
-          country={country}
-          avatarEdit={avatarEdit}
-          coverEdit={coverEdit}
-          onSaveAll={onSaveAll}
-          onChangeAvatar={onChangeAvatar}
-          onChangeCover={onChangeCover}
-          onCancel={onClose}
-          section={section}
-          bodyClassName={bodyClass}
-          footerClassName={footerClass}
-        />
+
+        {/* Sliding body — both panels always rendered, translateX slides between them */}
+        {embedded ? (
+          <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div style={{
+              display: 'flex', width: '200%', flex: 1, minHeight: 0,
+              transform: subPage ? 'translateX(-50%)' : 'translateX(0)',
+              transition: 'transform 0.35s cubic-bezier(0.25, 1, 0.5, 1)',
+            }}>
+              {/* Panel 1: Settings content */}
+              <div style={{ width: '50%', flexShrink: 0, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                <SettingsContent
+                  displayName={displayName}
+                  bio={bio}
+                  socialLinks={socialLinks}
+                  country={country}
+                  avatarEdit={avatarEdit}
+                  coverEdit={coverEdit}
+                  onSaveAll={onSaveAll}
+                  onChangeAvatar={handleChangeAvatar}
+                  onChangeCover={handleChangeCover}
+                  onCancel={onClose}
+                  section={section}
+                  bodyClassName={bodyClass}
+                  footerClassName={footerClass}
+                />
+              </div>
+
+              {/* Panel 2: Avatar or Cover picker */}
+              <div style={{ width: '50%', flexShrink: 0, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                {subPage === 'avatar' ? (
+                  <SettingsPanelAvatarPicker
+                    currentAvatar={avatarEdit}
+                    onSelectPreset={(preset) => { onAvatarPresetSelect?.(preset); setSubPage(null); }}
+                    onCustomUpload={(dataUrl) => { onAvatarCustomUpload?.(dataUrl); setSubPage(null); }}
+                    onEditCurrent={() => { onAvatarEditCurrent?.(); setSubPage(null); }}
+                    onBack={() => setSubPage(null)}
+                    isMvp={isMvp}
+                    bodyClassName={bodyClass}
+                    footerClassName={footerClass}
+                  />
+                ) : subPage === 'cover' ? (
+                  <SettingsPanelCoverPicker
+                    currentCover={coverEdit}
+                    onSelectPreset={(preset) => { onCoverPresetSelect?.(preset); setSubPage(null); }}
+                    onCustomUpload={(dataUrl) => { onCoverCustomUpload?.(dataUrl); setSubPage(null); }}
+                    onEditCurrent={() => { onCoverEditCurrent?.(); setSubPage(null); }}
+                    onBack={() => setSubPage(null)}
+                    isMvp={isMvp}
+                    bodyClassName={bodyClass}
+                    footerClassName={footerClass}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <SettingsContent
+            displayName={displayName}
+            bio={bio}
+            socialLinks={socialLinks}
+            country={country}
+            avatarEdit={avatarEdit}
+            coverEdit={coverEdit}
+            onSaveAll={onSaveAll}
+            onChangeAvatar={handleChangeAvatar}
+            onChangeCover={handleChangeCover}
+            onCancel={onClose}
+            section={section}
+            bodyClassName={bodyClass}
+            footerClassName={footerClass}
+          />
+        )}
       </div>
     </div>
+  );
+}
+
+/* ── Inline avatar picker for settings panel page 2 ──────────── */
+
+function SettingsPanelAvatarPicker({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurrent, onBack, isMvp, bodyClassName, footerClassName }) {
+  const [tab, setTab] = useState('select');
+  const [pendingPreset, setPendingPreset] = useState(null);
+  const fileRef = React.useRef(null);
+  const showTabs = !isMvp;
+
+  function handleFileSelect(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onCustomUpload(reader.result);
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+
+  const currentPresetKey = currentAvatar?.type === 'preset' ? currentAvatar.key : null;
+  const selectedKey = pendingPreset ? pendingPreset.key : currentPresetKey;
+  const hasPresetChange = pendingPreset && pendingPreset.key !== currentPresetKey;
+  const hasCustomAvatar = currentAvatar?.type === 'custom' && currentAvatar.cropped;
+  const activeTab = isMvp ? 'select' : tab;
+
+  return (
+    <>
+      <div className={bodyClassName || ''}>
+        {showTabs && (
+          <div className="avatar-picker__tabs">
+            <button className={`avatar-picker__tab${activeTab === 'select' ? ' avatar-picker__tab--active' : ''}`} onClick={() => setTab('select')}>Select</button>
+            <button className={`avatar-picker__tab${activeTab === 'custom' ? ' avatar-picker__tab--active' : ''}`} onClick={() => setTab('custom')}>Custom</button>
+          </div>
+        )}
+        {activeTab === 'select' ? (
+          <div className="avatar-picker__grid">
+            {PRESET_AVATARS.map(p => (
+              <button
+                key={p.key}
+                className={`avatar-picker__item${selectedKey === p.key ? ' avatar-picker__item--selected' : ''}`}
+                onClick={() => setPendingPreset(p)}
+                title={p.key}
+              >
+                <img src={p.src} alt={p.key} />
+                {selectedKey === p.key && (
+                  <div className="avatar-picker__check">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
+                      <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="avatar-picker__custom">
+            <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileSelect} />
+            <div className="avatar-picker__preview">
+              {currentAvatar?.cropped
+                ? <img src={currentAvatar.cropped} alt="Current avatar" />
+                : <div className="avatar-picker__empty">No custom avatar</div>
+              }
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {hasCustomAvatar && (
+                <button className="com-btn com-btn--primary com-btn--sm" onClick={() => onEditCurrent()}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                  Edit
+                </button>
+              )}
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
+                {hasCustomAvatar ? 'Upload New' : 'Upload Avatar'}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* Footer — matches settings Cancel / Save Changes position */}
+      <div className={footerClassName || ''}>
+        <button className="com-btn com-btn--outline com-btn--sm" onClick={onBack}>Back</button>
+        <button
+          className="com-btn com-btn--primary com-btn--sm"
+          style={{ opacity: hasPresetChange ? 1 : 0.5, pointerEvents: hasPresetChange ? 'auto' : 'none' }}
+          onClick={() => { if (pendingPreset) onSelectPreset(pendingPreset); }}
+        >Save</button>
+      </div>
+    </>
+  );
+}
+
+/* ── Grouped cover preset grid (shared by modal + settings panel) ── */
+
+function CoverCheck() {
+  return (
+    <div className="cover-picker__check">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
+        <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
+function CoverPresetGrid({ items, selectedKey, onSelect }) {
+  return (
+    <div className="cover-picker__grid">
+      {items.map(c => (
+        <button
+          key={c.key}
+          type="button"
+          className={`cover-picker__item${selectedKey === c.key ? ' cover-picker__item--selected' : ''}`}
+          onClick={() => onSelect(c.key)}
+          title={c.label}
+          style={{ backgroundImage: `url(${c.src})` }}
+          aria-label={c.label}
+        >
+          {selectedKey === c.key && <CoverCheck />}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ── Inline cover picker for settings panel page 2 ───────────── */
+
+function SettingsPanelCoverPicker({ currentCover, onSelectPreset, onCustomUpload, onEditCurrent, onBack, isMvp, bodyClassName, footerClassName }) {
+  const currentPresetKey = currentCover?.type === 'preset' ? currentCover.key : null;
+  const [tab, setTab] = useState(() => currentCover?.type === 'custom' ? 'custom' : inferCoverCategory(currentPresetKey));
+  const [pendingCover, setPendingCover] = useState(null);
+  const fileRef = React.useRef(null);
+
+  function handleFileSelect(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onCustomUpload(reader.result);
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+
+  const selectedKey = pendingCover || currentPresetKey;
+  const hasChange = pendingCover && pendingCover !== currentPresetKey;
+  const hasCustomCover = currentCover?.type === 'custom' && currentCover.cropped;
+  const activeTab = isMvp && tab === 'custom' ? 'image' : tab;
+  const activeCategory = COVER_SUBTABS.find(t => t.key === activeTab);
+
+  return (
+    <>
+      <div className={bodyClassName || ''}>
+        <div className="avatar-picker__tabs">
+          {COVER_SUBTABS.map(t => (
+            <button
+              key={t.key}
+              className={`avatar-picker__tab${activeTab === t.key ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab(t.key)}
+            >{t.label}</button>
+          ))}
+          {!isMvp && (
+            <button
+              className={`avatar-picker__tab${activeTab === 'custom' ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab('custom')}
+            >Custom</button>
+          )}
+        </div>
+        {activeCategory ? (
+          <CoverPresetGrid items={activeCategory.items} selectedKey={selectedKey} onSelect={setPendingCover} />
+        ) : (
+          <div className="avatar-picker__custom">
+            <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileSelect} />
+            <div className="cover-picker__preview">
+              {currentCover?.type === 'custom' && currentCover.cropped
+                ? <img src={currentCover.cropped} alt="Current cover" />
+                : <div className="avatar-picker__empty">No custom cover image</div>
+              }
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {hasCustomCover && (
+                <button className="com-btn com-btn--primary com-btn--sm" onClick={() => onEditCurrent()}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                  Edit
+                </button>
+              )}
+              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => fileRef.current?.click()}>
+                {hasCustomCover ? 'Upload New' : 'Upload Cover Image'}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* Footer — matches settings Cancel / Save Changes position */}
+      <div className={footerClassName || ''}>
+        <button className="com-btn com-btn--outline com-btn--sm" onClick={onBack}>Back</button>
+        <button
+          className="com-btn com-btn--primary com-btn--sm"
+          style={{ opacity: hasChange ? 1 : 0.5, pointerEvents: hasChange ? 'auto' : 'none' }}
+          onClick={() => {
+            if (pendingCover) {
+              const preset = PRESET_COVERS.find(c => c.key === pendingCover);
+              onSelectPreset(preset);
+            }
+          }}
+        >Save</button>
+      </div>
+    </>
   );
 }
 
@@ -2284,23 +2603,53 @@ function AvatarModal({ currentAvatar, onSelectPreset, onCustomUpload, onEditCurr
   );
 }
 
-/* ── Preset cover images (solid-color placeholders) ──────────── */
+/* ── Preset cover images ─────────────────────────────────────── */
 const PRESET_COVERS = [
-  { key: 'navy',    color: '#1e3a5f' },
-  { key: 'forest',  color: '#2d5a3d' },
-  { key: 'wine',    color: '#6b2c3e' },
-  { key: 'slate',   color: '#4a5568' },
-  { key: 'amber',   color: '#92400e' },
-  { key: 'indigo',  color: '#3730a3' },
+  { key: 'photo-1',         src: coverPhoto1,          category: 'photos',    label: 'Photo 1' },
+  { key: 'photo-2',         src: coverPhoto2,          category: 'photos',    label: 'Photo 2' },
+  { key: 'photo-3',         src: coverPhoto3,          category: 'photos',    label: 'Photo 3' },
+  { key: 'photo-4',         src: coverPhoto4,          category: 'photos',    label: 'Photo 4' },
+  { key: 'gradient-blue',   src: coverGradientBlue,    category: 'gradients', label: 'Gradient Blue' },
+  { key: 'gradient-purple', src: coverGradientPurple,  category: 'gradients', label: 'Gradient Purple' },
+  { key: 'gradient-pink',   src: coverGradientPink,    category: 'gradients', label: 'Gradient Pink' },
+  { key: 'gradient-red',    src: coverGradientRed,     category: 'gradients', label: 'Gradient Red' },
+  { key: 'gradient-orange', src: coverGradientOrange,  category: 'gradients', label: 'Gradient Orange' },
+  { key: 'gradient-yellow', src: coverGradientYellow,  category: 'gradients', label: 'Gradient Yellow' },
+  { key: 'gradient-green',  src: coverGradientGreen,   category: 'gradients', label: 'Gradient Green' },
+  { key: 'gradient-gray',   src: coverGradientGray,    category: 'gradients', label: 'Gradient Gray' },
+  { key: 'solid-blue',      src: coverSolidBlue,       category: 'solids',    label: 'Solid Blue' },
+  { key: 'solid-purple',    src: coverSolidPurple,     category: 'solids',    label: 'Solid Purple' },
+  { key: 'solid-pink',      src: coverSolidPink,       category: 'solids',    label: 'Solid Pink' },
+  { key: 'solid-red',       src: coverSolidRed,        category: 'solids',    label: 'Solid Red' },
+  { key: 'solid-orange',    src: coverSolidOrange,     category: 'solids',    label: 'Solid Orange' },
+  { key: 'solid-yellow',    src: coverSolidYellow,     category: 'solids',    label: 'Solid Yellow' },
+  { key: 'solid-green',     src: coverSolidGreen,      category: 'solids',    label: 'Solid Green' },
+  { key: 'solid-gray',      src: coverSolidGray,       category: 'solids',    label: 'Solid Gray' },
 ];
+
+const COVER_PHOTOS    = PRESET_COVERS.filter(c => c.category === 'photos');
+const COVER_SOLIDS    = PRESET_COVERS.filter(c => c.category === 'solids');
+const COVER_GRADIENTS = PRESET_COVERS.filter(c => c.category === 'gradients');
+
+const COVER_SUBTABS = [
+  { key: 'solid',    label: 'Solid',    items: COVER_SOLIDS },
+  { key: 'gradient', label: 'Gradient', items: COVER_GRADIENTS },
+  { key: 'image',    label: 'Image',    items: COVER_PHOTOS },
+];
+
+function inferCoverCategory(key) {
+  if (key?.startsWith('solid-'))    return 'solid';
+  if (key?.startsWith('gradient-')) return 'gradient';
+  return 'image';
+}
 
 /* ── Cover Image Modal ───────────────────────────────────────── */
 
 function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurrent, onClose, isMvp }) {
-  const [tab, setTab] = useState('select');
+  const currentPresetKey = currentCover?.type === 'preset' ? currentCover.key : null;
+  const [tab, setTab] = useState(() => currentCover?.type === 'custom' ? 'custom' : inferCoverCategory(currentPresetKey));
   const [pendingCover, setPendingCover] = useState(null);
   const fileRef = React.useRef(null);
-  const showTabs = !isMvp;
 
   function handleFileSelect(e) {
     const file = e.target.files?.[0];
@@ -2311,50 +2660,34 @@ function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurren
     e.target.value = '';
   }
 
-  const currentPresetKey = currentCover?.type === 'preset' ? currentCover.key : null;
   const selectedKey = pendingCover || currentPresetKey;
   const hasChange = pendingCover && pendingCover !== currentPresetKey;
   const hasCustomCover = currentCover?.type === 'custom' && currentCover.cropped;
-  const activeTab = isMvp ? 'select' : tab;
+  const activeTab = isMvp && tab === 'custom' ? 'image' : tab;
+  const activeCategory = COVER_SUBTABS.find(t => t.key === activeTab);
 
   return (
     <div className="overlay overlay--top" onClick={onClose}>
       <div className="modal modal--md" onClick={e => e.stopPropagation()}>
         <div className="modal__title">Choose Cover Image</div>
-        {showTabs && (
-          <div className="avatar-picker__tabs">
+        <div className="avatar-picker__tabs">
+          {COVER_SUBTABS.map(t => (
             <button
-              className={`avatar-picker__tab${activeTab === 'select' ? ' avatar-picker__tab--active' : ''}`}
-              onClick={() => setTab('select')}
-            >Select</button>
+              key={t.key}
+              className={`avatar-picker__tab${activeTab === t.key ? ' avatar-picker__tab--active' : ''}`}
+              onClick={() => setTab(t.key)}
+            >{t.label}</button>
+          ))}
+          {!isMvp && (
             <button
               className={`avatar-picker__tab${activeTab === 'custom' ? ' avatar-picker__tab--active' : ''}`}
               onClick={() => setTab('custom')}
             >Custom</button>
-          </div>
-        )}
-        {activeTab === 'select' ? (
+          )}
+        </div>
+        {activeCategory ? (
           <>
-            <div className="cover-picker__grid">
-              {PRESET_COVERS.map(c => (
-                <button
-                  key={c.key}
-                  className={`cover-picker__item${selectedKey === c.key ? ' cover-picker__item--selected' : ''}`}
-                  onClick={() => setPendingCover(c.key)}
-                  title={c.key}
-                  style={{ backgroundColor: c.color }}
-                >
-                  {selectedKey === c.key && (
-                    <div className="cover-picker__check">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="12" fill="var(--color-accent, #4caf50)" />
-                        <path d="M7 12.5l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                  )}
-                </button>
-              ))}
-            </div>
+            <CoverPresetGrid items={activeCategory.items} selectedKey={selectedKey} onSelect={setPendingCover} />
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
               <button className="com-btn com-btn--quaternary com-btn--sm" onClick={onClose}>Cancel</button>
               <button
@@ -2402,7 +2735,7 @@ function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurren
 
 /* ── Friends tab ─────────────────────────────────────────────── */
 
-function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
+function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick }) {
   const [localView, setLocalView] = useState(dmeView);
   const [friendSearch, setFriendSearch] = useState('');
   useEffect(() => { setLocalView(dmeView); }, [dmeView]);
@@ -2439,7 +2772,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
                   <span className="pp-friend-row__meta">{f.fbName} · {f.rating}</span>
                 </div>
                 <button className="friend-btn friend-btn--add-friend">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 40 40" fill="currentColor"><path d="M4.44444 10.5556C4.44444 9.53417 4.64562 8.52278 5.03649 7.57914C5.42736 6.63549 6.00027 5.77808 6.7225 5.05584C7.44473 4.33361 8.30215 3.7607 9.24579 3.36983C10.1894 2.97896 11.2008 2.77779 12.2222 2.77779C13.2436 2.77779 14.255 2.97896 15.1986 3.36983C16.1423 3.7607 16.9997 4.33361 17.7219 5.05584C18.4442 5.77808 19.0171 6.63549 19.4079 7.57914C19.7988 8.52278 20 9.53417 20 10.5556C20 12.5983 19.1885 14.5574 17.7219 16.0553C16.9997 16.7775 16.1423 17.3504 15.1986 17.7413C14.255 18.1322 13.2436 18.3333 12.2222 18.3333C10.1795 18.3333 8.22049 17.5219 6.7225 16.0553C5.22451 14.5574 4.44444 12.5983 4.44444 10.5556ZM0 33.8889C0 27.1389 5.47222 21.6667 12.2222 21.6667C18.9722 21.6667 24.4444 27.1389 24.4444 33.8889V34.3056C24.4444 35.9167 23.1389 37.2222 21.5278 37.2222H2.91667C1.30555 37.2222 0 35.9167 0 34.3056V33.8889Z"/><path d="M30.9354 11.1824C31.9099 11.1825 32.7 11.9726 32.7 12.9471V18.0252H37.7781C38.7527 18.0252 39.5428 18.8153 39.5428 19.7899C39.5428 20.7644 38.7527 21.5545 37.7781 21.5545H32.7V26.6326C32.7 27.6071 31.9099 28.3973 30.9354 28.3973C29.9608 28.3973 29.1707 27.6072 29.1707 26.6326V21.5545H24.0926C23.1181 21.5545 22.3279 20.7644 22.3279 19.7899C22.3279 18.8153 23.1181 18.0252 24.0926 18.0252H29.1707V12.9471C29.1707 11.9726 29.9608 11.1824 30.9354 11.1824Z"/></svg>
                   Add
                 </button>
               </div>
@@ -2465,12 +2798,12 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
           <div className="pp-friends-list">
             {filteredFriends.map(f => (
               <div key={f.id} className="pp-friend-row">
-                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
+                <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable onClick={() => onPlayerClick?.(f.username, f.avatar)} />
                 <div className="pp-friend-row__info">
-                  <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
+                  <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
                 </div>
                 <div className="pp-friend-row__actions">
-                  <button className="com-btn com-btn--primary com-btn--sm">
+                  <button className="com-btn com-btn--quaternary com-btn--sm">
                     <IconCheckerStack />
                     Challenge
                   </button>
@@ -2493,9 +2826,9 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
               <div className="pp-friends-list__title">Friends</div>
               {MOCK_SEARCH_RESULTS.friends.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable onClick={() => onPlayerClick?.(f.username, f.avatar)} />
                   <div className="pp-friend-row__info">
-                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
+                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
                   </div>
                   <button className="friend-btn friend-btn--friends">Friends</button>
                 </div>
@@ -2507,12 +2840,12 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp }) {
               <div className="pp-friends-list__title">Players</div>
               {MOCK_SEARCH_RESULTS.players.map(f => (
                 <div key={f.id} className="pp-friend-row">
-                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable />
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable onClick={() => onPlayerClick?.(f.username, f.avatar)} />
                   <div className="pp-friend-row__info">
-                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }}>{f.username}</span>
+                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
                   </div>
                   <button className="friend-btn friend-btn--add-friend">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 40 40" fill="currentColor"><path d="M4.44444 10.5556C4.44444 9.53417 4.64562 8.52278 5.03649 7.57914C5.42736 6.63549 6.00027 5.77808 6.7225 5.05584C7.44473 4.33361 8.30215 3.7607 9.24579 3.36983C10.1894 2.97896 11.2008 2.77779 12.2222 2.77779C13.2436 2.77779 14.255 2.97896 15.1986 3.36983C16.1423 3.7607 16.9997 4.33361 17.7219 5.05584C18.4442 5.77808 19.0171 6.63549 19.4079 7.57914C19.7988 8.52278 20 9.53417 20 10.5556C20 12.5983 19.1885 14.5574 17.7219 16.0553C16.9997 16.7775 16.1423 17.3504 15.1986 17.7413C14.255 18.1322 13.2436 18.3333 12.2222 18.3333C10.1795 18.3333 8.22049 17.5219 6.7225 16.0553C5.22451 14.5574 4.44444 12.5983 4.44444 10.5556ZM0 33.8889C0 27.1389 5.47222 21.6667 12.2222 21.6667C18.9722 21.6667 24.4444 27.1389 24.4444 33.8889V34.3056C24.4444 35.9167 23.1389 37.2222 21.5278 37.2222H2.91667C1.30555 37.2222 0 35.9167 0 34.3056V33.8889Z"/><path d="M30.9354 11.1824C31.9099 11.1825 32.7 11.9726 32.7 12.9471V18.0252H37.7781C38.7527 18.0252 39.5428 18.8153 39.5428 19.7899C39.5428 20.7644 38.7527 21.5545 37.7781 21.5545H32.7V26.6326C32.7 27.6071 31.9099 28.3973 30.9354 28.3973C29.9608 28.3973 29.1707 27.6072 29.1707 26.6326V21.5545H24.0926C23.1181 21.5545 22.3279 20.7644 22.3279 19.7899C22.3279 18.8153 23.1181 18.0252 24.0926 18.0252H29.1707V12.9471C29.1707 11.9726 29.9608 11.1824 30.9354 11.1824Z"/></svg>
                     Add
                   </button>
                 </div>
@@ -2573,6 +2906,7 @@ export default function ProfilePage({ onNavigate }) {
   const friendStatus = useDMEState('profile.friendStatus', 'Add Friend');
   const fbDiscovery = useDMEState('profile.fbDiscovery', 'None');
   const onlineStatus = useDMEState('profile.onlineStatus', 'Online');
+  const settingsSection = useDMEState('settings.section', 'Connected Accounts');
 
   /* Local view override — for navigating between profiles via match history */
   const [localViewOverride, setLocalViewOverride] = useState(null);
@@ -2599,7 +2933,7 @@ export default function ProfilePage({ onNavigate }) {
   const [coverEdit, setCoverEdit] = useState(() => {
     if (profileData.coverPreset) {
       const preset = PRESET_COVERS.find(c => c.key === profileData.coverPreset);
-      if (preset) return { type: 'preset', key: preset.key, color: preset.color, cropped: null };
+      if (preset) return { type: 'preset', key: preset.key, cropped: preset.src };
     }
     if (profileData.coverImage) return { type: 'custom', original: profileData.coverImage, cropParams: null, cropped: profileData.coverImage };
     return null;
@@ -2611,6 +2945,7 @@ export default function ProfilePage({ onNavigate }) {
   const [prevDmeCelebration, setPrevDmeCelebration] = useState(dmeCelebration);
   const [shareLabel, setShareLabel] = useState('Share Profile');
   const [showPlayerCard, setShowPlayerCard] = useState(false);
+  const [playerCardTarget, setPlayerCardTarget] = useState(null);
   const [showChallengeModal, setShowChallengeModal] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
 
@@ -2676,15 +3011,20 @@ export default function ProfilePage({ onNavigate }) {
     });
   }
 
-  /* Navigate between profiles via match history username clicks */
-  function handleMatchPlayerClick(opponentName) {
-    if (opponentName === 'GammonKing42') {
-      setLocalViewOverride('Profile B');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (opponentName === MOCK_OWN.displayName) {
-      setLocalViewOverride('Own - Established');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+  /* Show player card modal on avatar/username click */
+  function handlePlayerCardClick(username, avatarKey) {
+    const friend = MOCK_FRIENDS.find(f => f.username === username);
+    const mockPlayer = {
+      displayName: username,
+      joinDate: 'Joined 2024',
+      bio: null,
+      stats: { wins: friend?.rating ? Math.round(friend.rating / 10) : 50, losses: 30, gamesPlayed: 80, currentStreak: 3, highestStreak: 10 },
+    };
+    setPlayerCardTarget({
+      player: mockPlayer,
+      avatarImg: getAvatarSrc(avatarKey || friend?.avatar),
+      isFriend: !!friend,
+    });
   }
 
   /* Persist profile data to git-tracked JSON */
@@ -2814,10 +3154,7 @@ export default function ProfilePage({ onNavigate }) {
 
       {/* ── Cover image ── */}
       <div className={`profile-cover${editMode ? ' profile-cover--editable' : ''}`}>
-        {coverEdit?.type === 'preset'
-          ? <div className="profile-cover__image" style={{ backgroundColor: coverEdit.color }} aria-hidden="true" />
-          : <img src={coverEdit?.cropped || coverDefault} alt="" className="profile-cover__image" aria-hidden="true" />
-        }
+        <img src={coverEdit?.cropped || coverDefault} alt="" className="profile-cover__image" aria-hidden="true" />
         {editMode && (
           <button className="edit-pencil edit-pencil--cover" onClick={handleCoverPencilClick}>
             <IconPencil size={32} />
@@ -2899,65 +3236,69 @@ export default function ProfilePage({ onNavigate }) {
                   </svg>
                 )}
               </div>
-              {editMode ? (
-                <div>
-                  <input
-                    type="text"
-                    className="profile-header__bio-input"
-                    value={editBio}
-                    onChange={e => setEditBio(e.target.value)}
-                    placeholder="Write something about yourself..."
-                    maxLength={60}
-                  />
-                  <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editBio.length}/60</span>
-                </div>
-              ) : (
-                bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
+              {!isMvp && (
+                editMode ? (
+                  <div>
+                    <input
+                      type="text"
+                      className="profile-header__bio-input"
+                      value={editBio}
+                      onChange={e => setEditBio(e.target.value)}
+                      placeholder="Write something about yourself..."
+                      maxLength={60}
+                    />
+                    <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editBio.length}/60</span>
+                  </div>
+                ) : (
+                  bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
+                )
               )}
-              <div className="toolbar">
-                <span className="toolbar__date">
-                  {shortenJoinDate(player.joinDate)}
-                </span>
-                <div className="toolbar__separator" />
-                {countryFlag && (
-                  <>
-                    <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
-                    <div className="toolbar__separator" />
-                  </>
-                )}
-                {showActions && !isMvp && (
-                  <>
-                    <button className="icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
-                      <IconBaseballCard size={22} />
-                    </button>
-                    {(SOCIALS.some(s => socialLinks[s.key]) || (editMode && SOCIALS.some(s => !socialLinks[s.key]))) && (
+              {!isMvp && (
+                <div className="toolbar">
+                  <span className="toolbar__date">
+                    {shortenJoinDate(player.joinDate)}
+                  </span>
+                  <div className="toolbar__separator" />
+                  {countryFlag && (
+                    <>
+                      <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
                       <div className="toolbar__separator" />
-                    )}
-                  </>
-                )}
-                {SOCIALS.filter(s => socialLinks[s.key]).map(s => (
-                  <a
-                    key={s.key}
-                    href={socialLinks[s.key]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-links__icon"
-                    title={s.label}
-                  >
-                    <s.Icon />
-                  </a>
-                ))}
-                {editMode && SOCIALS.filter(s => !socialLinks[s.key]).map(s => (
-                  <button
-                    key={s.key}
-                    className="social-links__icon social-links__icon--unlinked"
-                    onClick={() => setShowSocialModal(true)}
-                    title={s.label}
-                  >
-                    <s.Icon />
-                  </button>
-                ))}
-              </div>
+                    </>
+                  )}
+                  {showActions && (
+                    <>
+                      <button className="icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
+                        <IconBaseballCard size={22} />
+                      </button>
+                      {(SOCIALS.some(s => socialLinks[s.key]) || (editMode && SOCIALS.some(s => !socialLinks[s.key]))) && (
+                        <div className="toolbar__separator" />
+                      )}
+                    </>
+                  )}
+                  {SOCIALS.filter(s => socialLinks[s.key]).map(s => (
+                    <a
+                      key={s.key}
+                      href={socialLinks[s.key]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="social-links__icon"
+                      title={s.label}
+                    >
+                      <s.Icon />
+                    </a>
+                  ))}
+                  {editMode && SOCIALS.filter(s => !socialLinks[s.key]).map(s => (
+                    <button
+                      key={s.key}
+                      className="social-links__icon social-links__icon--unlinked"
+                      onClick={() => setShowSocialModal(true)}
+                      title={s.label}
+                    >
+                      <s.Icon />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="profile-header__stats-col">
               <GatedSection isGated={isGated}>
@@ -3017,7 +3358,7 @@ export default function ProfilePage({ onNavigate }) {
           {showOtherProfile && !isUnregistered && (
             <div className="profile-header__actions-row profile-header__actions-row--other">
               <FriendButton status={isGuest ? 'Add Friend' : friendStatus} username={player.displayName} avatarSrc={player.avatar} />
-              <button className="com-btn com-btn--primary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
+              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
                 <IconCheckerStack />
                 Challenge
               </button>
@@ -3029,7 +3370,7 @@ export default function ProfilePage({ onNavigate }) {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
                 Create Account to Friend Player
               </button>
-              <button className="com-btn com-btn--primary com-btn--sm" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+              <button className="com-btn com-btn--quaternary com-btn--sm" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
                 <IconCheckerStack />
                 Challenge
               </button>
@@ -3108,7 +3449,7 @@ export default function ProfilePage({ onNavigate }) {
               <MatchHistorySection
                 history={isProfileB ? MATCH_HISTORY_B : MATCH_HISTORY}
                 isEmpty={isNewPlayer}
-                onPlayerClick={handleMatchPlayerClick}
+                onPlayerClick={handlePlayerCardClick}
                 isMvp={isMvp}
               />
             </GatedSection>
@@ -3119,7 +3460,7 @@ export default function ProfilePage({ onNavigate }) {
       {activeTab === 'Friends' && (
         <div className="section section--flush surface-muted" data-section-id="pp-friends" style={{ paddingBottom: 64 }}>
           <div className="section__inner">
-            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} />
+            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} onPlayerClick={handlePlayerCardClick} />
           </div>
         </div>
       )}
@@ -3140,14 +3481,26 @@ export default function ProfilePage({ onNavigate }) {
         />
       )}
 
-      {/* ── Player card modal ── */}
+      {/* ── Player card modal (own profile) ── */}
       {showPlayerCard && (
         <PlayerCardModal
           player={{ ...player, displayName, bio, stats }}
-          coverImg={coverEdit?.type === 'preset' ? null : (coverEdit?.cropped || coverDefault)}
-          coverColor={coverEdit?.type === 'preset' ? coverEdit.color : null}
+          coverImg={coverEdit?.cropped || coverDefault}
+          coverColor={null}
           avatarImg={avatarEdit?.cropped || player.avatar}
           onClose={() => setShowPlayerCard(false)}
+        />
+      )}
+
+      {/* ── Player card modal (other player) ── */}
+      {playerCardTarget && (
+        <PlayerCardModal
+          player={playerCardTarget.player}
+          avatarImg={playerCardTarget.avatarImg}
+          onClose={() => setPlayerCardTarget(null)}
+          showQR={false}
+          showDownload={false}
+          showAddFriend={!playerCardTarget.isFriend}
         />
       )}
 
@@ -3207,7 +3560,7 @@ export default function ProfilePage({ onNavigate }) {
         <CoverModal
           currentCover={coverEdit}
           onSelectPreset={(preset) => {
-            const newCover = { type: 'preset', key: preset.key, color: preset.color, cropped: null };
+            const newCover = { type: 'preset', key: preset.key, cropped: preset.src };
             setCoverEdit(newCover);
             persistProfile({ coverEdit: newCover });
             setShowCoverModal(false);
@@ -3256,9 +3609,36 @@ export default function ProfilePage({ onNavigate }) {
             persistProfile({ displayName: name, bio: newBio, socialLinks: links, country: newCountry });
             setShowSettings(false);
           }}
-          onChangeAvatar={() => { setShowSettings(false); setShowAvatarModal(true); }}
-          onChangeCover={() => { setShowSettings(false); setShowCoverModal(true); }}
           onClose={() => setShowSettings(false)}
+          section={settingsSection}
+          embedded
+          isMvp={isMvp}
+          onAvatarPresetSelect={(preset) => {
+            const newAvatar = { type: 'preset', key: preset.key, cropped: preset.src };
+            setAvatarEdit(newAvatar);
+            persistProfile({ avatarEdit: newAvatar });
+          }}
+          onAvatarCustomUpload={(dataUrl) => {
+            setCropModal({ src: dataUrl, aspectRatio: 1, circular: true, target: 'avatar', initialCropParams: null });
+          }}
+          onAvatarEditCurrent={() => {
+            if (avatarEdit?.type === 'custom' && avatarEdit.original) {
+              setCropModal({ src: avatarEdit.original, aspectRatio: 1, circular: true, target: 'avatar', initialCropParams: avatarEdit.cropParams || null });
+            }
+          }}
+          onCoverPresetSelect={(preset) => {
+            const newCover = { type: 'preset', key: preset.key, cropped: preset.src };
+            setCoverEdit(newCover);
+            persistProfile({ coverEdit: newCover });
+          }}
+          onCoverCustomUpload={(dataUrl) => {
+            setCropModal({ src: dataUrl, aspectRatio: 16 / 6, circular: false, target: 'cover', initialCropParams: null });
+          }}
+          onCoverEditCurrent={() => {
+            if (coverEdit?.type === 'custom' && coverEdit.original) {
+              setCropModal({ src: coverEdit.original, aspectRatio: 16 / 6, circular: false, target: 'cover', initialCropParams: coverEdit.cropParams || null });
+            }
+          }}
         />
       )}
 

@@ -20,13 +20,13 @@
     "--prim-type-h4-weight": "900",
     "--prim-type-h4-ls": "0",
     "--prim-type-h4-lh": "13",
-    "--prim-type-body-lg-weight": "600",
+    "--prim-type-body-lg-weight": "300",
     "--prim-type-body-lg-ls": "0",
     "--prim-type-body-lg-lh": "17",
-    "--prim-type-body-md-weight": "200",
+    "--prim-type-body-md-weight": "300",
     "--prim-type-body-md-ls": "0",
     "--prim-type-body-md-lh": "12",
-    "--prim-type-body-sm-weight": "400",
+    "--prim-type-body-sm-weight": "300",
     "--prim-type-body-sm-ls": "0",
     "--prim-type-body-sm-lh": "16",
     "--prim-type-pill-lg": "DM Sans",
@@ -108,7 +108,7 @@
     "--prim-type-pill-md-size": "14",
     "--prim-type-pill-sm-size": "11",
     "--prim-type-ui-xl-size": "32",
-    "--prim-type-ui-lg-size": "16",
+    "--prim-type-ui-lg-size": "20",
     "--prim-type-ui-md-size": "14",
     "--prim-type-ui-sm-size": "12",
     "--prim-type-ui-xsm-size": "8",
@@ -197,14 +197,14 @@
     "--color-tag-fill": "--prim-mint-200",
     "--color-scrollbar-thumb": "--prim-mono-300",
     "--color-scrollbar-track": "--prim-mono-100",
-    "--com-btn-primary-bg": "--prim-mint-900",
+    "--com-btn-primary-bg": "--prim-mint-500",
     "--com-btn-primary-fg": "--prim-mono-white",
     "--com-btn-dark-bg": "--prim-mono-black",
     "--com-btn-dark-fg": "--prim-mono-white",
     "--com-btn-ghost-fg": "--prim-mono-white",
     "--com-btn-ghost-icon": "--prim-mono-100",
-    "--com-btn-outline-fg": "--prim-mono-white",
-    "--com-btn-outline-border": "--prim-mono-300",
+    "--com-btn-outline-fg": "--prim-mono-black",
+    "--com-btn-outline-border": "--prim-mono-350",
     "--com-btn-tertiary-bg": "--prim-mint-600",
     "--com-btn-tertiary-fg": "--prim-mint-000",
     "--com-btn-quaternary-bg": "--prim-mono-100",
@@ -344,14 +344,14 @@
     "--sf-inverse-tag-fill": "--prim-mint-100",
     "--sf-inverse-scrollbar-thumb": "--prim-mono-550",
     "--sf-inverse-scrollbar-track": "--prim-mono-750",
-    "--sf-inverse-btn-primary-bg": "--prim-fall-100",
+    "--sf-inverse-btn-primary-bg": "--prim-mint-500",
     "--sf-inverse-btn-primary-fg": "--prim-mono-white",
     "--sf-inverse-btn-dark-bg": "--prim-mint-999",
     "--sf-inverse-btn-dark-fg": "--prim-mono-white",
-    "--sf-inverse-btn-ghost-fg": "--prim-mono-300",
-    "--sf-inverse-btn-ghost-icon": "--prim-mono-350",
-    "--sf-inverse-btn-outline-fg": "--prim-mint-999",
-    "--sf-inverse-btn-outline-border": "--prim-mint-999",
+    "--sf-inverse-btn-ghost-fg": "--prim-mint-600",
+    "--sf-inverse-btn-ghost-icon": "--prim-mint-400",
+    "--sf-inverse-btn-outline-fg": "--prim-mono-600",
+    "--sf-inverse-btn-outline-border": "--prim-mono-250",
     "--sf-inverse-btn-tertiary-bg": "--prim-mint-100",
     "--sf-inverse-btn-tertiary-fg": "--prim-mint-700",
     "--sf-inverse-btn-quaternary-bg": "--prim-mono-white",
@@ -362,10 +362,10 @@
     "--sf-inverse-btn-destructive-ui-fg": "#f87171",
     "--sf-inverse-btn-destructive-ui-border": "#f87171",
     "--sf-inverse-btn-pill-bg": "transparent",
-    "--sf-inverse-btn-pill-fg": "--prim-mono-white",
-    "--sf-inverse-btn-pill-border": "--prim-mono-500",
-    "--sf-inverse-btn-pill-active-bg": "--prim-mono-white",
-    "--sf-inverse-btn-pill-active-fg": "--prim-mono-900",
+    "--sf-inverse-btn-pill-fg": "--prim-mint-500",
+    "--sf-inverse-btn-pill-border": "--prim-mint-100",
+    "--sf-inverse-btn-pill-active-bg": "--prim-mint-500",
+    "--sf-inverse-btn-pill-active-fg": "--prim-mint-000",
     "--sf-inverse-btn-pill-active-border": "--prim-mono-white",
     "--sf-inverse-btn-pill-disabled-bg": "transparent",
     "--sf-inverse-btn-pill-disabled-fg": "--prim-mono-600",
@@ -576,7 +576,10 @@
     "--sf-muted-sh1": "--prim-mint-000",
     "--sf-muted-sh2": "--prim-mint-000",
     "--sf-muted-sh3": "--prim-mint-000",
-    "--sf-muted-sh4": "--prim-mint-000"
+    "--sf-muted-sh4": "--prim-mint-000",
+    "--sf-inverse-body-hl": "--prim-fall-500",
+    "--sf-inverse-body-hl-lg": "--prim-fall-500",
+    "--sf-inverse-body-hl-sm": "--prim-fall-500"
   },
   "l1Colors": {
     "--prim-mono-white": "#ffffff",
@@ -778,12 +781,13 @@
     "tk-palettes": "accent",
     "tk-text": "accent",
     "tk-status": "accent",
-    "pp-settings": "muted",
-    "st-content": "muted",
+    "gl-settings": "inverse",
     "gl-modal": "inverse",
     "gl-activity-center": "inverse",
     "pp-header": "default",
-    "ix-right": "inverse"
+    "ix-right": "inverse",
+    "ix-left": "tertiary",
+    "ix-auth": "inverse"
   },
   "roleOverrides": {
     "pp-edit-btn": {
@@ -796,7 +800,7 @@
     },
     "lh-hero-cta": {
       "type": "button",
-      "variant": "primary"
+      "variant": "dark"
     },
     "lh-section-title": {
       "type": "font",
@@ -808,7 +812,7 @@
     },
     "pp-tab-label": {
       "type": "font",
-      "role": "body-lg"
+      "role": "ui-lg"
     },
     "_auto:pp-friends|button.com-btn.com-btn--primary.com-btn--sm:0": {
       "type": "button",
@@ -874,16 +878,6 @@
       "type": "button",
       "variant": "tertiary"
     },
-    "_auto:gl-activity-center|button:0": {
-      "type": "font",
-      "role": "ui-lg",
-      "page": "profile"
-    },
-    "_auto:gl-activity-center|button:1": {
-      "type": "font",
-      "role": "ui-lg",
-      "page": "profile"
-    },
     "_auto:pp-header|span:1": {
       "type": "font",
       "role": "body-sm",
@@ -901,58 +895,40 @@
     },
     "_auto:gl-dropdown|button.com-btn.com-btn--outline.com-btn--sm:0": {
       "type": "button",
-      "variant": "outline",
-      "page": "profile"
-    },
-    "_auto:gl-activity-center|button:2": {
-      "type": "font",
-      "role": "pill-md",
-      "page": "profile"
-    },
-    "_auto:gl-activity-center|button:3": {
-      "type": "font",
-      "role": "pill-md",
-      "page": "profile"
+      "variant": "outline"
     },
     "_auto:pp-header|div.stat-card__number:0": {
       "type": "font",
       "role": "ui-xl",
       "page": "profile"
     },
-    "_auto:pp-settings|div.settings-row__label:0": {
+    "_auto:gl-settings|div.settings-row__label:0": {
       "type": "font",
-      "role": "ui-md",
-      "page": "profile"
+      "role": "ui-md"
     },
-    "_auto:pp-settings|span.settings-tab.settings-tab--active:0": {
+    "_auto:gl-settings|span.settings-tab.settings-tab--active:0": {
       "type": "font",
-      "role": "ui-lg",
-      "page": "profile"
+      "role": "ui-lg"
     },
-    "_auto:pp-settings|span.settings-tab:1": {
+    "_auto:gl-settings|span.settings-tab:1": {
       "type": "font",
-      "role": "ui-lg",
-      "page": "profile"
+      "role": "ui-lg"
     },
-    "_auto:pp-settings|span.settings-tab:2": {
+    "_auto:gl-settings|span.settings-tab:2": {
       "type": "font",
-      "role": "ui-lg",
-      "page": "profile"
+      "role": "ui-lg"
     },
-    "_auto:pp-settings|button.com-btn.com-btn--primary.com-btn--sm:1": {
+    "_auto:gl-settings|button.com-btn.com-btn--primary.com-btn--sm:1": {
       "type": "button",
-      "variant": "primary",
-      "page": "profile"
+      "variant": "primary"
     },
-    "_auto:pp-settings|button.com-btn.com-btn--outline.com-btn--sm:0": {
+    "_auto:gl-settings|button.com-btn.com-btn--outline.com-btn--sm:0": {
       "type": "button",
-      "variant": "dark",
-      "page": "profile"
+      "variant": "outline"
     },
     "_auto:gl-dropdown|button.com-btn.com-btn--primary.com-btn--sm:1": {
       "type": "button",
-      "variant": "dark",
-      "page": "profile"
+      "variant": "dark"
     },
     "_auto:pp-header|span.toolbar__date:0": {
       "type": "font",
@@ -985,18 +961,11 @@
     },
     "_auto:gl-activity-center|button.com-btn.com-btn--outline.com-btn--xsm:3": {
       "type": "button",
-      "variant": "dark",
-      "page": "profile"
+      "variant": "outline"
     },
     "_auto:gl-activity-center|button.com-btn.com-btn--primary.com-btn--xsm:2": {
       "type": "button",
-      "variant": "primary",
-      "page": "learn-article"
-    },
-    "_auto:st-content|button.com-btn.com-btn--outline.com-btn--sm:0": {
-      "type": "button",
-      "variant": "dark",
-      "page": "settings"
+      "variant": "primary"
     },
     "_auto:pp-friends|button.com-btn.com-btn--outline.com-btn--sm:2": {
       "type": "button",
@@ -1008,50 +977,112 @@
       "variant": "dark",
       "page": "play"
     },
-    "_auto:pp-settings|span.settings-tab:0": {
+    "_auto:gl-settings|span.settings-tab:0": {
       "type": "font",
-      "role": "ui-lg",
-      "page": "profile"
+      "role": "ui-lg"
     },
     "_auto:gl-activity-center|button.com-btn.com-btn--pill.com-btn--pill-sm:1": {
       "type": "button",
-      "variant": "primary",
-      "page": "profile"
+      "variant": "pill"
     },
     "_auto:gl-activity-center|button.com-btn.com-btn--pill.com-btn--pill-sm:2": {
       "type": "button",
-      "variant": "primary",
-      "page": "profile"
+      "variant": "pill"
     },
     "_auto:gl-activity-center|button.com-btn.com-btn--pill.com-btn--pill-sm:3": {
       "type": "button",
-      "variant": "primary",
-      "page": "profile"
-    },
-    "_auto:gl-activity-center|button.com-btn.com-btn--pill.com-btn--pill-sm.is-active:0": {
-      "type": "button",
-      "variant": "dark",
-      "page": "profile"
+      "variant": "pill"
     },
     "_auto:gl-activity-center|button.com-btn.com-btn--pill.com-btn--pill-sm:0": {
       "type": "button",
-      "variant": "primary",
+      "variant": "pill"
+    },
+    "_auto:gl-activity-center|button.ac-tab:0": {
+      "type": "font",
+      "role": "ui-lg"
+    },
+    "_auto:gl-activity-center|button.ac-tab:1": {
+      "type": "font",
+      "role": "ui-lg"
+    },
+    "_auto:gl-settings|input.profile-header__name-input:1": {
+      "type": "font",
+      "role": "body-sm"
+    },
+    "_auto:gl-settings|input.profile-header__bio-input:1": {
+      "type": "font",
+      "role": "body-sm"
+    },
+    "_auto:button.com-btn.com-btn--quaternary.com-btn--sm:0": {
+      "type": "button",
+      "variant": "outline",
+      "page": "settings"
+    },
+    "_auto:gl-settings|button.com-btn.com-btn--quaternary.com-btn--sm:0": {
+      "type": "button",
+      "variant": "outline"
+    },
+    "_auto:gl-settings|div:0": {
+      "type": "font",
+      "role": "sh2"
+    },
+    "_auto:gl-settings|div:2": {
+      "type": "font",
+      "role": "ui-sm"
+    },
+    "_auto:gl-settings|span:2": {
+      "type": "font",
+      "role": "ui-sm"
+    },
+    "_auto:pp-history|button.com-btn.com-btn--quaternary.com-btn--sm:0": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
+    },
+    "_auto:gl-activity-center|button.com-btn.com-btn--quaternary.com-btn--sm:2": {
+      "type": "button",
+      "variant": "tertiary"
+    },
+    "_auto:pp-friends|button.com-btn.com-btn--quaternary.com-btn--sm:0": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
+    },
+    "_auto:ix-left|button.ix-auth-back:0": {
+      "type": "font",
+      "role": "h3",
+      "page": "index"
+    },
+    "_auto:ix-left|p.ix-auth-switch:2": {
+      "type": "font",
+      "role": "body-md",
+      "page": "index"
+    },
+    "_auto:ix-auth|p.ix-auth-switch:2": {
+      "type": "font",
+      "role": "body-hl",
+      "page": "index"
+    },
+    "_auto:pp-header|button.com-btn.com-btn--quaternary.com-btn--sm:1": {
+      "type": "button",
+      "variant": "tertiary",
       "page": "profile"
     }
   },
   "states": {
-    "auth.loggedIn": true,
+    "auth.loggedIn": false,
     "profile.celebration": false,
     "global.logoVariant": "White",
     "profile.tab": "Match History",
     "profile.mvp": true,
-    "settings.section": "Notification Preferences",
+    "settings.section": "Profile",
     "profile.viewType": "Own - Established",
     "profile.friendStatus": "Friends",
     "surfacePreview.surface": "Secondary",
     "buttonsSheet.surface": "Primary",
-    "play.modal": "None",
+    "play.modal": "Victory",
     "global.webHeader": false,
-    "learnArticle.launchMvp": true
+    "learnArticle.launchMvp": true,
+    "profile.fbDiscovery": "Matches Found"
   }
 }

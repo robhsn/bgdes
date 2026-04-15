@@ -29,3 +29,9 @@ No two instances of the same UI pattern should ever have divergent styling unles
 ## Modal / Popup Rule
 
 All modals and popups **must** use the global `.overlay` + `.modal` classes defined in `blocks.css`. On tablet and mobile (`max-width: 1024px`), every modal automatically becomes a bottom-sheet popup (slides up from the bottom, full-width, rounded top corners). Never create page-specific overlay/modal wrappers — always use the global system so behavior is consistent across all pages and breakpoints.
+
+## URL State Parameter Rule
+
+Every DME state defined in `STATE_DEFINITIONS` (src/context/dme-states.jsx) is automatically synced to URL query parameters via the helpers in `main.jsx`. When adding new states, no extra URL work is needed — the sync is driven by `STATE_DEFINITIONS`. Just ensure:
+1. The state has a `key` and `defaultValue` in STATE_DEFINITIONS
+2. Select states have an `options` array for validation

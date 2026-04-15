@@ -9,6 +9,8 @@
  *   count    — element count must equal `count`
  *   text     — element textContent must contain `text`
  *   visible  — element exists AND is not display:none / visibility:hidden
+ *   urlParam — URL search param `param` must equal `value`
+ *   urlAbsent— URL search param `param` must NOT be present
  */
 
 const TEST_DEFINITIONS = [
@@ -371,8 +373,98 @@ const TEST_DEFINITIONS = [
     page: 'settings',
     states: { 'auth.loggedIn': true, 'settings.section': 'Connected Accounts' },
     assertions: [
-      { selector: '[data-section-id="st-content"]', expect: 'present', label: 'Settings content section present' },
+      { selector: '[data-section-id="gl-settings"]', expect: 'present', label: 'Settings content section present' },
       { selector: '.st-title', expect: 'present', label: 'Settings title present' },
+    ],
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     URL STATE SYNC
+     ═══════════════════════════════════════════════════════════════ */
+
+  // ── Page param always present ────────────────────────────────
+  {
+    id: 'url-page-param',
+    name: 'URL always includes page param',
+    page: 'profile',
+    states: { 'profile.viewType': 'Own - Established', 'auth.loggedIn': true },
+    assertions: [
+      { expect: 'urlParam', param: 'page', value: 'profile', label: 'page=profile in URL' },
+    ],
+  },
+
+  // ── Non-default values included ──────────────────────────────
+  {
+    id: 'url-non-default-included',
+    name: 'Non-default select value appears in URL',
+    page: 'profile',
+    states: { 'profile.viewType': 'Guest - Match History', 'auth.loggedIn': true },
+    assertions: [
+      { expect: 'urlParam', param: 'profile.viewType', value: 'Guest - Match History', label: 'Non-default viewType in URL' },
+    ],
+  },
+
+  // ── Default values excluded ──────────────────────────────────
+  {
+    id: 'url-defaults-excluded',
+    name: 'Default state values omitted from URL',
+    page: 'profile',
+    states: { 'profile.viewType': 'Own - Established', 'profile.tab': 'Match History', 'auth.loggedIn': true },
+    assertions: [
+      { expect: 'urlAbsent', param: 'profile.viewType', label: 'Default viewType not in URL' },
+      { expect: 'urlAbsent', param: 'profile.tab', label: 'Default tab not in URL' },
+      { expect: 'urlAbsent', param: 'auth.loggedIn', label: 'Default loggedIn not in URL' },
+    ],
+  },
+
+  // ── Boolean non-default ──────────────────────────────────────
+  {
+    id: 'url-boolean-non-default',
+    name: 'Non-default boolean appears as string in URL',
+    page: 'profile',
+    states: { 'auth.loggedIn': false, 'profile.viewType': 'Own - Established' },
+    assertions: [
+      { expect: 'urlParam', param: 'auth.loggedIn', value: 'false', label: 'auth.loggedIn=false in URL' },
+    ],
+  },
+
+  // ── Cross-page exclusion (index) ─────────────────────────────
+  {
+    id: 'url-index-excludes-profile',
+    name: 'Index page excludes profile-scoped params',
+    page: 'index',
+    states: { 'index.view': 'Login', 'auth.loggedIn': false, 'profile.viewType': 'Guest - Match History', 'profile.tab': 'Friends' },
+    assertions: [
+      { expect: 'urlParam', param: 'page', value: 'index', label: 'page=index' },
+      { expect: 'urlParam', param: 'index.view', value: 'Login', label: 'index.view included' },
+      { expect: 'urlParam', param: 'auth.loggedIn', value: 'false', label: 'Global state included' },
+      { expect: 'urlAbsent', param: 'profile.viewType', label: 'profile.viewType excluded on index' },
+      { expect: 'urlAbsent', param: 'profile.tab', label: 'profile.tab excluded on index' },
+    ],
+  },
+
+  // ── Cross-page exclusion (play) ──────────────────────────────
+  {
+    id: 'url-play-excludes-profile',
+    name: 'Play page includes play states, excludes profile',
+    page: 'play',
+    states: { 'play.boardState': 'Bearing Off', 'play.modal': 'None', 'profile.tab': 'Friends' },
+    assertions: [
+      { expect: 'urlParam', param: 'play.boardState', value: 'Bearing Off', label: 'play.boardState in URL' },
+      { expect: 'urlAbsent', param: 'play.modal', label: 'Default play.modal excluded' },
+      { expect: 'urlAbsent', param: 'profile.tab', label: 'profile.tab excluded on play' },
+    ],
+  },
+
+  // ── Global states on any page ────────────────────────────────
+  {
+    id: 'url-global-any-page',
+    name: 'Global non-default states appear on any page',
+    page: 'settings',
+    states: { 'auth.loggedIn': false, 'settings.section': 'Profile' },
+    assertions: [
+      { expect: 'urlParam', param: 'auth.loggedIn', value: 'false', label: 'Global auth on settings page' },
+      { expect: 'urlAbsent', param: 'settings.section', label: 'Default settings.section excluded' },
     ],
   },
 ];

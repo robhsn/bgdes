@@ -3664,7 +3664,7 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
 .cover-picker__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .cover-picker__item {
@@ -3674,12 +3674,16 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
   border: 2px solid var(--color-border);
   cursor: pointer;
   padding: 0;
+  background-color: var(--color-border);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   transition: border-color 0.15s, transform 0.15s;
 }
 
 .cover-picker__item:hover {
   border-color: var(--color-border-subtle);
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .cover-picker__item--selected {
@@ -3689,8 +3693,8 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
 
 .cover-picker__check {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 6px;
+  right: 6px;
   z-index: 1;
 }
 

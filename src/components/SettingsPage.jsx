@@ -110,7 +110,7 @@ export default function SettingsPage({ onNavigate }) {
   const [coverEdit, setCoverEdit] = useState(() => {
     if (profileData.coverPreset) {
       const preset = PRESET_COVERS.find(c => c.key === profileData.coverPreset);
-      if (preset) return { type: 'preset', key: preset.key, color: preset.color, cropped: null };
+      if (preset) return { type: 'preset', key: preset.key, cropped: preset.src };
     }
     if (profileData.coverImage) return { type: 'custom', original: profileData.coverImage, cropParams: null, cropped: profileData.coverImage };
     return null;
@@ -173,7 +173,7 @@ export default function SettingsPage({ onNavigate }) {
     <div className="st-page">
       <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
 
-      <div className="st-body" data-section-id="st-content">
+      <div className="st-body" data-section-id="gl-settings">
         <div className="st-content">
           <h1 className="st-title">Settings</h1>
 
@@ -222,7 +222,7 @@ export default function SettingsPage({ onNavigate }) {
         <CoverModal
           currentCover={coverEdit}
           onSelectPreset={(preset) => {
-            const newCover = { type: 'preset', key: preset.key, color: preset.color, cropped: null };
+            const newCover = { type: 'preset', key: preset.key, cropped: preset.src };
             setCoverEdit(newCover);
             persistProfile({ coverEdit: newCover });
             setShowCoverModal(false);

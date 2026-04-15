@@ -50,11 +50,6 @@
   align-items: center;
   gap: 14px;
   padding: 16px 0;
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
-}
-
-.st-account-row:last-child {
-  border-bottom: none;
 }
 
 .st-account-icon {
@@ -223,11 +218,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 0;
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
-}
-
-.st-pref-row:last-child {
-  border-bottom: none;
 }
 
 .st-pref-info {
@@ -316,7 +306,6 @@
   justify-content: flex-end;
   padding: 16px 0 0;
   margin-top: 8px;
-  border-top: 1px solid var(--color-border, #e5e7eb);
 }
 
 /* ── Card wrapper (reusable within settings tabs) ────────────── */
