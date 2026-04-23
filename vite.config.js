@@ -99,10 +99,48 @@ function devSavePlugin() {
           res.end(data);
         } catch (e) { res.statusCode = 404; res.end(JSON.stringify({ error: e.message })); }
       });
+
+      /* ── Claude Code prompt relay ──────────────────────────────── */
+      const promptFile = resolve(process.cwd(), 'src/data/idp-prompt.json');
+      if (!existsSync(promptFile)) writeFileSync(promptFile, 'null', 'utf8');
+
+      server.middlewares.use('/__idp_prompt_send', (req, res) => {
+        if (req.method !== 'POST') { res.statusCode = 405; res.end(); return; }
+        let body = '';
+        req.on('data', c => { body += c; });
+        req.on('end', () => {
+          try {
+            const { prompt } = JSON.parse(body);
+            writeFileSync(promptFile, JSON.stringify({ prompt, ts: Date.now() }, null, 2), 'utf8');
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ ok: true }));
+          } catch (e) { res.statusCode = 500; res.end(JSON.stringify({ error: e.message })); }
+        });
+      });
+
+      server.middlewares.use('/__idp_prompt_read', (_req, res) => {
+        try {
+          const data = readFileSync(promptFile, 'utf8');
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(data);
+        } catch (e) { res.statusCode = 500; res.end(JSON.stringify({ error: e.message })); }
+      });
+
+      server.middlewares.use('/__idp_prompt_clear', (req, res) => {
+        if (req.method !== 'POST') { res.statusCode = 405; res.end(); return; }
+        try {
+          writeFileSync(promptFile, 'null', 'utf8');
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ ok: true }));
+        } catch (e) { res.statusCode = 500; res.end(JSON.stringify({ error: e.message })); }
+      });
     },
     /* Suppress HMR reload when persisted JSON files are saved */
     handleHotUpdate({ file }) {
-      if (file.endsWith('dme-defaults.json') || file.endsWith('profile-data.json') || file.endsWith('comments.json') || file.includes('audit-logs')) return [];
+      if (file.endsWith('dme-defaults.json') || file.endsWith('profile-data.json') || file.endsWith('comments.json') || file.includes('audit-logs') || file.endsWith('idp-prompt.json')) return [];
     },
   };
 }

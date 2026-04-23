@@ -478,6 +478,8 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
   const [canUndo, setCanUndo]     = useState(false);
   const [canRedo, setCanRedo]     = useState(false);
   const [isDirty, setIsDirty]     = useState(false);
+  const [promptText, setPromptText] = useState('');
+  const [promptSent, setPromptSent] = useState(false);
   const rafRef = useRef(null);
   const depthStackRef = useRef([]);
 
@@ -734,6 +736,36 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
     pushHistory({ roleOverrides: { ...roRef.current }, l2Edits: { ...l2EditsRef.current, [cssVar]: tok } });
   }, [pushHistory]);
 
+  /* ── Claude Code prompt ─────────────────────────────────── */
+  const handleSendPrompt = useCallback(async () => {
+    if (!promptText.trim() || !sel) return;
+    const surface = detectSurface(sel.target);
+    const context = [
+      `[IDP Role Targeter Context]`,
+      `Element: ${sel.label}`,
+      `Kind: ${sel.kind}`,
+      `${sel.kind === 'font' ? 'Font role' : 'Button variant'}: ${sel.value}`,
+      `Border: ${sel.borderValue}`,
+      `Surface: ${surface?.label || 'unknown'}`,
+      sel.roleId ? `Role ID: ${sel.roleId}` : '',
+      currentPageId ? `Page: ${currentPageId}` : '',
+      ``,
+      promptText.trim(),
+    ].filter(Boolean).join('\n');
+    try {
+      await fetch('/__idp_prompt_send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: context }),
+      });
+      setPromptSent(true);
+      setPromptText('');
+      setTimeout(() => setPromptSent(false), 2000);
+    } catch (e) {
+      console.error('Failed to send prompt:', e);
+    }
+  }, [promptText, sel, currentPageId]);
+
   /* ── Save ────────────────────────────────────────────────── */
   const handleSave = useCallback(async () => {
     try {
@@ -962,6 +994,41 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
                   <span style={HINT}>(auto-matched — may shift if page structure changes)</span>
                 </div>
               )}
+
+              {/* Claude Code prompt */}
+              <SectionHeader label="Claude Code Prompt" />
+              <div style={{ padding: '0 16px 8px' }}>
+                <textarea
+                  value={promptText}
+                  onChange={e => setPromptText(e.target.value)}
+                  onKeyDown={e => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); handleSendPrompt(); } }}
+                  placeholder="Describe changes to this element…"
+                  style={{
+                    width: '100%', minHeight: 54, background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.15)', borderRadius: 6,
+                    color: '#ddd', fontSize: 12, padding: '8px 10px', resize: 'vertical',
+                    fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: 4, gap: 8 }}>
+                  {promptSent && (
+                    <span style={{ color: '#58ddff', fontSize: 11, fontWeight: 600 }}>
+                      Sent!
+                    </span>
+                  )}
+                  <button
+                    onClick={handleSendPrompt}
+                    disabled={!promptText.trim()}
+                    style={{
+                      ...BTN_BASE,
+                      background: promptText.trim() ? '#58ddff' : 'rgba(255,255,255,0.06)',
+                      color: promptText.trim() ? '#111' : '#444',
+                    }}
+                  >
+                    Send ⌘↩
+                  </button>
+                </div>
+              </div>
 
               {/* Surface colors */}
               {Object.keys(tokenGroups).length > 0 && (
