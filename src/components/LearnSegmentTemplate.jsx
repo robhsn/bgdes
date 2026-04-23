@@ -882,7 +882,6 @@ function TocItem({ label, sectionId, active = false }) {
 function TableOfContents() {
   const tocRef = useRef(null);
   const [activeSection, setActiveSection] = useState(-1);
-  const tocExpanded = useDMEState('learnArticle.tocExpanded', false);
   const STICKY_TOP = 94;
 
   useLayoutEffect(() => {
@@ -895,12 +894,23 @@ function TableOfContents() {
       ? Math.round(contentSection.getBoundingClientRect().top + window.scrollY) + 64
       : Math.round(el.getBoundingClientRect().top + window.scrollY);
 
+    // Position 60px to the left of the content area
+    const updateLeft = () => {
+      const contentEl = document.querySelector('.section.surface-muted .article-content') || document.querySelector('.article-content');
+      if (contentEl) {
+        const contentLeft = contentEl.getBoundingClientRect().left;
+        el.style.left = Math.round(contentLeft - 60 - el.offsetWidth) + 'px';
+      }
+    };
+
     // Apply fixed positioning before first paint — no jump, no state
     el.style.position = 'fixed';
     el.style.top = Math.max(STICKY_TOP, initialTop - window.scrollY) + 'px';
+    updateLeft();
 
     const handleScroll = () => {
       el.style.top = Math.max(STICKY_TOP, initialTop - window.scrollY) + 'px';
+      updateLeft();
 
       // If scrolled to the bottom, always highlight the last section
       const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 80;
@@ -915,14 +925,15 @@ function TableOfContents() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', updateLeft);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateLeft);
+    };
   }, []);
 
   return (
-    <div
-      ref={tocRef}
-      className={`toc${tocExpanded ? ' toc--expanded' : ''}`}
-    >
+    <div ref={tocRef} className="toc">
       <span className="toc__heading" data-role-id="ls-toc-heading">Table of Contents</span>
       {TOC_ITEMS.map((item, i) => (
         <TocItem
