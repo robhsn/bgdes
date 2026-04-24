@@ -22,7 +22,7 @@ const SIZE_MAP = {
   md: 40,
   lg: 48,
   xl: 64,
-  profile: 192,
+  profile: 150,
 };
 
 const INDICATOR_SIZE = {

@@ -1,10 +1,8 @@
 {
-  "displayName": "ThisIsALongName",
+  "displayName": "ThisIsALongUserNamee",
   "bio": "This is a really long profile intro so.. yup really long hmm",
   "avatar": null,
-  "avatarPreset": "Mummy",
-  "coverImage": null,
-  "coverPreset": "gradient-green",
+  "avatarPreset": "Knight",
   "socialLinks": {
     "tiktok": "https://tiktok.com/@notrealtoys",
     "twitch": "https://twitch.tv/notrealtoys",
@@ -13,5 +11,5 @@
     "x": "https://x.com/notrealtoys",
     "bluesky": "https://bsky.app/profile/notrealtoys"
   },
-  "country": "america"
+  "country": "afghanistan"
 }

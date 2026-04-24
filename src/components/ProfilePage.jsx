@@ -4,7 +4,6 @@ import { SiteHeader, SiteFooter } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import avatarImg from '../imgs/avatar-dink.png';
 import boardSample from '../imgs/board-sample.png';
-import coverDefault from '../imgs/cover-image.jpg';
 import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
 import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
@@ -1416,8 +1415,8 @@ function IconEyeClosed({ size = 18 }) {
 /* ── Settings Content (shared between panel & standalone page) ─ */
 
 export function SettingsContent({
-  displayName, bio, socialLinks, country, avatarEdit, coverEdit,
-  onSaveAll, onChangeAvatar, onChangeCover, onCancel,
+  displayName, bio, socialLinks, country, avatarEdit,
+  onSaveAll, onChangeAvatar, onCancel,
   section,
   bodyClassName, footerClassName,
 }) {
@@ -1548,37 +1547,35 @@ export function SettingsContent({
 
             {/* Country */}
             <div className="settings-row" style={{ position: 'relative' }}>
-              <div className="settings-row__label">Country</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1 }}>
-                <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
-                  {countryFlag ? (
-                    <>
-                      <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
-                      <span>{countryFlag.label}</span>
-                    </>
-                  ) : (
-                    <span style={{ color: 'var(--color-muted)' }}>Select country...</span>
-                  )}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </button>
+              <div className="settings-row__label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                Country
                 {countryFlag && (
                   <button
                     onClick={() => setDraftCountry(null)}
                     style={{
-                      background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                      color: 'var(--color-muted)', display: 'flex', alignItems: 'center',
-                      flexShrink: 0, borderRadius: 4,
+                      background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                      color: 'var(--prim-mono-600)', fontFamily: 'var(--font-meta)',
+                      fontSize: 10, fontWeight: 700, letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
                     }}
-                    title="Clear country"
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                      <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
+                    Clear
                   </button>
                 )}
               </div>
+              <button className="settings-row__picker-btn" onClick={() => setShowCountryDropdown(v => !v)}>
+                {countryFlag ? (
+                  <>
+                    <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" />
+                    <span>{countryFlag.label}</span>
+                  </>
+                ) : (
+                  <span style={{ color: 'var(--color-muted)' }}>Select country...</span>
+                )}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
               {showCountryDropdown && (
                 <CountryFlagDropdown
                   currentCountry={draftCountry}
@@ -1588,44 +1585,22 @@ export function SettingsContent({
               )}
             </div>
 
-            {/* Avatar & Cover Image */}
-            <div className="settings-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'stretch' }}>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div className="settings-row__label">Avatar</div>
-                <button className="settings-row__picker-btn" style={{ flex: 1 }} onClick={() => onChangeAvatar?.()}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
-                    border: '2px solid var(--color-border)', flexShrink: 0,
-                    background: 'var(--color-avatar-bg)',
-                  }}>
-                    {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-                  </div>
-                  <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </button>
-              </div>
-              {onChangeCover && (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div className="settings-row__label">Cover Image</div>
-                  <button className="settings-row__picker-btn" style={{ flex: 1 }} onClick={() => onChangeCover()}>
-                    <div style={{
-                      width: 64, height: 24, borderRadius: 4, overflow: 'hidden',
-                      border: '2px solid var(--color-border)', flexShrink: 0,
-                    }}>
-                      {coverEdit?.cropped
-                        ? <img src={coverEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        : <div style={{ width: '100%', height: '100%', background: 'var(--color-border)' }} />
-                      }
-                    </div>
-                    <span>{coverEdit?.type === 'preset' ? (PRESET_COVERS.find(c => c.key === coverEdit.key)?.label || coverEdit.key) : coverEdit?.type === 'custom' ? 'Custom cover' : 'Default'}</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                      <path d="m9 18 6-6-6-6" />
-                    </svg>
-                  </button>
+            {/* Avatar */}
+            <div className="settings-row">
+              <div className="settings-row__label">Avatar</div>
+              <button className="settings-row__picker-btn" onClick={() => onChangeAvatar?.()}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
+                  border: '2px solid var(--color-border)', flexShrink: 0,
+                  background: 'var(--color-avatar-bg)',
+                }}>
+                  {avatarEdit?.cropped && <img src={avatarEdit.cropped} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                 </div>
-              )}
+                <span>{avatarEdit?.type === 'preset' ? avatarEdit.key : avatarEdit?.type === 'custom' ? 'Custom avatar' : 'Default'}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
             </div>
 
             {/* Social Links */}
@@ -1903,13 +1878,13 @@ export function SettingsContent({
 /* ── Settings Panel (thin wrapper around SettingsContent) ────── */
 
 function SettingsPanel({
-  displayName, bio, socialLinks, country, avatarEdit, coverEdit,
-  onSaveAll, onChangeAvatar, onChangeCover, onClose,
+  displayName, bio, socialLinks, country, avatarEdit,
+  onSaveAll, onChangeAvatar, onClose,
   section, embedded,
-  /* embedded-only callbacks for inline avatar/cover picker */
-  onAvatarPresetSelect, onCoverPresetSelect,
-  onAvatarCustomUpload, onCoverCustomUpload,
-  onAvatarEditCurrent, onCoverEditCurrent,
+  /* embedded-only callbacks for inline avatar picker */
+  onAvatarPresetSelect,
+  onAvatarCustomUpload,
+  onAvatarEditCurrent,
   isMvp,
 }) {
   const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 801px)').matches);
@@ -1920,7 +1895,7 @@ function SettingsPanel({
     return () => mql.removeEventListener('change', handler);
   }, []);
 
-  const [subPage, setSubPage] = useState(null); // null | 'avatar' | 'cover'
+  const [subPage, setSubPage] = useState(null); // null | 'avatar'
 
   const panelClass = isDesktop ? 'side-panel side-panel--settings' : 'bottom-sheet';
   const headerClass = isDesktop ? 'side-panel__header' : 'popup-panel__header';
@@ -1930,7 +1905,6 @@ function SettingsPanel({
   const footerClass = isDesktop ? 'side-panel__footer' : 'popup-panel__footer';
 
   const handleChangeAvatar = embedded ? () => setSubPage('avatar') : onChangeAvatar;
-  const handleChangeCover = embedded ? () => setSubPage('cover') : onChangeCover;
 
   return (
     <div className="overlay overlay--top" onClick={onClose}>
@@ -1953,7 +1927,7 @@ function SettingsPanel({
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="m15 18-6-6 6-6" />
               </svg>
-              {subPage === 'avatar' ? 'Choose Avatar' : 'Choose Cover Image'}
+              Choose Avatar
             </button>
           ) : (
             !embedded && <h2 className={titleClass}>Settings</h2>
@@ -1981,10 +1955,8 @@ function SettingsPanel({
                   socialLinks={socialLinks}
                   country={country}
                   avatarEdit={avatarEdit}
-                  coverEdit={coverEdit}
                   onSaveAll={onSaveAll}
                   onChangeAvatar={handleChangeAvatar}
-                  onChangeCover={handleChangeCover}
                   onCancel={onClose}
                   section={section}
                   bodyClassName={bodyClass}
@@ -1992,7 +1964,7 @@ function SettingsPanel({
                 />
               </div>
 
-              {/* Panel 2: Avatar or Cover picker */}
+              {/* Panel 2: Avatar picker */}
               <div style={{ width: '50%', flexShrink: 0, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
                 {subPage === 'avatar' ? (
                   <SettingsPanelAvatarPicker
@@ -2000,17 +1972,6 @@ function SettingsPanel({
                     onSelectPreset={(preset) => { onAvatarPresetSelect?.(preset); setSubPage(null); }}
                     onCustomUpload={(dataUrl) => { onAvatarCustomUpload?.(dataUrl); setSubPage(null); }}
                     onEditCurrent={() => { onAvatarEditCurrent?.(); setSubPage(null); }}
-                    onBack={() => setSubPage(null)}
-                    isMvp={isMvp}
-                    bodyClassName={bodyClass}
-                    footerClassName={footerClass}
-                  />
-                ) : subPage === 'cover' ? (
-                  <SettingsPanelCoverPicker
-                    currentCover={coverEdit}
-                    onSelectPreset={(preset) => { onCoverPresetSelect?.(preset); setSubPage(null); }}
-                    onCustomUpload={(dataUrl) => { onCoverCustomUpload?.(dataUrl); setSubPage(null); }}
-                    onEditCurrent={() => { onCoverEditCurrent?.(); setSubPage(null); }}
                     onBack={() => setSubPage(null)}
                     isMvp={isMvp}
                     bodyClassName={bodyClass}
@@ -2027,10 +1988,8 @@ function SettingsPanel({
             socialLinks={socialLinks}
             country={country}
             avatarEdit={avatarEdit}
-            coverEdit={coverEdit}
             onSaveAll={onSaveAll}
             onChangeAvatar={handleChangeAvatar}
-            onChangeCover={handleChangeCover}
             onCancel={onClose}
             section={section}
             bodyClassName={bodyClass}
@@ -2915,6 +2874,9 @@ export default function ProfilePage({ onNavigate }) {
 
   /* Edit mode state */
   const [editMode, setEditMode] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
+  const [editExiting, setEditExiting] = useState(false);
+  const [editJustExited, setEditJustExited] = useState(false);
   const [editName, setEditName] = useState('');
   const [editBio, setEditBio] = useState('');
   const [savedName, setSavedName] = useState(profileData.displayName);
@@ -2930,14 +2892,6 @@ export default function ProfilePage({ onNavigate }) {
     return null;
   })();
   const [avatarEdit, setAvatarEdit] = useState(initAvatar);
-  const [coverEdit, setCoverEdit] = useState(() => {
-    if (profileData.coverPreset) {
-      const preset = PRESET_COVERS.find(c => c.key === profileData.coverPreset);
-      if (preset) return { type: 'preset', key: preset.key, cropped: preset.src };
-    }
-    if (profileData.coverImage) return { type: 'custom', original: profileData.coverImage, cropParams: null, cropped: profileData.coverImage };
-    return null;
-  });
   const [cropModal, setCropModal] = useState(null); // { src, aspectRatio, circular, target }
 
   /* Local celebration state — shown on toggle or manual trigger */
@@ -2949,9 +2903,8 @@ export default function ProfilePage({ onNavigate }) {
   const [showChallengeModal, setShowChallengeModal] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
 
-  /* Avatar / cover modal state */
+  /* Avatar modal state */
   const [showAvatarModal, setShowAvatarModal] = useState(false);
-  const [showCoverModal, setShowCoverModal] = useState(false);
 
   /* Social links state */
   const [socialLinks, setSocialLinks] = useState(profileData.socialLinks || {});
@@ -3030,14 +2983,11 @@ export default function ProfilePage({ onNavigate }) {
   /* Persist profile data to git-tracked JSON */
   function persistProfile(overrides = {}) {
     const currentAvatar = overrides.avatarEdit !== undefined ? overrides.avatarEdit : avatarEdit;
-    const currentCover = overrides.coverEdit !== undefined ? overrides.coverEdit : coverEdit;
     const payload = {
       displayName: overrides.displayName !== undefined ? overrides.displayName : savedName,
       bio: overrides.bio !== undefined ? overrides.bio : savedBio,
       avatar: currentAvatar?.type === 'custom' ? currentAvatar.cropped : null,
       avatarPreset: currentAvatar?.type === 'preset' ? currentAvatar.key : null,
-      coverImage: currentCover?.type === 'custom' ? currentCover.cropped : null,
-      coverPreset: currentCover?.type === 'preset' ? currentCover.key : null,
       socialLinks: overrides.socialLinks !== undefined ? overrides.socialLinks : socialLinks,
       country: overrides.country !== undefined ? overrides.country : country,
     };
@@ -3055,24 +3005,38 @@ export default function ProfilePage({ onNavigate }) {
     setEditName(displayName);
     setEditBio(bio || '');
     setEditMode(true);
+    requestAnimationFrame(() => setEditVisible(true));
+  }
+
+  function exitEditMode(cb) {
+    setEditExiting(true);
+    setEditVisible(false);
+    setTimeout(() => {
+      setEditMode(false);
+      setEditExiting(false);
+      setEditJustExited(true);
+      if (cb) cb();
+      setTimeout(() => setEditJustExited(false), 300);
+    }, 250);
   }
 
   function cancelEdit() {
-    setEditMode(false);
-    setEditName('');
-    setEditBio('');
+    exitEditMode(() => {
+      setEditName('');
+      setEditBio('');
+    });
   }
 
   function saveEdit() {
     setSavedName(editName);
     setSavedBio(editBio);
-    setEditMode(false);
-    persistProfile({ displayName: editName, bio: editBio });
+    exitEditMode(() => {
+      persistProfile({ displayName: editName, bio: editBio });
+    });
   }
 
   /* File input refs */
   const avatarInputRef = React.useRef(null);
-  const coverInputRef = React.useRef(null);
 
   function handleAvatarFileSelect(e) {
     const file = e.target.files?.[0];
@@ -3091,29 +3055,8 @@ export default function ProfilePage({ onNavigate }) {
     e.target.value = '';
   }
 
-  function handleCoverFileSelect(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setCropModal({
-        src: reader.result,
-        aspectRatio: 16 / 6,
-        circular: false,
-        target: 'cover',
-        initialCropParams: null,
-      });
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  }
-
   function handleAvatarPencilClick() {
     setShowAvatarModal(true);
-  }
-
-  function handleCoverPencilClick() {
-    setShowCoverModal(true);
   }
 
   function handleCropSave(croppedDataUrl, cropParams) {
@@ -3121,10 +3064,6 @@ export default function ProfilePage({ onNavigate }) {
       const newAvatar = { type: 'custom', original: cropModal.src, cropParams, cropped: croppedDataUrl };
       setAvatarEdit(newAvatar);
       persistProfile({ avatarEdit: newAvatar });
-    } else {
-      const newCover = { type: 'custom', original: cropModal.src, cropParams, cropped: croppedDataUrl };
-      setCoverEdit(newCover);
-      persistProfile({ coverEdit: newCover });
     }
     setCropModal(null);
   }
@@ -3147,235 +3086,188 @@ export default function ProfilePage({ onNavigate }) {
 
       {/* ── Hidden file inputs ── */}
       <input ref={avatarInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarFileSelect} />
-      <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverFileSelect} />
 
-      {/* ── Profile header section (cover + info) ── */}
+      {/* ── Profile header section ── */}
       <div data-section-id="pp-header">
-
-      {/* ── Cover image ── */}
-      <div className={`profile-cover${editMode ? ' profile-cover--editable' : ''}`}>
-        <img src={coverEdit?.cropped || coverDefault} alt="" className="profile-cover__image" aria-hidden="true" />
-        {editMode && (
-          <button className="edit-pencil edit-pencil--cover" onClick={handleCoverPencilClick}>
-            <IconPencil size={32} />
-          </button>
-        )}
-        {/* Cancel / Save buttons moved to action buttons row below */}
-        {showOtherProfile && !isUnregistered && (
-          <div className="pp-cover-actions">
-            <button className="pp-cover-actions__btn" title="Add Friend">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
-              </svg>
-            </button>
-            <button className="pp-cover-actions__btn" onClick={() => setShowChallengeModal(true)} title="Challenge">
-              <IconCheckerStack size={18} />
-            </button>
-          </div>
-        )}
-      </div>
 
       {/* ── Profile header ── */}
       <div className="profile-header">
         <div className="profile-header__inner">
-          <div className="profile-header__avatar-row">
-            <div className="profile-header__avatar-wrap">
-              <Avatar
-                src={avatarEdit?.cropped || player.avatar}
-                alt={displayName}
-                size="profile"
-                online={onlineStatus === 'Online'}
-                fallbackInitial={displayName[0].toUpperCase()}
-                className={editMode ? 'avatar--editable' : ''}
-              />
-              {editMode && (
-                <button className="edit-pencil edit-pencil--avatar" onClick={handleAvatarPencilClick}>
-                  <IconPencil size={32} />
-                </button>
+          <div className="profile-header__avatar-wrap">
+            <Avatar
+              src={avatarEdit?.cropped || player.avatar}
+              alt={displayName}
+              size="profile"
+              online={onlineStatus === 'Online'}
+              fallbackInitial={displayName[0].toUpperCase()}
+              className={editMode ? 'avatar--editable' : ''}
+            />
+            {editMode && (
+              <button className="edit-pencil edit-pencil--avatar" onClick={handleAvatarPencilClick}>
+                <IconPencil size={32} />
+              </button>
+            )}
+          </div>
+          <div className={`profile-header__bio-col${editMode ? ' profile-header__bio-col--editing' : ''}${editVisible ? ' profile-header__bio-col--visible' : ''}${editExiting ? ' profile-header__bio-col--exiting' : ''}`}>
+            <div className="profile-header__name-row">
+              {editMode ? (
+                <div className="profile-header__edit-name-wrap">
+                  <input
+                    type="text"
+                    className="profile-header__name-input"
+                    value={editName}
+                    onChange={e => setEditName(e.target.value)}
+                    placeholder="Username"
+                    maxLength={20}
+                  />
+                  <div className="profile-header__name-underline" />
+                  <span className="profile-header__name-count">{editName.length}/20</span>
+                </div>
+              ) : (
+                <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
+              )}
+              {isFavorited && (
+                <svg width="20" height="20" viewBox="0 0 40 40" fill="var(--color-star)" style={{ flexShrink: 0 }}>
+                  <path d="M21.5625 1.84553C21.2644 1.26389 20.661 0.893097 20.0066 0.893097C19.3523 0.893097 18.7488 1.26389 18.4508 1.84553L13.0997 12.3295L1.47422 14.1762C0.827144 14.278 0.28913 14.7361 0.0855567 15.3613C-0.118016 15.9866 0.0492043 16.67 0.507244 17.1353L8.82466 25.46L6.9925 37.0855C6.89071 37.7326 7.15972 38.3869 7.69046 38.7722C8.22121 39.1576 8.91917 39.2157 9.50808 38.9176L20.0066 33.5811L30.4979 38.9176C31.0796 39.2157 31.7848 39.1576 32.3155 38.7722C32.8463 38.3869 33.1153 37.7398 33.0135 37.0855L31.1741 25.46L39.4915 17.1353C39.9568 16.67 40.1168 15.9866 39.9132 15.3613C39.7096 14.7361 39.1789 14.278 38.5245 14.1762L26.9063 12.3295L21.5625 1.84553Z" />
+                </svg>
               )}
             </div>
-            {/* Trophy case — right side of avatar row (hidden in MVP) */}
-            {!isMvp && !isNewPlayer && !isUnregistered && trophyCase.length > 0 && (
-              <div className="trophy-case--inline">
-                {trophyCase.map((s) => (
-                  <div key={`${s.category}-${s.threshold}`} className="trophy-item">
-                    <div className="trophy-item__image-wrap">
-                      <img src={badgePlaceholder} alt="" className="trophy-item__image" />
-                      <div className="trophy-item__shine" />
-                    </div>
-                    <span className="trophy-item__label">
-                      {s.threshold} {s.category === 'win' ? 'Wins' : s.category === 'streak' ? 'Streak' : 'Games'}
-                    </span>
-                  </div>
+            {!isMvp && (
+              editMode ? (
+                <div>
+                  <input
+                    type="text"
+                    className="profile-header__bio-input"
+                    value={editBio}
+                    onChange={e => setEditBio(e.target.value)}
+                    placeholder="Write something about yourself..."
+                    maxLength={60}
+                  />
+                  <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editBio.length}/60</span>
+                </div>
+              ) : (
+                bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
+              )
+            )}
+            {!isMvp && (
+              <div className="toolbar">
+                <span className="toolbar__date">
+                  {shortenJoinDate(player.joinDate)}
+                </span>
+                <div className="toolbar__separator" />
+                {countryFlag && (
+                  <>
+                    <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
+                    <div className="toolbar__separator" />
+                  </>
+                )}
+                {showActions && (
+                  <>
+                    <button className="icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
+                      <IconBaseballCard size={22} />
+                    </button>
+                    {(SOCIALS.some(s => socialLinks[s.key]) || (editMode && SOCIALS.some(s => !socialLinks[s.key]))) && (
+                      <div className="toolbar__separator" />
+                    )}
+                  </>
+                )}
+                {SOCIALS.filter(s => socialLinks[s.key]).map(s => (
+                  <a
+                    key={s.key}
+                    href={socialLinks[s.key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-links__icon"
+                    title={s.label}
+                  >
+                    <s.Icon />
+                  </a>
+                ))}
+                {editMode && SOCIALS.filter(s => !socialLinks[s.key]).map(s => (
+                  <button
+                    key={s.key}
+                    className="social-links__icon social-links__icon--unlinked"
+                    onClick={() => setShowSocialModal(true)}
+                    title={s.label}
+                  >
+                    <s.Icon />
+                  </button>
                 ))}
               </div>
             )}
-          </div>
-
-          <div className="profile-header__body-row">
-            <div className="profile-header__bio-col">
-              <div className="profile-header__name-row">
-                {editMode ? (
-                  <div>
-                    <input
-                      type="text"
-                      className="profile-header__bio-input"
-                      value={editName}
-                      onChange={e => setEditName(e.target.value)}
-                      placeholder="Username"
-                      maxLength={20}
-                    />
-                    <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editName.length}/20</span>
-                  </div>
-                ) : (
-                  <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
-                )}
-                {isFavorited && (
-                  <svg width="20" height="20" viewBox="0 0 40 40" fill="var(--color-star)" style={{ flexShrink: 0 }}>
-                    <path d="M21.5625 1.84553C21.2644 1.26389 20.661 0.893097 20.0066 0.893097C19.3523 0.893097 18.7488 1.26389 18.4508 1.84553L13.0997 12.3295L1.47422 14.1762C0.827144 14.278 0.28913 14.7361 0.0855567 15.3613C-0.118016 15.9866 0.0492043 16.67 0.507244 17.1353L8.82466 25.46L6.9925 37.0855C6.89071 37.7326 7.15972 38.3869 7.69046 38.7722C8.22121 39.1576 8.91917 39.2157 9.50808 38.9176L20.0066 33.5811L30.4979 38.9176C31.0796 39.2157 31.7848 39.1576 32.3155 38.7722C32.8463 38.3869 33.1153 37.7398 33.0135 37.0855L31.1741 25.46L39.4915 17.1353C39.9568 16.67 40.1168 15.9866 39.9132 15.3613C39.7096 14.7361 39.1789 14.278 38.5245 14.1762L26.9063 12.3295L21.5625 1.84553Z" />
-                  </svg>
-                )}
-              </div>
-              {!isMvp && (
-                editMode ? (
-                  <div>
-                    <input
-                      type="text"
-                      className="profile-header__bio-input"
-                      value={editBio}
-                      onChange={e => setEditBio(e.target.value)}
-                      placeholder="Write something about yourself..."
-                      maxLength={60}
-                    />
-                    <span style={{ color: 'var(--color-muted)', fontSize: 12 }}>{editBio.length}/60</span>
-                  </div>
-                ) : (
-                  bio && <p className="profile-header__bio" style={{ margin: 0 }}>{bio}</p>
-                )
-              )}
-              {!isMvp && (
-                <div className="toolbar">
-                  <span className="toolbar__date">
-                    {shortenJoinDate(player.joinDate)}
-                  </span>
-                  <div className="toolbar__separator" />
-                  {countryFlag && (
-                    <>
-                      <img src={countryFlag.src} alt={countryFlag.label} className="flag-picker__inline" title={countryFlag.label} />
-                      <div className="toolbar__separator" />
-                    </>
-                  )}
-                  {showActions && (
-                    <>
-                      <button className="icon-btn" onClick={() => setShowPlayerCard(true)} title="Player Card">
-                        <IconBaseballCard size={22} />
-                      </button>
-                      {(SOCIALS.some(s => socialLinks[s.key]) || (editMode && SOCIALS.some(s => !socialLinks[s.key]))) && (
-                        <div className="toolbar__separator" />
-                      )}
-                    </>
-                  )}
-                  {SOCIALS.filter(s => socialLinks[s.key]).map(s => (
-                    <a
-                      key={s.key}
-                      href={socialLinks[s.key]}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="social-links__icon"
-                      title={s.label}
-                    >
-                      <s.Icon />
-                    </a>
-                  ))}
-                  {editMode && SOCIALS.filter(s => !socialLinks[s.key]).map(s => (
-                    <button
-                      key={s.key}
-                      className="social-links__icon social-links__icon--unlinked"
-                      onClick={() => setShowSocialModal(true)}
-                      title={s.label}
-                    >
-                      <s.Icon />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="profile-header__stats-col">
-              <GatedSection isGated={isGated}>
-                <div className="stat-grid">
-                  {[
-                    { label: 'Total Wins',      value: stats.wins          },
-                    { label: 'Games Played',    value: stats.gamesPlayed   },
-                    { label: 'Current Streak',  value: stats.currentStreak },
-                    { label: 'Highest Streak',  value: stats.highestStreak, percentile: !isMvp ? 'Top 5%' : undefined },
-                  ].map(s => (
-                    <div key={s.label} className="stat-card">
-                      {s.percentile && (
-                        <div className="stat-card__percentile">
-                          <IconTrophy16 />
-                          <span>{s.percentile}</span>
-                        </div>
-                      )}
-                      <div className="stat-card__number">{s.value.toLocaleString()}</div>
-                      <div className="stat-card__label" data-role-id="pp-stat-label">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </GatedSection>
-            </div>
-          </div>
-          {/* ── Action buttons (own row, full width) ── */}
-          {isOwn && !isUnregistered && !editMode && (
-            <div className="profile-header__actions-row profile-header__actions-row--own">
-              <button className="com-btn com-btn--outline com-btn--sm" data-role-id="pp-edit-btn" onClick={enterEditMode}>
-                <IconPencil size={14} />
-                Edit Profile
-              </button>
-              {!isMvp && (
-                <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowTrophyEditor(true)}>
+            {/* ── Action buttons ── */}
+            {isOwn && !isUnregistered && !editMode && (
+              <div className={`profile-header__actions-row profile-header__actions-row--own${editJustExited ? ' profile-header__actions-row--fade-in' : ''}`}>
+                <button className="com-btn com-btn--outline com-btn--sm" data-role-id="pp-edit-btn" onClick={enterEditMode}>
                   <IconPencil size={14} />
-                  Edit Trophy Case
+                  Edit Profile
                 </button>
-              )}
-              <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-                Settings
-              </button>
-            </div>
-          )}
-          {isOwn && !isUnregistered && editMode && (
-            <div className="profile-header__actions-row">
-              <button className="com-btn com-btn--outline com-btn--sm" onClick={cancelEdit}>
-                Cancel
-              </button>
-              <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
-                Save Profile Changes
-              </button>
-            </div>
-          )}
-          {showOtherProfile && !isUnregistered && (
-            <div className="profile-header__actions-row profile-header__actions-row--other">
-              <FriendButton status={isGuest ? 'Add Friend' : friendStatus} username={player.displayName} avatarSrc={player.avatar} />
-              <button className="com-btn com-btn--quaternary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
-                <IconCheckerStack />
-                Challenge
-              </button>
-            </div>
-          )}
-          {isUnregistered && (
-            <div className="profile-header__actions-row">
-              <button className="com-btn com-btn--primary com-btn--sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                Create Account to Friend Player
-              </button>
-              <button className="com-btn com-btn--quaternary com-btn--sm" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
-                <IconCheckerStack />
-                Challenge
-              </button>
-            </div>
-          )}
+                {!isMvp && (
+                  <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowTrophyEditor(true)}>
+                    <IconPencil size={14} />
+                    Edit Trophy Case
+                  </button>
+                )}
+                <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
+                  Settings
+                </button>
+              </div>
+            )}
+            {isOwn && !isUnregistered && editMode && (
+              <div className="profile-header__actions-row profile-header__actions-row--edit">
+                <button className="com-btn com-btn--primary com-btn--sm" onClick={saveEdit}>
+                  Confirm
+                </button>
+              </div>
+            )}
+            {showOtherProfile && !isUnregistered && (
+              <div className="profile-header__actions-row profile-header__actions-row--other">
+                <FriendButton status={isGuest ? 'Add Friend' : friendStatus} username={player.displayName} avatarSrc={player.avatar} />
+                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
+                  <IconCheckerStack />
+                  Challenge
+                </button>
+              </div>
+            )}
+            {isUnregistered && (
+              <div className="profile-header__actions-row">
+                <button className="com-btn com-btn--primary com-btn--sm">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                  Create Account to Friend Player
+                </button>
+                <button className="com-btn com-btn--quaternary com-btn--sm" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+                  <IconCheckerStack />
+                  Challenge
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="profile-header__stats-col">
+            <GatedSection isGated={isGated}>
+              <div className="stat-grid">
+                {[
+                  { label: 'Total Wins',      value: stats.wins          },
+                  { label: 'Games Played',    value: stats.gamesPlayed   },
+                  { label: 'Current Streak',  value: stats.currentStreak },
+                  { label: 'Highest Streak',  value: stats.highestStreak, percentile: !isMvp ? 'Top 5%' : undefined },
+                ].map(s => (
+                  <div key={s.label} className="stat-card">
+                    {s.percentile && (
+                      <div className="stat-card__percentile">
+                        <IconTrophy16 />
+                        <span>{s.percentile}</span>
+                      </div>
+                    )}
+                    <div className="stat-card__number">{s.value.toLocaleString()}</div>
+                    <div className="stat-card__label" data-role-id="pp-stat-label">{s.label.split(' ').map((w, i) => <div key={i}>{w}</div>)}</div>
+                  </div>
+                ))}
+              </div>
+            </GatedSection>
+          </div>
         </div>
       </div>
       </div>{/* close pp-header wrapper */}
@@ -3485,8 +3377,6 @@ export default function ProfilePage({ onNavigate }) {
       {showPlayerCard && (
         <PlayerCardModal
           player={{ ...player, displayName, bio, stats }}
-          coverImg={coverEdit?.cropped || coverDefault}
-          coverColor={null}
           avatarImg={avatarEdit?.cropped || player.avatar}
           onClose={() => setShowPlayerCard(false)}
         />
@@ -3555,43 +3445,6 @@ export default function ProfilePage({ onNavigate }) {
         />
       )}
 
-      {/* ── Cover image selection modal ── */}
-      {showCoverModal && (
-        <CoverModal
-          currentCover={coverEdit}
-          onSelectPreset={(preset) => {
-            const newCover = { type: 'preset', key: preset.key, cropped: preset.src };
-            setCoverEdit(newCover);
-            persistProfile({ coverEdit: newCover });
-            setShowCoverModal(false);
-          }}
-          onCustomUpload={(dataUrl) => {
-            setShowCoverModal(false);
-            setCropModal({
-              src: dataUrl,
-              aspectRatio: 16 / 6,
-              circular: false,
-              target: 'cover',
-              initialCropParams: null,
-            });
-          }}
-          onEditCurrent={() => {
-            if (coverEdit?.type === 'custom' && coverEdit.original) {
-              setShowCoverModal(false);
-              setCropModal({
-                src: coverEdit.original,
-                aspectRatio: 16 / 6,
-                circular: false,
-                target: 'cover',
-                initialCropParams: coverEdit.cropParams || null,
-              });
-            }
-          }}
-          onClose={() => setShowCoverModal(false)}
-          isMvp={isMvp}
-        />
-      )}
-
       {/* ── Settings panel ── */}
       {showSettings && (
         <SettingsPanel
@@ -3600,7 +3453,6 @@ export default function ProfilePage({ onNavigate }) {
           socialLinks={socialLinks}
           country={country}
           avatarEdit={avatarEdit}
-          coverEdit={coverEdit}
           onSaveAll={({ displayName: name, bio: newBio, socialLinks: links, country: newCountry }) => {
             setSavedName(name);
             setSavedBio(newBio);
@@ -3624,19 +3476,6 @@ export default function ProfilePage({ onNavigate }) {
           onAvatarEditCurrent={() => {
             if (avatarEdit?.type === 'custom' && avatarEdit.original) {
               setCropModal({ src: avatarEdit.original, aspectRatio: 1, circular: true, target: 'avatar', initialCropParams: avatarEdit.cropParams || null });
-            }
-          }}
-          onCoverPresetSelect={(preset) => {
-            const newCover = { type: 'preset', key: preset.key, cropped: preset.src };
-            setCoverEdit(newCover);
-            persistProfile({ coverEdit: newCover });
-          }}
-          onCoverCustomUpload={(dataUrl) => {
-            setCropModal({ src: dataUrl, aspectRatio: 16 / 6, circular: false, target: 'cover', initialCropParams: null });
-          }}
-          onCoverEditCurrent={() => {
-            if (coverEdit?.type === 'custom' && coverEdit.original) {
-              setCropModal({ src: coverEdit.original, aspectRatio: 16 / 6, circular: false, target: 'cover', initialCropParams: coverEdit.cropParams || null });
             }
           }}
         />

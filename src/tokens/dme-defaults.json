@@ -107,7 +107,7 @@
     "--prim-type-pill-lg-size": "16",
     "--prim-type-pill-md-size": "14",
     "--prim-type-pill-sm-size": "11",
-    "--prim-type-ui-xl-size": "32",
+    "--prim-type-ui-xl-size": "28",
     "--prim-type-ui-lg-size": "20",
     "--prim-type-ui-md-size": "14",
     "--prim-type-ui-sm-size": "12",
@@ -899,7 +899,7 @@
     },
     "_auto:pp-header|div.stat-card__number:0": {
       "type": "font",
-      "role": "ui-xl",
+      "role": "ui-lg",
       "page": "profile"
     },
     "_auto:gl-settings|div.settings-row__label:0": {
@@ -1067,6 +1067,10 @@
       "type": "button",
       "variant": "tertiary",
       "page": "profile"
+    },
+    "pp-stat-label": {
+      "type": "font",
+      "role": "ui-sm"
     }
   },
   "states": {

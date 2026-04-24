@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDMEState } from '../context/dme-states';
 import { SiteHeader, SiteFooter } from './SharedLayout';
 import {
-  SettingsContent, AvatarModal, CoverModal, ImageCropModal,
-  PRESET_AVATARS, PRESET_COVERS,
+  SettingsContent, AvatarModal, ImageCropModal,
+  PRESET_AVATARS,
 } from './ProfilePage';
 import profileData from '../tokens/profile-data.json';
 import './SettingsPage.css';
@@ -106,31 +106,17 @@ export default function SettingsPage({ onNavigate }) {
   })();
   const [avatarEdit, setAvatarEdit] = useState(initAvatar);
 
-  /* Cover state */
-  const [coverEdit, setCoverEdit] = useState(() => {
-    if (profileData.coverPreset) {
-      const preset = PRESET_COVERS.find(c => c.key === profileData.coverPreset);
-      if (preset) return { type: 'preset', key: preset.key, cropped: preset.src };
-    }
-    if (profileData.coverImage) return { type: 'custom', original: profileData.coverImage, cropParams: null, cropped: profileData.coverImage };
-    return null;
-  });
-
   /* Modal state */
   const [showAvatarModal, setShowAvatarModal] = useState(false);
-  const [showCoverModal, setShowCoverModal] = useState(false);
   const [cropModal, setCropModal] = useState(null);
 
   function persistProfile(overrides = {}) {
     const currentAvatar = overrides.avatarEdit !== undefined ? overrides.avatarEdit : avatarEdit;
-    const currentCover = overrides.coverEdit !== undefined ? overrides.coverEdit : coverEdit;
     const payload = {
       displayName: overrides.displayName !== undefined ? overrides.displayName : savedName,
       bio: overrides.bio !== undefined ? overrides.bio : savedBio,
       avatar: currentAvatar?.type === 'custom' ? currentAvatar.cropped : null,
       avatarPreset: currentAvatar?.type === 'preset' ? currentAvatar.key : null,
-      coverImage: currentCover?.type === 'custom' ? currentCover.cropped : null,
-      coverPreset: currentCover?.type === 'preset' ? currentCover.key : null,
       socialLinks: overrides.socialLinks !== undefined ? overrides.socialLinks : socialLinks,
       country: overrides.country !== undefined ? overrides.country : country,
     };
@@ -161,10 +147,6 @@ export default function SettingsPage({ onNavigate }) {
       const newAvatar = { type: 'custom', original: cropModal.src, cropParams, cropped: croppedDataUrl };
       setAvatarEdit(newAvatar);
       persistProfile({ avatarEdit: newAvatar });
-    } else {
-      const newCover = { type: 'custom', original: cropModal.src, cropParams, cropped: croppedDataUrl };
-      setCoverEdit(newCover);
-      persistProfile({ coverEdit: newCover });
     }
     setCropModal(null);
   }
@@ -183,10 +165,8 @@ export default function SettingsPage({ onNavigate }) {
             socialLinks={socialLinks}
             country={country}
             avatarEdit={avatarEdit}
-            coverEdit={coverEdit}
             onSaveAll={handleSaveAll}
             onChangeAvatar={() => setShowAvatarModal(true)}
-            onChangeCover={() => setShowCoverModal(true)}
             onCancel={() => onNavigate?.('profile')}
             section={section}
           />
@@ -213,31 +193,6 @@ export default function SettingsPage({ onNavigate }) {
             }
           }}
           onClose={() => setShowAvatarModal(false)}
-          isMvp={isMvp}
-        />
-      )}
-
-      {/* ── Cover image selection modal ── */}
-      {showCoverModal && (
-        <CoverModal
-          currentCover={coverEdit}
-          onSelectPreset={(preset) => {
-            const newCover = { type: 'preset', key: preset.key, cropped: preset.src };
-            setCoverEdit(newCover);
-            persistProfile({ coverEdit: newCover });
-            setShowCoverModal(false);
-          }}
-          onCustomUpload={(dataUrl) => {
-            setShowCoverModal(false);
-            setCropModal({ src: dataUrl, aspectRatio: 16 / 6, circular: false, target: 'cover', initialCropParams: null });
-          }}
-          onEditCurrent={() => {
-            if (coverEdit?.type === 'custom' && coverEdit.original) {
-              setShowCoverModal(false);
-              setCropModal({ src: coverEdit.original, aspectRatio: 16 / 6, circular: false, target: 'cover', initialCropParams: coverEdit.cropParams || null });
-            }
-          }}
-          onClose={() => setShowCoverModal(false)}
           isMvp={isMvp}
         />
       )}
