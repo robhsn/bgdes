@@ -1,88 +1,103 @@
-/* ─── Index Landing Page ─────────────────────────────────────── */
-/* Mirrors backgammon.com landing — Tailwind v4 → semantic BEM  */
+/* ─── Index Landing Page — Full-bleed redesign ─────────────── */
+
+/* ─── Page wrapper ──────────────────────────────────────────── */
 
 .ix-page {
   min-height: 100dvh;
   width: 100%;
   min-width: 320px;
-  overflow: hidden;
   font-family: 'Inter', sans-serif;
-}
-
-/* ─── Main two-panel layout ──────────────────────────────────── */
-
-.ix-main {
+  background:
+    radial-gradient(97.35% 56.01% at 50% 28.43%, rgba(0, 50, 35, 0.60) 2.97%, rgba(0, 125, 88, 0.00) 100%),
+    linear-gradient(rgba(17, 83, 63, 0.48), rgba(17, 83, 63, 0.48)),
+    url('../imgs/welcome_background.png') center / cover no-repeat;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
-  height: 100dvh;
-  width: 100%;
+  position: relative;
 }
 
-/* ─── Left panel (hero) ──────────────────────────────────────── */
-
-.ix-left {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  background: var(--prim-mint-900);
-  color: var(--color-heading);
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px 16px;
-
-  /* Green-tinted overrides (surface-tertiary defaults are mono-gray) */
-  --color-body:       var(--prim-mint-150);
-  --color-muted:      var(--prim-fall-500);
-  --color-border-mid: var(--prim-fall-500);
-}
-
-/* White panel for auth views (no surface-tertiary) */
-.ix-left:not(.surface-tertiary) {
-  background: #fff;
-  --color-heading: var(--prim-mono-900);
-  --color-body:    var(--prim-mono-600);
-  --color-muted:   var(--prim-mono-500);
-}
-
-/* ─── Header ─────────────────────────────────────────────────── */
+/* ─── Header ────────────────────────────────────────────────── */
 
 .ix-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  position: relative;
+  z-index: 100;
   width: 100%;
-  max-width: 576px;
-  gap: 16px;
+  box-sizing: border-box;
+  background: var(--prim-mint-900, #0d3b36);
+}
+
+.ix-header__inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 0 16px;
+  gap: 12px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .ix-logo {
-  display: block;
+  display: flex;
+  align-items: center;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .ix-logo img {
-  height: 40px;
-  width: 208px;
+  height: 28px;
+  width: auto;
   object-fit: contain;
 }
 
-.ix-left:not(.surface-tertiary) .ix-logo img {
-  width: 225px;
-  height: auto;
-}
-
-.ix-header-actions {
+.ix-header-right {
   display: flex;
-  flex-direction: row;
-  gap: 16px;
+  align-items: stretch;
+  gap: 0;
+  flex-shrink: 0;
+  margin-right: -16px;
 }
 
-/* Button base */
+/* ─── Nav links (desktop only) ──────────────────────────────── */
+
+.ix-nav {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.ix-nav__link {
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.ix-nav__link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+/* ─── Header auth buttons ───────────────────────────────────── */
+
 .ix-btn {
-  height: 48px;
+  height: 36px;
   display: flex;
   align-items: center;
+  align-self: center;
   justify-content: center;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
@@ -90,11 +105,12 @@
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 0 18px;
   font-size: 14px;
   line-height: 1;
   border: none;
   white-space: nowrap;
+  border-radius: 9999px;
 }
 
 .ix-btn:hover {
@@ -105,77 +121,318 @@
   transform: scale(0.98);
 }
 
-/* Header auth buttons (tertiary / quaternary) */
 .ix-btn--login {
-  border-radius: 8px;
-  background: var(--com-btn-tertiary-bg);
-  color: var(--com-btn-tertiary-fg);
+  background: var(--prim-mint-700, #1a7a6d);
+  color: #fff;
+}
+
+.ix-btn--login:hover {
+  background: var(--prim-mint-600, #1d8f7e);
 }
 
 .ix-btn--signup {
-  border-radius: 8px;
-  background: var(--com-btn-quaternary-bg);
-  color: var(--com-btn-quaternary-fg);
+  background: #fff;
+  color: var(--prim-mint-900, #0d3b36);
+  border: 1.5px solid rgba(255,255,255,0.2);
 }
 
-.ix-btn--dashboard {
-  border-radius: 8px;
-  background: var(--com-btn-primary-bg);
-  color: var(--com-btn-primary-fg);
-}
-
-/* ─── Hero text ──────────────────────────────────────────────── */
-
-.ix-hero-wrap {
+/* Avatar chevron wrapper */
+.ix-avatar-trigger {
   display: flex;
-  flex: 1;
-  width: 100%;
-  justify-content: center;
-  margin: 16px 0;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding: 0 12px;
+  transition: background 0.15s;
 }
+
+.ix-avatar-trigger--active {
+  background: #0D3529;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.ix-avatar-chevron {
+  color: rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.ix-avatar-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ─── Shared dropdown base — dark green theme ────────────────── */
+
+.ix-dropdown {
+  position: absolute;
+  z-index: 9999;
+  background: #0D3529;
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: none;
+  padding: 8px 0 0;
+  white-space: nowrap;
+  min-width: 220px;
+  overflow: hidden;
+  animation: ix-dropdown-in 0.15s ease-out;
+}
+
+@keyframes ix-dropdown-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ix-dropdown--hamburger {
+  top: 100%;
+  right: 0;
+  min-width: 240px;
+  padding-bottom: 32px;
+}
+
+.ix-dropdown--profile {
+  top: 100%;
+  right: 0;
+  min-width: 260px;
+}
+
+.ix-dropdown--lang {
+  top: 100%;
+  right: 0;
+  min-width: 200px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+/* ─── Dropdown internals ─────────────────────────────────────── */
+
+.ix-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: background 0.1s;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.ix-dropdown__item:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.ix-dropdown__item--disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ix-dropdown__item-icon {
+  display: flex;
+  align-items: center;
+  color: rgba(255,255,255,0.5);
+  flex-shrink: 0;
+}
+
+.ix-dropdown__item-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.ix-dropdown__item-label {
+  flex: 0 0 auto;
+}
+
+/* Username header row */
+.ix-dropdown__item-username {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1;
+  cursor: default;
+}
+
+.ix-dropdown__item-username .ix-dropdown__item-icon {
+  color: rgba(255,255,255,0.35);
+}
+
+.ix-dropdown__badge {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  background: var(--prim-mint-600, #11533f);
+  color: rgba(255,255,255,0.6);
+  padding: 4px 10px;
+  border-radius: 6px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.ix-dropdown__separator {
+  height: 0;
+  border: none;
+  border-top: 1px dashed rgba(255,255,255,0.15);
+  margin: 4px 24px;
+}
+
+.ix-dropdown__separator--dotted {
+  height: 0;
+  border: none;
+  border-top: 1px dashed rgba(255,255,255,0.15);
+  margin: 4px 24px;
+}
+
+/* Log Out — centered text, darker band at bottom */
+.ix-dropdown__logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: background 0.1s;
+  background: rgba(0,0,0,0.15);
+  border: none;
+  width: 100%;
+  border-radius: 0 0 14px 14px;
+  margin-top: 8px;
+}
+
+.ix-dropdown__logout:hover {
+  background: rgba(0,0,0,0.25);
+}
+
+/* Guest play prompt */
+.ix-dropdown__guest-prompt {
+  padding: 10px 24px 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.ix-dropdown__guest-prompt strong {
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+}
+
+.ix-dropdown__auth-btns {
+  display: flex;
+  gap: 10px;
+  padding: 8px 24px 16px;
+}
+
+.ix-dropdown__auth-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  transition: opacity 0.15s;
+  line-height: 1;
+}
+
+.ix-dropdown__auth-btn:hover {
+  opacity: 0.85;
+}
+
+.ix-dropdown__auth-btn--login {
+  background: var(--prim-mint-500, #196951);
+  color: #fff;
+}
+
+.ix-dropdown__auth-btn--signup {
+  background: #fff;
+  color: var(--prim-mint-900, #0d3b36);
+  border: 2px solid #fff;
+}
+
+/* ─── Main content area ─────────────────────────────────────── */
+
+.ix-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px 40px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Decorative dice */
+.ix-dice-deco {
+  height: 120px;
+  width: auto;
+}
+
+/* ─── Hero text ─────────────────────────────────────────────── */
 
 .ix-hero {
   display: flex;
-  width: 100%;
   flex-direction: column;
   gap: 12px;
   text-align: center;
-  justify-content: center;
+  margin-bottom: 28px;
 }
 
 .ix-hero h1 {
   font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 20px;
-  line-height: 1.375;
-  letter-spacing: 0;
-  color: var(--color-heading);
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #fff;
   margin: 0;
 }
 
 .ix-hero-sub {
-  font-size: 18px;
-  line-height: 1.25;
-  letter-spacing: 0;
-  color: var(--color-body);
+  font-size: 16px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.7);
   margin: 0;
   font-weight: 400;
 }
 
-/* ─── Mobile CTA buttons (hidden on desktop) ────────────────── */
+/* ─── CTA buttons ───────────────────────────────────────────── */
 
-.ix-mobile-ctas {
+.ix-ctas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
+  max-width: 400px;
 }
 
-/* CTA button (full-width pill) */
 .ix-cta {
   width: 100%;
-  height: 48px;
+  height: 52px;
   border-radius: 9999px;
   display: flex;
   align-items: center;
@@ -184,8 +441,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 1;
-  letter-spacing: 0;
-  gap: 8px;
+  gap: 10px;
   padding: 8px 48px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -201,14 +457,13 @@
 }
 
 .ix-cta--ai {
-  background: var(--com-btn-primary-bg);
-  color: var(--com-btn-primary-fg);
+  background: var(--prim-mint-900, #0d3b36);
+  color: #fff;
 }
 
 .ix-cta--friend {
-  background: var(--com-btn-dark-bg);
-  color: var(--com-btn-dark-fg);
-  border: 2px solid transparent;
+  background: #fff;
+  color: var(--prim-mint-900, #0d3b36);
 }
 
 .ix-cta-icon {
@@ -219,267 +474,199 @@
   justify-content: center;
 }
 
-/* ─── Newsletter / Early Access (desktop: in left panel) ─────── */
+/* ─── Learn link (mobile only) ──────────────────────────────── */
 
-.ix-newsletter-desktop {
-  display: none;
-  justify-content: flex-start;
-  padding-top: 8px;
-  width: 100%;
+.ix-learn-link {
+  margin: 20px 0 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
 }
 
-/* ─── Right panel (board background) ─────────────────────────── */
-
-section.ix-right {
-  display: flex;
-  flex: 1;
-  height: 50%;
-  align-items: center;
-  justify-content: center;
-  background: url('../imgs/welcome_background.png') center / cover no-repeat;
-  padding: 16px;
-}
-
-/* ─── Play Now card (hidden on mobile) ───────────────────────── */
-
-.ix-play-card {
-  display: none;
-  width: 100%;
-  max-width: 100%;
-  border: 2px solid var(--prim-mint-600);
-  border-radius: 12px;
-  background: var(--color-bg);
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  padding: 24px;
-  min-width: 288px;
-}
-
-.ix-play-card-inner {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.ix-play-card-content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.ix-play-card-title {
-  width: 100%;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--color-heading);
-  margin: 0;
-  text-align: left;
-}
-
-/* Card CTA buttons (same shape, but inside card context) */
-.ix-card-cta {
-  width: 100%;
-  height: 48px;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0;
-  gap: 8px;
-  padding: 8px 48px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  border: none;
-}
-
-.ix-card-cta:hover {
-  transform: scale(1.02);
-}
-
-.ix-card-cta:active {
-  transform: scale(0.98);
-}
-
-.ix-card-cta--ai {
-  background: var(--com-btn-primary-bg);
-  color: var(--com-btn-primary-fg);
-}
-
-.ix-card-cta--friend {
-  background: var(--com-btn-dark-bg);
-  color: var(--com-btn-dark-fg);
-  border: 2px solid transparent;
-}
-
-/* ─── Newsletter / Early Access bar ──────────────────────────── */
-
-.ix-newsletter {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 0 auto;
-  align-items: center;
-  gap: 24px;
-  border-radius: 16px;
-  border-top: 1px solid var(--prim-mint-600);
-  background: var(--prim-mint-800);
-  padding: 24px;
-  color: var(--color-heading);
-}
-
-.ix-newsletter-dice {
-  position: absolute;
-  top: -16px;
-  right: 24px;
-  height: 48px;
-}
-
-.ix-newsletter-left {
-  display: flex;
-  flex: 0.4;
-  flex-basis: 40%;
-  flex-direction: column;
-  gap: 8px;
-  align-self: center;
-  text-align: left;
-}
-
-.ix-newsletter-label {
-  font-size: 12px;
-  line-height: 1;
-  letter-spacing: 0;
-  font-weight: 700;
-  color: var(--color-muted);
-  margin: 0;
-}
-
-.ix-newsletter-cta-text {
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: 0;
-  font-weight: 900;
-  color: var(--color-heading);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-}
-
-.ix-newsletter-right {
-  display: flex;
-  flex: 0.6;
-  flex-basis: 60%;
-  min-width: 0;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.ix-newsletter-input-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 2px solid var(--color-muted);
-  padding-bottom: 4px;
-}
-
-.ix-newsletter-input-group {
-  display: flex;
-  height: 44px;
-  width: 100%;
-  flex: 1;
-  min-width: 0;
-  align-items: center;
-  gap: 12px;
-}
-
-.ix-newsletter-input-group svg {
-  height: 20px;
-  width: 20px;
-  color: var(--color-muted);
-  flex-shrink: 0;
-}
-
-.ix-newsletter-input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  line-height: 1;
-  letter-spacing: 0;
-  font-weight: 700;
-  color: var(--color-muted);
-  outline: none;
-}
-
-.ix-newsletter-input::placeholder {
-  color: var(--color-muted);
-}
-
-.ix-newsletter-submit {
-  white-space: nowrap;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  line-height: 1;
-  letter-spacing: 0;
-  font-weight: 700;
-  color: var(--color-muted);
-  cursor: pointer;
-  transition: color 0.2s;
+.ix-learn-link button {
   background: none;
   border: none;
-  padding: 0 4px;
-}
-
-.ix-newsletter-submit:hover {
-  color: var(--color-heading);
-}
-
-.ix-newsletter-terms {
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--color-muted);
-  margin: 0;
-}
-
-.ix-newsletter-terms a {
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   font-weight: 700;
+  cursor: pointer;
+  padding: 0;
   text-decoration: underline;
-  color: var(--color-muted);
-  margin: 0 4px;
-  transition: color 0.2s;
+  text-underline-offset: 2px;
 }
 
-.ix-newsletter-terms a:hover {
-  color: var(--color-heading);
+.ix-learn-link button:hover {
+  opacity: 0.85;
 }
 
-/* Newsletter shown in right panel on mobile */
-.ix-newsletter-mobile {
-  display: block;
-  width: 100%;
-  max-width: 672px;
+/* ─── Terms text ────────────────────────────────────────────── */
+
+.ix-terms {
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.8);
+  margin: 16px 0 0;
+  max-width: 360px;
 }
 
-/* ─── Feedback button ────────────────────────────────────────── */
+.ix-terms a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ix-terms a:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+/* ─── Hamburger button (mobile only) ────────────────────────── */
+
+.ix-hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 12px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.ix-hamburger--active {
+  background: #0D3529;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  border-right: none;
+}
+
+/* Hamburger wrapper — positioning context for dropdown */
+.ix-hamburger-wrap {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+}
+
+/* ─── Language selector ─────────────────────────────────────── */
+
+.ix-lang {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0 12px;
+  border-radius: 0;
+  transition: background 0.15s;
+  background: none;
+  border: none;
+  position: relative;
+}
+
+.ix-lang:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.ix-lang--active {
+  background: #0D3529;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.ix-lang-wrap {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  margin-right: 8px;
+}
+
+.ix-btn--login {
+  margin-right: 8px;
+}
+
+.ix-lang__flag {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ix-lang__chevron {
+  color: rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+}
+
+/* Language dropdown items */
+.ix-dropdown--lang {
+  min-width: 260px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+
+.ix-dropdown--lang::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ix-dropdown--lang::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ix-dropdown--lang::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+
+.ix-dropdown--lang::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.ix-dropdown--lang .ix-dropdown__item {
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  color: rgba(255,255,255,0.8);
+}
+
+.ix-dropdown--lang .ix-dropdown__item--active {
+  color: rgba(255,255,255,1);
+}
+
+.ix-dropdown--lang .ix-dropdown__item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.ix-dropdown--lang .ix-lang__flag {
+  width: 22px;
+  height: 22px;
+}
+
+.ix-dropdown--lang .ix-dropdown__item-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ix-dropdown__check {
+  margin-left: auto;
+  color: rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+}
+
+/* ─── Backdrop overlay (mobile panels) ──────────────────────── */
+
+.ix-backdrop {
+  display: none;
+}
+
+/* ─── Feedback FAB ──────────────────────────────────────────── */
 
 .ix-feedback-btn {
   height: 54px;
   width: 54px;
   border-radius: 50%;
-  background: var(--color-bg);
-  border: 2px solid var(--color-border-subtle);
+  background: var(--color-bg, #fff);
+  border: 2px solid var(--color-border-subtle, #e5e5e5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -500,26 +687,21 @@ section.ix-right {
   height: 36px;
 }
 
-/* ─── Down arrow icon ────────────────────────────────────────── */
-
-.ix-arrow-icon {
-  height: 16px;
-  width: 16px;
-  flex-shrink: 0;
-  transform: rotate(-90deg);
-}
-
-/* ─── Auth form (login/signup views) ──────────────────────────── */
+/* ─── Auth form (login/signup views) ─────────────────────────── */
 
 .ix-auth-wrap {
   display: flex;
-  flex: 1;
+  flex: 0;
   flex-direction: column;
   justify-content: center;
   width: 100%;
   max-width: 380px;
   gap: 20px;
   align-self: center;
+  background: rgba(255,255,255,0.97);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
 }
 
 .ix-auth-back {
@@ -528,9 +710,9 @@ section.ix-right {
   gap: 8px;
   background: none;
   border: none;
-  color: var(--color-heading);
+  color: var(--prim-mono-900, #1a1a1a);
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 900;
   cursor: pointer;
   padding: 0;
@@ -601,7 +783,7 @@ section.ix-right {
 
 .ix-auth-switch {
   font-size: 14px;
-  color: var(--color-body-hl);
+  color: var(--prim-mono-700, #444);
   margin: 0;
   text-align: left;
 }
@@ -609,7 +791,7 @@ section.ix-right {
 .ix-auth-switch button {
   background: none;
   border: none;
-  color: var(--color-body-hl);
+  color: var(--prim-mono-700, #444);
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -623,152 +805,179 @@ section.ix-right {
   filter: brightness(1.2);
 }
 
-/* ─── Auth full-page on mobile / tablet ─────────────────────── */
+/* ─── Mobile (<1024px) ──────────────────────────────────────── */
 
 @media (max-width: 1023px) {
-  .ix-left:not(.surface-tertiary) {
-    min-height: 100dvh;
-    justify-content: center;
-  }
-
-  .ix-left:not(.surface-tertiary) ~ .ix-right {
-    display: none;
-  }
-}
-
-/* ─── Desktop (lg: 1024px+) ──────────────────────────────────── */
-
-@media (min-width: 1024px) {
-  .ix-main {
-    flex-direction: row;
-  }
-
-  .ix-left {
-    flex-basis: 50%;
-    height: auto;
-    align-items: stretch;
-    justify-content: flex-start;
-    padding: 32px;
-  }
-
-  .ix-header {
-    max-width: none;
-  }
-
-  .ix-logo img {
-    width: auto;
-  }
-
-  .ix-btn {
-    padding: 8px 24px;
-    font-size: 18px;
-  }
-
-  .ix-hero-wrap {
-    justify-content: flex-start;
-  }
-
-  .ix-hero {
-    gap: 24px;
-    text-align: left;
-    padding-left: 48px;
+  .ix-content {
+    padding: 0 20px 32px;
   }
 
   .ix-hero h1 {
-    font-size: 30px;
-    white-space: nowrap;
+    font-size: 22px;
   }
 
-  .ix-hero-sub {
-    max-width: 100%;
-  }
-
-  .ix-mobile-ctas {
+  /* Hide desktop-only Sign Up in header */
+  .ix-btn--signup-header {
     display: none;
   }
 
-  .ix-newsletter-desktop {
-    display: flex;
+  /* Mobile panels — full-width below header */
+  .ix-dropdown--hamburger,
+  .ix-dropdown--profile,
+  .ix-dropdown--lang {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 100%;
+    border-radius: 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    animation: ix-panel-in 0.2s ease-out;
+    max-height: calc(100dvh - 56px);
+    overflow-y: auto;
+    padding-top: 12px;
   }
 
-  section.ix-right {
-    flex: 1 1 50%;
-    height: auto;
+  .ix-dropdown--profile .ix-dropdown__logout {
+    border-radius: 0;
   }
 
-  .ix-play-card {
+  @keyframes ix-panel-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Larger touch targets on mobile */
+  .ix-dropdown--hamburger .ix-dropdown__item,
+  .ix-dropdown--profile .ix-dropdown__item {
+    padding: 18px 28px;
+    font-size: 17px;
+  }
+
+  .ix-dropdown--profile .ix-dropdown__item-username {
+    padding: 18px 28px;
+    font-size: 17px;
+  }
+
+  .ix-dropdown--hamburger .ix-dropdown__separator,
+  .ix-dropdown--hamburger .ix-dropdown__separator--dotted,
+  .ix-dropdown--profile .ix-dropdown__separator {
+    margin: 6px 28px;
+  }
+
+  .ix-dropdown--profile .ix-dropdown__logout {
+    padding: 18px 28px;
+    font-size: 17px;
+  }
+
+  .ix-dropdown--profile .ix-dropdown__guest-prompt {
+    padding: 12px 28px 8px;
+    font-size: 15px;
+  }
+
+  .ix-dropdown--profile .ix-dropdown__auth-btns {
+    padding: 8px 28px 16px;
+  }
+
+  .ix-dropdown--profile .ix-dropdown__auth-btn {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+
+  /* Backdrop */
+  .ix-backdrop {
     display: block;
-    max-width: 384px;
-    padding: 24px;
-  }
-
-  .ix-play-card-title {
-    font-size: 20px;
-  }
-
-  .ix-newsletter-mobile {
-    display: none;
-  }
-
-  .ix-feedback-btn {
-    bottom: 32px;
-    right: 32px;
-  }
-
-  /* Auth form desktop adjustments */
-  .ix-auth-back {
-    font-size: 28px;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9998;
   }
 }
 
-/* xl breakpoint for hero scaling and newsletter horizontal */
-@media (min-width: 1280px) {
+/* ─── Desktop (1024px+) ─────────────────────────────────────── */
+
+@media (min-width: 1024px) {
+  .ix-header__inner {
+    padding: 0 40px;
+    min-height: 64px;
+  }
+
+  .ix-logo img {
+    height: 36px;
+  }
+
+  .ix-nav {
+    display: flex;
+  }
+
+  .ix-hamburger {
+    display: none;
+  }
+
+  .ix-learn-link {
+    display: none;
+  }
+
+  .ix-header-right {
+    margin-right: -40px;
+  }
+
+  .ix-btn--login {
+    margin-right: 4px;
+  }
+
+  .ix-btn {
+    height: 40px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+
   .ix-hero h1 {
     font-size: 36px;
   }
 
-  .ix-play-card {
-    max-width: 448px;
-    padding: 40px;
+  .ix-hero-sub {
+    font-size: 18px;
   }
 
-  .ix-newsletter--horizontal {
+  .ix-ctas {
     flex-direction: row;
-    gap: 32px;
-    align-items: center;
+    max-width: 520px;
+    gap: 16px;
   }
 
-  .ix-newsletter--horizontal .ix-newsletter-left {
-    white-space: nowrap;
-    align-self: auto;
-  }
-
-  .ix-newsletter--horizontal .ix-newsletter-dice {
-    left: 16px;
-    right: auto;
+  .ix-cta {
+    flex: 1;
+    min-width: 0;
     height: 56px;
-    top: -20px;
+    font-size: 17px;
   }
-}
 
-/* 2xl breakpoint for largest heading */
-@media (min-width: 1536px) {
-  .ix-hero h1 {
-    font-size: 48px;
+  .ix-content {
+    padding-bottom: 60px;
   }
-}
 
-/* md breakpoint for card padding */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .ix-play-card {
-    padding: 16px;
-  }
-}
 
-/* sm breakpoint for feedback button */
-@media (min-width: 640px) {
   .ix-feedback-btn {
     bottom: 32px;
     right: 32px;
+  }
+}
+
+/* ─── XL breakpoint ─────────────────────────────────────────── */
+
+@media (min-width: 1280px) {
+  .ix-hero h1 {
+    font-size: 42px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .ix-hero h1 {
+    font-size: 48px;
   }
 }

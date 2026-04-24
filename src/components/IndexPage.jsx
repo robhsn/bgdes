@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDMEState } from '../context/dme-states';
-import { AvatarDropdown } from './SharedLayout';
-import logoBlack from '../imgs/logo/Logo Black.svg';
+import Avatar from './Avatar';
+import avatarImg from '../imgs/avatar-dink.png';
 import logoWhite from '../imgs/logo/Logo White.svg';
 import diceDecoration from '../imgs/dice-decoration.png';
 import iconGoogle from '../imgs/icons/auth/google color.svg';
 import iconApple from '../imgs/icons/auth/apple black.svg';
 import iconFacebook from '../imgs/icons/auth/facebook color.svg';
+import flagAmerica from '../imgs/icon-flags/america.png';
 import './IndexPage.css';
 
-/* ─── SVG Icons (from backgammon.com bundle) ─────────────────── */
+/* ─── SVG Icons ──────────────────────────────────────────────── */
 
 function IconRobot() {
   return (
@@ -34,23 +35,6 @@ function IconUserPlus() {
   );
 }
 
-function IconEnvelope() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path opacity="0.4" d="M4.19385 7.85313L10.0001 12L15.8063 7.85313L10.0001 3.5L4.19385 7.85313Z" fill="currentColor" />
-      <path d="M15.8062 7.85313L10 3.5L4.19375 7.85313L10 12L15.8062 7.85313ZM2 7L10 1L18 7V17H2V7Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconArrowDown() {
-  return (
-    <svg className="ix-arrow-icon" viewBox="0 0 14 14" fill="currentColor">
-      <path d="M4.3945e-05 6.23864L1.8026 4.4233L5.58669 8.20739L5.58669 0L8.24578 0L8.24578 8.20739L12.0299 4.4233L13.8324 6.23864L6.91624 13.1548L4.3945e-05 6.23864Z" />
-    </svg>
-  );
-}
-
 function IconFeedback() {
   return (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -60,7 +44,161 @@ function IconFeedback() {
   );
 }
 
+function IconChevronDown({ size = 16 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  );
+}
+
+function IconHamburger() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  );
+}
+
+function IconClose() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </svg>
+  );
+}
+
+function IconPlus() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  );
+}
+
+function IconBook() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  );
+}
+
+function IconDice() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="3"/>
+      <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="16" cy="8" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="8" cy="16" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="16" cy="16" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+    </svg>
+  );
+}
+
+function IconChatBubble() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  );
+}
+
+function IconCastle() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 21h18"/>
+      <path d="M5 21V7l3-3 3 3h2l3-3 3 3v14"/>
+      <path d="M9 21v-4h6v4"/>
+      <path d="M9 11h.01M15 11h.01"/>
+    </svg>
+  );
+}
+
+function IconDocumentAlt() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="16" y1="13" x2="8" y2="13"/>
+      <line x1="16" y1="17" x2="8" y2="17"/>
+    </svg>
+  );
+}
+
+function IconProfile() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  );
+}
+
+function IconPen() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+    </svg>
+  );
+}
+
+function IconSettings() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  );
+}
+
+function IconPalette() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/>
+      <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/>
+      <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/>
+      <circle cx="6.5" cy="12" r="0.5" fill="currentColor"/>
+      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+    </svg>
+  );
+}
+
+function IconHistory() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+}
+
+function IconLogout() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+  );
+}
+
 /* ─── Auth provider icons ────────────────────────────────────── */
+
+function IconEnvelope() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path opacity="0.4" d="M4.19385 7.85313L10.0001 12L15.8063 7.85313L10.0001 3.5L4.19385 7.85313Z" fill="currentColor" />
+      <path d="M15.8062 7.85313L10 3.5L4.19375 7.85313L10 12L15.8062 7.85313ZM2 7L10 1L18 7V17H2V7Z" fill="currentColor" />
+    </svg>
+  );
+}
 
 function IconGoogle() {
   return <img src={iconGoogle} alt="" width="20" height="20" />;
@@ -74,61 +212,327 @@ function IconFacebook() {
   return <img src={iconFacebook} alt="" width="20" height="20" />;
 }
 
-/* ─── Newsletter sub-component ───────────────────────────────── */
+/* ─── Language data ──────────────────────────────────────────── */
 
-function Newsletter({ horizontal }) {
+const LANGUAGES = [
+  { code: 'en', name: 'English',    flag: 'america.png' },
+  { code: 'es', name: 'Español',    flag: 'spain.png' },
+  { code: 'fr', name: 'Français',   flag: 'france.png' },
+  { code: 'de', name: 'Deutsch',    flag: 'germany.png' },
+  { code: 'pt', name: 'Português',  flag: 'portugal.png' },
+  { code: 'it', name: 'Italiano',   flag: 'italy.png' },
+  { code: 'tr', name: 'Türkçe',     flag: 'turkey.png' },
+  { code: 'ru', name: 'Русский',    flag: 'russia.png' },
+  { code: 'nl', name: 'Nederlands', flag: 'netherlands.png' },
+  { code: 'pl', name: 'Polski',     flag: 'poland.png' },
+  { code: 'sv', name: 'Svenska',    flag: 'sweden.png' },
+  { code: 'el', name: 'Ελληνικά',   flag: 'greece.png' },
+];
+
+/* ─── Nav link definitions ───────────────────────────────────── */
+
+const NAV_LINKS = [
+  { label: 'Learn Backgammon', page: 'learn-hub' },
+  { label: 'Roll For Good',    page: 'roll-for-good' },
+  { label: 'Roadmap',          page: 'roadmap' },
+  { label: 'Change Log',       page: 'changelog' },
+  { label: 'About',            page: 'about' },
+];
+
+/* ─── Hamburger menu items ───────────────────────────────────── */
+
+const HAMBURGER_ITEMS = [
+  { label: 'New Game',          Icon: IconPlus,        page: 'play', group: 0 },
+  { label: 'Learn Backgammon',  Icon: IconBook,        page: 'learn-hub', group: 1 },
+  { label: 'Roll For Good',    Icon: IconDice,        page: 'roll-for-good', group: 1 },
+  { label: 'About',            Icon: IconChatBubble,  page: 'about', group: 1 },
+  { label: 'Roadmap',          Icon: IconCastle,      page: 'roadmap', group: 2 },
+  { label: 'Change Log',       Icon: IconDocumentAlt, page: 'changelog', group: 2 },
+];
+
+/* ─── Profile menu items ─────────────────────────────────────── */
+
+const PROFILE_ITEMS = [
+  { id: 'profile',  label: 'Update Profile',   Icon: IconPen,      nav: 'profile' },
+  { id: 'settings', label: 'Account Settings',  Icon: IconSettings, nav: 'settings' },
+  { id: 'boards',   label: 'Boards & Themes',   Icon: IconPalette,  soon: true },
+  { id: 'history',  label: 'Game History',       Icon: IconHistory,  soon: true },
+];
+
+/* ─── LanguageSelector ───────────────────────────────────────── */
+
+function LanguageSelector({ isOpen, onToggle, onClose }) {
+  const [selectedLang, setSelectedLang] = useState('en');
+  const ref = useRef(null);
+  const current = LANGUAGES.find(l => l.code === selectedLang) || LANGUAGES[0];
+  const flagSrc = new URL(`../imgs/icon-flags/${current.flag}`, import.meta.url).href;
+
   return (
-    <div className={`ix-newsletter${horizontal ? ' ix-newsletter--horizontal' : ''}`}>
-      <img
-        src={diceDecoration}
-        alt=""
-        aria-hidden="true"
-        className="ix-newsletter-dice"
-      />
-      <div className="ix-newsletter-left">
-        <p className="ix-newsletter-label">We're in Early Access</p>
-        <p className="ix-newsletter-cta-text">
-          Sign up for updates
-          <IconArrowDown />
-        </p>
-      </div>
-      <div className="ix-newsletter-right">
-        <div className="ix-newsletter-input-row">
-          <div className="ix-newsletter-input-group">
-            <IconEnvelope />
-            <input
-              className="ix-newsletter-input"
-              type="text"
-              placeholder="Email address"
-              readOnly
-            />
-          </div>
-          <button className="ix-newsletter-submit" type="button">
-            Sign Up
-          </button>
+    <div ref={ref} className="ix-lang-wrap">
+      <button className={`ix-lang${isOpen ? ' ix-lang--active' : ''}`} onClick={onToggle} type="button" aria-label="Select language">
+        <img className="ix-lang__flag" src={flagSrc} alt={current.name} />
+        <span className="ix-lang__chevron" style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+          <IconChevronDown size={12} />
+        </span>
+      </button>
+
+      {isOpen && (
+        <div className="ix-dropdown ix-dropdown--lang">
+          {LANGUAGES.map(lang => {
+            const isActive = lang.code === selectedLang;
+            return (
+              <button
+                key={lang.code}
+                className={`ix-dropdown__item${isActive ? ' ix-dropdown__item--active' : ''}`}
+                onClick={() => { setSelectedLang(lang.code); onClose(); }}
+              >
+                <img
+                  className="ix-lang__flag"
+                  src={new URL(`../imgs/icon-flags/${lang.flag}`, import.meta.url).href}
+                  alt=""
+                />
+                <span className="ix-dropdown__item-label">{lang.name}</span>
+                {isActive && (
+                  <span className="ix-dropdown__check">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
-        <p className="ix-newsletter-terms">
-          By signing up, you agree to our
-          <a href="/terms-of-service/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-          and
-          <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-        </p>
-      </div>
+      )}
     </div>
   );
 }
 
-/* ─── CTA Buttons sub-component ──────────────────────────────── */
+/* ─── HamburgerMenu ──────────────────────────────────────────── */
 
-function CTAButtons({ className, cardVariant, onNavigate }) {
-  const base = cardVariant ? 'ix-card-cta' : 'ix-cta';
+function HamburgerMenu({ isOpen, onClose, onNavigate }) {
+  if (!isOpen) return null;
+
+  let lastGroup = HAMBURGER_ITEMS[0].group;
+
   return (
-    <div className={className}>
-      <button className={`${base} ${base}--ai`} onClick={() => onNavigate?.('play')}>
+    <div className="ix-dropdown ix-dropdown--hamburger">
+      {HAMBURGER_ITEMS.map((item, i) => {
+        const showSep = i > 0 && item.group !== lastGroup;
+        lastGroup = item.group;
+        return (
+          <React.Fragment key={item.label}>
+            {showSep && <div className="ix-dropdown__separator--dotted" />}
+            <button
+              className="ix-dropdown__item"
+              onClick={() => { onNavigate(item.page); onClose(); }}
+            >
+              <span className="ix-dropdown__item-icon"><item.Icon /></span>
+              <span className="ix-dropdown__item-label">{item.label}</span>
+            </button>
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ─── IndexProfileDropdown ───────────────────────────────────── */
+
+function IndexProfileDropdown({ isOpen, onClose, onNavigate, onViewChange, authState }) {
+  if (!isOpen) return null;
+  const { isLoggedIn, isGuest } = authState;
+
+  return (
+    <div className="ix-dropdown ix-dropdown--profile">
+      {/* Username header with person icon */}
+      <div className="ix-dropdown__item-username">
+        <span className="ix-dropdown__item-icon"><IconProfile /></span>
+        <span>{isGuest ? 'Guest_847291' : 'PreciseTactician1829'}</span>
+      </div>
+      <div className="ix-dropdown__separator" />
+
+      {PROFILE_ITEMS.map(({ id, label, Icon, soon, nav }) => (
+        <button
+          key={id}
+          className={`ix-dropdown__item${soon && !nav ? ' ix-dropdown__item--disabled' : ''}`}
+          onClick={() => {
+            if (nav) { onNavigate(nav); onClose(); }
+          }}
+        >
+          <span className="ix-dropdown__item-icon"><Icon /></span>
+          <span className="ix-dropdown__item-label">{label}</span>
+          {soon && <span className="ix-dropdown__badge">Soon</span>}
+        </button>
+      ))}
+
+      {isGuest && (
+        <>
+          <div className="ix-dropdown__separator" />
+          <div className="ix-dropdown__guest-prompt">
+            <strong>Sign Up</strong> to save match history
+          </div>
+          <div className="ix-dropdown__auth-btns">
+            <button
+              className="ix-dropdown__auth-btn ix-dropdown__auth-btn--login"
+              onClick={() => { onViewChange?.('Login'); onClose(); }}
+            >
+              Log In
+            </button>
+            <button
+              className="ix-dropdown__auth-btn ix-dropdown__auth-btn--signup"
+              onClick={() => { onViewChange?.('Sign Up'); onClose(); }}
+            >
+              Sign Up
+            </button>
+          </div>
+        </>
+      )}
+
+      {isLoggedIn && (
+        <button className="ix-dropdown__logout" onClick={onClose}>
+          Log Out
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* ─── IndexHeader ────────────────────────────────────────────── */
+
+function IndexHeader({ authState, onNavigate, onViewChange }) {
+  const { isLoggedIn, isGuest, isLoggedOut } = authState;
+  const showAvatar = isLoggedIn || isGuest;
+  const [activeMenu, setActiveMenu] = useState(null); // 'hamburger' | 'profile' | 'lang' | null
+  const headerRef = useRef(null);
+
+  const toggleMenu = useCallback((menu) => {
+    setActiveMenu(prev => prev === menu ? null : menu);
+  }, []);
+
+  const closeAll = useCallback(() => setActiveMenu(null), []);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!activeMenu) return;
+    const handler = (e) => {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setActiveMenu(null);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [activeMenu]);
+
+  // Close on ESC
+  useEffect(() => {
+    if (!activeMenu) return;
+    const handler = (e) => {
+      if (e.key === 'Escape') setActiveMenu(null);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [activeMenu]);
+
+  return (
+    <header className="ix-header" ref={headerRef}>
+      <div className="ix-header__inner">
+        {/* Logo */}
+        <span className="ix-logo" style={{ cursor: 'default' }}>
+          <img src={logoWhite} alt="Backgammon.com" />
+        </span>
+
+        {/* Desktop nav links */}
+        <nav className="ix-nav">
+          {NAV_LINKS.map(({ label, page }) => (
+            <button
+              key={page}
+              className="ix-nav__link"
+              onClick={() => onNavigate(page)}
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Right side */}
+        <div className="ix-header-right">
+          {showAvatar ? (
+            /* Logged-in or Guest: Avatar + chevron */
+            <div
+              className={`ix-avatar-trigger${activeMenu === 'profile' ? ' ix-avatar-trigger--active' : ''}`}
+              onClick={() => toggleMenu('profile')}
+            >
+              <Avatar
+                src={isGuest ? null : avatarImg}
+                alt="Avatar"
+                size="sm"
+                fallbackInitial={isGuest ? '?' : undefined}
+              />
+              <span className={`ix-avatar-chevron${activeMenu === 'profile' ? ' ix-avatar-chevron--open' : ''}`}>
+                <IconChevronDown size={14} />
+              </span>
+              <IndexProfileDropdown
+                isOpen={activeMenu === 'profile'}
+                onClose={closeAll}
+                onNavigate={onNavigate}
+                onViewChange={onViewChange}
+                authState={authState}
+              />
+            </div>
+          ) : (
+            /* Logged-out: Language selector + Login + Sign Up */
+            <>
+              <LanguageSelector
+                isOpen={activeMenu === 'lang'}
+                onToggle={() => toggleMenu('lang')}
+                onClose={closeAll}
+              />
+              <button className="ix-btn ix-btn--login" onClick={() => onViewChange('Login')}>
+                Login
+              </button>
+              <button className="ix-btn ix-btn--signup ix-btn--signup-header" onClick={() => onViewChange('Sign Up')}>
+                Sign Up
+              </button>
+            </>
+          )}
+
+          {/* Hamburger (mobile only) */}
+          <div className={`ix-hamburger-wrap${activeMenu === 'hamburger' ? ' ix-hamburger-wrap--active' : ''}`}>
+            <button
+              className={`ix-hamburger${activeMenu === 'hamburger' ? ' ix-hamburger--active' : ''}`}
+              onClick={() => toggleMenu('hamburger')}
+              aria-label={activeMenu === 'hamburger' ? 'Close menu' : 'Open menu'}
+            >
+              {activeMenu === 'hamburger' ? <IconClose /> : <IconHamburger />}
+            </button>
+            <HamburgerMenu
+              isOpen={activeMenu === 'hamburger'}
+              onClose={closeAll}
+              onNavigate={onNavigate}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile backdrop overlay */}
+      {(activeMenu === 'hamburger' || activeMenu === 'profile' || activeMenu === 'lang') && (
+        <div className="ix-backdrop" onClick={closeAll} />
+      )}
+    </header>
+  );
+}
+
+/* ─── CTA Buttons ────────────────────────────────────────────── */
+
+function CTAButtons({ onNavigate }) {
+  return (
+    <div className="ix-ctas">
+      <button className="ix-cta ix-cta--ai" onClick={() => onNavigate?.('play')}>
         <span className="ix-cta-icon"><IconRobot /></span>
         <span>Play vs AI</span>
       </button>
-      <button className={`${base} ${base}--friend`} onClick={() => onNavigate?.('play')}>
+      <button className="ix-cta ix-cta--friend" onClick={() => onNavigate?.('play')}>
         <span className="ix-cta-icon"><IconUserPlus /></span>
         <span>Play a friend</span>
       </button>
@@ -136,7 +540,7 @@ function CTAButtons({ className, cardVariant, onNavigate }) {
   );
 }
 
-/* ─── Auth form sub-component ────────────────────────────────── */
+/* ─── Auth form ──────────────────────────────────────────────── */
 
 function AuthForm({ view, onViewChange }) {
   const isLogin = view === 'Login' || view === 'Login Error';
@@ -199,87 +603,10 @@ function AuthForm({ view, onViewChange }) {
   );
 }
 
-/* ─── Mobile Nav ─────────────────────────────────────────────── */
-
-function IconLearnNav() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 60 60" fill="none">
-      <path d="M42.5 50H20C15.8594 50 12.5 46.6406 12.5 42.5V17.5C12.5 13.3594 15.8594 10 20 10H43.75C45.8203 10 47.5 11.6797 47.5 13.75V36.25C47.5 37.8828 46.4531 39.2734 45 39.7891V45C46.3828 45 47.5 46.1172 47.5 47.5C47.5 48.8828 46.3828 50 45 50H42.5ZM20 40C18.6172 40 17.5 41.1172 17.5 42.5C17.5 43.8828 18.6172 45 20 45H40V40H20ZM22.5 21.875C22.5 22.9141 23.3359 23.75 24.375 23.75H38.125C39.1641 23.75 40 22.9141 40 21.875C40 20.8359 39.1641 20 38.125 20H24.375C23.3359 20 22.5 20.8359 22.5 21.875ZM24.375 27.5C23.3359 27.5 22.5 28.3359 22.5 29.375C22.5 30.4141 23.3359 31.25 24.375 31.25H38.125C39.1641 31.25 40 30.4141 40 29.375C40 28.3359 39.1641 27.5 38.125 27.5H24.375Z" fill="currentColor"/>
-    </svg>
-  );
-}
-
-function IconProfileNav() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 60 60" fill="none">
-      <path d="M30 29.0476C31.2507 29.0476 32.4892 28.8013 33.6446 28.3227C34.8001 27.844 35.85 27.1425 36.7344 26.2582C37.6188 25.3738 38.3203 24.3239 38.7989 23.1684C39.2775 22.0129 39.5238 20.7745 39.5238 19.5238C39.5238 18.2731 39.2775 17.0347 38.7989 15.8792C38.3203 14.7237 37.6188 13.6738 36.7344 12.7895C35.85 11.9051 34.8001 11.2036 33.6446 10.725C32.4892 10.2463 31.2507 10 30 10C28.7493 10 27.5109 10.2463 26.3554 10.725C25.1999 11.2036 24.15 11.9051 23.2657 12.7895C22.3813 13.6738 21.6798 14.7237 21.2012 15.8792C20.7226 17.0347 20.4762 18.2731 20.4762 19.5238C20.4762 20.7745 20.7226 22.0129 21.2012 23.1684C21.6798 24.3239 22.3813 25.3738 23.2657 26.2582C24.15 27.1425 25.1999 27.844 26.3554 28.3227C27.5109 28.8013 28.7493 29.0476 30 29.0476ZM27.6429 33.4921C19.8254 33.4921 13.4921 39.8254 13.4921 47.6429C13.4921 48.9444 14.5477 50 15.8492 50H44.1508C45.4524 50 46.508 48.9444 46.508 47.6429C46.508 39.8254 40.1746 33.4921 32.3572 33.4921H27.6429Z" fill="currentColor"/>
-    </svg>
-  );
-}
-
-function IconNewGameNav() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 60 60" fill="none">
-      <path d="M30 5.81998C37.5987 5.81998 43.7586 11.9794 43.7588 19.5778C43.7588 23.0493 42.4718 26.2196 40.3506 28.6403C37.8287 25.7625 34.1271 23.944 30 23.944C25.8726 23.944 22.1703 25.7622 19.6484 28.6403C17.5275 26.2196 16.2412 23.049 16.2412 19.5778C16.2414 11.9794 22.4013 5.82 30 5.81998ZM30 26.6634C37.5987 26.6634 43.7586 32.8228 43.7588 40.4212C43.7588 48.0198 37.5988 54.18 30 54.18C22.4012 54.18 16.2412 48.0197 16.2412 40.4212C16.2414 32.8228 22.4013 26.6634 30 26.6634ZM30 33.0472C29.3893 33.0474 28.8945 33.5428 28.8945 34.1536V39.3157H23.7324C23.1216 39.3157 22.6261 39.8104 22.626 40.4212C22.626 41.0321 23.1215 41.5276 23.7324 41.5276H28.8945V46.6898C28.8946 47.3005 29.3893 47.796 30 47.7962C30.6108 47.796 31.1064 47.3005 31.1064 46.6898V41.5276H36.2686C36.8793 41.5275 37.375 41.032 37.375 40.4212C37.3748 39.8105 36.8792 39.3159 36.2686 39.3157H31.1064V34.1536C31.1064 33.5428 30.6108 33.0473 30 33.0472Z" fill="currentColor"/>
-    </svg>
-  );
-}
-
-function IconActivityNav() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 40 40" fill="currentColor">
-      <path d="M20.0038 0C18.6547 0 17.5648 1.08994 17.5648 2.43902V2.68293C12.0008 3.81098 7.80871 8.73476 7.80871 14.6341V16.2881C7.80871 19.9543 6.55871 23.5137 4.27213 26.3796L3.52518 27.3095C3.13646 27.7896 2.93066 28.3841 2.93066 29.0015C2.93066 30.4954 4.14255 31.7073 5.63646 31.7073H34.3636C35.8575 31.7073 37.0694 30.4954 37.0694 29.0015C37.0694 28.3841 36.8636 27.7896 36.4749 27.3095L35.7279 26.3796C33.449 23.5137 32.199 19.9543 32.199 16.2881V14.6341C32.199 8.73476 28.0069 3.81098 22.4429 2.68293V2.43902C22.4429 1.08994 21.3529 0 20.0038 0Z"/>
-      <path d="M14.386 34.386C14.386 35.8749 14.9775 37.3028 16.0303 38.3557C17.0832 39.4085 18.5111 40 20.0001 40C21.489 40 22.917 39.4085 23.9698 38.3557C25.0226 37.3028 25.6141 35.8749 25.6141 34.386H14.386Z"/>
-    </svg>
-  );
-}
-
-function IconSettingsNav() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-    </svg>
-  );
-}
-
-const IX_NAV_ITEMS = [
-  { label: 'Learn',         Icon: IconLearnNav },
-  { label: 'My Profile',    Icon: IconProfileNav },
-  { label: 'New Game',      Icon: IconNewGameNav },
-  { label: 'Notifications', Icon: IconActivityNav,  hasBadge: true },
-  { label: 'Settings',      Icon: IconSettingsNav },
-];
-
-function MobileNav({ onNavigate, hasUnread }) {
-  return (
-    <nav className="mobile-nav">
-      {IX_NAV_ITEMS.map(({ label, Icon, hasBadge }) => (
-        <button
-          key={label}
-          className={`mobile-nav__item${hasBadge ? ' mobile-nav__item--has-badge' : ''}`}
-          onClick={
-            label === 'Learn' ? () => onNavigate?.('learn-hub')
-            : label === 'My Profile' ? () => onNavigate?.('profile')
-            : label === 'New Game' ? () => onNavigate?.('play')
-            : label === 'Settings' ? () => onNavigate?.('settings')
-            : undefined
-          }
-        >
-          <Icon />
-          {hasBadge && hasUnread && <span className="mobile-nav__badge" />}
-        </button>
-      ))}
-    </nav>
-  );
-}
-
 /* ─── IndexPage component ────────────────────────────────────── */
 
 export default function IndexPage({ onNavigate }) {
-  const loggedIn = useDMEState('auth.loggedIn');
-  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
-  const logoVariant = useDMEState('global.logoVariant', 'Black');
-  const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
+  const authState = useDMEState('auth.loggedIn');
   const indexView = useDMEState('index.view', 'Home');
   const [localView, setLocalView] = useState(indexView);
 
@@ -288,91 +615,68 @@ export default function IndexPage({ onNavigate }) {
     setLocalView(indexView);
   }, [indexView]);
 
+  // Derive auth booleans — support legacy boolean + new select values
+  const isLoggedIn = authState === true || authState === 'logged-in';
+  const isGuest = authState === 'guest';
+  const isLoggedOut = authState === false || authState === 'logged-out';
+
   const currentView = localView;
   const isHome = currentView === 'Home';
 
   return (
     <div className="ix-page">
-      <main className="ix-main">
-        {/* ── Left panel: hero ─────────────────────────────────── */}
-        <section className={`ix-left${isHome ? ' surface-tertiary' : ''}`} data-section-id={isHome ? 'ix-left' : 'ix-auth'}>
-          {/* Header */}
-          <div className="ix-header">
-            <span className="ix-logo" style={{ cursor: 'default' }}>
-              <img src={isHome ? logoSrc : logoBlack} alt="Backgammon.com" />
-            </span>
-            <div className="ix-header-actions">
-              {loggedIn ? (
-                <div style={{ '--color-avatar-bg': 'var(--prim-mint-700)' }}>
-                  <AvatarDropdown onNavigate={onNavigate} />
-                </div>
-              ) : isHome ? (
-                <>
-                  <button className="ix-btn ix-btn--login" onClick={() => setLocalView('Login')}>Log In</button>
-                  <button className="ix-btn ix-btn--signup" onClick={() => setLocalView('Sign Up')}>Sign Up</button>
-                </>
-              ) : null}
+      <IndexHeader
+        authState={{ isLoggedIn, isGuest, isLoggedOut }}
+        onNavigate={onNavigate}
+        onViewChange={setLocalView}
+      />
+
+      <main className="ix-content">
+        {isHome ? (
+          <>
+            <img
+              className="ix-dice-deco"
+              src={diceDecoration}
+              alt=""
+              aria-hidden="true"
+            />
+
+            <div className="ix-hero">
+              <h1>
+                <span>Play Backgammon online.</span>
+                <br />
+                <span>A classic game, made modern.</span>
+              </h1>
+              <p className="ix-hero-sub">
+                Enjoy one of the world's oldest games, for free, right here in your browser
+              </p>
             </div>
-          </div>
 
-          {/* View-dependent content */}
-          {isHome ? (
-            <>
-              {/* Hero text */}
-              <div className="ix-hero-wrap">
-                <div className="ix-hero">
-                  <h1>
-                    <span>Play Backgammon online.</span>
-                    <br />
-                    <span>A classic game, made modern.</span>
-                  </h1>
-                  <p className="ix-hero-sub">
-                    Enjoy one of the world's oldest games, for free, right here in your browser
-                  </p>
-                </div>
-              </div>
+            <CTAButtons onNavigate={onNavigate} />
 
-              {/* Mobile CTAs (hidden on lg+) */}
-              <CTAButtons className="ix-mobile-ctas" onNavigate={onNavigate} />
+            <p className="ix-learn-link">
+              New To Backgammon?{' '}
+              <button type="button" onClick={() => onNavigate('learn-hub')}>
+                Learn How To Play
+              </button>
+            </p>
 
-              {/* Desktop newsletter (hidden on mobile) */}
-              <div className="ix-newsletter-desktop">
-                <Newsletter horizontal />
-              </div>
-            </>
-          ) : (
-            <AuthForm view={currentView} onViewChange={setLocalView} />
-          )}
-        </section>
-
-        {/* ── Right panel: board background ────────────────────── */}
-        <section className="ix-right surface-muted" data-section-id="ix-right">
-          {/* Desktop: Play Now card (hidden in auth views) */}
-          {isHome && (
-            <div className="ix-play-card">
-              <div className="ix-play-card-inner">
-                <div className="ix-play-card-content">
-                  <p className="ix-play-card-title">Play now</p>
-                  <CTAButtons className="ix-play-card-content" cardVariant onNavigate={onNavigate} />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Mobile: newsletter in right panel */}
-          <div className="ix-newsletter-mobile">
-            <Newsletter />
-          </div>
-        </section>
+            <p className="ix-terms">
+              By signing up, you agree to our{' '}
+              <a href="/terms-of-service/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+              {' '}and{' '}
+              <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
+          </>
+        ) : (
+          <AuthForm view={currentView} onViewChange={setLocalView} />
+        )}
       </main>
 
       {/* Feedback FAB */}
       <button className="ix-feedback-btn" aria-label="Feedback">
         <IconFeedback />
       </button>
-
-      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} />
-      <div className="mobile-nav__spacer" />
     </div>
   );
 }

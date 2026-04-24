@@ -46,6 +46,10 @@ const PAGES = [
   { id: 'surface-preview', label: 'Surface Preview' },
   { id: 'buttons-sheet',   label: 'Buttons Sheet' },
   { id: 'idp-audit',       label: 'IDP Audit' },
+  { id: 'roll-for-good',   label: 'Roll For Good' },
+  { id: 'roadmap',          label: 'Roadmap' },
+  { id: 'changelog',        label: 'Change Log' },
+  { id: 'about',            label: 'About' },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
@@ -106,7 +110,7 @@ function getInitialPage() {
 }
 
 const INIT_STATES = (() => {
-  const base = fileDefaults.states ?? { 'auth.loggedIn': true }
+  const base = fileDefaults.states ?? { 'auth.loggedIn': 'logged-in' }
   try {
     const session = JSON.parse(sessionStorage.getItem('dme-states'))
     if (session && typeof session === 'object') Object.assign(base, session)
@@ -447,6 +451,17 @@ function App() {
     if (currentPageId === 'surface-preview') return <SurfacePreviewPage onNavigate={navigateTo} />
     if (currentPageId === 'buttons-sheet') return <ButtonsSheetPage onNavigate={navigateTo} />
     if (currentPageId === 'idp-audit') return <AuditPage testResults={testResultsRef.current} testRunning={testRunning} onRunTests={runTests} onNavigate={navigateTo} />
+    // Placeholder for pages without dedicated components
+    const placeholderPage = PAGES.find(p => p.id === currentPageId)
+    if (placeholderPage) {
+      return (
+        <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16, fontFamily: "'Inter', sans-serif" }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0 }}>{placeholderPage.label}</h1>
+          <p style={{ color: '#666', margin: 0 }}>Coming soon</p>
+          <button onClick={() => navigateTo('index')} style={{ marginTop: 8, padding: '10px 24px', borderRadius: 9999, border: 'none', background: 'var(--prim-mint-700)', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Back to Home</button>
+        </div>
+      )
+    }
     return <LearnHubPage onNavigate={navigateTo} />
   }
 

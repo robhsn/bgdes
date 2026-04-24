@@ -434,7 +434,8 @@ const QUIZ_QUESTIONS = [
 const LETTERS = ['A', 'B', 'C'];
 
 function QuizModule() {
-  const loggedIn = useDMEState('auth.loggedIn', true);
+  const _authSt = useDMEState('auth.loggedIn', 'logged-in');
+  const loggedIn = _authSt === true || _authSt === 'logged-in' || _authSt === 'guest';
   const launchMvp = useDMEState('learnArticle.launchMvp', false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected]     = useState(null);

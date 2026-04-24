@@ -145,11 +145,10 @@ function IconChevronDown({ size = 16 }) {
 /* ─── Avatar dropdown menu ───────────────────────────────────── */
 
 const MENU_ITEMS = [
-  { id: 'profile',  label: 'Profile',           Icon: IconProfile,  nav: 'profile' },
-  { id: 'settings', label: 'Settings',           Icon: IconSettings, nav: 'settings' },
-  { id: 'learn',    label: 'Learn to play',       Icon: IconLearn,    nav: 'learn-hub' },
-  { id: 'boards',   label: 'Boards & themes',    Icon: IconPalette,  soon: true },
-  { id: 'history',  label: 'Match history',        Icon: IconHistory,  nav: 'profile', tab: 'Match History' },
+  { id: 'profile',  label: 'Update Profile',     Icon: IconProfile,  nav: 'profile' },
+  { id: 'settings', label: 'Account Settings',   Icon: IconSettings, nav: 'settings' },
+  { id: 'boards',   label: 'Boards & Themes',    Icon: IconPalette,  soon: true },
+  { id: 'history',  label: 'Game History',        Icon: IconHistory,  soon: true },
 ];
 
 export function AvatarDropdown({ avatarSrc, onNavigate }) {
@@ -205,6 +204,21 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
           zIndex: 9999,
           overflow: 'hidden',
         }}>
+          {/* Username header */}
+          <div style={{
+            padding: '12px 18px',
+            fontFamily: fd, fontWeight: 700, fontSize: 'var(--size-dropdown)',
+            color: 'var(--color-dropdown-text)',
+            lineHeight: 1,
+          }}>
+            PreciseTactician1829
+          </div>
+          <div style={{
+            height: 1,
+            background: 'var(--color-dropdown-separator)',
+            margin: '2px 18px 6px',
+          }} />
+
           {MENU_ITEMS.map(({ id, label, Icon, soon, nav, tab }) => (
             <div
               key={id}
@@ -283,7 +297,8 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
 /* ─── Site Header ─────────────────────────────────────────────── */
 
 export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }) {
-  const loggedIn = useDMEState('auth.loggedIn', true);
+  const authState = useDMEState('auth.loggedIn', 'logged-in');
+  const loggedIn = authState === true || authState === 'logged-in' || authState === 'guest';
   const logoVariant = useDMEState('global.logoVariant', 'Black');
   const logoSrc = logoVariant === 'White' ? logoWhite : logoBlack;
   return (

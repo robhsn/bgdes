@@ -1074,7 +1074,7 @@
     }
   },
   "states": {
-    "auth.loggedIn": true,
+    "auth.loggedIn": "logged-in",
     "profile.celebration": false,
     "global.logoVariant": "White",
     "profile.tab": "Match History",

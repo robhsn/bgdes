@@ -156,13 +156,16 @@ function generatePageStateURLs(pageId, pageLabel) {
   }
 
   function isInvalid(combo) {
-    const loggedIn = combo['auth.loggedIn'] ?? defaults['auth.loggedIn'];
+    const authVal = combo['auth.loggedIn'] ?? defaults['auth.loggedIn'];
+    const loggedIn = authVal === true || authVal === 'logged-in';
+    const isGuest = authVal === 'guest';
+    const isLoggedOut = authVal === false || authVal === 'logged-out';
 
     if (pageId === 'profile') {
       const viewType = combo['profile.viewType'] ?? defaults['profile.viewType'];
       const tab = combo['profile.tab'] ?? defaults['profile.tab'];
-      if (!loggedIn && viewType.startsWith('Own')) return true;
-      if (loggedIn && viewType.startsWith('Guest')) return true;
+      if (isLoggedOut && viewType.startsWith('Own')) return true;
+      if ((loggedIn || isGuest) && viewType.startsWith('Guest')) return true;
       if (!viewType.startsWith('Own') && tab === 'Friends') return true;
       if (!viewType.startsWith('Own') && tab === 'Achievements') return true;
     }
@@ -172,7 +175,7 @@ function generatePageStateURLs(pageId, pageLabel) {
       if (loggedIn && ['Login', 'Sign Up', 'Login Error'].includes(indexView)) return true;
     }
 
-    if (pageId === 'settings' && !loggedIn) return true;
+    if (pageId === 'settings' && isLoggedOut) return true;
 
     return false;
   }
@@ -189,9 +192,7 @@ function generatePageStateURLs(pageId, pageLabel) {
   }
 
   const keys = defs.map(d => d.key);
-  const optionArrays = defs.map(d =>
-    d.key === 'auth.loggedIn' ? [true, false] : d.options
-  );
+  const optionArrays = defs.map(d => d.options);
 
   const products = cartesian(optionArrays);
   const urlSet = new Set();
@@ -220,11 +221,7 @@ function generatePageStateURLs(pageId, pageLabel) {
       const val = combo[key];
       if (val === defaults[key]) continue;
       params.set(key, String(val));
-      if (key === 'auth.loggedIn' && val === false) {
-        labelParts.push('Logged Out');
-      } else {
-        labelParts.push(String(val));
-      }
+      labelParts.push(String(val));
     }
 
     const url = baseURL + '?' + params.toString();

@@ -22,10 +22,11 @@ export function useDMESetState() {
 export const STATE_DEFINITIONS = [
   {
     key: 'auth.loggedIn',
-    label: 'Logged In',
-    description: 'Show authenticated state: player avatar',
+    label: 'Auth State',
+    description: 'Switch between auth states: logged in, guest play, or logged out',
     type: 'global',
-    defaultValue: true,
+    defaultValue: 'logged-in',
+    options: ['logged-in', 'guest', 'logged-out'],
   },
   {
     key: 'profile.viewType',

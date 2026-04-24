@@ -269,7 +269,8 @@ function CourseAccordion({ title, description, progressFilled = 0, progressTotal
 /* ─── Main page ───────────────────────────────────────────────── */
 
 export default function LearnHubPage({ onNavigate }) {
-  const loggedIn = useDMEState('auth.loggedIn', true);
+  const _authSt = useDMEState('auth.loggedIn', 'logged-in');
+  const loggedIn = _authSt === true || _authSt === 'logged-in' || _authSt === 'guest';
   const acState = useDMEState('social.activityCenter', 'Activity - Unread');
   const mvp = useDMEState('learnArticle.launchMvp', true);
 

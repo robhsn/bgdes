@@ -581,10 +581,11 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
     setIsDirty(!savedMatch);
   }, [restoreSnapshot]);
 
-  /* ── Hover highlight ────────────────────────────────────── */
+  /* ── Hover highlight (suppressed while Shift held) ──────── */
   useEffect(() => {
     if (!visible) { setHoverRect(null); return; }
     const handler = (e) => {
+      if (e.shiftKey) { setHoverRect(null); return; }
       if (rafRef.current) return;
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
@@ -607,6 +608,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
   useEffect(() => {
     if (!visible) return;
     const handler = (e) => {
+      if (e.shiftKey) return; // Shift+click bypasses targeting — interact normally
       if (shouldSkip(e.target)) return;
       e.preventDefault();
       e.stopPropagation();
