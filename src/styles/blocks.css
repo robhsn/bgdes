@@ -2150,10 +2150,10 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
   min-width: 0;
 }
 
-.profile-header__name {
+h1.profile-header__name {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 1.8rem;
+  font-size: 1.75rem !important;
   color: var(--color-heading);
   line-height: 1.1;
   margin: 0;
@@ -2245,6 +2245,11 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
   justify-content: center;
 }
 
+.profile-header__bio-col--editing {
+  overflow: visible;
+  min-width: 200px;
+}
+
 .profile-header__stats-col {
   flex-shrink: 0;
   margin-left: auto;
@@ -2261,7 +2266,7 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
   min-width: 0;
   text-align: center;
   padding: 8px 16px;
-  border-right: 1px solid var(--color-border);
+  border-right: 1px solid #368c72;
   position: relative;
 }
 .stat-card:has(.stat-card__percentile) {
@@ -2287,6 +2292,7 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
   font-family: var(--font-meta);
   font-size: 11px;
   color: var(--color-muted);
+  opacity: 0.6;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 600;
@@ -3070,13 +3076,12 @@ body[data-web-header="true"] .site-footer { padding-bottom: 32px !important; }
 
 .profile-header__edit-name-wrap {
   width: 100%;
-  max-width: 480px;
 }
 
 .profile-header__name-input {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  font-size: 32px;
+  font-size: 1.75rem;
   color: var(--color-heading);
   line-height: 1.1;
   background: transparent;
