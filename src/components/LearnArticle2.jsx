@@ -1,5 +1,6 @@
 import React, { useRef, useState, useLayoutEffect } from 'react';
-import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import boardSample from '../imgs/board-sample.png';
 
@@ -996,7 +997,7 @@ export default function LearnArticle2({ onNavigate }) {
     }}>
 
       {/* ── HEADER ── */}
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       {/* ── HERO / INTRO ── */}
       <section className="section" data-section-id="ls-hero">
@@ -1213,7 +1214,7 @@ export default function LearnArticle2({ onNavigate }) {
       <PlayNowCta sectionId="gl-cta" />
 
       {/* ── FOOTER ── */}
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
 
       {/* ── TABLE OF CONTENTS ── */}
       <TableOfContents />

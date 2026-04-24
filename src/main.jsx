@@ -14,6 +14,7 @@ import ButtonsSheetPage from './components/ButtonsSheetPage'
 import AuditPage from './components/AuditPage'
 import EthosPage from './components/EthosPage'
 import RollForGoodPage from './components/RollForGoodPage'
+import SiteHeader from './components/SiteHeader'
 import TEST_DEFINITIONS from './tests/test-definitions'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
@@ -121,7 +122,7 @@ function getInitialPage() {
   if (urlPage && PAGE_IDS.has(urlPage)) return urlPage
   const stored = sessionStorage.getItem('dme-page')
   if (stored && PAGE_IDS.has(stored)) return stored
-  return 'learn-hub'
+  return 'index'
 }
 
 const INIT_STATES = (() => {
@@ -475,10 +476,13 @@ function App() {
     const placeholderPage = PAGES.find(p => p.id === currentPageId)
     if (placeholderPage) {
       return (
-        <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16, fontFamily: "'Inter', sans-serif" }}>
-          <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0 }}>{placeholderPage.label}</h1>
-          <p style={{ color: '#666', margin: 0 }}>Coming soon</p>
-          <button onClick={() => navigateTo('index')} style={{ marginTop: 8, padding: '10px 24px', borderRadius: 9999, border: 'none', background: 'var(--prim-mint-700)', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Back to Home</button>
+        <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', fontFamily: "'Inter', sans-serif" }}>
+          <SiteHeader onNavigate={navigateTo} />
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+            <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0 }}>{placeholderPage.label}</h1>
+            <p style={{ color: '#666', margin: 0 }}>Coming soon</p>
+            <button onClick={() => navigateTo('index')} style={{ marginTop: 8, padding: '10px 24px', borderRadius: 9999, border: 'none', background: 'var(--prim-mint-700)', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>Back to Home</button>
+          </div>
         </div>
       )
     }

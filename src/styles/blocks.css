@@ -4716,7 +4716,7 @@ h1.profile-header__name {
 .pp-tab-bar {
   border-bottom: 1px solid var(--color-border);
   position: sticky;
-  top: 0;
+  top: var(--ix-header-height, 56px);
   z-index: 10;
   background-color: var(--color-bg);
 }
@@ -4997,4 +4997,31 @@ h1.profile-header__name {
   font-family: var(--font-body);
   font-size: 13px;
   color: var(--color-body);
+}
+
+/* ── Roll for Good — partners line ───────────────────────────── */
+
+.rfg-partners {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.rfg-partners__divider {
+  width: 1px;
+  height: 1em;
+  background: var(--prim-mint-300, #6bcaba);
+  flex-shrink: 0;
+}
+
+@media (max-width: 1023px) {
+  .rfg-partners {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rfg-partners__divider {
+    display: none;
+  }
 }

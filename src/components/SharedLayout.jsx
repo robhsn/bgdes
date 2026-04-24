@@ -382,7 +382,15 @@ export function PlayNowCta({ sectionId }) {
 
 /* ─── Site Footer ─────────────────────────────────────────────── */
 
-export function SiteFooter({ sectionId }) {
+const FOOTER_NAV_LINKS = [
+  { label: 'Learn Backgammon', page: 'learn-hub' },
+  { label: 'Roll For Good',    page: 'roll-for-good' },
+  { label: 'Roadmap',          page: 'roadmap' },
+  { label: 'Change Log',       page: 'changelog' },
+  { label: 'About',            page: 'about' },
+];
+
+export function SiteFooter({ sectionId, onNavigate }) {
   return (
     <footer className="surface-inverse site-footer" {...(sectionId ? { 'data-section-id': sectionId } : {})} style={{
       width: '100%',
@@ -404,13 +412,12 @@ export function SiteFooter({ sectionId }) {
         gap: 16,
       }}>
         <div data-role-id="gl-footer-heading" style={{
-          display: 'flex', alignItems: 'flex-end',
-          fontFamily: fl, fontWeight: 700,
-          color: 'var(--color-logo)',
-          letterSpacing: '-0.5px', lineHeight: 1,
+          display: 'flex', alignItems: 'center', gap: 16,
         }}>
-          <span style={{ fontSize: 20 }}>Backgammon</span>
-          <span style={{ fontSize: 13, opacity: 0.35 }}>.com</span>
+          <img src={logoWhite} alt="Backgammon.com" style={{ height: 24, width: 'auto' }} />
+          <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
+            &copy; 2026 Backgammon.com
+          </span>
         </div>
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
           {SOCIAL_LINKS.map(({ label, Icon }) => (
@@ -433,12 +440,18 @@ export function SiteFooter({ sectionId }) {
         maxWidth: 'var(--content-max-width)',
         margin: '0 auto', width: '100%',
         display: 'flex', gap: 24, alignItems: 'center',
-        flexWrap: 'wrap', justifyContent: 'space-between',
+        flexWrap: 'wrap',
       }}>
-        <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
-          &copy; 2026 Backgammon.com
-        </span>
-        <div style={{ display: 'flex', gap: 24 }}>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          {FOOTER_NAV_LINKS.map(({ label, page }) => (
+            <button
+              key={page}
+              onClick={() => onNavigate?.(page)}
+              style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+            >
+              {label}
+            </button>
+          ))}
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Terms of Service</a>
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Privacy Policy</a>
         </div>

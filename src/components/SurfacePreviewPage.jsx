@@ -1,5 +1,6 @@
 import React from 'react';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 
 /* ── Font token shorthands (L2 role tokens) ──────────────────── */
@@ -534,6 +535,7 @@ export default function SurfacePreviewPage({ onNavigate }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg)' }}>
       <SiteHeader onNavigate={onNavigate} />
 
+
       <div
         className={surfaceClass || undefined}
         data-section-id="sp-content"
@@ -585,7 +587,7 @@ export default function SurfacePreviewPage({ onNavigate }) {
         </div>
       </div>
 
-      <SiteFooter />
+      <SiteFooter onNavigate={onNavigate} />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import {
   MOCK_FRIENDS,
   MOCK_REQUESTS_INCOMING,
@@ -51,10 +52,7 @@ export default function NotificationsPage({ onNavigate }) {
 
   return (
     <>
-      <SiteHeader
-        onLogoClick={() => onNavigate?.('index')}
-        onNavigate={onNavigate}
-      />
+      <SiteHeader onNavigate={onNavigate} />
 
       <div style={{
         maxWidth: 640,
@@ -274,7 +272,7 @@ export default function NotificationsPage({ onNavigate }) {
         </Section>
       </div>
 
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
     </>
   );
 }

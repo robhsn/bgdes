@@ -1,5 +1,6 @@
 import React from 'react';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 
 /* ── Surface mapping ──────────────────────────────────────────── */
@@ -506,7 +507,7 @@ export default function ButtonsSheetPage({ onNavigate }) {
         </div>
       </div>
 
-      <SiteFooter />
+      <SiteFooter onNavigate={onNavigate} />
     </div>
   );
 }

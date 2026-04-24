@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import avatarImg from '../imgs/avatar-dink.png';
 import boardSample from '../imgs/board-sample.png';
@@ -3078,11 +3079,7 @@ export default function ProfilePage({ onNavigate }) {
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      <SiteHeader
-        onLogoClick={() => onNavigate?.('index')}
-        onNavigate={onNavigate}
-        avatarSrc={avatarEdit?.cropped || player.avatar}
-      />
+      <SiteHeader onNavigate={onNavigate} />
 
       {/* ── Hidden file inputs ── */}
       <input ref={avatarInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarFileSelect} />
@@ -3357,7 +3354,7 @@ export default function ProfilePage({ onNavigate }) {
         </div>
       )}
 
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
       {!isMvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" onActivityOpen={() => setActivityOpen(true)} />}
       {activityOpen && createPortal(
         <ActivityCenter onNavigate={onNavigate} externalOpen onExternalClose={() => setActivityOpen(false)} />,

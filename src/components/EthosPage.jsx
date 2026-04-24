@@ -1,5 +1,6 @@
 import React from 'react';
-import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 
 /* Token shorthand helpers */
@@ -217,7 +218,7 @@ export default function EthosPage({ onNavigate }) {
     }}>
 
       {/* ── HEADER ── */}
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       {/* ── HERO / INTRO ── */}
       <section className="section" data-section-id="et-hero">
@@ -341,7 +342,7 @@ export default function EthosPage({ onNavigate }) {
       <PlayNowCta sectionId="gl-cta" />
 
       {/* ── FOOTER ── */}
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
 
       {/* ── MOBILE BOTTOM NAV ── */}
       {!launchMvp && <MobileNav onNavigate={onNavigate} />}

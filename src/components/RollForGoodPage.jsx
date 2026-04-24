@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 
 /* Token shorthand helpers */
@@ -573,7 +574,7 @@ export default function RollForGoodPage({ onNavigate }) {
     }}>
 
       {/* ── HEADER ── */}
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       {/* ── HERO / INTRO ── */}
       <section className="section" data-section-id="rfg-hero">
@@ -599,8 +600,10 @@ export default function RollForGoodPage({ onNavigate }) {
           </div>
 
           <BodyText muted>
-            <p style={{ margin: 0, textAlign: 'center' }}>
-              Led by Backgammon.com &nbsp;|&nbsp; In partnership with <a href="https://usbgf.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>USBGF</a> &amp; <a href="https://wbgf.info/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>WBGF</a>
+            <p className="rfg-partners" style={{ margin: 0, textAlign: 'center' }}>
+              <span>Led by Backgammon.com</span>
+              <span className="rfg-partners__divider" />
+              <span>In partnership with <a href="https://usbgf.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>USBGF</a> &amp; <a href="https://wbgf.info/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>WBGF</a></span>
             </p>
           </BodyText>
 
@@ -795,7 +798,7 @@ export default function RollForGoodPage({ onNavigate }) {
       <PlayNowCta sectionId="gl-cta" />
 
       {/* ── FOOTER ── */}
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
 
       {/* ── MOBILE BOTTOM NAV ── */}
       {!launchMvp && <MobileNav onNavigate={onNavigate} />}

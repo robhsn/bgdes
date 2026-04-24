@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDMEState } from '../context/dme-states';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import {
   SettingsContent, AvatarModal, ImageCropModal,
   PRESET_AVATARS,
@@ -153,7 +154,7 @@ export default function SettingsPage({ onNavigate }) {
 
   return (
     <div className="st-page">
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       <div className="st-body" data-section-id="gl-settings">
         <div className="st-content">
@@ -173,7 +174,7 @@ export default function SettingsPage({ onNavigate }) {
         </div>
       </div>
 
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
       <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Settings" />
       <div className="mobile-nav__spacer" />
 

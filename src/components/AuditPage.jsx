@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import './AuditPage.css';
 
 const LS_KEY = 'idp-audit-results';
@@ -194,7 +195,7 @@ export default function AuditPage({ testResults, testRunning, onRunTests, onNavi
 
   return (
     <div className="au-page">
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       <div className="au-body">
         <div className="au-content">
@@ -344,7 +345,7 @@ export default function AuditPage({ testResults, testRunning, onRunTests, onNavi
         </div>
       </div>
 
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
     </div>
   );
 }

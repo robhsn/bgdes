@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SiteHeader, SiteFooter, PlayNowCta } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter, PlayNowCta } from './SharedLayout';
 import { useDMEState } from '../context/dme-states';
 import wbfLogo from '../imgs/wbf-logo.png';
 
@@ -288,7 +289,7 @@ export default function LearnHubPage({ onNavigate }) {
   return (
     <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       {/* ── Hero section ── */}
       <section className="section learn-hero" data-section-id="lh-hero">
@@ -483,7 +484,7 @@ export default function LearnHubPage({ onNavigate }) {
       </section>
 
       <PlayNowCta sectionId="gl-cta" />
-      <SiteFooter sectionId="gl-footer" />
+      <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
 
       {!mvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />}
       {!mvp && <div className="mobile-nav__spacer" />}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SiteHeader, SiteFooter } from './SharedLayout';
+import SiteHeader from './SiteHeader';
+import { SiteFooter } from './SharedLayout';
 import fileDefaults from '../tokens/dme-defaults.json';
 
 /* ── Helpers ─────────────────────────────────────────────────── */
@@ -643,7 +644,7 @@ function LegacyButtonsSection() {
 export default function TokensPage({ onNavigate }) {
   return (
     <div className="token-showcase">
-      <SiteHeader onLogoClick={() => onNavigate?.('index')} onNavigate={onNavigate} />
+      <SiteHeader onNavigate={onNavigate} />
 
       <ColorPalettesSection />
       <SemanticColorsSection />
@@ -655,7 +656,7 @@ export default function TokensPage({ onNavigate }) {
       <StatusColorsSection />
       <ButtonsSection />
       <LegacyButtonsSection />
-      <SiteFooter />
+      <SiteFooter onNavigate={onNavigate} />
     </div>
   );
 }
