@@ -4317,9 +4317,8 @@ h1.profile-header__name {
     display: none;
   }
 
-  .profile-header__actions-row--own,
-  .profile-header__actions-row--other {
-    display: none;
+  .profile-header__actions-row {
+    padding: 8px 0;
   }
 
   .match-history__pagination {
