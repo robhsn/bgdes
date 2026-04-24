@@ -993,7 +993,6 @@ export default function LearnArticle2({ onNavigate }) {
       width: '100%',
       position: 'relative',
       minHeight: '100vh',
-      overflowX: 'hidden',
     }}>
 
       {/* ── HEADER ── */}

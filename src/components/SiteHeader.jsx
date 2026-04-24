@@ -174,8 +174,8 @@ const LANGUAGES = [
 const NAV_LINKS = [
   { label: 'Learn Backgammon', page: 'learn-hub' },
   { label: 'Roll For Good',    page: 'roll-for-good' },
-  { label: 'Roadmap',          page: 'roadmap' },
-  { label: 'Change Log',       page: 'changelog' },
+  { label: 'Roadmap',          href: 'https://feedback.backgammon.com/roadmap/main' },
+  { label: 'Change Log',       href: 'https://feedback.backgammon.com/changelog' },
   { label: 'About',            page: 'about' },
 ];
 
@@ -186,8 +186,8 @@ const HAMBURGER_ITEMS = [
   { label: 'Learn Backgammon',  Icon: IconBook,        page: 'learn-hub', group: 1 },
   { label: 'Roll For Good',    Icon: IconDice,        page: 'roll-for-good', group: 1 },
   { label: 'About',            Icon: IconChatBubble,  page: 'about', group: 1 },
-  { label: 'Roadmap',          Icon: IconCastle,      page: 'roadmap', group: 2 },
-  { label: 'Change Log',       Icon: IconDocumentAlt, page: 'changelog', group: 2 },
+  { label: 'Roadmap',          Icon: IconCastle,      href: 'https://feedback.backgammon.com/roadmap/main', group: 2 },
+  { label: 'Change Log',       Icon: IconDocumentAlt, href: 'https://feedback.backgammon.com/changelog', group: 2 },
 ];
 
 /* ─── Profile menu items ─────────────────────────────────────── */
@@ -263,13 +263,27 @@ function HamburgerMenu({ isOpen, onClose, onNavigate }) {
         return (
           <React.Fragment key={item.label}>
             {showSep && <div className="ix-dropdown__separator--dotted" />}
-            <button
-              className="ix-dropdown__item"
-              onClick={() => { onNavigate(item.page); onClose(); }}
-            >
-              <span className="ix-dropdown__item-icon"><item.Icon /></span>
-              <span className="ix-dropdown__item-label">{item.label}</span>
-            </button>
+            {item.href ? (
+              <a
+                className="ix-dropdown__item"
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <span className="ix-dropdown__item-icon"><item.Icon /></span>
+                <span className="ix-dropdown__item-label">{item.label}</span>
+              </a>
+            ) : (
+              <button
+                className="ix-dropdown__item"
+                onClick={() => { onNavigate(item.page); onClose(); }}
+              >
+                <span className="ix-dropdown__item-icon"><item.Icon /></span>
+                <span className="ix-dropdown__item-label">{item.label}</span>
+              </button>
+            )}
           </React.Fragment>
         );
       })}
@@ -392,8 +406,21 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
         </span>
 
         <nav className="ix-nav">
-          {NAV_LINKS.map(({ label, page }) => {
-            const isActive = currentPage === page || (page === 'learn-hub' && currentPage.startsWith('learn'));
+          {NAV_LINKS.map(({ label, page, href }) => {
+            const isActive = page && (currentPage === page || (page === 'learn-hub' && currentPage.startsWith('learn')));
+            if (href) {
+              return (
+                <a
+                  key={label}
+                  className="ix-nav__link"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {label}
+                </a>
+              );
+            }
             return (
               <button
                 key={page}

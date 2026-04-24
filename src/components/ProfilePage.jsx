@@ -2859,8 +2859,10 @@ export default function ProfilePage({ onNavigate }) {
       setTimeout(() => {
         document.querySelector(`[data-section-id="${scrollIntent}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
+    } else {
+      window.scrollTo(0, 0);
     }
-  });
+  }, []);
   const activeTab = localTab;
   const friendsView = useDMEState('profile.friendsView', 'My Friends');
   const friendStatus = useDMEState('profile.friendStatus', 'Add Friend');

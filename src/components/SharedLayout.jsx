@@ -385,8 +385,8 @@ export function PlayNowCta({ sectionId }) {
 const FOOTER_NAV_LINKS = [
   { label: 'Learn Backgammon', page: 'learn-hub' },
   { label: 'Roll For Good',    page: 'roll-for-good' },
-  { label: 'Roadmap',          page: 'roadmap' },
-  { label: 'Change Log',       page: 'changelog' },
+  { label: 'Roadmap',          href: 'https://feedback.backgammon.com/roadmap/main' },
+  { label: 'Change Log',       href: 'https://feedback.backgammon.com/changelog' },
   { label: 'About',            page: 'about' },
 ];
 
@@ -443,14 +443,26 @@ export function SiteFooter({ sectionId, onNavigate }) {
         flexWrap: 'wrap',
       }}>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          {FOOTER_NAV_LINKS.map(({ label, page }) => (
-            <button
-              key={page}
-              onClick={() => onNavigate?.(page)}
-              style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
-            >
-              {label}
-            </button>
+          {FOOTER_NAV_LINKS.map(({ label, page, href }) => (
+            href ? (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}
+              >
+                {label}
+              </a>
+            ) : (
+              <button
+                key={page}
+                onClick={() => onNavigate?.(page)}
+                style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+              >
+                {label}
+              </button>
+            )
           ))}
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Terms of Service</a>
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Privacy Policy</a>

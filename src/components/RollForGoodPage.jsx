@@ -570,7 +570,6 @@ export default function RollForGoodPage({ onNavigate }) {
       width: '100%',
       position: 'relative',
       minHeight: '100vh',
-      overflowX: 'hidden',
     }}>
 
       {/* ── HEADER ── */}

@@ -214,7 +214,6 @@ export default function EthosPage({ onNavigate }) {
       width: '100%',
       position: 'relative',
       minHeight: '100vh',
-      overflowX: 'hidden',
     }}>
 
       {/* ── HEADER ── */}
