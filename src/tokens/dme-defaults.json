@@ -1071,6 +1071,24 @@
     "pp-stat-label": {
       "type": "font",
       "role": "ui-sm"
+    },
+    "rfg-hero-subtitle": {
+      "type": "font",
+      "role": "sh1"
+    },
+    "et-hero-subtitle": {
+      "type": "font",
+      "role": "sh1"
+    },
+    "_auto:rfg-content|button.com-btn.com-btn--ui-primary:4": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "roll-for-good"
+    },
+    "_auto:section.section.surface-inverse:3": {
+      "type": "font",
+      "role": "body-hl",
+      "page": "roll-for-good"
     }
   },
   "states": {

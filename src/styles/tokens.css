@@ -599,7 +599,7 @@
   --sf-tertiary-input-bg:          var(--prim-mint-800);
   --sf-tertiary-input-border:      var(--prim-mint-700);
   --sf-tertiary-input-text:        var(--prim-mono-white);
-  --sf-tertiary-input-placeholder: var(--prim-mint-600);
+  --sf-tertiary-input-placeholder: rgba(255, 255, 255, 0.7);
   --sf-tertiary-tag-fill:       var(--prim-mint-800);
   --sf-tertiary-star:           #FFB800;
   --sf-tertiary-status-success: #4ade80;

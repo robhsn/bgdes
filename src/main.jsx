@@ -12,6 +12,8 @@ import TokensPage from './components/TokensPage'
 import SurfacePreviewPage from './components/SurfacePreviewPage'
 import ButtonsSheetPage from './components/ButtonsSheetPage'
 import AuditPage from './components/AuditPage'
+import EthosPage from './components/EthosPage'
+import RollForGoodPage from './components/RollForGoodPage'
 import TEST_DEFINITIONS from './tests/test-definitions'
 import TokenEditor from './components/TokenEditor'
 import DevModeInspector from './components/DevModeInspector'
@@ -46,9 +48,24 @@ const PAGES = [
   { id: 'surface-preview', label: 'Surface Preview' },
   { id: 'buttons-sheet',   label: 'Buttons Sheet' },
   { id: 'idp-audit',       label: 'IDP Audit' },
+  { id: 'about',             label: 'Our Ethos' },
+  { id: 'roll-for-good',    label: 'Roll for Good' },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
+
+const PAGE_TITLES = {
+  'index': 'Backgammon.com',
+  'learn-hub': 'Learn & Master Backgammon | Backgammon.com',
+  'learn-article': 'How to Play Backgammon | Backgammon.com',
+  'learn-article-2': 'Board Setup | Backgammon.com',
+  'play': 'Play | Backgammon.com',
+  'profile': 'Profile | Backgammon.com',
+  'settings': 'Settings | Backgammon.com',
+  'notifications': 'Notifications | Backgammon.com',
+  'about': 'Our Ethos | Backgammon.com',
+  'roll-for-good': 'Roll for Good | Backgammon.com',
+}
 
 /* ─── URL ↔ State sync ────────────────────────────────────── */
 const STATE_DEFAULTS = Object.fromEntries(
@@ -123,6 +140,7 @@ const INIT_ROLE_OVERRIDES = fileDefaults.roleOverrides ?? {}
 const RO_PAGE_PREFIX = {
   'learn-article': 'ls', 'learn-article-2': 'ls', 'learn-hub': 'lh', 'profile': 'pp',
   'play': 'gp', 'settings': 'st', 'index': 'ix', 'notifications': 'nt', 'tokens': 'tk', 'surface-preview': 'sp', 'idp-audit': 'au',
+  'about': 'et', 'roll-for-good': 'rfg',
 }
 const RO_FONT_SIZE = {
   'h1': 'var(--size-h1)', 'h2': 'var(--size-h2)', 'h3': 'var(--size-h3)',
@@ -271,11 +289,13 @@ function App() {
     setCurrentPageId(id)
     sessionStorage.setItem('dme-page', id)
     setDmeStates(s => { syncStatesToURL(s, id); return s })
+    document.title = PAGE_TITLES[id] || 'Backgammon.com'
   }, [])
 
-  /* Sync URL params (page + states) on mount */
+  /* Sync URL params (page + states) and title on mount */
   useEffect(() => {
     syncStatesToURL(dmeStates, currentPageId)
+    document.title = PAGE_TITLES[currentPageId] || 'Backgammon.com'
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStateChange = (key, value) =>
@@ -447,6 +467,8 @@ function App() {
     if (currentPageId === 'surface-preview') return <SurfacePreviewPage onNavigate={navigateTo} />
     if (currentPageId === 'buttons-sheet') return <ButtonsSheetPage onNavigate={navigateTo} />
     if (currentPageId === 'idp-audit') return <AuditPage testResults={testResultsRef.current} testRunning={testRunning} onRunTests={runTests} onNavigate={navigateTo} />
+    if (currentPageId === 'about') return <EthosPage onNavigate={navigateTo} />
+    if (currentPageId === 'roll-for-good') return <RollForGoodPage onNavigate={navigateTo} />
     return <LearnHubPage onNavigate={navigateTo} />
   }
 
