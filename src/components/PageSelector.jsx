@@ -68,19 +68,23 @@ export function PageSelector({ pages, currentPageId, onNavigate, visible }) {
       {open && (
         <div className="ps-menu" role="listbox" aria-label="Page navigation">
           <div className="ps-menu-header">Pages</div>
-          {pages.map(page => (
-            <button
-              key={page.id}
-              className={`ps-item${page.id === currentPageId ? ' ps-item--active' : ''}`}
-              role="option"
-              aria-selected={page.id === currentPageId}
-              onClick={() => { onNavigate(page.id); setOpen(false); }}
-            >
-              <span className="ps-item-check">
-                {page.id === currentPageId && <IconCheck />}
-              </span>
-              <span className="ps-item-label">{page.label}</span>
-            </button>
+          {pages.map((page, i) => (
+            <React.Fragment key={page.id}>
+              {page.idpTool && (i === 0 || !pages[i - 1].idpTool) && (
+                <div className="ps-separator" />
+              )}
+              <button
+                className={`ps-item${page.id === currentPageId ? ' ps-item--active' : ''}`}
+                role="option"
+                aria-selected={page.id === currentPageId}
+                onClick={() => { onNavigate(page.id); setOpen(false); }}
+              >
+                <span className="ps-item-check">
+                  {page.id === currentPageId && <IconCheck />}
+                </span>
+                <span className="ps-item-label">{page.label}</span>
+              </button>
+            </React.Fragment>
           ))}
         </div>
       )}

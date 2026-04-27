@@ -1,7 +1,7 @@
 import React from 'react';
 import SiteHeader from './SiteHeader';
 import { SiteFooter } from './SharedLayout';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
 
 /* ── Surface mapping ──────────────────────────────────────────── */
 const SURFACE_MAP = {
@@ -444,6 +444,40 @@ function PillSizeSection() {
 /*  Buttons Sheet Page                                            */
 /* ═══════════════════════════════════════════════════════════════ */
 
+const SURFACE_KEYS = Object.keys(SURFACE_MAP);
+
+function SurfaceSubnav({ stateKey, defaultValue }) {
+  const active = useDMEState(stateKey, defaultValue);
+  const setStates = useDMESetState();
+  return (
+    <div style={{
+      position: 'sticky', top: 'var(--ix-header-height)', zIndex: 90,
+      background: 'var(--color-bg)', borderBottom: '1px solid var(--color-border)',
+      padding: '0 var(--spacing-h)',
+    }}>
+      <div style={{
+        maxWidth: 1200, margin: '0 auto',
+        display: 'flex', gap: 0,
+      }}>
+        {SURFACE_KEYS.map(key => (
+          <button
+            key={key}
+            onClick={() => setStates(prev => ({ ...prev, [stateKey]: key }))}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '12px 16px',
+              fontFamily: 'var(--font-meta)', fontSize: 13, fontWeight: 600,
+              color: key === active ? 'var(--color-heading)' : 'var(--color-muted)',
+              borderBottom: key === active ? '2px solid var(--color-heading)' : '2px solid transparent',
+              transition: 'color 0.15s, border-color 0.15s',
+            }}
+          >{key}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ButtonsSheetPage({ onNavigate }) {
   const surfaceValue = useDMEState('buttonsSheet.surface', 'Primary');
   const surfaceClass = SURFACE_MAP[surfaceValue] ?? '';
@@ -451,6 +485,7 @@ export default function ButtonsSheetPage({ onNavigate }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--color-bg)' }}>
       <SiteHeader onNavigate={onNavigate} />
+      <SurfaceSubnav stateKey="buttonsSheet.surface" defaultValue="Primary" />
 
       <div
         className={surfaceClass || undefined}

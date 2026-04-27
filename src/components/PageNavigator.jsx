@@ -44,8 +44,13 @@ export default function PageNavigator({ open, onToggle, pages, currentPageId, on
           fontFamily: 'inherit',
         }}
       >
-        {pages.map(p => (
-          <option key={p.id} value={p.id}>{p.label}</option>
+        {pages.map((p, i) => (
+          <React.Fragment key={p.id}>
+            {p.idpTool && (i === 0 || !pages[i - 1].idpTool) && (
+              <option disabled>{'─'.repeat(20)}</option>
+            )}
+            <option value={p.id}>{p.label}</option>
+          </React.Fragment>
         ))}
       </select>
 

@@ -36,23 +36,28 @@ import savedComments from './data/comments.json'
  * Page registry — add new pages here as the project grows.
  * Each entry: { id: string, label: string }
  */
+/* IDP tool page IDs — rendered below a separator in all page selectors */
+const IDP_PAGE_IDS = new Set(['tokens', 'surface-preview', 'buttons-sheet', 'idp-audit']);
+
 const PAGES = [
-  { id: 'index',           label: 'Index' },
-  { id: 'learn-hub',      label: 'Learn Hub' },
-  { id: 'learn-article',  label: 'Lesson 1: How to Play' },
-  { id: 'learn-article-2', label: 'Lesson 2: Board Setup' },
-  { id: 'play',           label: 'Play' },
-  { id: 'profile',        label: 'Profile' },
-  { id: 'settings',       label: 'Settings' },
-  { id: 'notifications', label: 'Notifications' },
-  { id: 'tokens',         label: 'Design Tokens' },
-  { id: 'surface-preview', label: 'Surface Preview' },
-  { id: 'buttons-sheet',   label: 'Buttons Sheet' },
-  { id: 'idp-audit',       label: 'IDP Audit' },
-  { id: 'about',             label: 'Our Ethos' },
-  { id: 'roll-for-good',    label: 'Roll for Good' },
-  { id: 'roadmap',          label: 'Roadmap' },
+  /* Regular pages (A-Z) */
   { id: 'changelog',        label: 'Change Log' },
+  { id: 'index',            label: 'Index' },
+  { id: 'learn-hub',        label: 'Learn Hub' },
+  { id: 'learn-article',    label: 'Lesson 1: How to Play' },
+  { id: 'learn-article-2',  label: 'Lesson 2: Board Setup' },
+  { id: 'notifications',    label: 'Notifications' },
+  { id: 'about',            label: 'Our Ethos' },
+  { id: 'play',             label: 'Play' },
+  { id: 'profile',          label: 'Profile' },
+  { id: 'roadmap',          label: 'Roadmap' },
+  { id: 'roll-for-good',    label: 'Roll for Good' },
+  { id: 'settings',         label: 'Settings' },
+  /* ── IDP Tools ──────────────────────────── */
+  { id: 'buttons-sheet',    label: 'Buttons Sheet',   idpTool: true },
+  { id: 'tokens',           label: 'Design Tokens',   idpTool: true },
+  { id: 'idp-audit',        label: 'IDP Audit',       idpTool: true },
+  { id: 'surface-preview',  label: 'Surface Preview',  idpTool: true },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))

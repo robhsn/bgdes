@@ -1137,8 +1137,13 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
     Object.entries(INIT_SECTION_SURFACES).forEach(([sectionId, surfaceKey]) => {
       applySurfaceToDOM(sectionId, surfaceKey);
     });
-    /* Watch for conditionally-rendered sections (e.g. profile tabs) entering the DOM */
-    const observer = new MutationObserver(() => {
+    /* Watch for conditionally-rendered sections (e.g. profile tabs) entering the DOM.
+       Only react to childList mutations (new elements added/removed), NOT attribute
+       changes — applySurfaceToDOM modifies classList which would re-trigger the
+       observer and create an infinite loop. */
+    const observer = new MutationObserver((mutations) => {
+      const hasChildChange = mutations.some(m => m.type === 'childList');
+      if (!hasChildChange) return;
       const surfs = sectionSurfacesRef.current;
       Object.entries(surfs).forEach(([id, surfaceKey]) => {
         const el = document.querySelector(`[data-section-id="${id}"]`);
@@ -1149,7 +1154,7 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
         else if (!expected && hasSurface) applySurfaceToDOM(id, surfaceKey);
       });
     });
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.body, { childList: true, subtree: true });
     return () => { observer.disconnect(); style.remove(); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -1582,9 +1587,11 @@ export default function TokenEditor({ visible, onClose, states, onStateChange, p
               fontFamily: 'system-ui, -apple-system, sans-serif',
             }}
           >
-            {pages.map(p => (
+            {pages.map((p, i) => (
               <React.Fragment key={p.id}>
-                {p.id === 'tokens' && <option disabled>{'─'.repeat(20)}</option>}
+                {p.idpTool && (i === 0 || !pages[i - 1].idpTool) && (
+                  <option disabled>{'─'.repeat(20)}</option>
+                )}
                 <option value={p.id}>{p.label}</option>
               </React.Fragment>
             ))}
@@ -2668,14 +2675,18 @@ function L1RoleGroup({ roleKey, roleLabel, l1, setRole, isHighlighted, onToggleH
   const weights = FONT_WEIGHTS[currentFont] ?? [400, 700];
   const [sizeMin, sizeMax] = L1_SIZE_RANGE[roleKey] || [6, 120];
 
-  // Live element count — recomputes on l2 changes + DOM mutations
+  // Live element count — recomputes on l2 changes + DOM mutations (debounced)
   const [elemCount, setElemCount] = useState(0);
   useEffect(() => {
-    const recount = () => setElemCount(findElementsForRole(roleKey).length);
+    let timer;
+    const recount = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => setElemCount(findElementsForRole(roleKey).length), 500);
+    };
     recount();
     const mo = new MutationObserver(recount);
-    mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
-    return () => mo.disconnect();
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => { mo.disconnect(); clearTimeout(timer); };
   }, [roleKey]);
 
   return (
