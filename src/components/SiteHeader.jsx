@@ -3,6 +3,17 @@ import { useDMEState } from '../context/dme-states';
 import Avatar from './Avatar';
 import avatarImg from '../imgs/avatar-dink.png';
 import logoWhite from '../imgs/logo/Logo White.svg';
+import iconNewGame from '../imgs/icons/header icons/icon new game.svg';
+import iconLearnBackgammon from '../imgs/icons/header icons/icon learn backgammon.svg';
+import iconRollForGood from '../imgs/icons/header icons/icon roll for good.svg';
+import iconAbout from '../imgs/icons/header icons/icon about.svg';
+import iconRoadmap from '../imgs/icons/header icons/icon roadmap.svg';
+import iconChangelog from '../imgs/icons/header icons/icon changelog.svg';
+import iconProfile from '../imgs/icons/header icons/icon profile.svg';
+import iconUpdateProfile from '../imgs/icons/header icons/icon update profile.svg';
+import iconAccountSettings from '../imgs/icons/header icons/icon account settings.svg';
+import iconBoardNThemes from '../imgs/icons/header icons/icon board n themes.svg';
+import iconGameHistory from '../imgs/icons/header icons/icon game history.svg';
 import './SiteHeader.css';
 
 /* ─── SVG Icons ──────────────────────────────────────────────── */
@@ -34,113 +45,21 @@ function IconClose() {
   );
 }
 
-function IconPlus() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <line x1="12" y1="5" x2="12" y2="19"/>
-      <line x1="5" y1="12" x2="19" y2="12"/>
-    </svg>
-  );
+function IconImg({ src, alt = '' }) {
+  return <img src={src} alt={alt} width="20" height="20" />;
 }
 
-function IconBook() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-    </svg>
-  );
-}
-
-function IconDice() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="3"/>
-      <circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/>
-      <circle cx="16" cy="8" r="1" fill="currentColor" stroke="none"/>
-      <circle cx="8" cy="16" r="1" fill="currentColor" stroke="none"/>
-      <circle cx="16" cy="16" r="1" fill="currentColor" stroke="none"/>
-      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
-    </svg>
-  );
-}
-
-function IconChatBubble() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
-  );
-}
-
-function IconCastle() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 21h18"/>
-      <path d="M5 21V7l3-3 3 3h2l3-3 3 3v14"/>
-      <path d="M9 21v-4h6v4"/>
-      <path d="M9 11h.01M15 11h.01"/>
-    </svg>
-  );
-}
-
-function IconDocumentAlt() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-      <polyline points="14 2 14 8 20 8"/>
-      <line x1="16" y1="13" x2="8" y2="13"/>
-      <line x1="16" y1="17" x2="8" y2="17"/>
-    </svg>
-  );
-}
-
-function IconProfile() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-  );
-}
-
-function IconPen() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-    </svg>
-  );
-}
-
-function IconSettings() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-    </svg>
-  );
-}
-
-function IconPalette() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/>
-      <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/>
-      <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/>
-      <circle cx="6.5" cy="12" r="0.5" fill="currentColor"/>
-      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
-    </svg>
-  );
-}
-
-function IconHistory() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <polyline points="12 6 12 12 16 14"/>
-    </svg>
-  );
-}
+function IconPlus() { return <IconImg src={iconNewGame} alt="New Game" />; }
+function IconBook() { return <IconImg src={iconLearnBackgammon} alt="Learn" />; }
+function IconDice() { return <IconImg src={iconRollForGood} alt="Roll For Good" />; }
+function IconChatBubble() { return <IconImg src={iconAbout} alt="About" />; }
+function IconCastle() { return <IconImg src={iconRoadmap} alt="Roadmap" />; }
+function IconDocumentAlt() { return <IconImg src={iconChangelog} alt="Change Log" />; }
+function IconProfile() { return <IconImg src={iconProfile} alt="Profile" />; }
+function IconPen() { return <IconImg src={iconUpdateProfile} alt="Update Profile" />; }
+function IconSettings() { return <IconImg src={iconAccountSettings} alt="Settings" />; }
+function IconPalette() { return <IconImg src={iconBoardNThemes} alt="Boards & Themes" />; }
+function IconHistory() { return <IconImg src={iconGameHistory} alt="Game History" />; }
 
 function IconLogout() {
   return (
@@ -270,7 +189,6 @@ function HamburgerMenu({ isOpen, onClose, onNavigate }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
-                style={{ textDecoration: 'none', color: 'inherit' }}
               >
                 <span className="ix-dropdown__item-icon"><item.Icon /></span>
                 <span className="ix-dropdown__item-label">{item.label}</span>
@@ -299,10 +217,13 @@ function ProfileDropdown({ isOpen, onClose, onNavigate, onAuthAction, authState 
 
   return (
     <div className="ix-dropdown ix-dropdown--profile">
-      <div className="ix-dropdown__item-username">
+      <button
+        className="ix-dropdown__item ix-dropdown__item-username"
+        onClick={() => { onNavigate('profile'); onClose(); }}
+      >
         <span className="ix-dropdown__item-icon"><IconProfile /></span>
-        <span>{isGuest ? 'Guest_847291' : 'PreciseTactician1829'}</span>
-      </div>
+        <span className="ix-dropdown__item-label">{isGuest ? 'Guest_847291' : 'PreciseTactician1829'}</span>
+      </button>
       <div className="ix-dropdown__separator" />
 
       {PROFILE_ITEMS.map(({ id, label, Icon, soon, nav }) => (

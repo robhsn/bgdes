@@ -2622,14 +2622,12 @@ h1.profile-header__name {
 }
 
 .match-row__action {
-  flex-shrink: 0;
-  min-width: 90px;
+  flex: 0 0 140px;
   text-align: right;
 }
 
 .match-history__th--action {
-  flex-shrink: 0;
-  min-width: 90px;
+  flex: 0 0 140px;
 }
 
 /* ── Match error rate (hidden but preserved) ─────────────────── */
@@ -2776,7 +2774,6 @@ h1.profile-header__name {
 
 .match-history__th--player {
   flex: 1;
-  padding-left: 60px;
 }
 
 .match-history__th--result {

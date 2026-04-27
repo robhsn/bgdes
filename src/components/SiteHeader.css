@@ -234,7 +234,13 @@
 }
 
 .ix-dropdown__item:hover {
-  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,1);
+}
+
+a.ix-dropdown__item,
+a.ix-dropdown__item:visited {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
 }
 
 .ix-dropdown__item--disabled {
@@ -259,22 +265,6 @@
 }
 
 /* Username header row */
-.ix-dropdown__item-username {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 24px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1;
-  cursor: default;
-}
-
-.ix-dropdown__item-username .ix-dropdown__item-icon {
-  color: rgba(255,255,255,0.35);
-}
 
 .ix-dropdown__badge {
   font-family: 'Inter', sans-serif;
@@ -558,7 +548,7 @@
     font-size: 17px;
   }
 
-  .ix-dropdown--profile .ix-dropdown__item-username {
+  .ix-dropdown--profile .ix-dropdown__item.ix-dropdown__item-username {
     padding: 18px 28px;
     font-size: 17px;
   }

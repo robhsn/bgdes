@@ -1074,6 +1074,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
       <div className="match-history">
         {/* Table header */}
         <div className="match-history__table-header">
+          <span style={{ width: 48, flexShrink: 0 }} />
           <span className="match-history__th match-history__th--player">Player</span>
           <span className="match-history__th match-history__th--result">Result</span>
           {!isMvp && <span className="match-history__th match-history__th--improvement">
