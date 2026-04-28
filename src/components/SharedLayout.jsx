@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import avatarImg from '../imgs/avatar-dink.png';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import logoWhite from '../imgs/logo/Logo White.svg';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
 import ActivityCenter from './ActivityCenter';
 import Avatar from './Avatar';
 
@@ -154,6 +154,7 @@ const MENU_ITEMS = [
 export function AvatarDropdown({ avatarSrc, onNavigate }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const setDMEState = useDMESetState();
 
   useEffect(() => {
     if (!open) return;
@@ -270,7 +271,14 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
 
           {/* Log out */}
           <div
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setDMEState(prev => {
+                const next = { ...prev, 'auth.loggedIn': 'logged-out' };
+                try { sessionStorage.setItem('dme-states', JSON.stringify(next)); } catch {}
+                return next;
+              });
+              setOpen(false);
+            }}
             style={{
               display: 'flex', alignItems: 'center', gap: 12,
               padding: '12px 18px',
@@ -331,7 +339,7 @@ export function SiteHeader({ onLogoClick, onNavigate, avatarSrc: avatarSrcProp }
           <AvatarDropdown avatarSrc={avatarSrcProp} onNavigate={onNavigate} />
         </div>
       ) : (
-        <button className="com-btn com-btn--primary com-btn--sm">Log In / Sign Up</button>
+        <button className="com-btn com-btn--primary com-btn--sm" onClick={() => onNavigate?.('index')}>Log In / Sign Up</button>
       )}
     </header>
     <div aria-hidden="true" className="site-header__spacer" />

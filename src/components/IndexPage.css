@@ -193,21 +193,44 @@
   height: 36px;
 }
 
-/* ─── Auth form (login/signup views) ─────────────────────────── */
+/* ─── Auth panel (half-page popover) ─────────────────────────── */
+
+.ix-auth-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100dvh;
+  background: #fff;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 40px;
+  animation: ix-panel-in 0.25s ease-out;
+}
+
+@keyframes ix-panel-in {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.ix-auth-panel-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
 
 .ix-auth-wrap {
   display: flex;
-  flex: 0;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   width: 100%;
   max-width: 380px;
   gap: 20px;
   align-self: center;
-  background: rgba(255,255,255,0.97);
-  border-radius: 20px;
-  padding: 32px 28px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
 }
 
 .ix-auth-back {
@@ -320,6 +343,10 @@
 
   .ix-hero h1 {
     font-size: 22px;
+  }
+
+  .ix-auth-panel {
+    width: 100%;
   }
 }
 

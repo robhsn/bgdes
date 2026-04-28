@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
 import Avatar from './Avatar';
 import avatarImg from '../imgs/avatar-dink.png';
 import logoWhite from '../imgs/logo/Logo White.svg';
@@ -211,7 +211,7 @@ function HamburgerMenu({ isOpen, onClose, onNavigate }) {
 
 /* ─── ProfileDropdown ────────────────────────────────────────── */
 
-function ProfileDropdown({ isOpen, onClose, onNavigate, onAuthAction, authState }) {
+function ProfileDropdown({ isOpen, onClose, onNavigate, onAuthAction, onLogout, authState }) {
   if (!isOpen) return null;
   const { isLoggedIn, isGuest } = authState;
 
@@ -264,7 +264,7 @@ function ProfileDropdown({ isOpen, onClose, onNavigate, onAuthAction, authState 
       )}
 
       {isLoggedIn && (
-        <button className="ix-dropdown__logout" onClick={onClose}>
+        <button className="ix-dropdown__logout" onClick={() => { onLogout(); onClose(); }}>
           Log Out
         </button>
       )}
@@ -276,10 +276,19 @@ function ProfileDropdown({ isOpen, onClose, onNavigate, onAuthAction, authState 
 
 export default function SiteHeader({ onNavigate, onAuthAction }) {
   const authState = useDMEState('auth.loggedIn');
+  const setDMEState = useDMESetState();
   const isLoggedIn = authState === true || authState === 'logged-in';
   const isGuest = authState === 'guest';
   const isLoggedOut = authState === false || authState === 'logged-out';
   const showAvatar = isLoggedIn || isGuest;
+
+  const handleLogout = useCallback(() => {
+    setDMEState(prev => {
+      const next = { ...prev, 'auth.loggedIn': 'logged-out' };
+      try { sessionStorage.setItem('dme-states', JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }, [setDMEState]);
   const currentPage = new URLSearchParams(window.location.search).get('page') || 'index';
 
   const [activeMenu, setActiveMenu] = useState(null);
@@ -383,6 +392,7 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
                 onClose={closeAll}
                 onNavigate={onNavigate}
                 onAuthAction={handleAuth}
+                onLogout={handleLogout}
                 authState={{ isLoggedIn, isGuest, isLoggedOut }}
               />
             </div>

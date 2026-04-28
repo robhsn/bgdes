@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
 import SiteHeader from './SiteHeader';
 import diceDecoration from '../imgs/dice-decoration.png';
 import iconGoogle from '../imgs/icons/auth/google color.svg';
 import iconApple from '../imgs/icons/auth/apple black.svg';
 import iconFacebook from '../imgs/icons/auth/facebook color.svg';
+import logoBlack from '../imgs/logo/Logo Black.svg';
 import './IndexPage.css';
 
 /* ─── SVG Icons ──────────────────────────────────────────────── */
@@ -81,65 +82,74 @@ function CTAButtons({ onNavigate }) {
   );
 }
 
-/* ─── Auth form ──────────────────────────────────────────────── */
+/* ─── Auth panel (half-page popover) ─────────────────────────── */
 
-function AuthForm({ view, onViewChange }) {
+function AuthPanel({ view, onViewChange, onLogin }) {
   const isLogin = view === 'Login' || view === 'Login Error';
   const isError = view === 'Login Error';
 
+  const handleProviderClick = () => {
+    onLogin();
+    onViewChange('Home');
+  };
+
   return (
-    <div className="ix-auth-wrap">
-      <button
-        className="ix-auth-back"
-        onClick={() => onViewChange('Home')}
-        type="button"
-      >
-        <span aria-hidden="true">&larr;</span>{' '}
-        {isLogin ? 'Log in' : 'Sign up'}
-      </button>
+    <div className="ix-auth-panel">
+      <img className="ix-auth-panel-logo" src={logoBlack} alt="Backgammon.com" />
 
-      {isError && (
-        <div className="ix-auth-error" role="alert">
-          Invalid email or password. Please try again.
-        </div>
-      )}
+      <div className="ix-auth-wrap">
+        <button
+          className="ix-auth-back"
+          onClick={() => onViewChange('Home')}
+          type="button"
+        >
+          <span aria-hidden="true">&larr;</span>{' '}
+          {isLogin ? 'Log in' : 'Sign up'}
+        </button>
 
-      <div className="ix-auth-providers">
-        <button className="ix-auth-provider-btn" type="button">
-          <span className="ix-auth-provider-icon"><IconEnvelope /></span>
-          <span>{isLogin ? 'Log in with Email' : 'Continue with Email'}</span>
-        </button>
-        <button className="ix-auth-provider-btn" type="button">
-          <span className="ix-auth-provider-icon"><IconFacebook /></span>
-          <span>{isLogin ? 'Log in with Facebook' : 'Continue with Facebook'}</span>
-        </button>
-        <button className="ix-auth-provider-btn" type="button">
-          <span className="ix-auth-provider-icon"><IconGoogle /></span>
-          <span>{isLogin ? 'Log in with Google' : 'Continue with Google'}</span>
-        </button>
-        <button className="ix-auth-provider-btn" type="button">
-          <span className="ix-auth-provider-icon"><IconApple /></span>
-          <span>{isLogin ? 'Log in with Apple' : 'Continue with Apple'}</span>
-        </button>
-      </div>
-
-      <p className="ix-auth-switch">
-        {isLogin ? (
-          <>
-            New user?{' '}
-            <button type="button" onClick={() => onViewChange('Sign Up')}>
-              Sign up
-            </button>
-          </>
-        ) : (
-          <>
-            Already have an account?{' '}
-            <button type="button" onClick={() => onViewChange('Login')}>
-              Login
-            </button>
-          </>
+        {isError && (
+          <div className="ix-auth-error" role="alert">
+            Invalid email or password. Please try again.
+          </div>
         )}
-      </p>
+
+        <div className="ix-auth-providers">
+          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
+            <span className="ix-auth-provider-icon"><IconEnvelope /></span>
+            <span>{isLogin ? 'Log in with Email' : 'Continue with Email'}</span>
+          </button>
+          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
+            <span className="ix-auth-provider-icon"><IconFacebook /></span>
+            <span>{isLogin ? 'Log in with Facebook' : 'Continue with Facebook'}</span>
+          </button>
+          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
+            <span className="ix-auth-provider-icon"><IconGoogle /></span>
+            <span>{isLogin ? 'Log in with Google' : 'Continue with Google'}</span>
+          </button>
+          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
+            <span className="ix-auth-provider-icon"><IconApple /></span>
+            <span>{isLogin ? 'Log in with Apple' : 'Continue with Apple'}</span>
+          </button>
+        </div>
+
+        <p className="ix-auth-switch">
+          {isLogin ? (
+            <>
+              New user?{' '}
+              <button type="button" onClick={() => onViewChange('Sign Up')}>
+                Sign up
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{' '}
+              <button type="button" onClick={() => onViewChange('Login')}>
+                Login
+              </button>
+            </>
+          )}
+        </p>
+      </div>
     </div>
   );
 }
@@ -148,11 +158,20 @@ function AuthForm({ view, onViewChange }) {
 
 export default function IndexPage({ onNavigate }) {
   const indexView = useDMEState('index.view', 'Home');
+  const setDMEState = useDMESetState();
   const [localView, setLocalView] = useState(indexView);
 
   useEffect(() => {
     setLocalView(indexView);
   }, [indexView]);
+
+  const handleLogin = () => {
+    setDMEState(prev => {
+      const next = { ...prev, 'auth.loggedIn': 'logged-in' };
+      try { sessionStorage.setItem('dme-states', JSON.stringify(next)); } catch {}
+      return next;
+    });
+  };
 
   const currentView = localView;
   const isHome = currentView === 'Home';
@@ -162,46 +181,44 @@ export default function IndexPage({ onNavigate }) {
       <SiteHeader onNavigate={onNavigate} onAuthAction={setLocalView} />
 
       <main className="ix-content">
-        {isHome ? (
-          <>
-            <img
-              className="ix-dice-deco"
-              src={diceDecoration}
-              alt=""
-              aria-hidden="true"
-            />
+        <img
+          className="ix-dice-deco"
+          src={diceDecoration}
+          alt=""
+          aria-hidden="true"
+        />
 
-            <div className="ix-hero">
-              <h1>
-                <span>Play Backgammon online.</span>
-                <br />
-                <span>A classic game, made modern.</span>
-              </h1>
-              <p className="ix-hero-sub">
-                Enjoy one of the world's oldest games, for free, right here in your browser
-              </p>
-            </div>
+        <div className="ix-hero">
+          <h1>
+            <span>Play Backgammon online.</span>
+            <br />
+            <span>A classic game, made modern.</span>
+          </h1>
+          <p className="ix-hero-sub">
+            Enjoy one of the world's oldest games, for free, right here in your browser
+          </p>
+        </div>
 
-            <CTAButtons onNavigate={onNavigate} />
+        <CTAButtons onNavigate={onNavigate} />
 
-            <p className="ix-learn-link">
-              New To Backgammon?{' '}
-              <button type="button" onClick={() => onNavigate('learn-hub')}>
-                Learn How To Play
-              </button>
-            </p>
+        <p className="ix-learn-link">
+          New To Backgammon?{' '}
+          <button type="button" onClick={() => onNavigate('learn-hub')}>
+            Learn How To Play
+          </button>
+        </p>
 
-            <p className="ix-terms">
-              By signing up, you agree to our{' '}
-              <a href="/terms-of-service/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-              {' '}and{' '}
-              <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-            </p>
-          </>
-        ) : (
-          <AuthForm view={currentView} onViewChange={setLocalView} />
-        )}
+        <p className="ix-terms">
+          By signing up, you agree to our{' '}
+          <a href="/terms-of-service/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+          {' '}and{' '}
+          <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+        </p>
       </main>
+
+      {!isHome && (
+        <AuthPanel view={currentView} onViewChange={setLocalView} onLogin={handleLogin} />
+      )}
 
       {/* Feedback FAB */}
       <button className="ix-feedback-btn" aria-label="Feedback">

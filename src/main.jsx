@@ -296,7 +296,16 @@ function App() {
   const navigateTo = useCallback((id) => {
     setCurrentPageId(id)
     sessionStorage.setItem('dme-page', id)
-    setDmeStates(s => { syncStatesToURL(s, id); return s })
+    setDmeStates(s => {
+      let next = s
+      // Logged-out users entering the play page become guests
+      if (id === 'play' && (s['auth.loggedIn'] === 'logged-out' || s['auth.loggedIn'] === false)) {
+        next = { ...s, 'auth.loggedIn': 'guest' }
+        try { sessionStorage.setItem('dme-states', JSON.stringify(next)) } catch {}
+      }
+      syncStatesToURL(next, id)
+      return next
+    })
     document.title = PAGE_TITLES[id] || 'Backgammon.com'
   }, [])
 
