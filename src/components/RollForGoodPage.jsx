@@ -619,7 +619,7 @@ export default function RollForGoodPage({ onNavigate }) {
             <H2>Why Roll for Good Exists</H2>
             <BodyText>
               <p style={{ margin: 0 }}>
-                Backgammon has been bringing people together for thousands of years. Roll for Good ensures that legacy reaches every child — regardless of background, zip code, or circumstance. Led by Backgammon.com and delivered in partnership with the United States Backgammon Federation and the World Backgammon Federation, Roll for Good teaches backgammon to young people in underserved communities, funds the creation of scholastic clubs, and connects the next generation to a game that builds strategic thinking, patience, and the joy of human connection.
+                Backgammon has been bringing people together for thousands of years. Roll for Good ensures that legacy reaches every child, regardless of background, zip code, or circumstance. Led by Backgammon.com and delivered in partnership with the United States Backgammon Federation and the World Backgammon Federation, Roll for Good teaches backgammon to young people spanning universities, colleges, and K–12 schools globally, funds the creation of scholastic clubs, and connects the next generation to a game that builds strategic thinking, patience, and the joy of human connection.
               </p>
             </BodyText>
             <Callout>
