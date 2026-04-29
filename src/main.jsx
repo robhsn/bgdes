@@ -57,6 +57,7 @@ const PAGES = [
   { id: 'buttons-sheet',    label: 'Buttons Sheet',   idpTool: true },
   { id: 'tokens',           label: 'Design Tokens',   idpTool: true },
   { id: 'idp-audit',        label: 'IDP Audit',       idpTool: true },
+  { id: 'siena',            label: 'Siena Palette',   idpTool: true },
   { id: 'surface-preview',  label: 'Surface Preview',  idpTool: true },
 ]
 
@@ -73,6 +74,7 @@ const PAGE_TITLES = {
   'notifications': 'Notifications | Backgammon.com',
   'about': 'Our Ethos | Backgammon.com',
   'roll-for-good': 'Roll for Good | Backgammon.com',
+  'siena': 'Siena Palette | Backgammon.com',
 }
 
 /* ─── URL ↔ State sync ────────────────────────────────────── */
@@ -486,6 +488,7 @@ function App() {
     if (currentPageId === 'idp-audit') return <AuditPage testResults={testResultsRef.current} testRunning={testRunning} onRunTests={runTests} onNavigate={navigateTo} />
     if (currentPageId === 'about') return <EthosPage onNavigate={navigateTo} />
     if (currentPageId === 'roll-for-good') return <RollForGoodPage onNavigate={navigateTo} />
+    if (currentPageId === 'siena') return <iframe src="/siena.html" style={{ width: '100%', height: '100dvh', border: 'none' }} title="Siena Palette" />
     // Placeholder for pages without dedicated components
     const placeholderPage = PAGES.find(p => p.id === currentPageId)
     if (placeholderPage) {

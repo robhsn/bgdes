@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Backgammon.com — Siena Palette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #B34F39;
+    --cream: #FFDFAF;
+    --navy: #00203F;
+    --white: #FFFFFF;
+    --ink: #0A0E14;
+    --paper: #FBF6EE;
+    --line: rgba(0, 32, 63, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(179, 79, 57, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(0, 32, 63, 0.05) 0%, transparent 40%);
+  }
+
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 64px 48px 120px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 48px;
+    margin-bottom: 64px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta);
+  }
+  .subtitle {
+    margin-top: 20px;
+    max-width: 52ch;
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(0, 32, 63, 0.65);
+  }
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0, 32, 63, 0.55);
+    text-align: right;
+    line-height: 2;
+  }
+  .meta strong { color: var(--navy); font-weight: 600; }
+
+  /* ===== SECTION ===== */
+  section { margin-bottom: 88px; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+    align-items: baseline;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--terracotta);
+    font-weight: 500;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+  h2 + p {
+    grid-column: 2;
+    margin-top: 8px;
+    color: rgba(0, 32, 63, 0.7);
+    max-width: 60ch;
+  }
+
+  /* ===== FOUNDATION (Primaries + Secondaries) ===== */
+  .foundation-group {
+    margin-bottom: 32px;
+  }
+  .foundation-group:last-child {
+    margin-bottom: 0;
+  }
+  .group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--navy);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .group-label em {
+    font-style: normal;
+    font-weight: 400;
+    color: rgba(0, 32, 63, 0.5);
+    letter-spacing: 0.08em;
+  }
+  .group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .primaries {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .secondaries {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .secondaries .primary {
+    grid-column: span 1;
+  }
+  /* Secondaries row: use 2 of 4 columns so they're the same width as primaries above */
+  .primary {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--white);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+  .primary:hover { transform: translateY(-2px); }
+  .primary-swatch {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+  .primary-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .primary-info {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .primary-info .role {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(0, 32, 63, 0.55);
+  }
+  .primary-info .hex { color: var(--navy); font-weight: 500; }
+
+  /* ===== SCALES ===== */
+  .scale-block {
+    margin-bottom: 56px;
+  }
+  .scale-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .scale-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .scale-title em {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0, 32, 63, 0.55);
+    font-style: normal;
+    margin-left: 12px;
+    font-weight: 400;
+  }
+  .scale-anchor {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(0, 32, 63, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .scale-anchor::before {
+    content: '★';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    color: var(--white);
+    font-size: 9px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+  }
+  .scale-anchor span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    vertical-align: -1px;
+    border: 1px solid var(--line);
+  }
+
+  .scale {
+    display: grid;
+    gap: 4px;
+    padding: 8px 0;  /* room for the anchor ring to breathe */
+  }
+  .step {
+    aspect-ratio: 1 / 1.2;
+    border-radius: 6px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    min-height: 80px;
+  }
+  .step:hover { transform: scale(1.04); z-index: 2; }
+
+  /* Anchor treatment — strong visual signal, impossible to miss */
+  .step.anchor {
+    box-shadow:
+      0 0 0 3px var(--paper),
+      0 0 0 5px var(--terracotta),
+      0 4px 12px rgba(179, 79, 57, 0.25);
+    transform: scale(1.05);
+    z-index: 1;
+  }
+  .step.anchor:hover { transform: scale(1.09); }
+  .step.anchor::before {
+    content: '★';
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--terracotta);
+    color: var(--white);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(179, 79, 57, 0.35);
+    z-index: 3;
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+  .step-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    word-break: break-all;
+    line-height: 1.2;
+  }
+
+  /* ===== SEMANTIC ===== */
+  .semantics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .sem-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+  .sem-dot {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    position: relative;
+  }
+  .sem-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 14px;
+    border: 1px solid currentColor;
+    opacity: 0.18;
+  }
+
+  /* Premium gold — user-specified gradient with P3 wide-gamut fallback */
+  .sem-dot-premium {
+    background: linear-gradient(135deg,
+      #D2A41C 0%,
+      #FFD9A0 33.33%,
+      #BF9414 50.96%,
+      #C9A25C 66.67%,
+      #8C6C0B 100%
+    );
+    background: linear-gradient(135deg,
+      color(display-p3 0.7961 0.6496 0.2439) 0%,
+      color(display-p3 1 0.8571 0.6571) 33.33%,
+      color(display-p3 0.7228 0.5872 0.2116) 50.96%,
+      color(display-p3 0.7653 0.6424 0.4008) 66.67%,
+      color(display-p3 0.5307 0.4277 0.1444) 100%
+    );
+    color: #BF9414;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 240, 200, 0.5),
+      inset 0 -1px 0 rgba(80, 50, 10, 0.25),
+      0 2px 8px rgba(191, 148, 20, 0.22);
+  }
+  .sem-name {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .sem-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(0, 32, 63, 0.6);
+  }
+  .sem-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* ===== USAGE ===== */
+  .usage-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+  }
+  .usage-bar {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 24px;
+  }
+  .usage-bar-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0, 32, 63, 0.55);
+    margin-bottom: 16px;
+  }
+  .usage-bar-track {
+    height: 36px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 12px;
+  }
+  .usage-bar-track > div {
+    transition: flex 0.4s ease;
+  }
+  .usage-legend {
+    display: flex;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    flex-wrap: wrap;
+  }
+  .usage-legend-item { display: flex; align-items: center; gap: 6px; color: rgba(0, 32, 63, 0.7); }
+  .usage-legend-dot { width: 10px; height: 10px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.06); }
+
+  .ratio-card {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .ratio-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.6;
+    margin-bottom: 12px;
+  }
+  .ratio-card .formula {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .ratio-card .formula em {
+    font-style: italic;
+    color: var(--cream);
+  }
+  .ratio-card .desc {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.75;
+  }
+
+  /* ===== SAMPLE UI ===== */
+  .samples {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .sample {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .sample-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0, 32, 63, 0.55);
+    margin-bottom: 16px;
+  }
+
+  /* button samples */
+  .btn-row { display: flex; flex-direction: column; gap: 8px; }
+  .btn {
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+  .btn-primary { background: var(--terracotta); color: var(--white); }
+  .btn-primary:hover { background: #9C4231; }
+  .btn-secondary { background: var(--navy); color: var(--white); }
+  .btn-secondary:hover { background: #001830; }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1px solid rgba(0, 32, 63, 0.2); }
+  .btn-ghost:hover { background: rgba(0, 32, 63, 0.04); }
+  .btn-cream { background: var(--cream); color: var(--navy); }
+  .btn-cream:hover { background: #FFD394; }
+
+  /* board sample — cream felt with alternating terra + slate points */
+  .board {
+    background: linear-gradient(135deg, #FCF7F0 0%, #F6E9D6 100%);
+    border: 1px solid rgba(0, 32, 63, 0.08);
+    border-radius: 8px;
+    padding: 12px 10px 4px;
+    aspect-ratio: 1.6 / 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .board-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    flex: 1;
+    position: relative;
+  }
+  .point {
+    position: relative;
+    opacity: 0.9;
+  }
+  .point::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .board-row.top .point::after {
+    clip-path: polygon(15% 0, 85% 0, 50% 100%);
+  }
+  .board-row.bottom .point::after {
+    clip-path: polygon(50% 0, 15% 100%, 85% 100%);
+  }
+  .point.p-terra::after { background: #B34F39; opacity: 0.55; }
+  .point.p-slate::after { background: #DCDBE0; opacity: 1; }
+  /* checkers overlay on first point */
+  .checker-stack {
+    position: absolute;
+    width: 14%;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    align-items: center;
+  }
+  .checker {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.4),
+      inset 0 -2px 3px rgba(0,0,0,0.15),
+      inset 0 2px 3px rgba(255,255,255,0.25),
+      0 1px 2px rgba(0,0,0,0.15);
+  }
+  .checker.terra { background: radial-gradient(circle at 35% 30%, #C86048 0%, #A8452F 75%); }
+  .checker.navy { background: radial-gradient(circle at 35% 30%, #1A3D6B 0%, #001830 75%); }
+
+  /* badge sample */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .badge-success { background: #E3F0E5; color: #2A5F38; }
+  .badge-warn { background: #FBEFCD; color: #8A5E0A; }
+  .badge-error { background: #F5E0DC; color: #6E2519; }
+  .badge-info { background: #D9E5EC; color: #1E4F6B; }
+  .badge-streak { background: var(--terracotta); color: var(--white); }
+  .badge-cream { background: var(--cream); color: var(--navy); }
+
+  /* ===== TOKEN OUTPUT ===== */
+  .token-block {
+    background: var(--ink);
+    color: #E5E7EB;
+    border-radius: 12px;
+    padding: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    position: relative;
+  }
+  .token-block .key { color: #FFDFAF; }
+  .token-block .val { color: #93C5FD; }
+  .token-block .comment { color: #6B7280; font-style: italic; }
+  .copy-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--cream);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .copy-btn:hover { background: rgba(255, 255, 255, 0.14); }
+  .copy-btn.copied { background: var(--terracotta); color: var(--white); border-color: var(--terracotta); }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    opacity: 0;
+    transition: all 0.25s ease;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+    margin-top: 88px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(0, 32, 63, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 32px 20px 80px; }
+    header { grid-template-columns: 1fr; gap: 24px; }
+    .meta { text-align: left; }
+    .section-head { grid-template-columns: 1fr; gap: 8px; }
+    h2 + p { grid-column: 1; }
+    .primaries, .secondaries { grid-template-columns: repeat(2, 1fr); }
+    .step { padding: 8px 6px; min-height: 60px; }
+    .step-hex { font-size: 9px; }
+    .step-num { font-size: 10px; }
+    .semantics, .usage-grid, .samples { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="eyebrow">Backgammon.com / Color System</div>
+    <h1>Siena <em>palette</em></h1>
+    <p class="subtitle">Named for the Tuscan city whose terracotta brick gave the pigment its name. A warm, traditional palette for a classic game.</p>
+  </div>
+  <div class="meta">
+    <strong>Backgammon.com</strong><br>
+    v1.0 — Tonal scales, semantics &amp; tokens<br>
+    Warm Tuscan foundation
+  </div>
+</header>
+
+<!-- 01 FOUNDATION -->
+<section>
+  <div class="section-head">
+    <div class="section-num">01 / 04</div>
+    <div>
+      <h2>The foundation</h2>
+      <p>Four brand primaries carry identity and dominance. Two secondaries do structural work — slate for board points and secondary UI, neutral as the warm system gray. Every extended color in this guide descends from one of these six.</p>
+    </div>
+  </div>
+
+  <div class="foundation-group">
+    <div class="group-label">Primaries <em>— brand identity</em></div>
+    <div class="primaries">
+      <div class="primary" data-copy="#B34F39">
+        <div class="primary-swatch" style="background: #B34F39;">
+          <span class="primary-name" style="color: #FFDFAF;">Terracotta</span>
+        </div>
+        <div class="primary-info">
+          <span class="role">Brand / Accent</span>
+          <span class="hex">#B34F39</span>
+        </div>
+      </div>
+      <div class="primary" data-copy="#FFDFAF">
+        <div class="primary-swatch" style="background: #FFDFAF;">
+          <span class="primary-name" style="color: #00203F;">Cream</span>
+        </div>
+        <div class="primary-info">
+          <span class="role">Surface / Highlight</span>
+          <span class="hex">#FFDFAF</span>
+        </div>
+      </div>
+      <div class="primary" data-copy="#00203F">
+        <div class="primary-swatch" style="background: #00203F;">
+          <span class="primary-name" style="color: #FFDFAF;">Navy</span>
+        </div>
+        <div class="primary-info">
+          <span class="role">Ink / Checkers</span>
+          <span class="hex">#00203F</span>
+        </div>
+      </div>
+      <div class="primary" data-copy="#FFFFFF">
+        <div class="primary-swatch" style="background: #FFFFFF; border: 1px solid var(--line);">
+          <span class="primary-name" style="color: #00203F;">White</span>
+        </div>
+        <div class="primary-info">
+          <span class="role">Base / Canvas</span>
+          <span class="hex">#FFFFFF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foundation-group">
+    <div class="group-label">Secondaries <em>— structural support</em></div>
+    <div class="secondaries">
+      <div class="primary" data-copy="#DCDBE0">
+        <div class="primary-swatch" style="background: #DCDBE0;">
+          <span class="primary-name" style="color: #00203F;">Slate</span>
+        </div>
+        <div class="primary-info">
+          <span class="role">Board Points / Structure</span>
+          <span class="hex">#DCDBE0</span>
+        </div>
+      </div>
+      <div class="primary" data-copy="#EEEDEC">
+        <div class="primary-swatch" style="background: #EEEDEC;">
+          <span class="primary-name" style="color: #00203F;">Neutral</span>
+        </div>
+        <div class="primary-info">
+          <span class="role">Warm System Gray</span>
+          <span class="hex">#EEEDEC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 TONAL SCALES -->
+<section>
+  <div class="section-head">
+    <div class="section-num">02 / 04</div>
+    <div>
+      <h2>Tonal scales</h2>
+      <p>Each anchor extends to a perceptually-balanced scale (50 → 950). The brand color's natural step is marked with a ring. Click any swatch to copy its hex.</p>
+    </div>
+  </div>
+
+  <!-- TERRACOTTA -->
+  <div class="scale-block">
+    <div class="scale-head">
+      <div class="scale-title">Terracotta <em>terra — brand primary · 8 steps</em></div>
+      <div class="scale-anchor"><span style="background: #B34F39;"></span>Anchor at 500 — #B34F39</div>
+    </div>
+    <div class="scale" id="scale-terra"></div>
+  </div>
+
+  <!-- NAVY (secondary) -->
+  <div class="scale-block">
+    <div class="scale-head">
+      <div class="scale-title">Navy <em>navy — secondary · checkers &amp; ink · 5 steps</em></div>
+      <div class="scale-anchor"><span style="background: #00203F;"></span>Anchor at 900 — #00203F</div>
+    </div>
+    <div class="scale" id="scale-navy"></div>
+  </div>
+
+  <!-- SLATE (board points / structural neutral with navy DNA) -->
+  <div class="scale-block">
+    <div class="scale-head">
+      <div class="scale-title">Slate <em>slate — muted navy · board points &amp; structure · 6 steps</em></div>
+      <div class="scale-anchor"><span style="background: #DCDBE0;"></span>Sampled from board · #DCDBE0</div>
+    </div>
+    <div class="scale" id="scale-slate"></div>
+  </div>
+
+  <!-- CREAM -->
+  <div class="scale-block">
+    <div class="scale-head">
+      <div class="scale-title">Cream <em>cream — surface &amp; highlight · 8 steps</em></div>
+      <div class="scale-anchor"><span style="background: #FFDFAF;"></span>Anchor at 200 — #FFDFAF</div>
+    </div>
+    <div class="scale" id="scale-cream"></div>
+  </div>
+
+  <!-- NEUTRAL (warm, red-leaning) -->
+  <div class="scale-block">
+    <div class="scale-head">
+      <div class="scale-title">Neutral <em>neutral — warm / red-leaning · 11 steps</em></div>
+      <div class="scale-anchor"><span style="background: #FFFFFF; border: 1px solid var(--line);"></span>Warmed with terracotta hue</div>
+    </div>
+    <div class="scale" id="scale-neutral"></div>
+  </div>
+</section>
+
+<!-- 03 SEMANTIC -->
+<section>
+  <div class="section-head">
+    <div class="section-num">03 / 04</div>
+    <div>
+      <h2>Semantic &amp; functional</h2>
+      <p>Colors that do specific UI jobs — feedback states, gameplay signals, and interaction surfaces. These are tuned to live alongside the brand palette without competing with terracotta as the primary accent.</p>
+    </div>
+  </div>
+
+  <div class="semantics">
+    <div class="sem-card">
+      <div class="sem-dot" style="background: #3F8A50; color: #3F8A50;"></div>
+      <div>
+        <div class="sem-name">Success</div>
+        <div class="sem-role">Win states · positive PR · confirmations</div>
+      </div>
+      <div class="sem-hex">#3F8A50</div>
+    </div>
+    <div class="sem-card">
+      <div class="sem-dot" style="background: #E5A017; color: #E5A017;"></div>
+      <div>
+        <div class="sem-name">Warning</div>
+        <div class="sem-role">Doubling cube · time pressure · cautions</div>
+      </div>
+      <div class="sem-hex">#E5A017</div>
+    </div>
+    <div class="sem-card">
+      <div class="sem-dot" style="background: #B0372A; color: #B0372A;"></div>
+      <div>
+        <div class="sem-name">Error</div>
+        <div class="sem-role">Blunders · invalid moves · disconnects</div>
+      </div>
+      <div class="sem-hex">#B0372A</div>
+    </div>
+    <div class="sem-card">
+      <div class="sem-dot" style="background: #1E4F6B; color: #1E4F6B;"></div>
+      <div>
+        <div class="sem-name">Info</div>
+        <div class="sem-role">Tips · neutral hints · system messages</div>
+      </div>
+      <div class="sem-hex">#1E4F6B</div>
+    </div>
+    <div class="sem-card">
+      <div class="sem-dot" style="background: linear-gradient(135deg, #B34F39, #E5A017); color: #B34F39;"></div>
+      <div>
+        <div class="sem-name">Streak / Hot</div>
+        <div class="sem-role">Win streaks · trending · achievements</div>
+      </div>
+      <div class="sem-hex">gradient</div>
+    </div>
+    <div class="sem-card">
+      <div class="sem-dot sem-dot-premium"></div>
+      <div>
+        <div class="sem-name">Premium</div>
+        <div class="sem-role">Paid features · tournaments · VIP tier</div>
+      </div>
+      <div class="sem-hex">gold gradient</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 USAGE & SAMPLES -->
+<section>
+  <div class="section-head">
+    <div class="section-num">04 / 04</div>
+    <div>
+      <h2>Usage in the wild</h2>
+      <p>How the palette behaves when assembled. The dominance ratio keeps the interface calm; terracotta carries action, cream warms the surface, navy structures everything.</p>
+    </div>
+  </div>
+
+  <div class="usage-grid" style="margin-bottom: 32px;">
+    <div class="usage-bar">
+      <div class="usage-bar-title">Recommended dominance ratio</div>
+      <div class="usage-bar-track">
+        <div style="flex: 60; background: #FBF6EE;"></div>
+        <div style="flex: 25; background: #00203F;"></div>
+        <div style="flex: 10; background: #FFDFAF;"></div>
+        <div style="flex: 5; background: #B34F39;"></div>
+      </div>
+      <div class="usage-legend">
+        <div class="usage-legend-item"><span class="usage-legend-dot" style="background: #FBF6EE;"></span>Surface 60%</div>
+        <div class="usage-legend-item"><span class="usage-legend-dot" style="background: #00203F;"></span>Ink 25%</div>
+        <div class="usage-legend-item"><span class="usage-legend-dot" style="background: #FFDFAF;"></span>Cream 10%</div>
+        <div class="usage-legend-item"><span class="usage-legend-dot" style="background: #B34F39;"></span>Accent 5%</div>
+      </div>
+    </div>
+    <div class="ratio-card">
+      <div class="label">The 60/25/10/5 rule</div>
+      <div class="formula">Surface, ink,<br>warmth, <em>spark.</em></div>
+      <div class="desc">Terracotta should never carry more than ~5% of any screen. Treat it as the catalyst — call-to-action, win states, brand moments. Cream is your warming agent on otherwise cool screens.</div>
+    </div>
+  </div>
+
+  <div class="samples">
+    <!-- Buttons -->
+    <div class="sample">
+      <div class="sample-label">Buttons</div>
+      <div class="btn-row">
+        <button class="btn btn-primary">Roll the dice</button>
+        <button class="btn btn-secondary">View board</button>
+        <button class="btn btn-cream">Accept double</button>
+        <button class="btn btn-ghost">Resign</button>
+      </div>
+    </div>
+
+    <!-- Board -->
+    <div class="sample">
+      <div class="sample-label">Board surface</div>
+      <div class="board">
+        <div class="board-row top">
+          <div class="point p-terra"></div>
+          <div class="point p-slate"></div>
+          <div class="point p-terra"></div>
+          <div class="point p-slate"></div>
+          <div class="point p-terra"></div>
+          <div class="point p-slate"></div>
+          <div class="checker-stack" style="left: 3%; top: 4%;">
+            <div class="checker terra"></div>
+            <div class="checker terra"></div>
+            <div class="checker terra"></div>
+          </div>
+          <div class="checker-stack" style="right: 19%; top: 4%;">
+            <div class="checker navy"></div>
+            <div class="checker navy"></div>
+          </div>
+        </div>
+        <div class="board-row bottom">
+          <div class="point p-slate"></div>
+          <div class="point p-terra"></div>
+          <div class="point p-slate"></div>
+          <div class="point p-terra"></div>
+          <div class="point p-slate"></div>
+          <div class="point p-terra"></div>
+          <div class="checker-stack" style="left: 3%; bottom: 4%;">
+            <div class="checker navy"></div>
+            <div class="checker navy"></div>
+            <div class="checker navy"></div>
+          </div>
+          <div class="checker-stack" style="right: 19%; bottom: 4%;">
+            <div class="checker terra"></div>
+            <div class="checker terra"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(0,32,63,0.55); line-height: 1.6;">
+        Cream felt · Terra + Slate points<br>
+        Navy &amp; Terra checkers · Gold rim accent
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="sample">
+      <div class="sample-label">Badges &amp; chips</div>
+      <div class="badge-row" style="margin-bottom: 10px;">
+        <span class="badge badge-streak">🔥 5 streak</span>
+        <span class="badge badge-cream">PR 1.8</span>
+        <span class="badge badge-success">Win</span>
+      </div>
+      <div class="badge-row">
+        <span class="badge badge-warn">Cube offered</span>
+        <span class="badge badge-error">Blunder</span>
+        <span class="badge badge-info">Tip</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENS -->
+<section>
+  <div class="section-head">
+    <div class="section-num">+ / Export</div>
+    <div>
+      <h2>Tokens Studio JSON</h2>
+      <p>Drop this straight into Tokens Studio for Figma. Naming follows the <code style="background: rgba(0,32,63,0.06); padding: 2px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">{family}.{step}</code> convention so it maps cleanly to Tailwind, CSS variables, or any framework you adopt.</p>
+    </div>
+  </div>
+
+  <div class="token-block">
+    <button class="copy-btn" id="copy-tokens">Copy JSON</button>
+    <pre id="token-output"></pre>
+  </div>
+</section>
+
+<footer>
+  <div>Backgammon.com · Siena v1.0</div>
+  <div>Click any swatch to copy</div>
+</footer>
+
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+  // ===== OKLCH-based palette generation =====
+  // Approximate perceptual scale by interpolating in HSL with calibrated lightness curve
+
+  function hexToHsl(hex) {
+    const r = parseInt(hex.slice(1,3), 16) / 255;
+    const g = parseInt(hex.slice(3,5), 16) / 255;
+    const b = parseInt(hex.slice(5,7), 16) / 255;
+    const max = Math.max(r,g,b), min = Math.min(r,g,b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) { h = s = 0; }
+    else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)); break;
+        case g: h = ((b - r) / d + 2); break;
+        case b: h = ((r - g) / d + 4); break;
+      }
+      h /= 6;
+    }
+    return [h * 360, s * 100, l * 100];
+  }
+
+  function hslToHex(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    s = Math.max(0, Math.min(100, s)) / 100;
+    l = Math.max(0, Math.min(100, l)) / 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let r, g, b;
+    if (h < 60) [r,g,b] = [c,x,0];
+    else if (h < 120) [r,g,b] = [x,c,0];
+    else if (h < 180) [r,g,b] = [0,c,x];
+    else if (h < 240) [r,g,b] = [0,x,c];
+    else if (h < 300) [r,g,b] = [x,0,c];
+    else [r,g,b] = [c,0,x];
+    const toHex = v => Math.round((v + m) * 255).toString(16).padStart(2,'0');
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+  }
+
+  // Target lightness curve for steps 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950
+  const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+  const LIGHTNESS_CURVE = [97, 93, 86, 76, 64, 52, 42, 33, 25, 17, 11];
+
+  // Saturation modulation — a touch lower at extremes
+  function satForStep(baseSat, idx) {
+    const dampen = [0.35, 0.5, 0.7, 0.85, 0.95, 1.0, 1.0, 0.95, 0.88, 0.78, 0.68];
+    return Math.min(100, baseSat * dampen[idx]);
+  }
+
+  function generateScale(anchorHex, anchorStep) {
+    const [h, s, l] = hexToHsl(anchorHex);
+    const anchorIdx = STEPS.indexOf(anchorStep);
+
+    // Calibrate so the anchor step matches the anchor color exactly
+    return STEPS.map((step, i) => {
+      if (i === anchorIdx) return anchorHex.toUpperCase();
+      // Slight hue shift: warmer toward dark, cooler toward light (very subtle)
+      const hueShift = (i - anchorIdx) * 0.5;
+      return hslToHex(h + hueShift, satForStep(s, i), LIGHTNESS_CURVE[i]).toUpperCase();
+    });
+  }
+
+  // Special neutral scale — warm, leans toward terracotta/orange-red
+  // Uses the terracotta hue (~13°) with very low saturation so it's
+  // recognizable as neutral but clearly warm, not cool.
+  function generateNeutralScale() {
+    // Saturation climbs very gently — always whispery, never muddy
+    const sats = [4, 5, 6, 7, 8, 9, 10, 10, 10, 9, 8];
+    return STEPS.map((step, i) => {
+      return hslToHex(13, sats[i], LIGHTNESS_CURVE[i]).toUpperCase();
+    });
+  }
+
+  // Slate scale — muted, dusty blue-grey with navy DNA.
+  // Used for board points, secondary UI structure, neutral-but-cool surfaces.
+  // Anchor sampled from the live board: #DCDBE0 at step 200.
+  function generateSlateScale() {
+    // Hand-tuned: navy hue (~220°) but very low saturation — the "fog of navy"
+    const slate = [
+      //  h,    s,   l
+      [ 225,   8,   96 ], // 50  — barely-there cool whisper
+      [ 222,  10,   89 ], // 100 — softer dust
+      [ 228,   7,   87 ], // 200 — ANCHOR (#DCDBE0)
+      [ 222,  12,   72 ], // 300 — stone blue
+      [ 218,  14,   54 ], // 400 — mid slate
+      [ 216,  18,   38 ], // 500 — deep slate (bridges to navy)
+      [ 214,  22,   26 ], // 600
+      [ 212,  28,   18 ], // 700
+      [ 210,  34,   13 ], // 800
+      [ 210,  40,    9 ], // 900
+      [ 210,  45,    6 ]  // 950
+    ];
+    return slate.map(([h, s, l]) => hslToHex(h, s, l).toUpperCase());
+  }
+
+  // Cream scale — warm off-white, tapers toward desaturated warm-gray at heavier steps
+  // so it leans white, not yellow. Anchor is #FFDFAF at step 200.
+  function generateCreamScale() {
+    const cream = [
+      //  h,    s,   l
+      [ 38,   60,   98 ], // 50  — nearly white, faintest warmth
+      [ 38,   75,   95 ], // 100 — soft cream wash
+      [ 36,  100,   84 ], // 200 — ANCHOR (#FFDFAF)
+      [ 34,   55,   76 ], // 300 — warm beige
+      [ 32,   35,   66 ], // 400 — muted sand
+      [ 30,   22,   55 ], // 500 — warm taupe
+      [ 28,   16,   44 ], // 600 — cooler taupe
+      [ 26,   12,   34 ], // 700 — warm brown-gray
+      [ 24,   10,   25 ], // 800 — deep warm gray
+      [ 22,    9,   17 ], // 900 — near-black with warmth
+      [ 22,    8,   11 ]  // 950
+    ];
+    return cream.map(([h, s, l]) => hslToHex(h, s, l).toUpperCase());
+  }
+
+  // Override anchor to match the brand primary exactly
+  const creamScale = generateCreamScale();
+  creamScale[2] = '#FFDFAF';
+
+  const slateScale = generateSlateScale();
+  slateScale[2] = '#DCDBE0'; // lock anchor to sampled board value
+
+  // Which steps each family keeps (pruned per brand decision)
+  const VISIBLE_STEPS = {
+    terra:   [50, 100, 200, 300, 400, 500, 700, 900],          // dropped 600, 800, 950
+    navy:    [700, 800, 900, 950],                              // dropped 50–600 (kept 700 for depth)
+    slate:   [50, 100, 200, 300, 400, 500],                     // focused on the light-to-mid range where it lives
+    cream:   [50, 100, 200, 300, 400, 500, 600, 700],          // dropped 800, 900, 950
+    neutral: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]  // full scale
+  };
+
+  const scales = {
+    terra: generateScale('#B34F39', 500),
+    cream: creamScale,
+    navy: generateScale('#00203F', 900),
+    slate: slateScale,
+    neutral: generateNeutralScale()
+  };
+
+  // Render scales — only show allowed steps, size the grid to match
+  function renderScale(containerId, scaleArr, anchorStep, visibleSteps) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    container.style.gridTemplateColumns = `repeat(${visibleSteps.length}, 1fr)`;
+
+    visibleSteps.forEach((step) => {
+      const i = STEPS.indexOf(step);
+      const hex = scaleArr[i];
+      const isLight = LIGHTNESS_CURVE[i] > 55;
+      const textColor = isLight ? '#1a1a1a' : '#ffffff';
+      const div = document.createElement('div');
+      div.className = 'step' + (step === anchorStep ? ' anchor' : '');
+      div.style.background = hex;
+      div.style.color = textColor;
+      div.dataset.copy = hex;
+      div.innerHTML = `
+        <div class="step-num">${step}</div>
+        <div class="step-hex">${hex}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  renderScale('scale-terra',   scales.terra,   500,  VISIBLE_STEPS.terra);
+  renderScale('scale-navy',    scales.navy,    900,  VISIBLE_STEPS.navy);
+  renderScale('scale-slate',   scales.slate,   200,  VISIBLE_STEPS.slate);
+  renderScale('scale-cream',   scales.cream,   200,  VISIBLE_STEPS.cream);
+  renderScale('scale-neutral', scales.neutral, null, VISIBLE_STEPS.neutral);
+
+  // Build tokens JSON
+  function buildTokens() {
+    const tokens = { siena: { color: {} } };
+    const families = {
+      terra: scales.terra,
+      navy: scales.navy,
+      slate: scales.slate,
+      cream: scales.cream,
+      neutral: scales.neutral
+    };
+    Object.entries(families).forEach(([family, arr]) => {
+      tokens.siena.color[family] = {};
+      VISIBLE_STEPS[family].forEach((step) => {
+        const i = STEPS.indexOf(step);
+        tokens.siena.color[family][step] = { value: arr[i], type: 'color' };
+      });
+    });
+    // Semantic tokens — harmonized with the warm brand palette
+    tokens.siena.color.semantic = {
+      success: { value: '#3F8A50', type: 'color' },
+      warning: { value: '#E5A017', type: 'color' },
+      error:   { value: '#B0372A', type: 'color' },
+      info:    { value: '#1E4F6B', type: 'color' }
+    };
+    tokens.siena.color.premium = {
+      // Gold gradient — use as: linear-gradient(135deg, gold_1 0%, gold_2 33.33%, gold_3 50.96%, gold_4 66.67%, gold_5 100%)
+      gold_1: { value: '#D2A41C', type: 'color' },
+      gold_2: { value: '#FFD9A0', type: 'color' },
+      gold_3: { value: '#BF9414', type: 'color' },
+      gold_4: { value: '#C9A25C', type: 'color' },
+      gold_5: { value: '#8C6C0B', type: 'color' }
+    };
+    tokens.siena.color.brand = {
+      primary:   { value: '{siena.color.terra.500}', type: 'color' },
+      secondary: { value: '{siena.color.navy.900}',  type: 'color' },
+      surface:   { value: '{siena.color.cream.200}', type: 'color' },
+      base:      { value: '#FFFFFF',                 type: 'color' }
+    };
+    return tokens;
+  }
+
+  function syntaxHighlight(json) {
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+      let cls = 'val';
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) cls = 'key';
+      }
+      return '<span class="' + cls + '">' + match + '</span>';
+    });
+  }
+
+  const tokens = buildTokens();
+  const tokenJson = JSON.stringify(tokens, null, 2);
+  document.getElementById('token-output').innerHTML = syntaxHighlight(tokenJson);
+
+  // ===== Copy interactions =====
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+  }
+
+  function copy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  document.body.addEventListener('click', (e) => {
+    const target = e.target.closest('[data-copy]');
+    if (target) {
+      const value = target.dataset.copy;
+      copy(value);
+      showToast('Copied ' + value);
+    }
+  });
+
+  document.getElementById('copy-tokens').addEventListener('click', (e) => {
+    copy(tokenJson);
+    e.target.classList.add('copied');
+    e.target.textContent = '✓ Copied';
+    showToast('Tokens JSON copied');
+    setTimeout(() => {
+      e.target.classList.remove('copied');
+      e.target.textContent = 'Copy JSON';
+    }, 1800);
+  });
+</script>
+</body>
+</html>
