@@ -625,3 +625,11 @@ a.ix-dropdown__item:visited {
     font-size: 15px;
   }
 }
+
+/* ─── Tight desktop (1024–1200px): shrink logo to prevent overflow ── */
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .ix-logo img {
+    height: 24px;
+  }
+}

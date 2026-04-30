@@ -110,9 +110,9 @@ function StateGroup({ label, defs, states, onStateChange, open, onToggle }) {
 
 /* ─── States view — grouped by global / page ─────────────────── */
 function StatesView({ states, onStateChange, currentPageId, expanded, onToggleGroup }) {
-  const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global');
+  const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global' || def.page === 'global');
   const pageDefs = STATE_DEFINITIONS.filter(def =>
-    def.type !== 'global' && (def.type === currentPageId || def.page === currentPageId || currentPageId?.startsWith(def.type))
+    def.type !== 'global' && def.page !== 'global' && (def.type === currentPageId || def.page === currentPageId || currentPageId?.startsWith(def.type))
   );
 
   return (

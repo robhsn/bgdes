@@ -1414,6 +1414,218 @@ function IconEyeClosed({ size = 18 }) {
   );
 }
 
+/* ── Facebook Connect Flow overlay ──────────────────────────── */
+
+function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelectedFriends }) {
+  if (!step || step === 'None') return null;
+
+  function toggleFriend(id) {
+    setSelectedFriends(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    if (selectedFriends.size === MOCK_FB_FRIENDS.length) {
+      setSelectedFriends(new Set());
+    } else {
+      setSelectedFriends(new Set(MOCK_FB_FRIENDS.map(f => f.id)));
+    }
+  }
+
+  const checkSvg = (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+
+  /* ── FB Login ── */
+  if (step === 'FB Login') {
+    return (
+      <div className="st-fb-overlay">
+        <div className="st-fb-browser-bar">
+          <div className="st-fb-browser-bar__pill">
+            <span className="st-fb-browser-bar__lock">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 10h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v4H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v4z"/></svg>
+            </span>
+            <span>facebook.com/login</span>
+          </div>
+        </div>
+        <div className="st-fb-page">
+          <div className="st-fb-login-card">
+            <div className="st-fb-logo-text">facebook</div>
+            <div className="st-fb-login-subtitle">Log in to continue to Backgammon.com</div>
+            <input className="st-fb-input" type="text" placeholder="Email address or phone number" defaultValue="rob.heath@email.com" readOnly />
+            <input className="st-fb-input" type="password" placeholder="Password" defaultValue="••••••••••" readOnly />
+            <button className="st-fb-btn st-fb-btn--login" onClick={() => onStepChange('FB Authorize')}>Log In</button>
+            <span className="st-fb-link">Forgotten password?</span>
+            <div className="st-fb-divider" />
+            <button className="st-fb-btn st-fb-btn--create">Create new account</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── FB Authorize ── */
+  if (step === 'FB Authorize') {
+    return (
+      <div className="st-fb-overlay">
+        <div className="st-fb-browser-bar">
+          <div className="st-fb-browser-bar__pill">
+            <span className="st-fb-browser-bar__lock">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 10h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v4H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v4z"/></svg>
+            </span>
+            <span>facebook.com/v18.0/dialog/oauth</span>
+          </div>
+        </div>
+        <div className="st-fb-page">
+          <div className="st-fb-auth-card">
+            <div className="st-fb-auth-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              <span className="st-fb-auth-header__logo">facebook</span>
+            </div>
+            <div className="st-fb-auth-body">
+              <div className="st-fb-auth-app">
+                <div className="st-fb-auth-app__icon">BG<br/>.com</div>
+                <div className="st-fb-auth-app__info">
+                  <div className="st-fb-auth-app__name">Backgammon.com</div>
+                  <div className="st-fb-auth-app__wants">wants to access your Facebook account</div>
+                </div>
+              </div>
+
+              <div className="st-fb-auth-user">
+                <div className="st-fb-auth-user__avatar" style={{ background: '#1877F2', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 16, fontFamily: '-apple-system, sans-serif' }}>R</div>
+                <span className="st-fb-auth-user__name">Rob Heath</span>
+              </div>
+
+              <div className="st-fb-auth-perms">
+                <div className="st-fb-auth-perms__title">This will allow Backgammon.com to:</div>
+                <div className="st-fb-auth-perm">
+                  <span className="st-fb-auth-perm__check">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  Access your name and profile picture
+                </div>
+                <div className="st-fb-auth-perm">
+                  <span className="st-fb-auth-perm__check">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  Access your friends list
+                </div>
+                <div className="st-fb-auth-perm">
+                  <span className="st-fb-auth-perm__check">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  Access your email address
+                </div>
+              </div>
+
+              <div className="st-fb-auth-actions">
+                <button className="st-fb-btn st-fb-btn--continue" onClick={() => onStepChange('Friends Found')}>Continue as Rob</button>
+                <button className="st-fb-btn st-fb-btn--cancel" onClick={() => onStepChange('None')}>Cancel</button>
+              </div>
+
+              <div className="st-fb-auth-footer">
+                By continuing, Backgammon.com will receive ongoing access to the information you share and Facebook will record when Backgammon.com accesses it.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Friends Found (our UI) ── */
+  if (step === 'Friends Found') {
+    const allSelected = selectedFriends.size === MOCK_FB_FRIENDS.length;
+    return (
+      <div className="st-friends-overlay">
+        <div className="st-friends-modal">
+          <div className="st-friends-header">
+            <div className="st-friends-header__icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+            <h3 className="st-friends-header__title">Facebook Connected!</h3>
+            <p className="st-friends-header__desc">
+              {MOCK_FB_FRIENDS.length} of your Facebook friends are on Backgammon.com
+            </p>
+          </div>
+
+          <div className="st-friends-select-all">
+            <div className="st-friends-select-all__label" onClick={toggleAll}>
+              <div className={`st-friends-check${allSelected ? ' st-friends-check--checked' : ''}`}>
+                {allSelected && <span style={{ color: '#fff', lineHeight: 0 }}>{checkSvg}</span>}
+              </div>
+              Select All
+            </div>
+            <span className="st-friends-select-all__count">
+              {selectedFriends.size} of {MOCK_FB_FRIENDS.length} selected
+            </span>
+          </div>
+
+          <div className="st-friends-list">
+            {MOCK_FB_FRIENDS.map((f, idx) => {
+              const checked = selectedFriends.has(f.id);
+              return (
+                <div key={f.id} className="st-friends-row" onClick={() => toggleFriend(f.id)}>
+                  <div className={`st-friends-check${checked ? ' st-friends-check--checked' : ''}`}>
+                    {checked && <span style={{ color: '#fff', lineHeight: 0 }}>{checkSvg}</span>}
+                  </div>
+                  <Avatar src={FB_PHOTOS[idx] || getAvatarSrc(f.avatar)} alt={f.username} size="lg" />
+                  <div className="st-friends-row__info">
+                    <span className="st-friends-row__username">{f.username}</span>
+                    <span className="st-friends-row__fbname">{f.fbName}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="st-friends-footer">
+            <button className="com-btn com-btn--outline com-btn--sm" onClick={() => onStepChange('None')}>Skip</button>
+            <button
+              className="com-btn com-btn--primary com-btn--sm"
+              disabled={selectedFriends.size === 0}
+              style={{ opacity: selectedFriends.size === 0 ? 0.5 : 1 }}
+              onClick={() => onStepChange('Requests Sent')}
+            >
+              Add {selectedFriends.size} Friend{selectedFriends.size !== 1 ? 's' : ''}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Requests Sent ── */
+  if (step === 'Requests Sent') {
+    return (
+      <div className="st-sent-overlay">
+        <div className="st-sent-card">
+          <div className="st-sent-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <h3 className="st-sent-card__title">Friend Requests Sent!</h3>
+          <p className="st-sent-card__desc">
+            {selectedFriends.size} friend request{selectedFriends.size !== 1 ? 's have' : ' has'} been sent. You'll be notified when they accept.
+          </p>
+          <button className="com-btn com-btn--primary com-btn--sm" style={{ marginTop: 8 }} onClick={() => onStepChange('None')}>
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 /* ── Settings Content (shared between panel & standalone page) ─ */
 
 export function SettingsContent({
@@ -1446,6 +1658,26 @@ export function SettingsContent({
   const [showCurrentPw, setShowCurrentPw] = useState(false);
   const [showNewPw, setShowNewPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
+
+  /* Facebook connect flow state */
+  const dmeFbStep = useDMEState('settings.fbConnect', 'None');
+  const [fbStep, setFbStep] = useState(dmeFbStep);
+  const [selectedFriends, setSelectedFriends] = useState(() => new Set(MOCK_FB_FRIENDS.map(f => f.id)));
+  useEffect(() => { setFbStep(dmeFbStep); }, [dmeFbStep]);
+  useEffect(() => {
+    if (fbStep === 'Friends Found') setSelectedFriends(new Set(MOCK_FB_FRIENDS.map(f => f.id)));
+  }, [fbStep]);
+
+  /* Facebook persistent connected state + disconnect modal */
+  const [fbIsConnected, setFbIsConnected] = useState(false);
+  const [showFbDisconnect, setShowFbDisconnect] = useState(false);
+  useEffect(() => {
+    if (fbStep === 'Friends Found' || fbStep === 'Requests Sent') {
+      setFbIsConnected(true);
+    } else if (fbStep === 'FB Login' || fbStep === 'FB Authorize') {
+      setFbIsConnected(false);
+    }
+  }, [fbStep]);
 
   function handleSave() {
     const cleanedSocials = {};
@@ -1484,7 +1716,7 @@ export function SettingsContent({
   const connectedAccounts = [
     { id: 'google',   name: 'Google',   Icon: ProviderIconGoogle,   connected: true,  email: 'player@gmail.com' },
     { id: 'apple',    name: 'Apple',    Icon: ProviderIconApple,    connected: false },
-    { id: 'facebook', name: 'Facebook', Icon: ProviderIconFacebook, connected: false },
+    { id: 'facebook', name: 'Facebook', Icon: ProviderIconFacebook, connected: fbIsConnected, email: fbIsConnected ? 'rob.heath@email.com' : undefined },
   ];
 
   /* Notification preferences data */
@@ -1811,14 +2043,20 @@ export function SettingsContent({
                       )}
                     </div>
                     {connected ? (
-                      <button className="st-account-btn st-account-btn--disconnect">Disconnect</button>
+                      <button
+                        className="st-account-btn st-account-btn--disconnect"
+                        onClick={id === 'facebook' ? () => setShowFbDisconnect(true) : undefined}
+                      >Disconnect</button>
                     ) : (
-                      <button className="st-account-btn st-account-btn--connect">Connect</button>
+                      <button
+                        className="st-account-btn st-account-btn--connect"
+                        onClick={id === 'facebook' ? () => setFbStep('FB Login') : undefined}
+                      >Connect</button>
                     )}
                   </div>
                 ))}
 
-              {/* Disconnect confirmation dialog */}
+              {/* Disconnect confirmation dialog (Google — DME-driven) */}
               {section === 'Disconnect Confirm' && (
                 <div className="st-dialog-overlay">
                   <div className="st-dialog">
@@ -1832,6 +2070,28 @@ export function SettingsContent({
                       <button className="com-btn com-btn--outline com-btn--sm">Cancel</button>
                       <button className="com-btn com-btn--primary com-btn--sm" style={{ background: '#ef4444', borderColor: '#ef4444' }}>
                         Disconnect
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Disconnect confirmation dialog (Facebook — interactive) */}
+              {showFbDisconnect && (
+                <div className="st-dialog-overlay">
+                  <div className="st-dialog">
+                    <h3 className="st-dialog__title">Remove Facebook</h3>
+                    <p className="st-dialog__desc">
+                      You will no longer be able to login with Facebook.
+                    </p>
+                    <div className="st-dialog__actions">
+                      <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowFbDisconnect(false)}>Cancel</button>
+                      <button
+                        className="com-btn com-btn--primary com-btn--sm"
+                        style={{ background: '#ef4444', borderColor: '#ef4444' }}
+                        onClick={() => { setFbIsConnected(false); setShowFbDisconnect(false); }}
+                      >
+                        Yes, remove
                       </button>
                     </div>
                   </div>
@@ -1873,6 +2133,14 @@ export function SettingsContent({
           disabled={draftName.length < 4}
         >Save Changes</button>
       </div>
+
+      {/* Facebook Connect Flow */}
+      <FacebookConnectOverlay
+        step={fbStep}
+        onStepChange={setFbStep}
+        selectedFriends={selectedFriends}
+        setSelectedFriends={setSelectedFriends}
+      />
     </>
   );
 }

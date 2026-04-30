@@ -40,6 +40,7 @@ export const MOCK_SEARCH_RESULTS = {
 };
 
 export const MOCK_NOTIFICATIONS = [
+  { id: 14, type: 'fb_friend_joined',  user: { username: 'DiceWhiz', avatar: 'Wizard', fbName: 'Mike Chen' }, timestamp: '1m ago', read: false, fbPhotoIndex: 0, online: true },
   { id: 1, type: 'friend_request',     user: { username: 'NewChallenger', avatar: 'Knight' },  timestamp: '2m ago',  read: false },
   { id: 2, type: 'challenge_received', user: { username: 'BoardMaster',   avatar: 'King' },    timestamp: '5m ago',  read: false, format: '5-point', isFriend: true },
   { id: 7, type: 'message',            user: { username: 'GammonKing42',  avatar: 'Timothy' }, timestamp: '8m ago',  read: false },
@@ -54,9 +55,16 @@ export const MOCK_NOTIFICATIONS = [
 ];
 
 export const MOCK_FB_FRIENDS = [
-  { id: 40, username: 'FBFriend1', avatar: 'Gobby',  rating: 1100, fbName: 'John Smith'  },
-  { id: 41, username: 'FBFriend2', avatar: 'Clown',  rating: 1250, fbName: 'Jane Doe'    },
-  { id: 42, username: 'FBFriend3', avatar: 'Farmer', rating: 980,  fbName: 'Bob Wilson'  },
+  { id: 40, username: 'FBFriend1',     avatar: 'Gobby',      rating: 1100, fbName: 'John Smith'      },
+  { id: 41, username: 'FBFriend2',     avatar: 'Clown',      rating: 1250, fbName: 'Jane Doe'        },
+  { id: 42, username: 'FBFriend3',     avatar: 'Farmer',     rating: 980,  fbName: 'Bob Wilson'      },
+  { id: 43, username: 'DiceWhiz',      avatar: 'Wizard',     rating: 1420, fbName: 'Mike Chen'       },
+  { id: 44, username: 'Bearoff_Queen', avatar: 'Princess',   rating: 1560, fbName: 'Sarah Johnson'   },
+  { id: 45, username: 'DoubleStakes',  avatar: 'Knight',     rating: 1310, fbName: 'David Kim'       },
+  { id: 46, username: 'CubeDecider',   avatar: 'Robot',      rating: 1480, fbName: 'Emma Williams'   },
+  { id: 47, username: 'AnchorMan',     avatar: 'Adventurer', rating: 1200, fbName: 'James Taylor'    },
+  { id: 48, username: 'RunnerUp',      avatar: 'Thief',      rating: 1650, fbName: 'Lisa Anderson'   },
+  { id: 49, username: 'PrimeTime',     avatar: 'Drac',       rating: 1340, fbName: 'Chris Martinez'  },
 ];
 
 export const MOCK_MESSAGES = [

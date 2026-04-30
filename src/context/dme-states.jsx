@@ -185,6 +185,21 @@ export const STATE_DEFINITIONS = [
     ],
     defaultValue: 'Profile',
   },
+  {
+    key: 'settings.fbConnect',
+    label: 'Facebook Connect Flow',
+    description: 'Step in the Facebook connect & friend discovery flow',
+    type: 'select',
+    page: 'settings',
+    options: [
+      'None',
+      'FB Login',
+      'FB Authorize',
+      'Friends Found',
+      'Requests Sent',
+    ],
+    defaultValue: 'None',
+  },
 
   // Play Page — social overlays
   {

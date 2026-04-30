@@ -14,6 +14,7 @@ import iconUpdateProfile from '../imgs/icons/header icons/icon update profile.sv
 import iconAccountSettings from '../imgs/icons/header icons/icon account settings.svg';
 import iconBoardNThemes from '../imgs/icons/header icons/icon board n themes.svg';
 import iconGameHistory from '../imgs/icons/header icons/icon game history.svg';
+import ActivityCenter from './ActivityCenter';
 import './SiteHeader.css';
 
 /* ─── SVG Icons ──────────────────────────────────────────────── */
@@ -372,6 +373,8 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
               Play
             </button>
           )}
+
+          {isLoggedIn && <ActivityCenter onNavigate={onNavigate} />}
 
           {showAvatar ? (
             <div

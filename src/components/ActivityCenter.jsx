@@ -3,6 +3,7 @@ import { useDMEState } from '../context/dme-states';
 import {
   MOCK_FRIENDS,
   MOCK_NOTIFICATIONS,
+  MOCK_FB_FRIENDS,
 } from '../data/social-mock-data';
 import Avatar from './Avatar';
 
@@ -15,6 +16,11 @@ const AVATAR_MAP = Object.fromEntries(
   })
 );
 import avatarFallback from '../imgs/avatar-dink.png';
+import fbPic1 from '../imgs/fb photos/fb-pic-1.jpg';
+import fbPic2 from '../imgs/fb photos/fb-pic-2.jpg';
+import fbPic3 from '../imgs/fb photos/fb-pic-3.jpg';
+import fbIcon from '../imgs/icons/fb-icon.webp';
+const FB_PHOTOS = [fbPic1, fbPic2, fbPic3];
 function getAvatar(key) { return AVATAR_MAP[key] || avatarFallback; }
 
 /* ── Token shorthand ─────────────────────────────────────────── */
@@ -69,11 +75,50 @@ const FILTERS = [
 
 /* ── Friends Online Tab ──────────────────────────────────────── */
 
+const FB_SUGGESTIONS = [
+  { ...MOCK_FB_FRIENDS[0], online: true,  fbPhotoIndex: 0 },
+  { ...MOCK_FB_FRIENDS[1], online: false, fbPhotoIndex: 1 },
+];
+
 function FriendsOnlineTab({ onNavigate, onClose }) {
   const onlineFriends = MOCK_FRIENDS.filter(f => f.online);
 
   return (
     <div style={{ padding: '0' }}>
+      {/* Facebook friends not yet added */}
+      {FB_SUGGESTIONS.map(f => (
+        <div
+          key={f.id}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: '10px 0',
+            transition: 'background 0.1s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.03)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <Avatar src={FB_PHOTOS[f.fbPhotoIndex] || getAvatar(f.avatar)} alt={f.username} size="sm" online={f.online} />
+            <img src={fbIcon} alt="Facebook" style={{
+              position: 'absolute', top: -3, right: -3,
+              width: 14, height: 14, borderRadius: '50%',
+              border: '2px solid var(--color-bg, #fff)',
+            }} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <span style={{ fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--color-heading)', display: 'block' }}>
+              {f.username}
+            </span>
+            <span style={{ fontFamily: fm, fontSize: 11, color: 'var(--color-muted)' }}>
+              {f.fbName}
+            </span>
+          </div>
+          <button className="com-btn com-btn--primary com-btn--xsm">Add Friend</button>
+          <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
+        </div>
+      ))}
+      <div style={{ height: 1, background: 'var(--color-border)', margin: '4px 0' }} />
+
       {onlineFriends.map(f => (
         <div
           key={f.id}
@@ -89,10 +134,7 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
           <span style={{ flex: 1, fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' }}>
             {f.username}
           </span>
-          <button className="com-btn com-btn--quaternary com-btn--sm">
-            <IconCheckerStack />
-            Challenge
-          </button>
+          <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
         </div>
       ))}
       <div
@@ -142,6 +184,31 @@ function NotificationItem({ item }) {
     transition: 'background 0.1s',
   };
 
+  if (type === 'fb_friend_joined') {
+    const fbPhoto = FB_PHOTOS[item.fbPhotoIndex] || getAvatar(user.avatar);
+    return (
+      <div style={rowStyle}
+        onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.03)'}
+        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+      >
+        <div style={{ position: 'relative', flexShrink: 0 }}>
+          <Avatar src={fbPhoto} alt={user.username} size="sm" online={item.online} />
+          <img src={fbIcon} alt="Facebook" style={{
+            position: 'absolute', top: -3, right: -3,
+            width: 16, height: 16, borderRadius: '50%',
+            border: '2px solid var(--color-bg, #fff)',
+          }} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={nameStyle}>{user.fbName} joined Backgammon.com</div>
+          <div style={metaStyle}>{timestamp}</div>
+        </div>
+        <button className="com-btn com-btn--primary com-btn--xsm">Add Friend</button>
+        <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
+      </div>
+    );
+  }
+
   if (type === 'friend_request') {
     return (
       <div style={rowStyle}
@@ -151,7 +218,7 @@ function NotificationItem({ item }) {
         {avatarEl}
         <div style={{ flex: 1 }}>
           {friendLabel}
-          <span style={nameStyle}>{user.username}</span>
+          <div style={nameStyle}>{user.username} sent you a friend request</div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
         <button className="com-btn com-btn--primary com-btn--xsm">Accept</button>
@@ -324,7 +391,7 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
         <div
           className="notif-bell"
           onClick={() => setLocalOpen(o => !o)}
-          style={{ color: 'var(--color-activity-bell)' }}
+          style={{ color: 'var(--prim-mint-500)' }}
         >
           <IconBell />
           {unreadCount > 0 && (
