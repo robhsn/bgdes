@@ -12,7 +12,7 @@ export default function PageNavigator({ open, onToggle, pages, currentPageId, on
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 10001,
+        zIndex: 100001,
         background: 'rgba(20,20,20,0.96)',
         backdropFilter: 'blur(12px)',
         borderTop: '1px solid rgba(255,255,255,0.12)',

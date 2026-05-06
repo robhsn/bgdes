@@ -23,6 +23,8 @@ import PageNavigator from './components/PageNavigator'
 import RadialFAB from './components/RadialFAB'
 import RoleTargeter from './components/RoleTargeter'
 import StatesPanel from './components/StatesPanel'
+import { ToastProvider } from './components/Toast'
+import AuthOverlay from './components/AuthOverlay'
 import { DMEStatesContext, DMESetStatesContext, STATE_DEFINITIONS } from './context/dme-states'
 import './styles/tokens.css'
 import './styles/surfaces.css'
@@ -104,6 +106,9 @@ function parseURLStates(searchParams) {
 
 function stateRelevantToPage(def, pageId) {
   const scope = def.page || def.type
+  if (Array.isArray(scope)) {
+    return scope.some(s => stateRelevantToPage({ page: s }, pageId))
+  }
   if (scope === 'global') return true
   if (scope === pageId) return true
   if (scope === 'learn' && pageId.startsWith('learn')) return true
@@ -298,32 +303,29 @@ function App() {
   const navigateTo = useCallback((id) => {
     setCurrentPageId(id)
     sessionStorage.setItem('dme-page', id)
-    setDmeStates(s => {
-      let next = s
-      // Logged-out users entering the play page become guests
-      if (id === 'play' && (s['auth.loggedIn'] === 'logged-out' || s['auth.loggedIn'] === false)) {
-        next = { ...s, 'auth.loggedIn': 'guest' }
-        try { sessionStorage.setItem('dme-states', JSON.stringify(next)) } catch {}
-      }
-      syncStatesToURL(next, id)
-      return next
-    })
-    document.title = PAGE_TITLES[id] || 'Backgammon.com'
+    // Logged-out users entering the play page become guests. URL +
+    // sessionStorage are synced by the effect below on the next commit.
+    if (id === 'play') {
+      setDmeStates(s => (
+        s['auth.loggedIn'] === 'logged-out' || s['auth.loggedIn'] === false
+          ? { ...s, 'auth.loggedIn': 'guest' }
+          : s
+      ))
+    }
   }, [])
 
-  /* Sync URL params (page + states) and title on mount */
+  /* Sync URL params + sessionStorage whenever DME state or current page
+     changes, regardless of the source of the change. This is what lets
+     in-page interactions (e.g. opening the Settings popover, advancing
+     the FB connect flow) be reproducible from the URL alone. */
   useEffect(() => {
     syncStatesToURL(dmeStates, currentPageId)
+    try { sessionStorage.setItem('dme-states', JSON.stringify(dmeStates)) } catch {}
     document.title = PAGE_TITLES[currentPageId] || 'Backgammon.com'
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dmeStates, currentPageId])
 
   const handleStateChange = (key, value) =>
-    setDmeStates(s => {
-      const next = { ...s, [key]: value }
-      try { sessionStorage.setItem('dme-states', JSON.stringify(next)) } catch {}
-      syncStatesToURL(next, currentPageId)
-      return next
-    })
+    setDmeStates(s => ({ ...s, [key]: value }))
 
   /* ── Sync web-header body attribute for CSS targeting ────────── */
   useEffect(() => {
@@ -509,7 +511,9 @@ function App() {
   return (
     <DMEStatesContext.Provider value={dmeStates}>
     <DMESetStatesContext.Provider value={setDmeStates}>
+    <ToastProvider>
       {renderPage()}
+      <AuthOverlay />
       <TokenEditor
         visible={activePanel === 'dme'}
         onClose={() => setActivePanel(null)}
@@ -576,6 +580,7 @@ function App() {
           </div>
         </div>
       )}
+    </ToastProvider>
     </DMESetStatesContext.Provider>
     </DMEStatesContext.Provider>
   )

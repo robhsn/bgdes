@@ -984,7 +984,7 @@ function FAQItem({ question, children }) {
 
 export default function LearnArticle2({ onNavigate }) {
   const launchMvp = useDMEState('learnArticle.launchMvp', false);
-  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
+  const bellState = useDMEState('social.bell', 'Has Alerts');
   return (
     <div style={{
       background: 'var(--color-bg)',
@@ -1219,7 +1219,7 @@ export default function LearnArticle2({ onNavigate }) {
       <TableOfContents />
 
       {/* ── MOBILE BOTTOM NAV ── */}
-      {!launchMvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Learn" />}
+      {!launchMvp && <MobileNav onNavigate={onNavigate} hasUnread={bellState === 'Has Alerts'} activePage="Learn" />}
 
     </div>
   );

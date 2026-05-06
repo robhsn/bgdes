@@ -193,7 +193,7 @@
     "--color-pill-sm": "--prim-mint-700",
     "--color-accent": "--prim-mint-400",
     "--color-pill-bg": "--prim-mint-500",
-    "--color-pill-border": "--prim-mint-700",
+    "--color-pill-border": "--prim-mint-900",
     "--color-tag-fill": "--prim-mint-200",
     "--color-scrollbar-thumb": "--prim-mono-300",
     "--color-scrollbar-track": "--prim-mono-100",
@@ -1089,6 +1089,11 @@
       "type": "font",
       "role": "body-hl",
       "page": "roll-for-good"
+    },
+    "_auto:pp-friends|button.com-btn.com-btn--outline.com-btn--sm:0": {
+      "type": "button",
+      "variant": "tertiary",
+      "page": "profile"
     }
   },
   "states": {

@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDMEState, useDMESetState } from '../context/dme-states';
 import SiteHeader from './SiteHeader';
 import diceDecoration from '../imgs/dice-decoration.png';
-import iconGoogle from '../imgs/icons/auth/google color.svg';
-import iconApple from '../imgs/icons/auth/apple black.svg';
-import iconFacebook from '../imgs/icons/auth/facebook color.svg';
-import logoBlack from '../imgs/logo/Logo Black.svg';
 import './IndexPage.css';
 
 /* ─── SVG Icons ──────────────────────────────────────────────── */
@@ -42,28 +38,8 @@ function IconFeedback() {
   );
 }
 
-/* ─── Auth provider icons ────────────────────────────────────── */
-
-function IconEnvelope() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path opacity="0.4" d="M4.19385 7.85313L10.0001 12L15.8063 7.85313L10.0001 3.5L4.19385 7.85313Z" fill="currentColor" />
-      <path d="M15.8062 7.85313L10 3.5L4.19375 7.85313L10 12L15.8062 7.85313ZM2 7L10 1L18 7V17H2V7Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconGoogle() {
-  return <img src={iconGoogle} alt="" width="20" height="20" />;
-}
-
-function IconApple() {
-  return <img src={iconApple} alt="" width="20" height="20" />;
-}
-
-function IconFacebook() {
-  return <img src={iconFacebook} alt="" width="20" height="20" />;
-}
+/* Auth provider icon helpers (IconEnvelope/Google/Apple/Facebook) moved to
+   AuthOverlay.jsx along with the auth provider buttons. */
 
 /* ─── CTA Buttons ────────────────────────────────────────────── */
 
@@ -82,103 +58,27 @@ function CTAButtons({ onNavigate }) {
   );
 }
 
-/* ─── Auth panel (half-page popover) ─────────────────────────── */
-
-function AuthPanel({ view, onViewChange, onLogin }) {
-  const isLogin = view === 'Login' || view === 'Login Error';
-  const isError = view === 'Login Error';
-
-  const handleProviderClick = () => {
-    onLogin();
-    onViewChange('Home');
-  };
-
-  return (
-    <div className="ix-auth-panel">
-      <img className="ix-auth-panel-logo" src={logoBlack} alt="Backgammon.com" />
-
-      <div className="ix-auth-wrap">
-        <button
-          className="ix-auth-back"
-          onClick={() => onViewChange('Home')}
-          type="button"
-        >
-          <span aria-hidden="true">&larr;</span>{' '}
-          {isLogin ? 'Log in' : 'Sign up'}
-        </button>
-
-        {isError && (
-          <div className="ix-auth-error" role="alert">
-            Invalid email or password. Please try again.
-          </div>
-        )}
-
-        <div className="ix-auth-providers">
-          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
-            <span className="ix-auth-provider-icon"><IconEnvelope /></span>
-            <span>{isLogin ? 'Log in with Email' : 'Continue with Email'}</span>
-          </button>
-          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
-            <span className="ix-auth-provider-icon"><IconFacebook /></span>
-            <span>{isLogin ? 'Log in with Facebook' : 'Continue with Facebook'}</span>
-          </button>
-          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
-            <span className="ix-auth-provider-icon"><IconGoogle /></span>
-            <span>{isLogin ? 'Log in with Google' : 'Continue with Google'}</span>
-          </button>
-          <button className="ix-auth-provider-btn" type="button" onClick={handleProviderClick}>
-            <span className="ix-auth-provider-icon"><IconApple /></span>
-            <span>{isLogin ? 'Log in with Apple' : 'Continue with Apple'}</span>
-          </button>
-        </div>
-
-        <p className="ix-auth-switch">
-          {isLogin ? (
-            <>
-              New user?{' '}
-              <button type="button" onClick={() => onViewChange('Sign Up')}>
-                Sign up
-              </button>
-            </>
-          ) : (
-            <>
-              Already have an account?{' '}
-              <button type="button" onClick={() => onViewChange('Login')}>
-                Login
-              </button>
-            </>
-          )}
-        </p>
-      </div>
-    </div>
-  );
-}
+/* AuthPanel previously lived here as a half-page popover. Replaced by the
+   global AuthOverlay component in src/components/AuthOverlay.jsx, which
+   takes over any page (not just IndexPage). */
 
 /* ─── IndexPage component ────────────────────────────────────── */
 
 export default function IndexPage({ onNavigate }) {
+  // Sync legacy `index.view` DME state into the global `auth.overlay` so
+  // existing test URLs / DME presets still pop the auth UI when set.
   const indexView = useDMEState('index.view', 'Home');
   const setDMEState = useDMESetState();
-  const [localView, setLocalView] = useState(indexView);
-
   useEffect(() => {
-    setLocalView(indexView);
-  }, [indexView]);
-
-  const handleLogin = () => {
-    setDMEState(prev => {
-      const next = { ...prev, 'auth.loggedIn': 'logged-in' };
-      try { sessionStorage.setItem('dme-states', JSON.stringify(next)); } catch {}
-      return next;
-    });
-  };
-
-  const currentView = localView;
-  const isHome = currentView === 'Home';
+    if (indexView === 'Home') return;
+    setDMEState(prev => (
+      prev['auth.overlay'] === indexView ? prev : { ...prev, 'auth.overlay': indexView }
+    ));
+  }, [indexView, setDMEState]);
 
   return (
     <div className="ix-page">
-      <SiteHeader onNavigate={onNavigate} onAuthAction={setLocalView} />
+      <SiteHeader onNavigate={onNavigate} />
 
       <main className="ix-content">
         <img
@@ -216,9 +116,9 @@ export default function IndexPage({ onNavigate }) {
         </p>
       </main>
 
-      {!isHome && (
-        <AuthPanel view={currentView} onViewChange={setLocalView} onLogin={handleLogin} />
-      )}
+      {/* AuthPanel removed. Auth Login / Sign Up is now driven globally by
+          AuthOverlay (mounted in main.jsx) via the `auth.overlay` DME
+          state, so it can take over any page, not just IndexPage. */}
 
       {/* Feedback FAB */}
       <button className="ix-feedback-btn" aria-label="Feedback">

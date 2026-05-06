@@ -87,7 +87,7 @@ function MobileNav({ onNavigate, hasUnread, activePage }) {
 
 export default function SettingsPage({ onNavigate }) {
   const section = useDMEState('settings.section', 'Connected Accounts');
-  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
+  const bellState = useDMEState('social.bell', 'Has Alerts');
   const isMvp = useDMEState('profile.mvp', true);
 
   /* Local profile state */
@@ -175,7 +175,7 @@ export default function SettingsPage({ onNavigate }) {
       </div>
 
       <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
-      <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="Settings" />
+      <MobileNav onNavigate={onNavigate} hasUnread={bellState === 'Has Alerts'} activePage="Settings" />
       <div className="mobile-nav__spacer" />
 
       {/* ── Avatar selection modal ── */}

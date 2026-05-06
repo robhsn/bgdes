@@ -302,12 +302,15 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
   const closeAll = useCallback(() => setActiveMenu(null), []);
 
   const handleAuth = useCallback((action) => {
+    // Drive the global Auth Overlay so Log in / Sign Up takes over the
+    // current page on any surface, not just IndexPage. The legacy
+    // onAuthAction prop still gets called for callers that listen
+    // (IndexPage), but we no longer fall back to navigating to /index.
+    setDMEState(prev => ({ ...prev, 'auth.overlay': action }));
     if (onAuthAction) {
       onAuthAction(action);
-    } else {
-      onNavigate('index');
     }
-  }, [onAuthAction, onNavigate]);
+  }, [setDMEState, onAuthAction]);
 
   useEffect(() => {
     if (!activeMenu) return;

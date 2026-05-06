@@ -110,9 +110,12 @@ function StateGroup({ label, defs, states, onStateChange, open, onToggle }) {
 
 /* ─── States view — grouped by global / page ─────────────────── */
 function StatesView({ states, onStateChange, currentPageId, expanded, onToggleGroup }) {
-  const globalDefs = STATE_DEFINITIONS.filter(def => def.type === 'global' || def.page === 'global');
+  const pageMatches = (val, pageId) =>
+    Array.isArray(val) ? val.includes(pageId) : val === pageId;
+  const isGlobal = (def) => def.type === 'global' || pageMatches(def.page, 'global');
+  const globalDefs = STATE_DEFINITIONS.filter(isGlobal);
   const pageDefs = STATE_DEFINITIONS.filter(def =>
-    def.type !== 'global' && def.page !== 'global' && (def.type === currentPageId || def.page === currentPageId || currentPageId?.startsWith(def.type))
+    !isGlobal(def) && (def.type === currentPageId || pageMatches(def.page, currentPageId) || currentPageId?.startsWith(def.type))
   );
 
   return (
@@ -134,8 +137,9 @@ function StatesView({ states, onStateChange, currentPageId, expanded, onToggleGr
 /* ─── Generate valid state URL combinations for a single page ── */
 function generatePageStateURLs(pageId, pageLabel) {
   const SKIP = new Set([
-    'profile.onlineStatus', 'social.activityCenter', 'social.unreadCount',
-    'social.activityOpen', 'global.webHeader',
+    'profile.onlineStatus',
+    'social.bell', 'social.unreadCount', 'social.tab', 'social.activityContent',
+    'social.activityOpen',
   ]);
 
   const defaults = Object.fromEntries(STATE_DEFINITIONS.map(d => [d.key, d.defaultValue]));
@@ -143,6 +147,7 @@ function generatePageStateURLs(pageId, pageLabel) {
 
   function pageScoped(def) {
     const scope = def.page || def.type;
+    if (Array.isArray(scope)) return scope.some(s => pageScoped({ page: s }));
     if (scope === 'global') return true;
     if (scope === pageId) return true;
     if (scope === 'learn' && pageId.startsWith('learn')) return true;
@@ -291,7 +296,7 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
         ...panelStyle,
         background: '#1c1c1c', color: '#e0e0e0',
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        fontSize: 12, zIndex: 9999,
+        fontSize: 12, zIndex: 99999,
         display: 'flex', flexDirection: 'column',
         boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (dockPos === 'top' ? '0 6px 32px rgba(0,0,0,0.5)' : '0 -6px 32px rgba(0,0,0,0.5)'),
         overflow: 'hidden',

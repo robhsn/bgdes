@@ -429,7 +429,7 @@ function LayersPanel({ panel, open, onToggle, layers, selectedEl, onLayerClick, 
         top: '50%',
         transform: 'translateY(-50%)',
         left: open ? 280 : 0,
-        zIndex: 10000,
+        zIndex: 100000,
         background: '#1c1c1c',
         border: '1px solid #333',
         borderLeft: 'none',
@@ -475,7 +475,7 @@ function LayersPanel({ panel, open, onToggle, layers, selectedEl, onLayerClick, 
         ...panelStyle,
         background: '#1c1c1c', color: '#e0e0e0',
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        fontSize: 12, zIndex: 9999,
+        fontSize: 12, zIndex: 99999,
         display: 'flex', flexDirection: 'column',
         boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : '6px 0 32px rgba(0,0,0,0.5)',
         overflow: 'hidden',
@@ -675,7 +675,7 @@ function CSSPanel({ panel, open, onToggle, onClose, selectedEl, computed }) {
         top: '50%',
         transform: 'translateY(-50%)',
         right: open ? 'calc(30vw)' : 0,
-        zIndex: 10000,
+        zIndex: 100000,
         background: '#1c1c1c',
         border: '1px solid #333',
         borderRight: 'none',
@@ -722,7 +722,7 @@ function CSSPanel({ panel, open, onToggle, onClose, selectedEl, computed }) {
         ...panelStyle,
         background: '#1c1c1c', color: '#e0e0e0',
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        fontSize: 12, zIndex: 9999,
+        fontSize: 12, zIndex: 99999,
         display: 'flex', flexDirection: 'column',
         boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : '-6px 0 32px rgba(0,0,0,0.5)',
         overflow: 'hidden',
@@ -1146,7 +1146,7 @@ function Overlays({ overlayRect, selectedRect, selectedEl }) {
           width: overlayRect.width, height: overlayRect.height,
           background: 'rgba(88, 221, 255, 0.08)',
           border: '1px solid rgba(88, 221, 255, 0.4)',
-          pointerEvents: 'none', zIndex: 9997, borderRadius: 2,
+          pointerEvents: 'none', zIndex: 99997, borderRadius: 2,
         }} />
       )}
       {selectedRect && selectedEl && (
@@ -1156,7 +1156,7 @@ function Overlays({ overlayRect, selectedRect, selectedEl }) {
             top: selectedRect.top, left: selectedRect.left,
             width: selectedRect.width, height: selectedRect.height,
             border: '2px solid #58ddff',
-            pointerEvents: 'none', zIndex: 9997, borderRadius: 2,
+            pointerEvents: 'none', zIndex: 99997, borderRadius: 2,
           }} />
           <div data-devmode-ignore style={{
             position: 'fixed',
@@ -1164,7 +1164,7 @@ function Overlays({ overlayRect, selectedRect, selectedEl }) {
             background: '#0c3775', color: '#58ddff',
             fontSize: 10, fontFamily: 'monospace', fontWeight: 600,
             padding: '2px 6px', borderRadius: 3,
-            pointerEvents: 'none', zIndex: 9997, whiteSpace: 'nowrap',
+            pointerEvents: 'none', zIndex: 99997, whiteSpace: 'nowrap',
           }}>
             {selectedEl.tagName.toLowerCase()}
             {typeof selectedEl.className === 'string' && selectedEl.className.trim()

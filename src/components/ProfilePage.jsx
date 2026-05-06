@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import SiteHeader from './SiteHeader';
 import { SiteFooter } from './SharedLayout';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
+import { useSessionState, useSessionSet } from '../hooks/useSessionState';
+import { useRequireAuth } from '../hooks/useRequireAuth';
 import avatarImg from '../imgs/avatar-dink.png';
 import boardSample from '../imgs/board-sample.png';
 import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
-import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS } from '../data/social-mock-data';
+import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS, MOCK_REQUESTS_SENT } from '../data/social-mock-data';
 import fbPic1 from '../imgs/fb photos/fb-pic-1.jpg';
 import fbPic2 from '../imgs/fb photos/fb-pic-2.jpg';
 import fbPic3 from '../imgs/fb photos/fb-pic-3.jpg';
+import fbLogo from '../imgs/icons/fb-logo.png';
 
 const FB_PHOTOS = [fbPic1, fbPic2, fbPic3];
 import Avatar from './Avatar';
@@ -690,6 +693,11 @@ const FRIEND_CHECK_ICON = (
     <polyline points="17 11 19 13 23 9"/>
   </svg>
 );
+const FRIEND_CANCEL_ICON = (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 6L6 18M6 6l12 12"/>
+  </svg>
+);
 
 function UnfriendModal({ username, avatarSrc, onConfirm, onCancel }) {
   return (
@@ -743,6 +751,37 @@ function AddFriendModal({ username, avatarSrc, onConfirm, onCancel }) {
             disabled={sent}
           >
             {sent ? 'Request Sent \u2713' : 'Send Request'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CancelRequestModal({ username, avatarSrc, onConfirm, onCancel }) {
+  const [cancelled, setCancelled] = useState(false);
+  return (
+    <div className="overlay overlay--top" onClick={onCancel}>
+      <div className="modal modal--sm" data-section-id="gl-dropdown" onClick={e => e.stopPropagation()} style={{ textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Avatar src={avatarSrc} alt={username} size="lg" />
+        </div>
+        <div className="modal__title">Cancel Friend Request</div>
+        <div style={{
+          fontSize: 14, color: 'var(--color-body)', lineHeight: 1.5,
+          fontFamily: 'var(--font-body)',
+        }}>
+          Cancel your pending friend request to {username}?
+        </div>
+        <div className="modal__footer" style={{ justifyContent: 'center' }}>
+          <button className="com-btn com-btn--outline com-btn--sm" onClick={onCancel} disabled={cancelled}>Keep Request</button>
+          <button
+            className="com-btn com-btn--sm"
+            style={{ background: '#d43333', color: '#fff' }}
+            onClick={() => { setCancelled(true); setTimeout(() => onConfirm(), 1000); }}
+            disabled={cancelled}
+          >
+            {cancelled ? 'Request Cancelled ✓' : 'Cancel Request'}
           </button>
         </div>
       </div>
@@ -846,6 +885,18 @@ function FriendButton({ status, username, avatarSrc }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showUnfriendModal, setShowUnfriendModal] = useState(false);
   const [showAddFriendModal, setShowAddFriendModal] = useState(false);
+  const [showCancelRequestModal, setShowCancelRequestModal] = useState(false);
+  // Session override: viewer-driven mutations to the relationship state.
+  // null → use DME `status` as-is; otherwise this value wins.
+  const [relationshipOverride, setRelationshipOverride] = useSessionState(
+    `pp-relationship:${username || 'unknown'}`,
+    null,
+  );
+  const { isAuthed, requireAuth } = useRequireAuth();
+  // A non-authed viewer can never have a relationship, so collapse to the
+  // default "Add Friend" CTA regardless of DME status / session override.
+  // Click is auth-gated below so it pops the Auth overlay instead.
+  const effectiveStatus = isAuthed ? (relationshipOverride || status) : 'Add Friend';
   const ref = React.useRef(null);
 
   useEffect(() => {
@@ -857,24 +908,30 @@ function FriendButton({ status, username, avatarSrc }) {
     return () => document.removeEventListener('mousedown', close);
   }, [menuOpen]);
 
-  if (status === 'Pending') {
+  if (effectiveStatus === 'Pending') {
     return (
-      <button
-        className="com-btn com-btn--outline com-btn--sm"
-        style={{
-          opacity: 0.6,
-          cursor: 'default',
-          borderColor: 'var(--prim-mono-300)',
-          color: 'var(--prim-mono-500)',
-        }}
-      >
-        {FRIEND_PENDING_ICON}
-        Request Sent
-      </button>
+      <>
+        <button
+          className="com-btn com-btn--outline com-btn--sm"
+          onClick={() => setShowCancelRequestModal(true)}
+        >
+          {FRIEND_CANCEL_ICON}
+          Cancel Request
+        </button>
+        {showCancelRequestModal && createPortal(
+          <CancelRequestModal
+            username={username}
+            avatarSrc={avatarSrc}
+            onCancel={() => setShowCancelRequestModal(false)}
+            onConfirm={() => { setShowCancelRequestModal(false); setRelationshipOverride('Add Friend'); }}
+          />,
+          document.body,
+        )}
+      </>
     );
   }
 
-  if (status === 'Accept Request') {
+  if (effectiveStatus === 'Accept Request') {
     return (
       <button
         className="com-btn com-btn--sm"
@@ -883,6 +940,7 @@ function FriendButton({ status, username, avatarSrc }) {
           color: 'var(--prim-mint-400)',
           border: '2px solid var(--prim-mint-400)',
         }}
+        onClick={() => setRelationshipOverride('Friends')}
       >
         {FRIEND_CHECK_ICON}
         Accept Request
@@ -890,7 +948,7 @@ function FriendButton({ status, username, avatarSrc }) {
     );
   }
 
-  if (status === 'Friends') {
+  if (effectiveStatus === 'Friends') {
     return (
       <>
         <div ref={ref} style={{ position: 'relative' }}>
@@ -971,7 +1029,7 @@ function FriendButton({ status, username, avatarSrc }) {
             username={username}
             avatarSrc={avatarSrc}
             onCancel={() => setShowUnfriendModal(false)}
-            onConfirm={() => setShowUnfriendModal(false)}
+            onConfirm={() => { setShowUnfriendModal(false); setRelationshipOverride('Add Friend'); }}
           />,
           document.body,
         )}
@@ -979,10 +1037,14 @@ function FriendButton({ status, username, avatarSrc }) {
     );
   }
 
-  /* Default: Add Friend CTA */
+  /* Default: Add Friend CTA. Auth-gated: unauth'd viewers get the Auth
+     overlay instead of the AddFriend confirm modal. */
   return (
     <>
-      <button className="com-btn com-btn--primary com-btn--sm" onClick={() => setShowAddFriendModal(true)}>
+      <button
+        className="com-btn com-btn--primary com-btn--sm"
+        onClick={requireAuth(() => setShowAddFriendModal(true))}
+      >
         {FRIEND_ADD_ICON}
         Add Friend
       </button>
@@ -991,7 +1053,7 @@ function FriendButton({ status, username, avatarSrc }) {
           username={username}
           avatarSrc={avatarSrc}
           onCancel={() => setShowAddFriendModal(false)}
-          onConfirm={() => setShowAddFriendModal(false)}
+          onConfirm={() => { setShowAddFriendModal(false); setRelationshipOverride('Pending'); }}
         />,
         document.body,
       )}
@@ -1011,7 +1073,8 @@ const MATCHES_PER_PAGE = 10;
 
 const FRIEND_USERNAMES = new Set(MOCK_FRIENDS.map(f => f.username));
 
-function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
+function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp, isOwn }) {
+  const { requireAuth, isAuthed } = useRequireAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [resultFilter, setResultFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
@@ -1068,7 +1131,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
           <option value="all">All Results</option>
           <option value="wins">Wins Only</option>
           <option value="losses">Losses Only</option>
-          <option value="friends">Friends</option>
+          {isAuthed && <option value="friends">Friends</option>}
         </select>
       </div>
       <div className="match-history">
@@ -1129,12 +1192,14 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp }) {
             <span className="match-row__score">{m.score}</span>
             <span className="match-row__time">{m.duration}</span>
             <span className="match-row__date">{m.date}</span>
-            <span className="match-row__action">
-              <button className="com-btn com-btn--quaternary com-btn--sm">
-                <IconCheckerStack />
-                Challenge
-              </button>
-            </span>
+            {isOwn && (
+              <span className="match-row__action">
+                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={requireAuth(() => {})}>
+                  <IconCheckerStack />
+                  Challenge
+                </button>
+              </span>
+            )}
           </div>
         ))}
         {pageItems.length === 0 && (
@@ -1388,9 +1453,7 @@ function ProviderIconApple() {
 
 function ProviderIconFacebook() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-    </svg>
+    <img src={fbLogo} alt="Facebook" width="36" height="36" style={{ display: 'block', borderRadius: 8 }} />
   );
 }
 
@@ -1416,7 +1479,7 @@ function IconEyeClosed({ size = 18 }) {
 
 /* ── Facebook Connect Flow overlay ──────────────────────────── */
 
-function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelectedFriends }) {
+function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelectedFriends, hasMatches = true }) {
   if (!step || step === 'None') return null;
 
   function toggleFriend(id) {
@@ -1485,7 +1548,7 @@ function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelect
         <div className="st-fb-page">
           <div className="st-fb-auth-card">
             <div className="st-fb-auth-header">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              <img src={fbLogo} alt="Facebook" width="24" height="24" style={{ display: 'block', borderRadius: 5 }} />
               <span className="st-fb-auth-header__logo">facebook</span>
             </div>
             <div className="st-fb-auth-body">
@@ -1525,7 +1588,10 @@ function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelect
               </div>
 
               <div className="st-fb-auth-actions">
-                <button className="st-fb-btn st-fb-btn--continue" onClick={() => onStepChange('Friends Found')}>Continue as Rob</button>
+                <button
+                  className="st-fb-btn st-fb-btn--continue"
+                  onClick={() => onStepChange(hasMatches ? 'Friends Found' : 'Connected')}
+                >Continue as Rob</button>
                 <button className="st-fb-btn st-fb-btn--cancel" onClick={() => onStepChange('None')}>Cancel</button>
               </div>
 
@@ -1546,9 +1612,7 @@ function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelect
       <div className="st-friends-overlay">
         <div className="st-friends-modal">
           <div className="st-friends-header">
-            <div className="st-friends-header__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </div>
+            <img src={fbLogo} alt="Facebook" className="st-friends-header__icon" />
             <h3 className="st-friends-header__title">Facebook Connected!</h3>
             <p className="st-friends-header__desc">
               {MOCK_FB_FRIENDS.length} of your Facebook friends are on Backgammon.com
@@ -1586,7 +1650,7 @@ function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelect
           </div>
 
           <div className="st-friends-footer">
-            <button className="com-btn com-btn--outline com-btn--sm" onClick={() => onStepChange('None')}>Skip</button>
+            <button className="com-btn com-btn--outline com-btn--sm" onClick={() => onStepChange('Connected')}>Skip</button>
             <button
               className="com-btn com-btn--primary com-btn--sm"
               disabled={selectedFriends.size === 0}
@@ -1596,6 +1660,26 @@ function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelect
               Add {selectedFriends.size} Friend{selectedFriends.size !== 1 ? 's' : ''}
             </button>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Connected (no friend matches OR user skipped) ── */
+  if (step === 'Connected') {
+    return (
+      <div className="st-sent-overlay">
+        <div className="st-sent-card">
+          <img src={fbLogo} alt="Facebook" className="st-sent-card__icon st-sent-card__icon--fb" />
+          <h3 className="st-sent-card__title">Facebook Connected!</h3>
+          <p className="st-sent-card__desc">
+            {hasMatches
+              ? 'Your Facebook account is now linked. You can sign in to Backgammon.com with Facebook anytime.'
+              : 'Your Facebook account is now linked. None of your Facebook friends are on Backgammon.com yet. Invite them to play!'}
+          </p>
+          <button className="com-btn com-btn--primary com-btn--sm" style={{ marginTop: 8 }} onClick={() => onStepChange('None')}>
+            Done
+          </button>
         </div>
       </div>
     );
@@ -1659,20 +1743,40 @@ export function SettingsContent({
   const [showNewPw, setShowNewPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
 
-  /* Facebook connect flow state */
+  /* Facebook connect flow state.
+     Initial fbStep mirrors the DME state so URL params and the State
+     Controller can deep-link straight to any step (e.g. 'Friends Found').
+     The DME→local sync below keeps subsequent changes in step. */
   const dmeFbStep = useDMEState('settings.fbConnect', 'None');
-  const [fbStep, setFbStep] = useState(dmeFbStep);
+  // Use the same FB Discovery state that drives the friends-tab discovery card
+  // so designers only have one toggle for "has matches" vs "no matches" across
+  // both the FB connect flow and the discovery card.
+  const fbDiscovery = useDMEState('profile.fbDiscovery', 'None');
+  const fbConnectHasMatches = fbDiscovery !== 'Zero Matches';
+  const setDmeStates = useDMESetState();
+  const [fbStep, setFbStepLocal] = useState(dmeFbStep);
   const [selectedFriends, setSelectedFriends] = useState(() => new Set(MOCK_FB_FRIENDS.map(f => f.id)));
-  useEffect(() => { setFbStep(dmeFbStep); }, [dmeFbStep]);
+  // Single setter that writes both local + DME so the URL stays in step
+  // with every transition (Connect, Skip, Cancel, Done, etc.).
+  const setFbStep = (next) => {
+    setFbStepLocal(next);
+    setDmeStates(prev => ({ ...prev, 'settings.fbConnect': next }));
+  };
+  useEffect(() => {
+    setFbStepLocal(dmeFbStep);
+  }, [dmeFbStep]);
   useEffect(() => {
     if (fbStep === 'Friends Found') setSelectedFriends(new Set(MOCK_FB_FRIENDS.map(f => f.id)));
   }, [fbStep]);
 
-  /* Facebook persistent connected state + disconnect modal */
-  const [fbIsConnected, setFbIsConnected] = useState(false);
+  /* Facebook persistent connected state + disconnect modal.
+     Session-persisted so the FB-connected status survives settings popover
+     close/reopen, navigation, and is readable from other surfaces (e.g. the
+     profile Friends tab gates all FB elements on this). */
+  const [fbIsConnected, setFbIsConnected] = useSessionState('settings.fbIsConnected', false);
   const [showFbDisconnect, setShowFbDisconnect] = useState(false);
   useEffect(() => {
-    if (fbStep === 'Friends Found' || fbStep === 'Requests Sent') {
+    if (fbStep === 'Friends Found' || fbStep === 'Requests Sent' || fbStep === 'Connected') {
       setFbIsConnected(true);
     } else if (fbStep === 'FB Login' || fbStep === 'FB Authorize') {
       setFbIsConnected(false);
@@ -2056,8 +2160,10 @@ export function SettingsContent({
                   </div>
                 ))}
 
-              {/* Disconnect confirmation dialog (Google — DME-driven) */}
-              {section === 'Disconnect Confirm' && (
+              {/* Disconnect confirmation dialog (Google, DME-driven).
+                  Portalled to body so it centers on the viewport, not on
+                  the settings popover's transformed sliding wrapper. */}
+              {section === 'Disconnect Confirm' && createPortal(
                 <div className="st-dialog-overlay">
                   <div className="st-dialog">
                     <div className="st-dialog__icon">&#128279;</div>
@@ -2073,11 +2179,12 @@ export function SettingsContent({
                       </button>
                     </div>
                   </div>
-                </div>
+                </div>,
+                document.body,
               )}
 
-              {/* Disconnect confirmation dialog (Facebook — interactive) */}
-              {showFbDisconnect && (
+              {/* Disconnect confirmation dialog (Facebook, interactive). */}
+              {showFbDisconnect && createPortal(
                 <div className="st-dialog-overlay">
                   <div className="st-dialog">
                     <h3 className="st-dialog__title">Remove Facebook</h3>
@@ -2095,7 +2202,8 @@ export function SettingsContent({
                       </button>
                     </div>
                   </div>
-                </div>
+                </div>,
+                document.body,
               )}
             </div>
           </>
@@ -2134,13 +2242,19 @@ export function SettingsContent({
         >Save Changes</button>
       </div>
 
-      {/* Facebook Connect Flow */}
-      <FacebookConnectOverlay
-        step={fbStep}
-        onStepChange={setFbStep}
-        selectedFriends={selectedFriends}
-        setSelectedFriends={setSelectedFriends}
-      />
+      {/* Facebook Connect Flow, portalled to body so transformed ancestors
+          (e.g. the settings popover sliding wrapper) can't clip the
+          full-screen overlay. */}
+      {createPortal(
+        <FacebookConnectOverlay
+          step={fbStep}
+          onStepChange={setFbStep}
+          selectedFriends={selectedFriends}
+          setSelectedFriends={setSelectedFriends}
+          hasMatches={fbConnectHasMatches}
+        />,
+        document.body,
+      )}
     </>
   );
 }
@@ -2964,11 +3078,60 @@ function CoverModal({ currentCover, onSelectPreset, onCustomUpload, onEditCurren
 
 /* ── Friends tab ─────────────────────────────────────────────── */
 
-function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick }) {
+/**
+ * Inline Add-friend button for list rows (FB matches, search results).
+ * Shares the same per-username relationship override that FriendButton uses
+ * on profiles, so once a viewer "sends a request" from a list row that
+ * player's profile page will reflect Pending too.
+ */
+function AddFriendRowButton({ username }) {
+  const [override, setOverride] = useSessionState(
+    `pp-relationship:${username || 'unknown'}`,
+    null,
+  );
+  const { isAuthed, requireAuth } = useRequireAuth();
+  // Unauth'd viewers always see the default Add CTA. The click is gated to
+  // the Auth overlay so no relationship state can ever be written without
+  // an account.
+  const effectiveOverride = isAuthed ? override : null;
+  if (effectiveOverride === 'Pending') {
+    return (
+      <button className="friend-btn friend-btn--pending" disabled>
+        {FRIEND_PENDING_ICON}
+        Request Sent
+      </button>
+    );
+  }
+  if (effectiveOverride === 'Friends') {
+    return (
+      <button className="friend-btn friend-btn--friends">
+        {FRIEND_CHECK_ICON}
+        Friends
+      </button>
+    );
+  }
+  return (
+    <button className="friend-btn friend-btn--add-friend" onClick={requireAuth(() => setOverride('Pending'))}>
+      <svg width="14" height="14" viewBox="0 0 40 40" fill="currentColor"><path d="M4.44444 10.5556C4.44444 9.53417 4.64562 8.52278 5.03649 7.57914C5.42736 6.63549 6.00027 5.77808 6.7225 5.05584C7.44473 4.33361 8.30215 3.7607 9.24579 3.36983C10.1894 2.97896 11.2008 2.77779 12.2222 2.77779C13.2436 2.77779 14.255 2.97896 15.1986 3.36983C16.1423 3.7607 16.9997 4.33361 17.7219 5.05584C18.4442 5.77808 19.0171 6.63549 19.4079 7.57914C19.7988 8.52278 20 9.53417 20 10.5556C20 12.5983 19.1885 14.5574 17.7219 16.0553C16.9997 16.7775 16.1423 17.3504 15.1986 17.7413C14.255 18.1322 13.2436 18.3333 12.2222 18.3333C10.1795 18.3333 8.22049 17.5219 6.7225 16.0553C5.22451 14.5574 4.44444 12.5983 4.44444 10.5556ZM0 33.8889C0 27.1389 5.47222 21.6667 12.2222 21.6667C18.9722 21.6667 24.4444 27.1389 24.4444 33.8889V34.3056C24.4444 35.9167 23.1389 37.2222 21.5278 37.2222H2.91667C1.30555 37.2222 0 35.9167 0 34.3056V33.8889Z"/><path d="M30.9354 11.1824C31.9099 11.1825 32.7 11.9726 32.7 12.9471V18.0252H37.7781C38.7527 18.0252 39.5428 18.8153 39.5428 19.7899C39.5428 20.7644 38.7527 21.5545 37.7781 21.5545H32.7V26.6326C32.7 27.6071 31.9099 28.3973 30.9354 28.3973C29.9608 28.3973 29.1707 27.6072 29.1707 26.6326V21.5545H24.0926C23.1181 21.5545 22.3279 20.7644 22.3279 19.7899C22.3279 18.8153 23.1181 18.0252 24.0926 18.0252H29.1707V12.9471C29.1707 11.9726 29.9608 11.1824 30.9354 11.1824Z"/></svg>
+      Add
+    </button>
+  );
+}
+
+function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerClick }) {
   const [localView, setLocalView] = useState(dmeView);
   const [friendSearch, setFriendSearch] = useState('');
+  const [showAllFb, setShowAllFb] = useState(false);
+  const [cancelledRequestIds, setCancelledRequestIds] = useSessionSet('pp-friends-cancelled-requests');
+  const [pendingCancelTarget, setPendingCancelTarget] = useState(null);
+  // Gate all Facebook elements on the friends tab on the user actually being
+  // connected to Facebook in account settings.
+  const [fbIsConnected] = useSessionState('settings.fbIsConnected', false);
+  const { requireAuth: ftRequireAuth } = useRequireAuth();
   useEffect(() => { setLocalView(dmeView); }, [dmeView]);
   const friendsView = localView;
+  const FB_INITIAL_VISIBLE = 3;
+  const visibleFbFriends = showAllFb ? MOCK_FB_FRIENDS : MOCK_FB_FRIENDS.slice(0, FB_INITIAL_VISIBLE);
 
   return (
     <div className="pp-friends">
@@ -2985,34 +3148,41 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick })
         />
       </div>
 
-      {/* FB Discovery card */}
-      {fbDiscovery === 'Matches Found' && (
+      {/* FB Discovery card. Only on the logged-in player's own profile, AND
+          only when their account is actually linked to Facebook in settings. */}
+      {isOwn && fbIsConnected && fbDiscovery === 'Matches Found' && (
         <div className="pp-fb-card">
           <div className="pp-fb-card__header">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <img src={fbLogo} alt="Facebook" width="20" height="20" style={{ display: 'block', borderRadius: 4 }} />
             <span>{MOCK_FB_FRIENDS.length} Facebook friends found on Backgammon.com!</span>
           </div>
           <div className="pp-fb-card__list">
-            {MOCK_FB_FRIENDS.map((f, idx) => (
+            {visibleFbFriends.map((f, idx) => (
               <div key={f.id} className="pp-friend-row">
                 <Avatar src={FB_PHOTOS[idx] || getAvatarSrc(f.avatar)} alt={f.username} size="lg" />
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name">{f.username}</span>
                   <span className="pp-friend-row__meta">{f.fbName} · {f.rating}</span>
                 </div>
-                <button className="friend-btn friend-btn--add-friend">
-                  <svg width="16" height="16" viewBox="0 0 40 40" fill="currentColor"><path d="M4.44444 10.5556C4.44444 9.53417 4.64562 8.52278 5.03649 7.57914C5.42736 6.63549 6.00027 5.77808 6.7225 5.05584C7.44473 4.33361 8.30215 3.7607 9.24579 3.36983C10.1894 2.97896 11.2008 2.77779 12.2222 2.77779C13.2436 2.77779 14.255 2.97896 15.1986 3.36983C16.1423 3.7607 16.9997 4.33361 17.7219 5.05584C18.4442 5.77808 19.0171 6.63549 19.4079 7.57914C19.7988 8.52278 20 9.53417 20 10.5556C20 12.5983 19.1885 14.5574 17.7219 16.0553C16.9997 16.7775 16.1423 17.3504 15.1986 17.7413C14.255 18.1322 13.2436 18.3333 12.2222 18.3333C10.1795 18.3333 8.22049 17.5219 6.7225 16.0553C5.22451 14.5574 4.44444 12.5983 4.44444 10.5556ZM0 33.8889C0 27.1389 5.47222 21.6667 12.2222 21.6667C18.9722 21.6667 24.4444 27.1389 24.4444 33.8889V34.3056C24.4444 35.9167 23.1389 37.2222 21.5278 37.2222H2.91667C1.30555 37.2222 0 35.9167 0 34.3056V33.8889Z"/><path d="M30.9354 11.1824C31.9099 11.1825 32.7 11.9726 32.7 12.9471V18.0252H37.7781C38.7527 18.0252 39.5428 18.8153 39.5428 19.7899C39.5428 20.7644 38.7527 21.5545 37.7781 21.5545H32.7V26.6326C32.7 27.6071 31.9099 28.3973 30.9354 28.3973C29.9608 28.3973 29.1707 27.6072 29.1707 26.6326V21.5545H24.0926C23.1181 21.5545 22.3279 20.7644 22.3279 19.7899C22.3279 18.8153 23.1181 18.0252 24.0926 18.0252H29.1707V12.9471C29.1707 11.9726 29.9608 11.1824 30.9354 11.1824Z"/></svg>
-                  Add
-                </button>
+                <AddFriendRowButton username={f.username} />
               </div>
             ))}
           </div>
+          {MOCK_FB_FRIENDS.length > FB_INITIAL_VISIBLE && (
+            <button
+              type="button"
+              className="pp-fb-card__show-more"
+              onClick={() => setShowAllFb(s => !s)}
+            >
+              {showAllFb ? 'Show Less' : `Show More (${MOCK_FB_FRIENDS.length - FB_INITIAL_VISIBLE})`}
+            </button>
+          )}
         </div>
       )}
 
-      {fbDiscovery === 'Zero Matches' && (
+      {isOwn && fbIsConnected && fbDiscovery === 'Zero Matches' && (
         <div className="pp-fb-card pp-fb-card--empty">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <img src={fbLogo} alt="Facebook" width="20" height="20" style={{ display: 'block', borderRadius: 4 }} />
           <span>None of your Facebook friends are on Backgammon.com yet. Invite them to play!</span>
           <button className="com-btn com-btn--outline com-btn--sm">Invite Friends</button>
         </div>
@@ -3020,26 +3190,68 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick })
 
       {/* Content based on sub-view */}
       {friendsView === 'My Friends' && (() => {
-        const filteredFriends = friendSearch
-          ? MOCK_FRIENDS.filter(f => f.username.toLowerCase().includes(friendSearch.toLowerCase()))
+        const lowered = friendSearch.toLowerCase();
+        // Sort online friends first so the list always surfaces who is
+        // available to challenge right now. Stable secondary order is the
+        // original mock-data order (which preserves server-side sort).
+        const baseFriends = friendSearch
+          ? MOCK_FRIENDS.filter(f => f.username.toLowerCase().includes(lowered))
           : MOCK_FRIENDS;
+        const filteredFriends = [...baseFriends].sort((a, b) => Number(!!b.online) - Number(!!a.online));
+        // Pending sent requests are private to the profile owner. Friends and
+        // guests viewing someone else's profile must never see who that
+        // player has friended out, so the Pending section is gated on isOwn.
+        const visiblePending = isOwn
+          ? MOCK_REQUESTS_SENT
+              .filter(r => !cancelledRequestIds.has(r.id))
+              .filter(r => !friendSearch || r.username.toLowerCase().includes(lowered))
+          : [];
+        const noResults = filteredFriends.length === 0 && visiblePending.length === 0;
         return (
           <div className="pp-friends-list">
+            {visiblePending.length > 0 && (
+              <>
+                <div className="pp-friends-list__title">Pending</div>
+                {visiblePending.map(r => (
+                  <div key={r.id} className="pp-friend-row">
+                    <Avatar src={getAvatarSrc(r.avatar)} alt={r.username} size="lg" clickable onClick={() => onPlayerClick?.(r.username, r.avatar)} />
+                    <div className="pp-friend-row__info">
+                      <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(r.username, r.avatar)}>{r.username}</span>
+                      <span className="pp-friend-row__meta">Request sent</span>
+                    </div>
+                    <div className="pp-friend-row__actions">
+                      <button
+                        className="com-btn com-btn--outline com-btn--sm"
+                        onClick={ftRequireAuth(() => setPendingCancelTarget(r))}
+                      >
+                        {FRIEND_CANCEL_ICON}
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+            {visiblePending.length > 0 && filteredFriends.length > 0 && (
+              <div className="pp-friends-list__title">Friends</div>
+            )}
             {filteredFriends.map(f => (
               <div key={f.id} className="pp-friend-row">
                 <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable onClick={() => onPlayerClick?.(f.username, f.avatar)} />
                 <div className="pp-friend-row__info">
                   <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
                 </div>
-                <div className="pp-friend-row__actions">
-                  <button className="com-btn com-btn--quaternary com-btn--sm">
-                    <IconCheckerStack />
-                    Challenge
-                  </button>
-                </div>
+                {isOwn && (
+                  <div className="pp-friend-row__actions">
+                    <button className="com-btn com-btn--quaternary com-btn--sm" onClick={ftRequireAuth(() => {})}>
+                      <IconCheckerStack />
+                      Challenge
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
-            {filteredFriends.length === 0 && (
+            {noResults && (
               <div style={{ padding: '24px 20px', textAlign: 'center', fontSize: 13, color: 'var(--color-muted)', fontFamily: 'var(--font-body)' }}>
                 No results found
               </div>
@@ -3047,6 +3259,23 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick })
           </div>
         );
       })()}
+
+      {pendingCancelTarget && createPortal(
+        <CancelRequestModal
+          username={pendingCancelTarget.username}
+          avatarSrc={getAvatarSrc(pendingCancelTarget.avatar)}
+          onCancel={() => setPendingCancelTarget(null)}
+          onConfirm={() => {
+            setCancelledRequestIds(prev => {
+              const next = new Set(prev);
+              next.add(pendingCancelTarget.id);
+              return next;
+            });
+            setPendingCancelTarget(null);
+          }}
+        />,
+        document.body,
+      )}
 
       {friendsView === 'Search Results' && (
         <div className="pp-friends-list">
@@ -3073,10 +3302,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick })
                   <div className="pp-friend-row__info">
                     <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
                   </div>
-                  <button className="friend-btn friend-btn--add-friend">
-                    <svg width="14" height="14" viewBox="0 0 40 40" fill="currentColor"><path d="M4.44444 10.5556C4.44444 9.53417 4.64562 8.52278 5.03649 7.57914C5.42736 6.63549 6.00027 5.77808 6.7225 5.05584C7.44473 4.33361 8.30215 3.7607 9.24579 3.36983C10.1894 2.97896 11.2008 2.77779 12.2222 2.77779C13.2436 2.77779 14.255 2.97896 15.1986 3.36983C16.1423 3.7607 16.9997 4.33361 17.7219 5.05584C18.4442 5.77808 19.0171 6.63549 19.4079 7.57914C19.7988 8.52278 20 9.53417 20 10.5556C20 12.5983 19.1885 14.5574 17.7219 16.0553C16.9997 16.7775 16.1423 17.3504 15.1986 17.7413C14.255 18.1322 13.2436 18.3333 12.2222 18.3333C10.1795 18.3333 8.22049 17.5219 6.7225 16.0553C5.22451 14.5574 4.44444 12.5983 4.44444 10.5556ZM0 33.8889C0 27.1389 5.47222 21.6667 12.2222 21.6667C18.9722 21.6667 24.4444 27.1389 24.4444 33.8889V34.3056C24.4444 35.9167 23.1389 37.2222 21.5278 37.2222H2.91667C1.30555 37.2222 0 35.9167 0 34.3056V33.8889Z"/><path d="M30.9354 11.1824C31.9099 11.1825 32.7 11.9726 32.7 12.9471V18.0252H37.7781C38.7527 18.0252 39.5428 18.8153 39.5428 19.7899C39.5428 20.7644 38.7527 21.5545 37.7781 21.5545H32.7V26.6326C32.7 27.6071 31.9099 28.3973 30.9354 28.3973C29.9608 28.3973 29.1707 27.6072 29.1707 26.6326V21.5545H24.0926C23.1181 21.5545 22.3279 20.7644 22.3279 19.7899C22.3279 18.8153 23.1181 18.0252 24.0926 18.0252H29.1707V12.9471C29.1707 11.9726 29.9608 11.1824 30.9354 11.1824Z"/></svg>
-                    Add
-                  </button>
+                  <AddFriendRowButton username={f.username} />
                 </div>
               ))}
             </>
@@ -3088,8 +3314,11 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, onPlayerClick })
         <div className="empty-state">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-border-mid)" strokeWidth="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
           <div className="empty-state__title">No friends yet</div>
-          <div className="empty-state__desc">Search for players to add them as friends, or connect Facebook to find people you know.</div>
-          <button className="com-btn com-btn--primary com-btn--sm">Connect Facebook</button>
+          <div className="empty-state__desc">
+            {fbIsConnected
+              ? 'Search for players to add them as friends, or check your Facebook matches.'
+              : 'Search for players to add them as friends.'}
+          </div>
         </div>
       )}
 
@@ -3111,7 +3340,7 @@ export default function ProfilePage({ onNavigate }) {
   const dmeCelebration = useDMEState('profile.celebration', false);
   const isMvp = useDMEState('profile.mvp', true);
   const isFavorited = useDMEState('profile.favorited', false);
-  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
+  const bellState = useDMEState('social.bell', 'Has Alerts');
   const dmeTab = useDMEState('profile.tab', 'Match History');
   const [localTab, setLocalTab] = useState(() => {
     const intent = sessionStorage.getItem('profile-tab-intent');
@@ -3138,6 +3367,8 @@ export default function ProfilePage({ onNavigate }) {
   const fbDiscovery = useDMEState('profile.fbDiscovery', 'None');
   const onlineStatus = useDMEState('profile.onlineStatus', 'Online');
   const settingsSection = useDMEState('settings.section', 'Connected Accounts');
+  const dmeSettingsOpen = useDMEState('profile.settingsOpen', false);
+  const setDmeStates = useDMESetState();
 
   /* Local view override — for navigating between profiles via match history */
   const [localViewOverride, setLocalViewOverride] = useState(null);
@@ -3174,6 +3405,7 @@ export default function ProfilePage({ onNavigate }) {
   const [playerCardTarget, setPlayerCardTarget] = useState(null);
   const [showChallengeModal, setShowChallengeModal] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
+  const { requireAuth: profileRequireAuth } = useRequireAuth();
 
   /* Avatar modal state */
   const [showAvatarModal, setShowAvatarModal] = useState(false);
@@ -3187,8 +3419,16 @@ export default function ProfilePage({ onNavigate }) {
   const [showFlagModal, setShowFlagModal] = useState(false);
   const countryFlag = country ? FLAG_LIST.find(f => f.key === country) : null;
 
-  /* Settings panel state */
-  const [showSettings, setShowSettings] = useState(false);
+  /* Settings panel state. Two-way sync with profile.settingsOpen so the
+     panel can be triggered via URL / State Controller, and any open/close
+     in the page itself writes back to DME so the URL stays accurate. */
+  const [localSettingsOpen, setLocalSettingsOpen] = useState(false);
+  const showSettings = dmeSettingsOpen || localSettingsOpen;
+  const setSettingsOpen = (open) => {
+    setLocalSettingsOpen(open);
+    setDmeStates(prev => ({ ...prev, 'profile.settingsOpen': open }));
+  };
+  const closeSettings = () => setSettingsOpen(false);
 
   /* Trophy case state */
   const [trophyCase, setTrophyCase] = useState(INITIAL_TROPHY_CASE);
@@ -3206,13 +3446,27 @@ export default function ProfilePage({ onNavigate }) {
   const isProfileB  = effectiveViewType === 'Profile B';
   const isGuest     = effectiveViewType === 'Guest - Match History' || effectiveViewType === 'Guest - Unregistered';
   const isNewPlayer = effectiveViewType === 'Own - New Player';
-  const isOther     = effectiveViewType === 'Friend - Match History' || effectiveViewType === 'Guest - Match History' || isProfileB;
-  const isOwn       = effectiveViewType === 'Own - Established' || isNewPlayer;
+  const baseIsOther = effectiveViewType === 'Friend - Match History' || effectiveViewType === 'Guest - Match History' || isProfileB;
+  const baseIsOwn   = effectiveViewType === 'Own - Established' || isNewPlayer;
   const isUnregistered = effectiveViewType === 'Guest - Unregistered';
 
+  // Auth-aware demotion: a viewer who isn't logged in (auth.loggedIn is
+  // 'guest' or 'logged-out') should never see the own-profile controls
+  // (edit, settings, FB elements) even when the view type says "Own".
+  // The page reads as if they're visiting another player's profile, with
+  // the appropriate CTA rail (FriendButton, Challenge) instead.
+  const dmeAuth = useDMEState('auth.loggedIn', 'logged-in');
+  const isAuthed = dmeAuth === 'logged-in' || dmeAuth === true;
+  const isOwn   = baseIsOwn && isAuthed;
+  const isOther = baseIsOther || (baseIsOwn && !isAuthed);
+
+  // Player data still keys off the BASE view type, not the auth-demoted
+  // isOther, so a logged-out viewer landing on "Own" still sees the
+  // own-profile player record (their public-facing data) rather than
+  // suddenly seeing MOCK_OTHER.
   const player = isProfileB
     ? MOCK_PROFILE_B
-    : isOther
+    : baseIsOther
       ? MOCK_OTHER
       : isUnregistered
         ? MOCK_GUEST
@@ -3348,7 +3602,7 @@ export default function ProfilePage({ onNavigate }) {
   }
 
   return (
-    <div style={{ background: 'var(--color-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: 'var(--color-bg)', minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column' }}>
 
       <SiteHeader onNavigate={onNavigate} />
 
@@ -3476,7 +3730,7 @@ export default function ProfilePage({ onNavigate }) {
                     Edit Trophy Case
                   </button>
                 )}
-                <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowSettings(true)}>
+                <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setSettingsOpen(true)}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                   </svg>
@@ -3494,7 +3748,7 @@ export default function ProfilePage({ onNavigate }) {
             {showOtherProfile && !isUnregistered && (
               <div className="profile-header__actions-row profile-header__actions-row--other">
                 <FriendButton status={isGuest ? 'Add Friend' : friendStatus} username={player.displayName} avatarSrc={player.avatar} />
-                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={() => setShowChallengeModal(true)}>
+                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={profileRequireAuth(() => setShowChallengeModal(true))}>
                   <IconCheckerStack />
                   Challenge
                 </button>
@@ -3611,6 +3865,7 @@ export default function ProfilePage({ onNavigate }) {
                 isEmpty={isNewPlayer}
                 onPlayerClick={handlePlayerCardClick}
                 isMvp={isMvp}
+                isOwn={isOwn}
               />
             </GatedSection>
           </div>
@@ -3620,13 +3875,13 @@ export default function ProfilePage({ onNavigate }) {
       {activeTab === 'Friends' && (
         <div className="section section--flush surface-muted" data-section-id="pp-friends" style={{ paddingBottom: 64 }}>
           <div className="section__inner">
-            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} onPlayerClick={handlePlayerCardClick} />
+            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} isOwn={isOwn} onPlayerClick={handlePlayerCardClick} />
           </div>
         </div>
       )}
 
       <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />
-      {!isMvp && <MobileNav onNavigate={onNavigate} hasUnread={acState === 'Activity - Unread'} activePage="My Profile" onActivityOpen={() => setActivityOpen(true)} />}
+      {!isMvp && <MobileNav onNavigate={onNavigate} hasUnread={bellState === 'Has Alerts'} activePage="My Profile" onActivityOpen={() => setActivityOpen(true)} />}
       {activityOpen && createPortal(
         <ActivityCenter onNavigate={onNavigate} externalOpen onExternalClose={() => setActivityOpen(false)} />,
         document.body,
@@ -3727,9 +3982,9 @@ export default function ProfilePage({ onNavigate }) {
             setSocialLinks(links);
             setCountry(newCountry);
             persistProfile({ displayName: name, bio: newBio, socialLinks: links, country: newCountry });
-            setShowSettings(false);
+            closeSettings();
           }}
-          onClose={() => setShowSettings(false)}
+          onClose={closeSettings}
           section={settingsSection}
           embedded
           isMvp={isMvp}

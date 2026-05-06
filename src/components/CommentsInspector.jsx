@@ -508,7 +508,7 @@ export default function CommentsInspector({
         top: '50%',
         transform: 'translateY(-50%)',
         [side]: collapsed ? 0 : 340,
-        zIndex: 10000,
+        zIndex: 100000,
         ...tabBaseStyle,
       }}
       onMouseEnter={e => e.currentTarget.style.color = '#ddd'}
@@ -559,7 +559,7 @@ export default function CommentsInspector({
               position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
               background: 'rgba(0,0,0,0.45)',
               pointerEvents: 'none',
-              zIndex: 9996,
+              zIndex: 99996,
               transition: 'opacity 0.2s ease',
             }}
           />
@@ -575,7 +575,7 @@ export default function CommentsInspector({
               boxShadow: '0 0 0 9999px rgba(0,0,0,0.45)',
               background: 'transparent',
               pointerEvents: 'none',
-              zIndex: 9997,
+              zIndex: 99997,
               transition: 'all 0.15s ease',
             }}
           />
@@ -594,7 +594,7 @@ export default function CommentsInspector({
             border: '1.5px solid rgba(76,175,130,0.5)',
             borderRadius: 2,
             pointerEvents: 'none',
-            zIndex: 9997,
+            zIndex: 99997,
             transition: 'all 0.05s ease',
           }}
         />
@@ -613,7 +613,7 @@ export default function CommentsInspector({
             padding: '3px 8px',
             borderRadius: 3,
             pointerEvents: 'none',
-            zIndex: 9997,
+            zIndex: 99997,
             whiteSpace: 'nowrap',
             border: '1px solid rgba(76,175,130,0.3)',
           }}
@@ -627,7 +627,7 @@ export default function CommentsInspector({
         ...panelStyle,
         background: '#1c1c1c', color: '#e0e0e0',
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        fontSize: 12, zIndex: 9999,
+        fontSize: 12, zIndex: 99999,
         display: 'flex', flexDirection: 'column',
         boxShadow: panel.detached ? '0 8px 40px rgba(0,0,0,0.6)' : (side === 'right' ? '-6px 0 32px rgba(0,0,0,0.5)' : '6px 0 32px rgba(0,0,0,0.5)'),
         overflow: 'hidden',
@@ -913,7 +913,7 @@ function PageMarkers({ comments, markerRects, focusedCommentId, onFocus, onClick
           fontSize: 10, fontWeight: 700,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
-          zIndex: 9998,
+          zIndex: 99998,
           boxShadow: isFocused
             ? '0 0 0 3px rgba(76,175,130,0.4), 0 2px 8px rgba(0,0,0,0.4)'
             : '0 2px 6px rgba(0,0,0,0.4)',

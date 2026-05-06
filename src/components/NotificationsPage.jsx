@@ -10,6 +10,8 @@ import {
   MOCK_NOTIFICATIONS,
 } from '../data/social-mock-data';
 import Avatar from './Avatar';
+import { useSessionSet } from '../hooks/useSessionState';
+import { useRequireAuth } from '../hooks/useRequireAuth';
 
 /* ── Preset avatar lookup ────────────────────────────────────── */
 const avatarModules = import.meta.glob('../imgs/avatars/*.png', { eager: true });
@@ -48,7 +50,28 @@ function Section({ title, children }) {
 }
 
 export default function NotificationsPage({ onNavigate }) {
+  const { isAuthed, requireAuth, openAuth } = useRequireAuth();
   const onlineFriends = MOCK_FRIENDS.filter(f => f.online);
+  // Viewer-driven actions persisted for the tab session.
+  const [acceptedRequestIds, setAcceptedRequestIds] = useSessionSet('notif-accepted-friend-requests');
+  const [rejectedRequestIds, setRejectedRequestIds] = useSessionSet('notif-rejected-friend-requests');
+  const [acceptedChallengeIds, setAcceptedChallengeIds] = useSessionSet('notif-accepted-challenges');
+  const [declinedChallengeIds, setDeclinedChallengeIds] = useSessionSet('notif-declined-challenges');
+  // Reuse the same set FriendsTab uses for cancellations so they stay in sync.
+  const [cancelledRequestIds] = useSessionSet('pp-friends-cancelled-requests');
+
+  const visibleIncoming = MOCK_REQUESTS_INCOMING.filter(
+    r => !acceptedRequestIds.has(r.id) && !rejectedRequestIds.has(r.id),
+  );
+  const visibleSent = MOCK_REQUESTS_SENT.filter(r => !cancelledRequestIds.has(r.id));
+  const visibleChallenges = MOCK_CHALLENGES_INCOMING.filter(
+    c => !acceptedChallengeIds.has(c.id) && !declinedChallengeIds.has(c.id),
+  );
+  const addId = (setter) => (id) => setter(prev => {
+    const next = new Set(prev);
+    next.add(id);
+    return next;
+  });
 
   return (
     <>
@@ -67,6 +90,27 @@ export default function NotificationsPage({ onNavigate }) {
           Notifications
         </h1>
 
+        {!isAuthed && (
+          <div style={{
+            padding: '40px 24px',
+            textAlign: 'center',
+            border: '1px solid var(--color-border)',
+            borderRadius: 12,
+          }}>
+            <div style={{ fontFamily: fh, fontSize: 16, fontWeight: 600, color: 'var(--color-heading)', marginBottom: 6 }}>
+              Sign in to see your activity
+            </div>
+            <div style={{ fontFamily: fb, fontSize: 13, color: 'var(--color-muted)', marginBottom: 16 }}>
+              Friend requests, challenges, and game updates appear here once you have an account.
+            </div>
+            <button className="com-btn com-btn--primary com-btn--sm" onClick={openAuth}>
+              Sign in
+            </button>
+          </div>
+        )}
+
+        {isAuthed && (
+        <>
         {/* Friends Online */}
         <Section title="Friends Online">
           {onlineFriends.length === 0 ? (
@@ -102,13 +146,13 @@ export default function NotificationsPage({ onNavigate }) {
 
         {/* Friend Requests */}
         <Section title="Friend Requests">
-          {MOCK_REQUESTS_INCOMING.length === 0 && MOCK_REQUESTS_SENT.length === 0 ? (
+          {visibleIncoming.length === 0 && visibleSent.length === 0 ? (
             <div style={{ padding: '16px 0', fontFamily: fb, fontSize: 13, color: 'var(--color-muted)' }}>
               No pending friend requests
             </div>
           ) : (
             <>
-              {MOCK_REQUESTS_INCOMING.map(r => (
+              {visibleIncoming.map(r => (
                 <div
                   key={r.id}
                   style={{
@@ -126,15 +170,23 @@ export default function NotificationsPage({ onNavigate }) {
                       Wants to be your friend
                     </div>
                   </div>
-                  <button className="com-btn com-btn--primary com-btn--sm" style={{ fontSize: 12 }}>
+                  <button
+                    className="com-btn com-btn--primary com-btn--sm"
+                    style={{ fontSize: 12 }}
+                    onClick={() => addId(setAcceptedRequestIds)(r.id)}
+                  >
                     Accept
                   </button>
-                  <button className="com-btn com-btn--outline com-btn--sm" style={{ fontSize: 12 }}>
+                  <button
+                    className="com-btn com-btn--outline com-btn--sm"
+                    style={{ fontSize: 12 }}
+                    onClick={() => addId(setRejectedRequestIds)(r.id)}
+                  >
                     Reject
                   </button>
                 </div>
               ))}
-              {MOCK_REQUESTS_SENT.map(r => (
+              {visibleSent.map(r => (
                 <div
                   key={r.id}
                   style={{
@@ -167,12 +219,12 @@ export default function NotificationsPage({ onNavigate }) {
 
         {/* Challenges */}
         <Section title="Challenges">
-          {MOCK_CHALLENGES_INCOMING.length === 0 ? (
+          {visibleChallenges.length === 0 ? (
             <div style={{ padding: '16px 0', fontFamily: fb, fontSize: 13, color: 'var(--color-muted)' }}>
               No incoming challenges
             </div>
           ) : (
-            MOCK_CHALLENGES_INCOMING.map(c => (
+            visibleChallenges.map(c => (
               <div
                 key={c.id}
                 style={{
@@ -203,10 +255,18 @@ export default function NotificationsPage({ onNavigate }) {
                     {c.format} match &middot; {c.timestamp}
                   </div>
                 </div>
-                <button className="com-btn com-btn--primary com-btn--sm" style={{ fontSize: 12 }}>
+                <button
+                  className="com-btn com-btn--primary com-btn--sm"
+                  style={{ fontSize: 12 }}
+                  onClick={() => addId(setAcceptedChallengeIds)(c.id)}
+                >
                   Accept
                 </button>
-                <button className="com-btn com-btn--outline com-btn--sm" style={{ fontSize: 12 }}>
+                <button
+                  className="com-btn com-btn--outline com-btn--sm"
+                  style={{ fontSize: 12 }}
+                  onClick={() => addId(setDeclinedChallengeIds)(c.id)}
+                >
                   Decline
                 </button>
               </div>
@@ -270,6 +330,8 @@ export default function NotificationsPage({ onNavigate }) {
             </div>
           ))}
         </Section>
+        </>
+        )}
       </div>
 
       <SiteFooter sectionId="gl-footer" onNavigate={onNavigate} />

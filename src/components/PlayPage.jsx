@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useDMEState, useDMESetState } from '../context/dme-states';
+import { useSessionState } from '../hooks/useSessionState';
+import { useRequireAuth } from '../hooks/useRequireAuth';
 import BOARD_PRESETS from '../data/board-presets';
 import { MOCK_FRIENDS } from '../data/social-mock-data';
 import avatarDrac from '../imgs/avatars/Drac.png';
@@ -450,7 +452,9 @@ function ResignModal() {
 
 function GameOverModal({ isVictory, onClose }) {
   const [friendStep, setFriendStep] = useState('main'); // 'main' | 'confirm' | 'sent'
-  const friendSent = friendStep === 'sent';
+  const [friendOverride, setFriendOverride] = useSessionState('pp-relationship:Michael', null);
+  const { requireAuth } = useRequireAuth();
+  const friendSent = friendStep === 'sent' || friendOverride === 'Pending' || friendOverride === 'Friends';
 
   return (
     <div className="modal modal--sm gp-modal-center gp-modal-slider-clip">
@@ -493,7 +497,7 @@ function GameOverModal({ isVictory, onClose }) {
                 <Avatar src={avatarGobby} alt="Michael" size="xl" />
                 <button
                   className={`add-friend-btn${friendSent ? ' add-friend-btn--sent' : ''}`}
-                  onClick={() => setFriendStep('confirm')}
+                  onClick={requireAuth(() => setFriendStep('confirm'))}
                   disabled={friendSent}
                   title={friendSent ? 'Request sent' : 'Add friend'}
                 >
@@ -527,7 +531,7 @@ function GameOverModal({ isVictory, onClose }) {
             <button
               className="com-btn com-btn--dark"
               style={{ width: '100%' }}
-              onClick={() => setFriendStep('sent')}
+              onClick={() => { setFriendStep('sent'); setFriendOverride('Pending'); }}
             >
               Send Friend Request
             </button>
@@ -566,12 +570,18 @@ function SettingsModal() {
   );
 }
 
-function ModalOverlay({ modalType }) {
+function ModalOverlay({ modalType, onClose }) {
   const setDmeStates = useDMESetState();
-  const closeModal = () => setDmeStates(prev => ({ ...prev, 'play.modal': 'None' }));
+  const closeModal = () => {
+    onClose?.();
+    setDmeStates(prev => ({ ...prev, 'play.modal': 'None' }));
+  };
   if (!modalType || modalType === 'None') return null;
   return (
-    <div className="overlay overlay--dark">
+    <div
+      className="overlay overlay--dark"
+      onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}
+    >
       {modalType === 'Menu' && <MenuModal />}
       {modalType === 'Resign' && <ResignModal />}
       {modalType === 'Victory' && <GameOverModal isVictory={true} onClose={closeModal} />}
@@ -596,7 +606,12 @@ function InGameProfileCard({ onClose }) {
   const showLogo = useDMEState('play.cardShowLogo', true);
   const showDownload = useDMEState('play.cardShowDownload', true);
   const opponentIsFriend = useDMEState('play.opponentIsFriend', false);
-  const [friendSent, setFriendSent] = useState(false);
+  const { requireAuth } = useRequireAuth();
+  const [friendOverride, setFriendOverride] = useSessionState(
+    `pp-relationship:${OPPONENT_PLAYER.displayName || 'unknown'}`,
+    null,
+  );
+  const friendSent = friendOverride === 'Pending' || friendOverride === 'Friends';
 
   return (
     <PlayerCardModal
@@ -609,7 +624,7 @@ function InGameProfileCard({ onClose }) {
       showDownload={showDownload}
       showAddFriend={!opponentIsFriend}
       friendSent={friendSent}
-      onAddFriend={() => setFriendSent(true)}
+      onAddFriend={requireAuth(() => setFriendOverride('Pending'))}
       onClose={onClose}
     />
   );
@@ -620,7 +635,7 @@ function InGameProfileCard({ onClose }) {
 
    ═══════════════════════════════════════════════════════════════ */
 
-function ChallengeModal({ type }) {
+function ChallengeModal({ type, onClose }) {
   if (type === 'None') return null;
 
   if (type === 'Incoming Challenge') {
@@ -633,8 +648,8 @@ function ChallengeModal({ type }) {
           <strong>BoardMaster</strong> challenged you to a <strong>5-point match</strong>
         </div>
         <div className="gp-challenge-toast__actions">
-          <button className="friend-btn friend-btn--accept">Accept</button>
-          <button className="friend-btn friend-btn--decline">Decline</button>
+          <button className="friend-btn friend-btn--accept" onClick={onClose}>Accept</button>
+          <button className="friend-btn friend-btn--decline" onClick={onClose}>Decline</button>
         </div>
       </div>
     );
@@ -646,14 +661,14 @@ function ChallengeModal({ type }) {
         <div className="gp-challenge-toast__info">
           Challenge from <strong>BoardMaster</strong> has expired
         </div>
-        <button className="gp-challenge-toast__dismiss">&times;</button>
+        <button className="gp-challenge-toast__dismiss" onClick={onClose}>&times;</button>
       </div>
     );
   }
 
   // Send Challenge
   return (
-    <div className="overlay overlay--dark">
+    <div className="overlay overlay--dark" onClick={(e) => { if (e.target === e.currentTarget) onClose?.(); }}>
       <div className="modal modal--sm gp-modal-center">
         <div className="gp-challenge-avatar">
           <img src={avatarKing} alt="GammonKing42" />
@@ -666,8 +681,8 @@ function ChallengeModal({ type }) {
             <button key={f} className={`gp-settings-option${i === 2 ? ' gp-settings-option--active' : ''}`}>{f}</button>
           ))}
         </div>
-        <button className="gp-modal-btn gp-modal-btn--primary">Send Challenge</button>
-        <button className="gp-modal-link">Cancel</button>
+        <button className="gp-modal-btn gp-modal-btn--primary" onClick={onClose}>Send Challenge</button>
+        <button className="gp-modal-link" onClick={onClose}>Cancel</button>
       </div>
     </div>
   );
@@ -682,6 +697,7 @@ export default function PlayPage({ onNavigate }) {
   const modalState = useDMEState('play.modal', 'None');
   const dmeProfileCard = useDMEState('play.profileCard', false);
   const challengeModal = useDMEState('play.challengeModal', 'None');
+  const setDmeStates = useDMESetState();
   const [localProfileCard, setLocalProfileCard] = useState(false);
   const showProfileCard = dmeProfileCard || localProfileCard;
   const preset = BOARD_PRESETS[boardState] || BOARD_PRESETS['Opening'];
@@ -689,6 +705,23 @@ export default function PlayPage({ onNavigate }) {
   const effectiveModal = (modalState === 'None' && preset.autoModal)
     ? preset.autoModal
     : modalState;
+
+  // Closing in-game UI must mirror the DME state back so the State Controller
+  // and the in-page close X stay in sync. Otherwise toggling something on via
+  // DME locks the UI open until you flip DME back manually.
+  const closeProfileCard = () => {
+    setLocalProfileCard(false);
+    if (dmeProfileCard) {
+      setDmeStates(prev => ({ ...prev, 'play.profileCard': false }));
+    }
+  };
+  // ModalOverlay manages its own DME-state write internally, so no extra
+  // prop is needed for the play.modal sync.
+  const closeChallengeModal = () => {
+    if (challengeModal !== 'None') {
+      setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'None' }));
+    }
+  };
 
   return (
     <div className="gp-page" data-section-id="gp-board">
@@ -703,8 +736,8 @@ export default function PlayPage({ onNavigate }) {
         </div>
       </div>
       <ModalOverlay modalType={effectiveModal} />
-      {showProfileCard && <InGameProfileCard onClose={() => setLocalProfileCard(false)} />}
-      <ChallengeModal type={challengeModal} />
+      {showProfileCard && <InGameProfileCard onClose={closeProfileCard} />}
+      <ChallengeModal type={challengeModal} onClose={closeChallengeModal} />
     </div>
   );
 }

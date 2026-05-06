@@ -856,7 +856,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
         <div data-roletarget-panel style={{
           position: 'fixed', ...hoverRect,
           background: OVERLAY_COLOR, border: `1.5px solid ${OVERLAY_BORDER}`,
-          borderRadius: 3, pointerEvents: 'none', zIndex: 10000,
+          borderRadius: 3, pointerEvents: 'none', zIndex: 100000,
           transition: 'top 0.05s, left 0.05s, width 0.05s, height 0.05s',
         }} />
       )}
@@ -867,7 +867,7 @@ export default function RoleTargeter({ visible, onClose, currentPageId, roleOver
           position: 'fixed', top: sel.rect.top, left: sel.rect.left,
           width: sel.rect.width, height: sel.rect.height,
           background: SEL_COLOR, border: `2px solid ${SEL_BORDER}`,
-          borderRadius: 3, pointerEvents: 'none', zIndex: 10000,
+          borderRadius: 3, pointerEvents: 'none', zIndex: 100000,
         }} />
       )}
 

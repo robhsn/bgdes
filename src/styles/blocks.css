@@ -4711,14 +4711,13 @@ h1.profile-header__name {
    ═══════════════════════════════════════════════════════════════ */
 
 .pp-tab-bar {
+  width: 100%;
+  box-sizing: border-box;
   border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: var(--ix-header-height, 56px);
   z-index: 10;
   background-color: var(--color-bg);
-}
-
-.pp-tab-bar {
   padding: 0 var(--spacing-h);
 }
 
@@ -4733,7 +4732,7 @@ h1.profile-header__name {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 20px;
+  padding: 26px 20px 20px;
   font-family: var(--font-section);
   font-size: 14px;
   font-weight: var(--font-section-weight);
@@ -4741,20 +4740,9 @@ h1.profile-header__name {
   color: var(--color-muted);
   cursor: pointer;
   border-bottom: 6px solid transparent;
-  margin-bottom: -1px;
   transition: color 0.15s, border-color 0.15s;
   white-space: nowrap;
   outline: none;
-}
-
-.pp-tab:first-child {
-  padding-left: 20px;
-}
-
-@media (min-width: 801px) {
-  .pp-tab-bar {
-    margin-left: -20px;
-  }
 }
 
 .pp-tab:hover {
@@ -4890,7 +4878,6 @@ h1.profile-header__name {
   letter-spacing: 0.05em;
   color: var(--color-muted);
   padding: 12px 0 8px;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .pp-friend-row {
@@ -4981,6 +4968,30 @@ h1.profile-header__name {
   flex-direction: column;
 }
 
+.pp-fb-card__show-more {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 0;
+  background: transparent;
+  border: 0;
+  font-family: var(--font-meta);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--prim-mint-600);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.pp-fb-card__show-more:hover {
+  background: rgba(17, 83, 63, 0.08);
+  color: var(--prim-mint-700);
+}
+
 .pp-fb-card--empty {
   display: flex;
   align-items: center;
@@ -5021,4 +5032,396 @@ h1.profile-header__name {
   .rfg-partners__divider {
     display: none;
   }
+}
+
+/* ── Toast stack ──────────────────────────────────────────────── */
+
+.toast-stack {
+  position: fixed;
+  top: calc(var(--ix-header-height, 64px) + 16px);
+  right: 16px;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+  width: min(380px, calc(100vw - 32px));
+
+  /* Lock to a dark mint surface (mint-900) so toasts always render with the
+     same inverse palette regardless of where they are portalled. */
+  --color-bg:        var(--prim-mint-900);
+  --color-heading:   var(--prim-mono-white);
+  --color-body:      var(--prim-mono-white);
+  --color-muted:     var(--prim-mint-200);
+  --color-border:    var(--prim-mint-700);
+  --color-accent:    var(--prim-mint-300);
+
+  /* Outline button on a dark surface needs a white-on-transparent treatment
+     so Reject / Decline reads against the toast bg. */
+  --com-btn-outline-fg:     var(--prim-mono-white);
+  --com-btn-outline-border: rgba(255, 255, 255, 0.28);
+}
+
+.toast {
+  pointer-events: auto;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.06);
+  animation: toast-in 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.toast--exiting {
+  animation: toast-out 0.28s cubic-bezier(0.55, 0, 0.75, 0) forwards;
+  pointer-events: none;
+}
+
+/* Left accent bar removed per design. Variant class still applied for any
+   future variant-specific styling. */
+
+.toast__avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.toast__avatar-tag {
+  font-family: var(--font-meta);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.toast__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toast__title {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-heading);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toast__sub {
+  font-family: var(--font-meta);
+  font-size: 12px;
+  color: var(--color-muted);
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toast__sub-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.toast__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.toast__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-heading);
+  white-space: nowrap;
+}
+
+.toast__chip--challenge {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-heading);
+}
+
+.toast__chip--friend {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--color-heading);
+}
+
+.toast__chip-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.toast__chip-meta .toast__sub-icon {
+  color: var(--color-muted);
+}
+
+.toast__star {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-star, #f5b400);
+}
+
+.toast__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.toast__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 12px 0 6px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.toast__close:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--color-heading);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); max-height: 200px; margin-bottom: 0; }
+  to   { opacity: 0; transform: translateX(28px); max-height: 0; margin-bottom: -12px; padding-top: 0; padding-bottom: 0; border-width: 0; }
+}
+
+@media (max-width: 640px) {
+  .toast-stack {
+    /* Mobile keeps the top-anchored stack so toasts slide in from the top
+       and push down. Just widen to fill the viewport gutters. */
+    top: calc(var(--ix-header-height, 64px) + 12px);
+    left: 16px;
+    right: 16px;
+    width: auto;
+  }
+
+  /* Mobile uses a vertical slide so the stack feels like it's dropping in
+     from above rather than entering from the right edge. */
+  .toast {
+    animation: toast-in-mobile 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .toast--exiting {
+    animation: toast-out-mobile 0.28s cubic-bezier(0.55, 0, 0.75, 0) forwards;
+  }
+}
+
+@keyframes toast-in-mobile {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out-mobile {
+  from { opacity: 1; transform: translateY(0); max-height: 200px; margin-bottom: 0; }
+  to   { opacity: 0; transform: translateY(-28px); max-height: 0; margin-bottom: -12px; padding-top: 0; padding-bottom: 0; border-width: 0; }
+}
+
+/* ── Auth overlay (full-page Login / Sign Up takeover) ───────── */
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--prim-mono-white, #fff);
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 40px;
+  overflow-y: auto;
+  animation: auth-overlay-in 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Lock the auth surface to the light palette regardless of where it is
+     rendered. Keeps providers and copy readable when triggered from any
+     page (including ones inside surface-inverse contexts). */
+  --color-bg:        var(--prim-mono-white);
+  --color-heading:   var(--prim-mint-900);
+  --color-body:      var(--prim-fall-900);
+  --color-muted:     var(--prim-fall-700);
+  --color-border:    var(--prim-mint-100);
+}
+
+@keyframes auth-overlay-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.auth-overlay__close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--color-heading);
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.auth-overlay__close:hover { background: rgba(0, 0, 0, 0.05); }
+
+.auth-overlay__logo {
+  height: 28px;
+  width: auto;
+  align-self: flex-start;
+}
+
+.auth-overlay__wrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 420px;
+  gap: 20px;
+  align-self: center;
+  padding: 32px 0;
+}
+
+.auth-overlay__title {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--color-heading);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.auth-overlay__error {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid #ef4444;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.auth-overlay__providers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-overlay__provider-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 52px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--prim-mint-300, #c5e8e4);
+  background: transparent;
+  padding: 0 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-heading);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.12s;
+}
+.auth-overlay__provider-btn:hover {
+  background: var(--prim-mint-100, #f0faf8);
+  border-color: var(--prim-mint-500);
+}
+.auth-overlay__provider-btn:active {
+  transform: scale(0.99);
+}
+
+.auth-overlay__provider-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  position: absolute;
+  left: 18px;
+}
+
+.auth-overlay__switch {
+  font-size: 14px;
+  color: var(--color-muted);
+  margin: 0;
+  text-align: center;
+}
+.auth-overlay__switch button {
+  background: none;
+  border: none;
+  color: var(--color-heading);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+  text-decoration: underline;
+}
+.auth-overlay__switch button:hover { filter: brightness(1.2); }
+
+.auth-overlay__terms {
+  font-size: 12px;
+  color: var(--color-muted);
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+.auth-overlay__terms a {
+  color: var(--color-heading);
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .auth-overlay { padding: 24px 20px; }
+  .auth-overlay__title { font-size: 26px; }
 }

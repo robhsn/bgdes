@@ -29,6 +29,22 @@ export const STATE_DEFINITIONS = [
     options: ['logged-in', 'guest', 'logged-out'],
   },
   {
+    key: 'toast.demo',
+    label: 'Trigger Toast',
+    description: 'Fire a sample toast on the current page. "All / NEVER FADE" pins all four toasts on screen until you pick None again. Single values auto-reset to None so they can be re-fired.',
+    type: 'global',
+    defaultValue: 'None',
+    options: ['All / NEVER FADE', 'None', 'Friend Request', 'Friend Accepted', 'Challenge', 'Starred Online'],
+  },
+  {
+    key: 'auth.overlay',
+    label: 'Auth Overlay',
+    description: 'Full-page Login / Sign Up takeover. Visible on every page when not None.',
+    type: 'global',
+    defaultValue: 'None',
+    options: ['None', 'Login', 'Sign Up', 'Login Error'],
+  },
+  {
     key: 'profile.viewType',
     label: 'Profile View',
     description: 'Switch between profile view states',
@@ -158,6 +174,13 @@ export const STATE_DEFINITIONS = [
     visibleWhen: { 'profile.tab': ['Friends'] },
   },
   {
+    key: 'profile.settingsOpen',
+    label: 'Settings Popover',
+    description: 'Open the Settings popover overlay',
+    type: 'profile',
+    defaultValue: false,
+  },
+  {
     key: 'profile.fbDiscovery',
     label: 'FB Discovery',
     description: 'Show Facebook friend discovery card',
@@ -168,13 +191,14 @@ export const STATE_DEFINITIONS = [
     visibleWhen: { 'profile.tab': ['Friends'] },
   },
 
-  // Settings Page
+  // Settings — used on the standalone /settings page AND inside the
+  // Settings popover on the Profile page, so both pages must be in scope.
   {
     key: 'settings.section',
     label: 'Settings View',
     description: 'Switch between settings page states',
     type: 'select',
-    page: 'settings',
+    page: ['settings', 'profile'],
     options: [
       'Profile',
       'Connected Accounts',
@@ -190,13 +214,14 @@ export const STATE_DEFINITIONS = [
     label: 'Facebook Connect Flow',
     description: 'Step in the Facebook connect & friend discovery flow',
     type: 'select',
-    page: 'settings',
+    page: ['settings', 'profile'],
     options: [
       'None',
       'FB Login',
       'FB Authorize',
       'Friends Found',
       'Requests Sent',
+      'Connected',
     ],
     defaultValue: 'None',
   },
@@ -252,20 +277,37 @@ export const STATE_DEFINITIONS = [
     defaultValue: false,
   },
 
-  // Web Header — show desktop header on mobile/tablet
+  // Bell + Unread Count are always-visible header chrome (when the viewer
+  // is logged in), so they live at the top level instead of being nested
+  // under the dropdown-only Activity Center toggle below.
   {
-    key: 'global.webHeader',
-    label: 'Web Header',
-    description: 'Show desktop-style sticky header on tablet and mobile breakpoints',
-    type: 'global',
-    defaultValue: false,
+    key: 'social.bell',
+    label: 'Bell',
+    description: 'Bell icon visibility and alert state in the header',
+    type: 'select',
+    page: 'global',
+    options: ['Hidden', 'No Alerts', 'Has Alerts'],
+    defaultValue: 'Has Alerts',
+  },
+  {
+    key: 'social.unreadCount',
+    label: 'Unread Count',
+    description: 'Number of unread activity items shown on the bell badge',
+    type: 'select',
+    page: 'global',
+    options: ['0', '1', '3', '5', '12'],
+    defaultValue: '3',
+    visibleWhen: { 'social.bell': ['Has Alerts'] },
   },
 
-  // Activity Center — dropdown open state
+  // Activity Center — master toggle. When on, the dropdown is forced open
+  // and its tab / content sub-states become visible below. Bell + Unread
+  // Count above are NOT gated on this; they're header chrome always
+  // visible to logged-in viewers.
   {
     key: 'social.activityOpen',
-    label: 'Activity Dropdown',
-    description: 'Force the activity center dropdown open',
+    label: 'Activity Center',
+    description: 'Force the Activity Center dropdown open and reveal its tab / content sub-states',
     type: 'global',
     defaultValue: false,
   },
@@ -292,24 +334,29 @@ export const STATE_DEFINITIONS = [
     defaultValue: 'Primary',
   },
 
-  // Activity Center (global — shows in header)
+  // Activity Center dropdown sub-states. Gated on the master toggle above
+  // so they only show up when the dropdown is actually open.
   {
-    key: 'social.activityCenter',
-    label: 'Activity Center',
-    description: 'Show activity center icon and dropdown in header',
+    key: 'social.tab',
+    label: 'Tab',
+    description: 'Which tab the Activity Center dropdown is focused on',
     type: 'select',
     page: 'global',
-    options: ['Hidden', 'Empty', 'Friends Online', 'Activity - Unread', 'Activity - All Read'],
-    defaultValue: 'Activity - Unread',
+    options: ['Activity', 'Friends Online'],
+    defaultValue: 'Activity',
+    visibleWhen: { 'social.activityOpen': [true] },
   },
   {
-    key: 'social.unreadCount',
-    label: 'Unread Count',
-    description: 'Number of unread activity items shown on badge',
+    key: 'social.activityContent',
+    label: 'Activity Content',
+    description: 'Whether the Activity feed has items or is empty',
     type: 'select',
     page: 'global',
-    options: ['0', '1', '3', '5', '12'],
-    defaultValue: '3',
-    visibleWhen: { 'social.activityCenter': ['Activity - Unread'] },
+    options: ['Has Activity', 'Empty'],
+    defaultValue: 'Has Activity',
+    visibleWhen: {
+      'social.activityOpen': [true],
+      'social.tab': ['Activity'],
+    },
   },
 ];

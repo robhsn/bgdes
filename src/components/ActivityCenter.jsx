@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDMEState } from '../context/dme-states';
+import { useDMEState, useDMESetState } from '../context/dme-states';
 import {
   MOCK_FRIENDS,
   MOCK_NOTIFICATIONS,
   MOCK_FB_FRIENDS,
 } from '../data/social-mock-data';
 import Avatar from './Avatar';
+import { useSessionSet, useSessionState } from '../hooks/useSessionState';
+import { useRequireAuth } from '../hooks/useRequireAuth';
 
 /* ── Preset avatar lookup ────────────────────────────────────── */
 const avatarModules = import.meta.glob('../imgs/avatars/*.png', { eager: true });
@@ -19,7 +21,7 @@ import avatarFallback from '../imgs/avatar-dink.png';
 import fbPic1 from '../imgs/fb photos/fb-pic-1.jpg';
 import fbPic2 from '../imgs/fb photos/fb-pic-2.jpg';
 import fbPic3 from '../imgs/fb photos/fb-pic-3.jpg';
-import fbIcon from '../imgs/icons/fb-icon.webp';
+import fbIcon from '../imgs/icons/fb-logo.png';
 const FB_PHOTOS = [fbPic1, fbPic2, fbPic3];
 function getAvatar(key) { return AVATAR_MAP[key] || avatarFallback; }
 
@@ -160,7 +162,25 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
 
 /* ── Notification Item Renderer ──────────────────────────────── */
 
-function NotificationItem({ item }) {
+function ActivityAddFriendButton({ username }) {
+  const [override, setOverride] = useSessionState(
+    `pp-relationship:${username || 'unknown'}`,
+    null,
+  );
+  if (override === 'Pending') {
+    return <button className="com-btn com-btn--xsm" disabled>Request Sent</button>;
+  }
+  if (override === 'Friends') {
+    return <button className="com-btn com-btn--xsm" disabled>Friends</button>;
+  }
+  return (
+    <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => setOverride('Pending')}>
+      Add Friend
+    </button>
+  );
+}
+
+function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChallenge, onDeclineChallenge }) {
   const { type, user, timestamp, read } = item;
 
   const avatarEl = <Avatar src={getAvatar(user.avatar)} alt={user.username} size="sm" />;
@@ -203,7 +223,7 @@ function NotificationItem({ item }) {
           <div style={nameStyle}>{user.fbName} joined Backgammon.com</div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--xsm">Add Friend</button>
+        <ActivityAddFriendButton username={user.username} />
         <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
       </div>
     );
@@ -221,8 +241,8 @@ function NotificationItem({ item }) {
           <div style={nameStyle}>{user.username} sent you a friend request</div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--xsm">Accept</button>
-        <button className="com-btn com-btn--outline com-btn--xsm">Reject</button>
+        <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptRequest?.(item.id)}>Accept</button>
+        <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onRejectRequest?.(item.id)}>Reject</button>
       </div>
     );
   }
@@ -241,8 +261,8 @@ function NotificationItem({ item }) {
           </div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--xsm">Accept</button>
-        <button className="com-btn com-btn--outline com-btn--xsm">Decline</button>
+        <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptChallenge?.(item.id)}>Accept</button>
+        <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onDeclineChallenge?.(item.id)}>Decline</button>
       </div>
     );
   }
@@ -296,10 +316,45 @@ function NotificationItem({ item }) {
 
 function ActivityTab() {
   const [filter, setFilter] = useState('all');
+  // Shared session keys with NotificationsPage so actions stay in sync.
+  const [acceptedRequestIds, setAcceptedRequestIds] = useSessionSet('notif-accepted-friend-requests');
+  const [rejectedRequestIds, setRejectedRequestIds] = useSessionSet('notif-rejected-friend-requests');
+  const [acceptedChallengeIds, setAcceptedChallengeIds] = useSessionSet('notif-accepted-challenges');
+  const [declinedChallengeIds, setDeclinedChallengeIds] = useSessionSet('notif-declined-challenges');
+  const { isAuthed, requireAuth, openAuth } = useRequireAuth();
+  const addId = (setter) => requireAuth((id) => setter(prev => {
+    const next = new Set(prev);
+    next.add(id);
+    return next;
+  }));
+
+  // Unauth'd viewers have no notifications. Render an empty state with an
+  // upgrade CTA instead of mock data.
+  if (!isAuthed) {
+    return (
+      <div style={{ padding: '32px 16px', textAlign: 'center' }}>
+        <div style={{ fontFamily: fb, fontSize: 14, fontWeight: 600, color: 'var(--color-heading)', marginBottom: 6 }}>
+          Sign in to see your activity
+        </div>
+        <div style={{ fontFamily: fm, fontSize: 12, color: 'var(--color-muted)', marginBottom: 16 }}>
+          Friend requests, challenges, and game updates appear here once you have an account.
+        </div>
+        <button className="com-btn com-btn--primary com-btn--sm" onClick={openAuth}>
+          Sign in
+        </button>
+      </div>
+    );
+  }
+
+  const visible = MOCK_NOTIFICATIONS.filter(n => {
+    if (n.type === 'friend_request' && (acceptedRequestIds.has(n.id) || rejectedRequestIds.has(n.id))) return false;
+    if (n.type === 'challenge_received' && (acceptedChallengeIds.has(n.id) || declinedChallengeIds.has(n.id))) return false;
+    return true;
+  });
 
   const filtered = filter === 'all'
-    ? MOCK_NOTIFICATIONS
-    : MOCK_NOTIFICATIONS.filter(n => {
+    ? visible
+    : visible.filter(n => {
         if (filter === 'friend_request') return n.type === 'friend_request' || n.type === 'friend_accepted';
         if (filter === 'challenge') return n.type.startsWith('challenge');
         if (filter === 'message') return n.type === 'message';
@@ -336,7 +391,16 @@ function ActivityTab() {
           No activity in this category
         </div>
       ) : (
-        filtered.map(n => <NotificationItem key={n.id} item={n} />)
+        filtered.map(n => (
+          <NotificationItem
+            key={n.id}
+            item={n}
+            onAcceptRequest={addId(setAcceptedRequestIds)}
+            onRejectRequest={addId(setRejectedRequestIds)}
+            onAcceptChallenge={addId(setAcceptedChallengeIds)}
+            onDeclineChallenge={addId(setDeclinedChallengeIds)}
+          />
+        ))
       )}
     </div>
   );
@@ -345,25 +409,40 @@ function ActivityTab() {
 /* ── Main ActivityCenter component ───────────────────────────── */
 
 export default function ActivityCenter({ onNavigate, externalOpen, onExternalClose }) {
-  const acState = useDMEState('social.activityCenter', 'Activity - Unread');
+  // Activity Center sub-states. Each control is now its own DME state so
+  // the State Controller can present focused, nested toggles for bell
+  // visibility, tab focus, content state, and unread count.
+  const bell = useDMEState('social.bell', 'Has Alerts');
+  const tab = useDMEState('social.tab', 'Activity');
+  const activityContent = useDMEState('social.activityContent', 'Has Activity');
   const unreadCountStr = useDMEState('social.unreadCount', '3');
   const dmeOpen = useDMEState('social.activityOpen', false);
+  const setDmeStates = useDMESetState();
+  const { isAuthed } = useRequireAuth();
   const [localOpen, setLocalOpen] = useState(false);
   const open = dmeOpen || localOpen || !!externalOpen;
   const [activeTab, setActiveTab] = useState('activity');
   const panelRef = useRef(null);
 
-  // Close on outside click (overlay click)
-  const closePanel = () => { setLocalOpen(false); onExternalClose?.(); };
+  // Closing the panel must sync the DME state back to false. Otherwise
+  // toggling Activity Center "on" via the State Controller would lock the
+  // panel open since the in-page close X / overlay click only update the
+  // local toggle.
+  const closePanel = () => {
+    setLocalOpen(false);
+    onExternalClose?.();
+    if (dmeOpen) {
+      setDmeStates(prev => ({ ...prev, 'social.activityOpen': false }));
+    }
+  };
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) closePanel();
   };
 
-  // Sync active tab to DME state
+  // Sync active tab to the dedicated tab DME state.
   useEffect(() => {
-    if (acState === 'Friends Online') setActiveTab('friends');
-    else if (acState.startsWith('Activity')) setActiveTab('activity');
-  }, [acState]);
+    setActiveTab(tab === 'Friends Online' ? 'friends' : 'activity');
+  }, [tab]);
 
   // Prevent body scroll when panel is open
   useEffect(() => {
@@ -373,11 +452,14 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
     }
   }, [open]);
 
-  if (acState === 'Hidden') return null;
+  if (bell === 'Hidden') return null;
 
-  const isUnread = acState === 'Activity - Unread';
+  // Bell badge: only shows alerts when explicitly set to Has Alerts AND the
+  // viewer is authed (an unauth'd viewer can't have personal alerts).
+  const isUnread = isAuthed && bell === 'Has Alerts';
   const unreadCount = isUnread ? parseInt(unreadCountStr, 10) : 0;
-  const isEmpty = acState === 'Empty';
+  // Empty state only matters when the dropdown is showing the Activity tab.
+  const isEmpty = activityContent === 'Empty';
 
   const TABS = [
     { key: 'activity', label: 'Activity' },
