@@ -3153,9 +3153,11 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
         />
       </div>
 
-      {/* FB Discovery card. Only on the logged-in player's own profile, AND
-          only when their account is actually linked to Facebook in settings. */}
-      {isOwn && fbIsConnected && fbDiscovery === 'Matches Found' && (
+      {/* FB Discovery card. Renders on the logged-in player's own profile
+          whenever the discovery DME state is set, so designers can preview
+          it from the URL / State Controller without first walking through
+          the FB connect flow. */}
+      {isOwn && fbDiscovery === 'Matches Found' && (
         <div className="pp-fb-card">
           <div className="pp-fb-card__header">
             <img src={fbLogo} alt="Facebook" width="20" height="20" style={{ display: 'block', borderRadius: 4 }} />
@@ -3185,7 +3187,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
         </div>
       )}
 
-      {isOwn && fbIsConnected && fbDiscovery === 'Zero Matches' && (
+      {isOwn && fbDiscovery === 'Zero Matches' && (
         <div className="pp-fb-card pp-fb-card--empty">
           <img src={fbLogo} alt="Facebook" width="20" height="20" style={{ display: 'block', borderRadius: 4 }} />
           <span>None of your Facebook friends are on Backgammon.com yet. Invite them to play!</span>
