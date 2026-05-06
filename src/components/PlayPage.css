@@ -1244,6 +1244,144 @@
   text-align: center;
 }
 
+/* ── Play a friend modal ──────────────────────────────────────── */
+.gp-play-friend {
+  text-align: center;
+  padding: 24px 28px;
+  gap: 0;
+  max-width: 460px;
+  width: 92vw;
+}
+
+.gp-play-friend__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.gp-play-friend__head .gp-challenge-avatar {
+  margin: 0;
+}
+
+.gp-play-friend__username {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-muted);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.gp-play-friend__title {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-heading);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.gp-play-friend__section {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.gp-play-friend__section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: 12px;
+}
+
+.gp-play-friend__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gp-play-friend__options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.gp-play-friend__option {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1px solid var(--prim-mint-200, #bce4d9);
+  background: transparent;
+  font-family: 'Inter', var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgb(4, 30, 23);
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.gp-play-friend__option--active {
+  border: 2px solid var(--gp-dark-green, #1c4338);
+  background: var(--prim-mint-100, #f0fdf9);
+  font-weight: 700;
+}
+
+.gp-play-friend__detail {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.gp-play-friend__detail strong {
+  color: var(--color-heading);
+  font-weight: 700;
+}
+
+.gp-play-friend__cta {
+  width: 100%;
+  padding: 18px 16px;
+  border-radius: 9999px;
+  border: none;
+  background: #0d1f17;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.gp-play-friend__cta:hover {
+  background: #14302a;
+}
+
+.gp-play-friend__back {
+  background: none;
+  border: none;
+  color: var(--gp-dark-green, #1c4338);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 4px 8px;
+}
+
 .gp-challenge-avatar {
   width: 56px;
   height: 56px;

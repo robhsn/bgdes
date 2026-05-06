@@ -423,11 +423,8 @@ export function SiteFooter({ sectionId, onNavigate }) {
           display: 'flex', alignItems: 'center', gap: 16,
         }}>
           <img src={logoWhite} alt="Backgammon.com" style={{ height: 24, width: 'auto' }} />
-          <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
-            &copy; 2026 Backgammon.com
-          </span>
         </div>
-        <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+        <div style={{ display: 'none', gap: 20, alignItems: 'center' }}>
           {SOCIAL_LINKS.map(({ label, Icon }) => (
             <a key={label} href="#" aria-label={label} style={{
               color: 'var(--color-muted)',
@@ -448,9 +445,13 @@ export function SiteFooter({ sectionId, onNavigate }) {
         maxWidth: 'var(--content-max-width)',
         margin: '0 auto', width: '100%',
         display: 'flex', gap: 24, alignItems: 'center',
+        justifyContent: 'space-between',
         flexWrap: 'wrap',
       }}>
-        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-muted)' }}>
+          &copy; 2026 Backgammon.com
+        </span>
+        <div style={{ display: 'none', gap: 24, flexWrap: 'wrap' }}>
           {FOOTER_NAV_LINKS.map(({ label, page, href }) => (
             href ? (
               <a
@@ -472,6 +473,8 @@ export function SiteFooter({ sectionId, onNavigate }) {
               </button>
             )
           ))}
+        </div>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Terms of Service</a>
           <a href="#" style={{ fontFamily: fm, fontSize: 'var(--size-meta)', color: 'var(--color-link)', textDecoration: 'none' }}>Privacy Policy</a>
         </div>

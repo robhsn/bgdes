@@ -666,23 +666,60 @@ function ChallengeModal({ type, onClose }) {
     );
   }
 
-  // Send Challenge
+  // Send Challenge — "Play a friend" speed picker
+  return <PlayFriendModal opponent={{ username: 'GammonKing42', avatar: avatarKing }} onClose={onClose} />;
+}
+
+const SPEED_OPTIONS = [
+  { key: 'Casual',   round: '60s', clock: '20min' },
+  { key: 'Standard', round: '30s', clock: '5min' },
+  { key: 'Quick',    round: '12s', clock: '2min' },
+];
+
+function PlayFriendModal({ opponent, onClose }) {
+  const [speed, setSpeed] = useState('Casual');
+  const current = SPEED_OPTIONS.find(o => o.key === speed) || SPEED_OPTIONS[0];
+
   return (
     <div className="overlay overlay--dark" onClick={(e) => { if (e.target === e.currentTarget) onClose?.(); }}>
-      <div className="modal modal--sm gp-modal-center">
-        <div className="gp-challenge-avatar">
-          <img src={avatarKing} alt="GammonKing42" />
+      <div className="modal modal--sm gp-play-friend">
+        <div className="gp-play-friend__head">
+          <div className="gp-challenge-avatar">
+            <img src={opponent.avatar} alt={opponent.username} />
+          </div>
+          <div className="gp-play-friend__username">{opponent.username}</div>
+          <h2 className="gp-play-friend__title">Play a friend</h2>
         </div>
-        <h2 className="modal__title">GammonKing42</h2>
-        <div className="gp-challenge-rating">1650</div>
-        <label className="gp-modal-label">Match Format</label>
-        <div className="gp-settings-grid">
-          {['Single', '3-pt', '5-pt', '7-pt'].map((f, i) => (
-            <button key={f} className={`gp-settings-option${i === 2 ? ' gp-settings-option--active' : ''}`}>{f}</button>
-          ))}
+
+        <div className="gp-play-friend__section">
+          <div className="gp-play-friend__section-label">
+            <span className="gp-play-friend__icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path opacity="0.4" d="M2.10001 8.50001C2.10001 10.1974 2.77429 11.8253 3.97452 13.0255C5.17476 14.2257 6.80262 14.9 8.50001 14.9C10.1974 14.9 11.8253 14.2257 13.0255 13.0255C14.2257 11.8253 14.9 10.1974 14.9 8.50001C14.9 6.80262 14.2257 5.17476 13.0255 3.97452C11.8253 2.77429 10.1974 2.10001 8.50001 2.10001C6.80262 2.10001 5.17476 2.77429 3.97452 3.97452C2.77429 5.17476 2.10001 6.80262 2.10001 8.50001ZM7.90251 5.03751C7.90501 5.01751 7.90751 4.99751 7.91251 4.97751C7.92001 4.93751 7.93251 4.90001 7.94751 4.86501C7.97751 4.79251 8.02251 4.72751 8.07501 4.67501C8.18251 4.56751 8.33251 4.50001 8.50001 4.50001C8.83251 4.50001 9.10001 4.76751 9.10001 5.10001V8.18001C9.81001 8.65501 10.5225 9.12751 11.2325 9.60251C11.5075 9.78751 11.5825 10.1575 11.4 10.435C11.2175 10.7125 10.8425 10.785 10.5675 10.6025C9.76751 10.07 8.96751 9.53501 8.16751 9.00251C8.08501 8.94751 8.01751 8.87251 7.97251 8.78751C7.95001 8.74501 7.93251 8.70001 7.92001 8.65251C7.91501 8.62751 7.91001 8.60501 7.90751 8.58001C7.90501 8.56751 7.90501 8.55501 7.90501 8.54251C7.90501 8.53001 7.90501 8.52001 7.90501 8.50501C7.90501 7.37251 7.90501 6.23751 7.90501 5.09751C7.90501 5.08251 7.90501 5.06251 7.90751 5.04251L7.90251 5.03751Z" fill="#4f8d7b" />
+                <path d="M8.49999 4.5C8.16749 4.5 7.89999 4.7675 7.89999 5.1V8.5C7.89999 8.7 7.99999 8.8875 8.16749 9L10.5675 10.6C10.8425 10.785 11.215 10.71 11.4 10.4325C11.585 10.155 11.51 9.785 11.2325 9.6L9.09999 8.18V5.1C9.09999 4.7675 8.83249 4.5 8.49999 4.5Z" fill="#4f8d7b" />
+              </svg>
+            </span>
+            <span>Speed</span>
+          </div>
+          <div className="gp-play-friend__options">
+            {SPEED_OPTIONS.map(o => (
+              <button
+                key={o.key}
+                type="button"
+                className={`gp-play-friend__option${speed === o.key ? ' gp-play-friend__option--active' : ''}`}
+                onClick={() => setSpeed(o.key)}
+              >
+                {o.key}
+              </button>
+            ))}
+          </div>
+          <div className="gp-play-friend__detail">
+            <strong>{current.round}</strong> rounds, <strong>{current.clock}</strong> clock
+          </div>
         </div>
-        <button className="gp-modal-btn gp-modal-btn--primary" onClick={onClose}>Send Challenge</button>
-        <button className="gp-modal-link" onClick={onClose}>Cancel</button>
+
+        <button className="gp-play-friend__cta" onClick={onClose}>Create game</button>
+        <button className="gp-play-friend__back" onClick={onClose}>Go back</button>
       </div>
     </div>
   );

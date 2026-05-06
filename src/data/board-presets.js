@@ -109,7 +109,6 @@ const BOARD_PRESETS = {
     turn: null,
     score: { white: 60, black: 59 },
     firstRollMessage: null,
-    autoModal: 'Defeat',
   },
 
   'First Roll': {

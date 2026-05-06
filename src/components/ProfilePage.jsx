@@ -886,6 +886,7 @@ function FriendButton({ status, username, avatarSrc }) {
   const [showUnfriendModal, setShowUnfriendModal] = useState(false);
   const [showAddFriendModal, setShowAddFriendModal] = useState(false);
   const [showCancelRequestModal, setShowCancelRequestModal] = useState(false);
+  const isMvp = useDMEState('profile.mvp', true);
   // Session override: viewer-driven mutations to the relationship state.
   // null → use DME `status` as-is; otherwise this value wins.
   const [relationshipOverride, setRelationshipOverride] = useSessionState(
@@ -984,24 +985,28 @@ function FriendButton({ status, username, avatarSrc }) {
               zIndex: 100,
               overflow: 'hidden',
             }}>
-              <div
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '10px 14px', cursor: 'pointer',
-                  fontSize: 13, fontWeight: 500, fontFamily: 'var(--font-body)',
-                  color: 'var(--color-heading)',
-                  transition: 'background 0.1s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                Add to Favorites
-              </div>
-              <div style={{ height: 1, background: 'var(--color-border)', margin: '2px 10px' }} />
+              {!isMvp && (
+                <>
+                  <div
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      padding: '10px 14px', cursor: 'pointer',
+                      fontSize: 13, fontWeight: 500, fontFamily: 'var(--font-body)',
+                      color: 'var(--color-heading)',
+                      transition: 'background 0.1s',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    Add to Favorites
+                  </div>
+                  <div style={{ height: 1, background: 'var(--color-border)', margin: '2px 10px' }} />
+                </>
+              )}
               <div
                 onClick={() => { setMenuOpen(false); setShowUnfriendModal(true); }}
                 style={{
@@ -1073,7 +1078,7 @@ const MATCHES_PER_PAGE = 10;
 
 const FRIEND_USERNAMES = new Set(MOCK_FRIENDS.map(f => f.username));
 
-function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp, isOwn }) {
+function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp, isOwn, onChallenge }) {
   const { requireAuth, isAuthed } = useRequireAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [resultFilter, setResultFilter] = useState('all');
@@ -1194,7 +1199,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp, isOwn }) 
             <span className="match-row__date">{m.date}</span>
             {isOwn && (
               <span className="match-row__action">
-                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={requireAuth(() => {})}>
+                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={requireAuth(() => onChallenge?.())}>
                   <IconCheckerStack />
                   Challenge
                 </button>
@@ -3118,7 +3123,7 @@ function AddFriendRowButton({ username }) {
   );
 }
 
-function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerClick }) {
+function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerClick, onChallenge }) {
   const [localView, setLocalView] = useState(dmeView);
   const [friendSearch, setFriendSearch] = useState('');
   const [showAllFb, setShowAllFb] = useState(false);
@@ -3243,7 +3248,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
                 </div>
                 {isOwn && (
                   <div className="pp-friend-row__actions">
-                    <button className="com-btn com-btn--quaternary com-btn--sm" onClick={ftRequireAuth(() => {})}>
+                    <button className="com-btn com-btn--quaternary com-btn--sm" onClick={ftRequireAuth(() => onChallenge?.())}>
                       <IconCheckerStack />
                       Challenge
                     </button>
@@ -3429,6 +3434,13 @@ export default function ProfilePage({ onNavigate }) {
     setDmeStates(prev => ({ ...prev, 'profile.settingsOpen': open }));
   };
   const closeSettings = () => setSettingsOpen(false);
+
+  // Challenge buttons across the profile (match history rows, friends list,
+  // profile header CTA) all open the play-page Send Challenge modal.
+  const handleChallenge = () => {
+    setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Send Challenge' }));
+    onNavigate?.('play');
+  };
 
   /* Trophy case state */
   const [trophyCase, setTrophyCase] = useState(INITIAL_TROPHY_CASE);
@@ -3648,7 +3660,7 @@ export default function ProfilePage({ onNavigate }) {
               ) : (
                 <h1 className="profile-header__name" data-role-id="pp-username">{displayName}</h1>
               )}
-              {isFavorited && (
+              {isFavorited && !isMvp && (
                 <svg width="20" height="20" viewBox="0 0 40 40" fill="var(--color-star)" style={{ flexShrink: 0 }}>
                   <path d="M21.5625 1.84553C21.2644 1.26389 20.661 0.893097 20.0066 0.893097C19.3523 0.893097 18.7488 1.26389 18.4508 1.84553L13.0997 12.3295L1.47422 14.1762C0.827144 14.278 0.28913 14.7361 0.0855567 15.3613C-0.118016 15.9866 0.0492043 16.67 0.507244 17.1353L8.82466 25.46L6.9925 37.0855C6.89071 37.7326 7.15972 38.3869 7.69046 38.7722C8.22121 39.1576 8.91917 39.2157 9.50808 38.9176L20.0066 33.5811L30.4979 38.9176C31.0796 39.2157 31.7848 39.1576 32.3155 38.7722C32.8463 38.3869 33.1153 37.7398 33.0135 37.0855L31.1741 25.46L39.4915 17.1353C39.9568 16.67 40.1168 15.9866 39.9132 15.3613C39.7096 14.7361 39.1789 14.278 38.5245 14.1762L26.9063 12.3295L21.5625 1.84553Z" />
                 </svg>
@@ -3748,7 +3760,7 @@ export default function ProfilePage({ onNavigate }) {
             {showOtherProfile && !isUnregistered && (
               <div className="profile-header__actions-row profile-header__actions-row--other">
                 <FriendButton status={isGuest ? 'Add Friend' : friendStatus} username={player.displayName} avatarSrc={player.avatar} />
-                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={profileRequireAuth(() => setShowChallengeModal(true))}>
+                <button className="com-btn com-btn--quaternary com-btn--sm" onClick={profileRequireAuth(handleChallenge)}>
                   <IconCheckerStack />
                   Challenge
                 </button>
@@ -3802,7 +3814,10 @@ export default function ProfilePage({ onNavigate }) {
               key={t}
               className={`pp-tab${activeTab === t ? ' pp-tab--active' : ''}`}
               data-role-id="pp-tab-label"
-              onClick={() => setLocalTab(t)}
+              onClick={() => {
+                setLocalTab(t);
+                setDmeStates(prev => ({ ...prev, 'profile.tab': t }));
+              }}
               style={{ cursor: 'pointer' }}
             >
               {t}
@@ -3866,6 +3881,7 @@ export default function ProfilePage({ onNavigate }) {
                 onPlayerClick={handlePlayerCardClick}
                 isMvp={isMvp}
                 isOwn={isOwn}
+                onChallenge={handleChallenge}
               />
             </GatedSection>
           </div>
@@ -3875,7 +3891,7 @@ export default function ProfilePage({ onNavigate }) {
       {activeTab === 'Friends' && (
         <div className="section section--flush surface-muted" data-section-id="pp-friends" style={{ paddingBottom: 64 }}>
           <div className="section__inner">
-            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} isOwn={isOwn} onPlayerClick={handlePlayerCardClick} />
+            <FriendsTab friendsView={friendsView} fbDiscovery={fbDiscovery} isMvp={isMvp} isOwn={isOwn} onPlayerClick={handlePlayerCardClick} onChallenge={handleChallenge} />
           </div>
         </div>
       )}

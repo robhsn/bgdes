@@ -84,6 +84,12 @@ const FB_SUGGESTIONS = [
 
 function FriendsOnlineTab({ onNavigate, onClose }) {
   const onlineFriends = MOCK_FRIENDS.filter(f => f.online);
+  const setDmeStates = useDMESetState();
+  const handleChallenge = () => {
+    setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Send Challenge' }));
+    onClose?.();
+    onNavigate?.('play');
+  };
 
   return (
     <div style={{ padding: '0' }}>
@@ -115,8 +121,8 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
               {f.fbName}
             </span>
           </div>
-          <button className="com-btn com-btn--primary com-btn--xsm">Add Friend</button>
-          <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
+          <ActivityAddFriendButton username={f.username} />
+          <button className="com-btn com-btn--primary com-btn--xsm" onClick={handleChallenge}>Challenge</button>
         </div>
       ))}
       <div style={{ height: 1, background: 'var(--color-border)', margin: '4px 0' }} />
@@ -136,7 +142,7 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
           <span style={{ flex: 1, fontFamily: fb, fontSize: 13, fontWeight: 600, color: 'var(--color-heading)' }}>
             {f.username}
           </span>
-          <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
+          <button className="com-btn com-btn--primary com-btn--xsm" onClick={handleChallenge}>Challenge</button>
         </div>
       ))}
       <div
@@ -168,10 +174,10 @@ function ActivityAddFriendButton({ username }) {
     null,
   );
   if (override === 'Pending') {
-    return <button className="com-btn com-btn--xsm" disabled>Request Sent</button>;
+    return <button className="com-btn com-btn--primary com-btn--xsm" disabled>Friend Request Sent</button>;
   }
   if (override === 'Friends') {
-    return <button className="com-btn com-btn--xsm" disabled>Friends</button>;
+    return <button className="com-btn com-btn--primary com-btn--xsm" disabled>Friends</button>;
   }
   return (
     <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => setOverride('Pending')}>
@@ -180,7 +186,7 @@ function ActivityAddFriendButton({ username }) {
   );
 }
 
-function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChallenge, onDeclineChallenge }) {
+function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChallenge, onDeclineChallenge, onChallenge }) {
   const { type, user, timestamp, read } = item;
 
   const avatarEl = <Avatar src={getAvatar(user.avatar)} alt={user.username} size="sm" />;
@@ -224,7 +230,7 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
           <div style={metaStyle}>{timestamp}</div>
         </div>
         <ActivityAddFriendButton username={user.username} />
-        <button className="com-btn com-btn--primary com-btn--xsm">Challenge</button>
+        <button className="com-btn com-btn--primary com-btn--xsm" onClick={onChallenge}>Challenge</button>
       </div>
     );
   }
@@ -314,13 +320,19 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
 
 /* ── Activity Tab ────────────────────────────────────────────── */
 
-function ActivityTab() {
+function ActivityTab({ onNavigate, onClose }) {
   const [filter, setFilter] = useState('all');
   // Shared session keys with NotificationsPage so actions stay in sync.
   const [acceptedRequestIds, setAcceptedRequestIds] = useSessionSet('notif-accepted-friend-requests');
   const [rejectedRequestIds, setRejectedRequestIds] = useSessionSet('notif-rejected-friend-requests');
   const [acceptedChallengeIds, setAcceptedChallengeIds] = useSessionSet('notif-accepted-challenges');
   const [declinedChallengeIds, setDeclinedChallengeIds] = useSessionSet('notif-declined-challenges');
+  const setDmeStates = useDMESetState();
+  const handleChallenge = () => {
+    setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Send Challenge' }));
+    onClose?.();
+    onNavigate?.('play');
+  };
   const { isAuthed, requireAuth, openAuth } = useRequireAuth();
   const addId = (setter) => requireAuth((id) => setter(prev => {
     const next = new Set(prev);
@@ -399,6 +411,7 @@ function ActivityTab() {
             onRejectRequest={addId(setRejectedRequestIds)}
             onAcceptChallenge={addId(setAcceptedChallengeIds)}
             onDeclineChallenge={addId(setDeclinedChallengeIds)}
+            onChallenge={handleChallenge}
           />
         ))
       )}
@@ -545,7 +558,7 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
               ) : (
                 <>
                   {activeTab === 'friends' && <FriendsOnlineTab onNavigate={onNavigate} onClose={closePanel} />}
-                  {activeTab === 'activity' && <ActivityTab />}
+                  {activeTab === 'activity' && <ActivityTab onNavigate={onNavigate} onClose={closePanel} />}
                 </>
               )}
             </div>
