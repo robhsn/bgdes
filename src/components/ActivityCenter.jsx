@@ -441,6 +441,10 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
   // toggling Activity Center "on" via the State Controller would lock the
   // panel open since the in-page close X / overlay click only update the
   // local toggle.
+  const setOpenState = (next) => {
+    setLocalOpen(next);
+    setDmeStates(prev => ({ ...prev, 'social.activityOpen': next }));
+  };
   const closePanel = () => {
     setLocalOpen(false);
     onExternalClose?.();
@@ -456,6 +460,14 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
   useEffect(() => {
     setActiveTab(tab === 'Friends Online' ? 'friends' : 'activity');
   }, [tab]);
+
+  // Mirror externalOpen (mobile-nav driven) into DME so the URL reflects
+  // the panel's open state regardless of how it was opened.
+  useEffect(() => {
+    if (externalOpen && !dmeOpen) {
+      setDmeStates(prev => ({ ...prev, 'social.activityOpen': true }));
+    }
+  }, [externalOpen, dmeOpen]);
 
   // Prevent body scroll when panel is open
   useEffect(() => {
@@ -485,7 +497,7 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
       {!externalOpen && (
         <div
           className="notif-bell"
-          onClick={() => setLocalOpen(o => !o)}
+          onClick={() => setOpenState(!open)}
           style={{ color: 'var(--prim-mint-500)' }}
         >
           <IconBell />

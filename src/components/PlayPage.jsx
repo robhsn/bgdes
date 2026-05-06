@@ -501,7 +501,13 @@ function GameOverModal({ isVictory, onClose }) {
                   disabled={friendSent}
                   title={friendSent ? 'Request sent' : 'Add friend'}
                 >
-                  <img src={friendAddIcon} alt="Add friend" width="18" height="18" />
+                  {friendSent ? (
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-label="Friend request sent">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  ) : (
+                    <img src={friendAddIcon} alt="Add friend" width="18" height="18" />
+                  )}
                 </button>
               </div>
               <span className="gp-matchup__name">Michael</span>
