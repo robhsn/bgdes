@@ -10,11 +10,21 @@ import avatarKing from '../imgs/avatars/King.png';
 import avatarGhosty from '../imgs/avatars/Ghosty.png';
 import avatarGobby from '../imgs/avatars/Gobby.png';
 import friendAddIcon from '../imgs/icons/Friend Add.svg';
+import iconSound from '../imgs/icons/Sound.svg';
+import iconAutomaticMoves from '../imgs/icons/Automatic Moves.svg';
 import Avatar from './Avatar';
 import PlayerCardModal from './PlayerCardModal';
 import logoBlack from '../imgs/logo/Logo Black.svg';
 import coverDefault from '../imgs/cover-image.jpg';
 import './PlayPage.css';
+
+/* Eager-loaded avatar map so MOCK_FRIENDS' string keys resolve to image
+   URLs. Mirrors the pattern in ActivityCenter / ProfilePage. */
+const avatarModules = import.meta.glob('../imgs/avatars/*.png', { eager: true });
+const AVATAR_MAP = Object.fromEntries(
+  Object.entries(avatarModules).map(([path, mod]) => [path.split('/').pop().replace('.png', ''), mod.default])
+);
+function getAvatarSrc(key) { return AVATAR_MAP[key] || avatarKing; }
 
 /* ═══════════════════════════════════════════════════════════════
    SVG Icons
@@ -331,7 +341,7 @@ function AvatarRing({ src }) {
   );
 }
 
-function PlayerBadge({ name, color, avatarSrc, isRight, onClick }) {
+function PlayerBadge({ name, color, avatarSrc, isRight, onClick, subtitle }) {
   const label = color === 'white' ? 'White' : 'Black';
 
   const meta = (
@@ -343,6 +353,7 @@ function PlayerBadge({ name, color, avatarSrc, isRight, onClick }) {
         <span className="gp-badge-label">{label}</span>
       </div>
       <span className="gp-player-name">{name}</span>
+      {subtitle && <span className="gp-player-subtitle">{subtitle}</span>}
     </div>
   );
 
@@ -356,6 +367,14 @@ function PlayerBadge({ name, color, avatarSrc, isRight, onClick }) {
 }
 
 function TopBar({ logoSrc, onNavigate, onOpponentClick }) {
+  // Session-persisted challenged friend (set when user fires a challenge
+  // from the Game Ready modal). When present, the right-side opponent
+  // badge swaps to that friend with a "WAITING FOR OPPONENT" subtitle.
+  const [challenged] = useSessionState('play.challengedFriend', null);
+  const opponentName = challenged?.username || 'Rusty (Beginner Bot)';
+  const opponentAvatar = challenged?.avatar ? getAvatarSrc(challenged.avatar) : avatarSoldier;
+  const opponentSubtitle = challenged ? 'WAITING FOR OPPONENT' : undefined;
+
   return (
     <div className="gp-topbar">
       {/* Row 1: logo (mobile) — hidden on desktop where logo is in center */}
@@ -374,7 +393,14 @@ function TopBar({ logoSrc, onNavigate, onOpponentClick }) {
         </div>
 
         <div className="gp-topbar-right">
-          <PlayerBadge name="Rusty (Beginner Bot)" color="black" avatarSrc={avatarSoldier} isRight onClick={onOpponentClick} />
+          <PlayerBadge
+            name={opponentName}
+            color="black"
+            avatarSrc={opponentAvatar}
+            isRight
+            onClick={onOpponentClick}
+            subtitle={opponentSubtitle}
+          />
           <button className="gp-menu-btn" aria-label="Menu">
             <span className="gp-menu-label">Menu</span>
             <span className="gp-menu-dots-circle">
@@ -416,36 +442,127 @@ function TimerBar({ preset }) {
    Modals
    ═══════════════════════════════════════════════════════════════ */
 
-function ToggleRow({ label, defaultOn }) {
+function MenuToggleRow({ icon, title, description, defaultOn }) {
+  const [on, setOn] = useState(defaultOn);
   return (
-    <div className="gp-modal-toggle-row">
-      <span>{label}</span>
-      <div className={`gp-toggle ${defaultOn ? 'gp-toggle--on' : ''}`}>
-        <div className="gp-toggle-knob" />
+    <div className="gp-menu-row">
+      <img src={icon} alt="" className="gp-menu-row__icon" width="24" height="24" />
+      <div className="gp-menu-row__text">
+        <div className="gp-menu-row__title">{title}</div>
+        <div className="gp-menu-row__desc">{description}</div>
+      </div>
+      <button
+        type="button"
+        className={`gp-menu-toggle${on ? ' gp-menu-toggle--on' : ''}`}
+        onClick={() => setOn(o => !o)}
+        aria-pressed={on}
+      >
+        <span className="gp-menu-toggle__label">{on ? 'On' : 'Off'}</span>
+        <span className="gp-menu-toggle__knob" />
+      </button>
+    </div>
+  );
+}
+
+function ModalCloseButton({ onClose }) {
+  return (
+    <button className="gp-modal-close" onClick={onClose} aria-label="Close">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+  );
+}
+
+function MenuModal({ onClose }) {
+  return (
+    <div className="modal modal--sm gp-modal-center gp-menu-modal">
+      <ModalCloseButton onClose={onClose} />
+      <h2 className="modal__title">Menu</h2>
+      <MenuToggleRow
+        icon={iconSound}
+        title="Sound effects"
+        description="Play sounds for moves, hits, turn start and alerts"
+        defaultOn={false}
+      />
+      <MenuToggleRow
+        icon={iconAutomaticMoves}
+        title="Automatic moves"
+        description="Move checkers for me when only one move is possible"
+        defaultOn={true}
+      />
+      <button type="button" className="gp-resign-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <line x1="4" y1="22" x2="4" y2="3" />
+          <path d="M4 4h12l-2 4 2 4H4" fill="currentColor" stroke="none" />
+        </svg>
+        <span>Resign</span>
+      </button>
+    </div>
+  );
+}
+
+function IconCheckers() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fillRule="evenodd" clipRule="evenodd" d="M12.0001 8.54565C16.7439 8.54574 21.1171 11.2687 21.8646 15.1259C22.7455 19.6721 18.3978 23.9999 12.0001 24C5.60217 24 1.25409 19.6722 2.13501 15.1259C2.88249 11.2686 7.2561 8.54565 12.0001 8.54565ZM12.5116 10.7732C11.2952 10.7103 10.0179 10.9352 8.93842 11.4163C6.96234 12.2701 5.65003 14.0404 5.76035 15.7486C5.77867 16.1576 5.86764 16.5619 6.02393 16.9442C6.11752 17.1733 6.235 17.3945 6.37423 17.6049C6.34368 17.362 6.33306 17.1219 6.34062 16.8862C6.35318 16.4933 6.4167 16.1123 6.52332 15.7486C6.96632 14.2251 8.18323 13.0232 9.70627 12.3318C10.5545 11.9458 11.5129 11.7096 12.5214 11.6477C13.687 11.5742 14.9334 11.7373 16.1141 12.1802C16.3605 12.2726 16.6045 12.3773 16.8439 12.494C16.6727 12.3257 16.4832 12.1656 16.2778 12.0161C15.3063 11.302 13.9317 10.8382 12.5116 10.7732Z" fill="currentColor" />
+      <path d="M12.1111 0.00194884C16.6945 0.0842733 20.9939 2.69828 21.8271 6.4L21.8646 6.58027C21.9378 6.95807 21.9739 7.33476 21.9767 7.70719H21.9781V11.4153C19.9599 8.53442 16.2468 6.60234 12 6.60219C9.80002 6.60219 7.74339 7.12165 5.99128 8.02192C6.46764 6.56745 7.6552 5.41958 9.1294 4.7503C9.97758 4.36442 10.9362 4.12861 11.9445 4.06675C13.1101 3.9933 14.3566 4.15634 15.5372 4.59927C15.7835 4.69158 16.0277 4.79589 16.267 4.91255C16.0959 4.74429 15.9063 4.58412 15.7009 4.43459C14.7294 3.72059 13.3547 3.25728 11.9348 3.1922C10.7184 3.12932 9.44101 3.35425 8.36156 3.83532C6.3854 4.68917 5.07306 6.4594 5.18348 8.1676C5.18788 8.26574 5.19635 8.36359 5.20882 8.4609C3.9224 9.24897 2.83472 10.2549 2.02197 11.4149V7.70719H2.02343C2.02622 7.33474 2.06182 6.95809 2.13501 6.58027L2.17252 6.4C3.01922 2.63845 7.4415 9.1037e-05 12.1111 0V0.00194884Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function IconRobot() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path opacity="0.4" d="M0 10.8V14.4C0 15.0637 0.53625 15.6 1.2 15.6C1.86375 15.6 2.4 15.0637 2.4 14.4V10.8C2.4 10.1362 1.86375 9.59995 1.2 9.59995C0.53625 9.59995 0 10.1362 0 10.8ZM10.8 2.39995V4.79995H13.2V2.39995C13.2 1.7362 12.6638 1.19995 12 1.19995C11.3363 1.19995 10.8 1.7362 10.8 2.39995ZM21.6 10.8V14.4C21.6 15.0637 22.1363 15.6 22.8 15.6C23.4638 15.6 24 15.0637 24 14.4V10.8C24 10.1362 23.4638 9.59995 22.8 9.59995C22.1363 9.59995 21.6 10.1362 21.6 10.8Z" fill="currentColor" />
+      <path d="M7.2 4.8C5.2125 4.8 3.6 6.4125 3.6 8.4V16.8C3.6 18.7875 5.2125 20.4 7.2 20.4H16.8C18.7875 20.4 20.4 18.7875 20.4 16.8V8.4C20.4 6.4125 18.7875 4.8 16.8 4.8H7.2ZM6.9 15.3H8.1C8.6 15.3 9 15.7 9 16.2C9 16.7 8.6 17.1 8.1 17.1H6.9C6.4 17.1 6 16.7 6 16.2C6 15.7 6.4 15.3 6.9 15.3ZM11.4 15.3H12.6C13.1 15.3 13.5 15.7 13.5 16.2C13.5 16.7 13.1 17.1 12.6 17.1H11.4C10.9 17.1 10.5 16.7 10.5 16.2C10.5 15.7 10.9 15.3 11.4 15.3ZM15.9 15.3H17.1C17.6 15.3 18 15.7 18 16.2C18 16.7 17.6 17.1 17.1 17.1H15.9C15.4 17.1 15 16.7 15 16.2C15 15.7 15.4 15.3 15.9 15.3ZM8.4 9C9.5 9 10.2 9.8 10.2 10.8C10.2 11.8 9.5 12.6 8.4 12.6C7.3 12.6 6.6 11.8 6.6 10.8C6.6 9.8 7.3 9 8.4 9ZM15.6 9C16.7 9 17.4 9.8 17.4 10.8C17.4 11.8 16.7 12.6 15.6 12.6C14.5 12.6 13.8 11.8 13.8 10.8C13.8 9.8 14.5 9 15.6 9Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function IconFriendPlus() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path opacity="0.4" d="M1.8 20.5C1.8 21.1 2.3 21.6 2.9 21.6H16.3C16.9 21.6 17.4 21.1 17.4 20.5C17.4 16.8 14.4 13.8 10.7 13.8H8.5C4.8 13.8 1.8 16.8 1.8 20.5ZM5.1 7.2C5.1 8.4 5.6 9.5 6.4 10.4C7.3 11.2 8.4 11.7 9.6 11.7C10.8 11.7 11.9 11.2 12.8 10.4C13.6 9.5 14.1 8.4 14.1 7.2C14.1 6 13.6 4.9 12.8 4C11.9 3.2 10.8 2.7 9.6 2.7C8.4 2.7 7.3 3.2 6.4 4C5.6 4.9 5.1 6 5.1 7.2Z" fill="currentColor" />
+      <path d="M21.3 6.9C21.3 6.4 20.9 6 20.4 6C19.9 6 19.5 6.4 19.5 6.9V8.7H17.7C17.2 8.7 16.8 9.1 16.8 9.6C16.8 10.1 17.2 10.5 17.7 10.5H19.5V12.3C19.5 12.8 19.9 13.2 20.4 13.2C20.9 13.2 21.3 12.8 21.3 12.3V10.5H23.1C23.6 10.5 24 10.1 24 9.6C24 9.1 23.6 8.7 23.1 8.7H21.3V6.9Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function GameModeModal({ onClose, onPickFriends }) {
+  return (
+    <div className="modal modal--sm gp-modal-center gp-mode-modal">
+      <ModalCloseButton onClose={onClose} />
+      <h2 className="gp-mode-modal__title">Start a game</h2>
+      <p className="modal__desc gp-mode-modal__desc">Pick how you'd like to play.</p>
+      <div className="gp-mode-modal__options">
+        <button type="button" className="gp-mode-btn gp-mode-btn--primary" onClick={onClose}>
+          <IconCheckers />
+          <span>Quick game</span>
+        </button>
+        <div className="gp-mode-divider" />
+        <button type="button" className="gp-mode-btn gp-mode-btn--ghost" onClick={onClose}>
+          <IconRobot />
+          <span>Play vs AI</span>
+        </button>
+        <button type="button" className="gp-mode-btn gp-mode-btn--ghost" onClick={onPickFriends}>
+          <IconFriendPlus />
+          <span>Play a friend</span>
+        </button>
       </div>
     </div>
   );
 }
 
-function MenuModal() {
+function ResignModal({ onClose }) {
   return (
     <div className="modal modal--sm gp-modal-center">
-      <h2 className="modal__title">Menu</h2>
-      <ToggleRow label="Sound effects" defaultOn={true} />
-      <ToggleRow label="Automatic moves" defaultOn={true} />
-      <div className="gp-modal-divider" />
-      <button className="gp-modal-btn gp-modal-btn--resign">Resign</button>
-    </div>
-  );
-}
-
-function ResignModal() {
-  return (
-    <div className="modal modal--sm gp-modal-center">
+      <ModalCloseButton onClose={onClose} />
       <h2 className="modal__title">Resign</h2>
-      <p className="gp-modal-question">Are you sure you want to Resign?</p>
+      <p className="modal__desc gp-modal-question">Are you sure you want to Resign?</p>
       <button className="gp-modal-btn gp-modal-btn--resign">Resign</button>
-      <button className="gp-modal-btn gp-modal-btn--outline">Go back</button>
+      <button className="gp-modal-btn gp-modal-btn--outline" onClick={onClose}>Go back</button>
     </div>
   );
 }
@@ -469,7 +586,7 @@ function GameOverModal({ isVictory, onClose }) {
         <div className="gp-modal-slider__panel">
           <div className="gp-modal-emoji">{isVictory ? '🏆' : '😨'}</div>
           <h2 className="modal__title">{isVictory ? 'Victory!' : 'Defeat!'}</h2>
-          <p className="gp-modal-desc">
+          <p className="modal__desc gp-modal-desc">
             {isVictory
               ? 'Congratulations! You won the game.'
               : 'Better luck next time!'}
@@ -533,7 +650,7 @@ function GameOverModal({ isVictory, onClose }) {
           </button>
           <div className="gp-confirm-content">
             <Avatar src={avatarGobby} alt="Michael" size="xl" />
-            <p className="gp-confirm-text">Send a friend request to <strong>Michael</strong>?</p>
+            <p className="modal__desc gp-confirm-text">Send a friend request to <strong>Michael</strong>?</p>
             <button
               className="com-btn com-btn--dark"
               style={{ width: '100%' }}
@@ -588,8 +705,16 @@ function ModalOverlay({ modalType, onClose }) {
       className="overlay overlay--dark"
       onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}
     >
-      {modalType === 'Menu' && <MenuModal />}
-      {modalType === 'Resign' && <ResignModal />}
+      {modalType === 'Menu' && <MenuModal onClose={closeModal} />}
+      {modalType === 'Resign' && <ResignModal onClose={closeModal} />}
+      {modalType === 'Game Mode' && (
+        <GameModeModal
+          onClose={closeModal}
+          onPickFriends={() => {
+            setDmeStates(prev => ({ ...prev, 'play.modal': 'None', 'play.challengeModal': 'Choose Mode' }));
+          }}
+        />
+      )}
       {modalType === 'Victory' && <GameOverModal isVictory={true} onClose={closeModal} />}
       {modalType === 'Defeat' && <GameOverModal isVictory={false} onClose={closeModal} />}
       {modalType === 'Settings' && <SettingsModal />}
@@ -672,8 +797,158 @@ function ChallengeModal({ type, onClose }) {
     );
   }
 
-  // Send Challenge — "Play a friend" speed picker
-  return <PlayFriendModal opponent={{ username: 'GammonKing42', avatar: avatarKing }} onClose={onClose} />;
+  if (type === 'Choose Mode') {
+    return <ChooseModeModal onClose={onClose} />;
+  }
+
+  if (type === 'Setup Game') {
+    // Speed picker without a specific opponent (Play-a-Friend flow)
+    return <PlayFriendModal onClose={onClose} flow="setup" />;
+  }
+
+  if (type === 'Game Ready') {
+    return <GameReadyModal onClose={onClose} />;
+  }
+
+  // Send Challenge — "Play a friend" speed picker (with specific opponent)
+  return <PlayFriendModal opponent={{ username: 'GammonKing42', avatar: avatarKing }} onClose={onClose} flow="challenge" />;
+}
+
+function ChooseModeModal({ onClose }) {
+  const setDmeStates = useDMESetState();
+  // Go back from this modal walks the user back to the Game Mode picker
+  // (Quick game / Play vs AI / Play a friend) so they're never abandoned
+  // on a blank play screen mid-flow.
+  const goBack = () => setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'None', 'play.modal': 'Game Mode' }));
+  return (
+    <div className="overlay overlay--dark" onClick={(e) => { if (e.target === e.currentTarget) goBack(); }}>
+      <div className="modal modal--sm gp-play-friend">
+        <div className="gp-play-friend__head">
+          <h2 className="gp-play-friend__title">Play a friend</h2>
+        </div>
+        <p className="modal__desc" style={{ textAlign: 'center', marginBottom: 20 }}>Create a new game or join existing one</p>
+        <button
+          type="button"
+          className="gp-mode-btn gp-mode-btn--primary"
+          onClick={() => setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Setup Game' }))}
+        >
+          <IconFriendPlus />
+          <span>Create new game</span>
+        </button>
+        <div style={{ height: 8 }} />
+        <button
+          type="button"
+          className="gp-mode-btn gp-mode-btn--ghost"
+          onClick={onClose}
+        >
+          <span><strong>Join game</strong> <span style={{ color: 'var(--color-muted)', fontWeight: 500 }}>(8-digit code)</span></span>
+        </button>
+        <button className="gp-play-friend__back" style={{ marginTop: 16 }} onClick={goBack}>Go back</button>
+      </div>
+    </div>
+  );
+}
+
+function GameReadyModal({ onClose }) {
+  const onlineFriends = MOCK_FRIENDS.filter(f => f.online);
+  const gameCode = '13K0XFE7';
+  const setDmeStates = useDMESetState();
+  const [, setChallengedFriend] = useSessionState('play.challengedFriend', null);
+  const [sentId, setSentId] = useState(null);
+  const goBack = () => setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Setup Game' }));
+  const handleChallenge = (friend) => {
+    if (sentId) return;
+    setSentId(friend.id);
+    // Persist the challenged friend so the game-board TopBar can swap the
+    // opponent badge over to them with the "WAITING FOR OPPONENT" subtitle.
+    setChallengedFriend({ username: friend.username, avatar: friend.avatar });
+    setTimeout(() => {
+      setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'None' }));
+    }, 1000);
+  };
+  return (
+    <div className="overlay overlay--dark" onClick={(e) => { if (e.target === e.currentTarget) goBack(); }}>
+      <div className="modal modal--sm gp-play-friend gp-game-ready">
+        <div className="gp-play-friend__head">
+          <h2 className="gp-play-friend__title">Game ready!</h2>
+        </div>
+        <p className="modal__desc gp-game-ready__desc">
+          Challenge an online friend, or share the invite link for someone to join.
+        </p>
+
+        <div className="gp-game-ready__friends">
+          <div className="gp-game-ready__friends-label">Online friends</div>
+          <div className="gp-game-ready__friends-scroll">
+            {onlineFriends.map(f => {
+              const sent = sentId === f.id;
+              return (
+                <div key={f.id} className="gp-game-ready__friend-row">
+                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="sm" online />
+                  <span className="gp-game-ready__friend-name">{f.username}</span>
+                  <button
+                    className="com-btn com-btn--primary com-btn--xsm"
+                    onClick={() => handleChallenge(f)}
+                    disabled={!!sentId}
+                  >
+                    {sent ? 'Challenge Sent' : 'Challenge'}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="gp-game-ready__or">
+          <span>Or send an invite link</span>
+        </div>
+
+        <div className="gp-game-ready__share">
+          <button
+            className="gp-game-ready__share-btn gp-game-ready__share-btn--primary"
+            onClick={() => {
+              const url = `${window.location.origin}/?game=${gameCode}`;
+              try {
+                if (navigator.share) navigator.share({ title: 'Backgammon.com', url });
+              } catch {}
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+              <polyline points="16 6 12 2 8 6" />
+              <line x1="12" y1="2" x2="12" y2="15" />
+            </svg>
+            <span>Share link</span>
+          </button>
+          <button
+            className="gp-game-ready__share-btn gp-game-ready__share-btn--outline"
+            onClick={() => {
+              const url = `${window.location.origin}/?game=${gameCode}`;
+              try { navigator.clipboard?.writeText(url); } catch {}
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            <span>Copy link</span>
+          </button>
+        </div>
+
+        <div className="gp-game-ready__code">
+          <span>Backgammon.com game code</span>
+          <strong>{gameCode}</strong>
+          <button className="gp-game-ready__code-copy" aria-label="Copy game code" onClick={() => { try { navigator.clipboard?.writeText(gameCode); } catch {} }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </button>
+        </div>
+
+        <button className="gp-play-friend__back gp-game-ready__back" onClick={goBack}>Go back</button>
+      </div>
+    </div>
+  );
 }
 
 const SPEED_OPTIONS = [
@@ -682,18 +957,41 @@ const SPEED_OPTIONS = [
   { key: 'Quick',    round: '12s', clock: '2min' },
 ];
 
-function PlayFriendModal({ opponent, onClose }) {
+function PlayFriendModal({ opponent, onClose, flow = 'challenge' }) {
   const [speed, setSpeed] = useState('Casual');
   const current = SPEED_OPTIONS.find(o => o.key === speed) || SPEED_OPTIONS[0];
+  const setDmeStates = useDMESetState();
+  const advance = () => {
+    if (flow === 'setup') {
+      // Play-a-Friend flow: advance to the Game Ready (share / friends) modal.
+      setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Game Ready' }));
+    } else {
+      // Direct challenge: just close (challenge has been sent).
+      onClose?.();
+    }
+  };
+  // Go back walks the chain: Setup Game → Choose Mode (in the play-a-friend
+  // flow). Direct-challenge flow has no chain so falls back to onClose.
+  const goBack = () => {
+    if (flow === 'setup') {
+      setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Choose Mode' }));
+    } else {
+      onClose?.();
+    }
+  };
 
   return (
-    <div className="overlay overlay--dark" onClick={(e) => { if (e.target === e.currentTarget) onClose?.(); }}>
+    <div className="overlay overlay--dark" onClick={(e) => { if (e.target === e.currentTarget) goBack(); }}>
       <div className="modal modal--sm gp-play-friend">
         <div className="gp-play-friend__head">
-          <div className="gp-challenge-avatar">
-            <img src={opponent.avatar} alt={opponent.username} />
-          </div>
-          <div className="gp-play-friend__username">{opponent.username}</div>
+          {opponent && (
+            <>
+              <div className="gp-challenge-avatar">
+                <img src={opponent.avatar} alt={opponent.username} />
+              </div>
+              <div className="gp-play-friend__username">{opponent.username}</div>
+            </>
+          )}
           <h2 className="gp-play-friend__title">Play a friend</h2>
         </div>
 
@@ -724,8 +1022,8 @@ function PlayFriendModal({ opponent, onClose }) {
           </div>
         </div>
 
-        <button className="gp-play-friend__cta" onClick={onClose}>Create game</button>
-        <button className="gp-play-friend__back" onClick={onClose}>Go back</button>
+        <button className="gp-play-friend__cta" onClick={advance}>Create game</button>
+        <button className="gp-play-friend__back" onClick={goBack}>Go back</button>
       </div>
     </div>
   );

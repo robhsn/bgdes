@@ -421,7 +421,7 @@ function ActivityTab({ onNavigate, onClose }) {
 
 /* ── Main ActivityCenter component ───────────────────────────── */
 
-export default function ActivityCenter({ onNavigate, externalOpen, onExternalClose }) {
+export default function ActivityCenter({ onNavigate, externalOpen, onExternalClose, onBeforeOpen }) {
   // Activity Center sub-states. Each control is now its own DME state so
   // the State Controller can present focused, nested toggles for bell
   // visibility, tab focus, content state, and unread count.
@@ -497,7 +497,11 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
       {!externalOpen && (
         <div
           className="notif-bell"
-          onClick={() => setOpenState(!open)}
+          onClick={() => {
+            const next = !open;
+            if (next) onBeforeOpen?.();
+            setOpenState(next);
+          }}
           style={{ color: 'var(--prim-mint-500)' }}
         >
           <IconBell />

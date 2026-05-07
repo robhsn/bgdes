@@ -44,13 +44,18 @@ function IconFeedback() {
 /* ─── CTA Buttons ────────────────────────────────────────────── */
 
 function CTAButtons({ onNavigate }) {
+  const setDMEState = useDMESetState();
+  const playFriend = () => {
+    setDMEState(prev => ({ ...prev, 'play.challengeModal': 'Choose Mode' }));
+    onNavigate?.('play');
+  };
   return (
     <div className="ix-ctas">
       <button className="ix-cta ix-cta--ai" onClick={() => onNavigate?.('play')}>
         <span className="ix-cta-icon"><IconRobot /></span>
         <span>Play vs AI</span>
       </button>
-      <button className="ix-cta ix-cta--friend" onClick={() => onNavigate?.('play')}>
+      <button className="ix-cta ix-cta--friend" onClick={playFriend}>
         <span className="ix-cta-icon"><IconUserPlus /></span>
         <span>Play a friend</span>
       </button>

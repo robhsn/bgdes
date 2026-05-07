@@ -301,6 +301,18 @@ function App() {
   }, [currentPageId])
 
   const navigateTo = useCallback((id) => {
+    // Update the URL's `page` param SYNCHRONOUSLY so any component that
+    // computes its state from window.location at render time (e.g.
+    // SiteHeader's currentPage / active-link / Play-button visibility) sees
+    // the new page on its first render after navigation. The full state
+    // sync effect runs on the next commit and re-writes the URL with any
+    // additional DME params, but this guarantees the page param is correct
+    // before children mount.
+    try {
+      const params = new URLSearchParams(window.location.search)
+      params.set('page', id)
+      window.history.replaceState(null, '', '?' + params.toString())
+    } catch {}
     setCurrentPageId(id)
     sessionStorage.setItem('dme-page', id)
     // Logged-out users entering the play page become guests. URL +

@@ -368,16 +368,19 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
         </nav>
 
         <div className="ix-header-right">
-          {currentPage !== 'index' && (
-            <button
-              className="com-btn com-btn--tertiary com-btn--sm ix-play-btn"
-              onClick={() => onNavigate('play')}
-            >
-              Play
-            </button>
-          )}
+          <button
+            className={`com-btn com-btn--tertiary com-btn--sm ix-play-btn${currentPage === 'index' ? ' ix-play-btn--hidden' : ''}`}
+            onClick={() => {
+              setDMEState(prev => ({ ...prev, 'play.modal': 'Game Mode' }));
+              onNavigate('play');
+            }}
+            aria-hidden={currentPage === 'index'}
+            tabIndex={currentPage === 'index' ? -1 : 0}
+          >
+            Play
+          </button>
 
-          {isLoggedIn && <ActivityCenter onNavigate={onNavigate} />}
+          {isLoggedIn && <ActivityCenter onNavigate={onNavigate} onBeforeOpen={closeAll} />}
 
           {showAvatar ? (
             <div

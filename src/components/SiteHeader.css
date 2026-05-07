@@ -49,13 +49,41 @@
   display: flex;
   align-items: stretch;
   gap: 0;
-  flex-shrink: 0;
-  margin-right: -16px;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* Mobile: tighten every part of the right cluster so logo + Play +
+   bell + avatar + hamburger fit inside a 360–390px viewport. Hides
+   the avatar chevron, drops Play's margin-right, and shrinks the
+   avatar-trigger padding. Desktop overrides below restore the roomy
+   layout at >=1024px. */
+@media (max-width: 1023px) {
+  .ix-header .ix-header__inner { padding: 0 12px; gap: 4px; }
+  .ix-header .ix-logo img { height: 22px; }
+  .ix-header .ix-play-btn { margin-right: 0; }
+  .ix-header .ix-play-btn.com-btn--sm { padding: 6px 12px; }
+  .ix-header .ix-avatar-trigger { padding: 0 6px; gap: 6px; }
+  .ix-header .ix-avatar-chevron { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .ix-header-right {
+    flex-shrink: 0;
+  }
 }
 
 .ix-play-btn {
   align-self: center;
   margin-right: 8px;
+}
+
+/* On the homepage we keep the Play button mounted so the header layout
+   stays identical between pages (no jumpy alignment when navigating). It's
+   hidden visually and inert. */
+.ix-play-btn--hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ─── Nav links (desktop only) ──────────────────────────────── */

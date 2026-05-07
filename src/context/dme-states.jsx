@@ -119,7 +119,7 @@ export const STATE_DEFINITIONS = [
     description: 'Show a modal dialog over the board',
     type: 'select',
     page: 'play',
-    options: ['None', 'Menu', 'Resign', 'Victory', 'Defeat', 'Settings'],
+    options: ['None', 'Menu', 'Resign', 'Victory', 'Defeat', 'Settings', 'Game Mode'],
     defaultValue: 'None',
   },
 
@@ -264,7 +264,7 @@ export const STATE_DEFINITIONS = [
     description: 'Show challenge send/receive modal',
     type: 'select',
     page: 'play',
-    options: ['None', 'Send Challenge', 'Incoming Challenge', 'Challenge Expired'],
+    options: ['None', 'Send Challenge', 'Choose Mode', 'Setup Game', 'Game Ready', 'Incoming Challenge', 'Challenge Expired'],
     defaultValue: 'None',
   },
 

@@ -148,6 +148,24 @@
   text-align: center;
 }
 
+/* Standard body / description text inside any modal. Matches the
+   backgammon.com computed style: black @ 60% opacity, Inter 14/20,
+   regular weight, max 288px wide. Text alignment is left up to the
+   parent so dialog-style modals can keep their centered headline +
+   centered body, while form-style modals can left-align if needed. */
+.modal__desc {
+  font-family: 'Inter', var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: normal;
+  color: rgb(0, 0, 0);
+  opacity: 0.6;
+  max-width: 288px;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+}
+
 .modal__footer {
   display: flex;
   gap: 10px;
@@ -159,13 +177,17 @@
 .modal--lg { max-width: 560px; }
 .modal--xl { max-width: 720px; }
 
-/* Mobile / tablet: modals become bottom sheets */
+/* Mobile / tablet: modals become bottom sheets that fill the viewport
+   width edge-to-edge. Modal-specific rules (e.g. .modal.gp-play-friend
+   { width: 92vw }) have higher specificity than `.modal` alone, so we
+   use !important here to keep the full-bleed mobile presentation
+   without enumerating every modal subclass. */
 @media (max-width: 1024px) {
   .overlay {
     align-items: flex-end;
   }
   .modal {
-    width: 100%;
+    width: 100% !important;
     max-width: 100% !important;
     border-radius: 20px 20px 0 0;
     padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
@@ -446,6 +468,17 @@
     border-radius: 0;
     box-shadow: 0 -4px 32px rgba(0,0,0,0.2);
     animation: slide-up 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Activity Center on mobile uses half the side-panel body padding so
+     notification rows breathe closer to the screen edges. */
+  .side-panel[data-section-id="gl-activity-center"] .side-panel__body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .side-panel[data-section-id="gl-activity-center"] .side-panel__header {
+    padding-left: 8px;
+    padding-right: 8px;
   }
   .side-panel--sm,
   .side-panel--md,

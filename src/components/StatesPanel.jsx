@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDetachablePanel, ResizeHandle, DetachIcon, DockIcon } from '../hooks/useDetachablePanel.jsx';
-import { STATE_DEFINITIONS } from '../context/dme-states';
+import { STATE_DEFINITIONS, useDMESetState } from '../context/dme-states';
 
 /* ─── Toggle switch ──────────────────────────────────────────── */
 function DmeToggle({ value, onChange }) {
@@ -255,11 +255,32 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
   const [dockPos, setDockPos] = useState('bottom'); // 'top' | 'bottom'
   const [expanded, setExpanded] = useState({ global: true, page: true });
   const [copyFeedback, setCopyFeedback] = useState(null);
+  const [resetFeedback, setResetFeedback] = useState(null);
+  const setDmeStates = useDMESetState();
   const allExpanded = expanded.global && expanded.page;
   const toggleGroup = (key) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
   const toggleAll = () => {
     const next = !allExpanded;
     setExpanded({ global: next, page: next });
+  };
+
+  // Reset every DME state to its default AND clear every session-persisted
+  // override (per-username friend status, accepted / rejected notification
+  // ids, FB connected flag, cancelled requests, etc.). dme-page is restored
+  // so the user stays on the current page. The URL/sessionStorage sync
+  // effect in main.jsx then mirrors the fresh default map back out, so the
+  // URL bar self-cleans too. Components that read sessionStorage at mount
+  // (useSessionState) pick up the cleared values the next time they mount.
+  const handleReset = () => {
+    const defaults = Object.fromEntries(STATE_DEFINITIONS.map(d => [d.key, d.defaultValue]));
+    setDmeStates(defaults);
+    try {
+      const dmePage = sessionStorage.getItem('dme-page');
+      sessionStorage.clear();
+      if (dmePage) sessionStorage.setItem('dme-page', dmePage);
+    } catch {}
+    setResetFeedback('Reset!');
+    setTimeout(() => setResetFeedback(null), 1500);
   };
 
   const handleCopyURLs = async () => {
@@ -358,6 +379,21 @@ export default function StatesPanel({ visible, onClose, states, onStateChange, c
               onMouseLeave={e => { if (!copyFeedback) { e.currentTarget.style.background = '#333'; e.currentTarget.style.color = '#999'; } }}
             >
               {copyFeedback || 'Copy State URLs'}
+            </button>
+            <button
+              onClick={handleReset}
+              title="Reset every DME state to its default and clear all session-persisted overrides"
+              style={{
+                background: resetFeedback ? '#2a5a3a' : '#3a1f1f',
+                border: 'none', borderRadius: 9999, cursor: 'pointer',
+                color: resetFeedback ? '#4caf82' : '#e57373',
+                fontSize: 9, padding: '3px 8px', whiteSpace: 'nowrap',
+                transition: 'background 0.2s, color 0.2s',
+              }}
+              onMouseEnter={e => { if (!resetFeedback) { e.currentTarget.style.background = '#4a2828'; e.currentTarget.style.color = '#ff8b8b'; } }}
+              onMouseLeave={e => { if (!resetFeedback) { e.currentTarget.style.background = '#3a1f1f'; e.currentTarget.style.color = '#e57373'; } }}
+            >
+              {resetFeedback || 'Reset States'}
             </button>
           </div>
           <div style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
