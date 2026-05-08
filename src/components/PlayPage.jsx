@@ -530,10 +530,23 @@ function IconFriendPlus() {
   );
 }
 
-function GameModeModal({ onClose, onPickFriends }) {
+function GameModeModal({ onClose, onPickFriends, onNavigate }) {
+  // Back / X dismisses the modal AND returns the user to where they
+  // came from. If they landed on /?page=play directly (no prev page in
+  // session), fall back to the homepage so they're never stranded on
+  // a game-setup screen with no context.
+  const handleBack = () => {
+    let prev = 'index';
+    try {
+      const stored = sessionStorage.getItem('dme-prev-page');
+      if (stored && stored !== 'play') prev = stored;
+    } catch {}
+    onClose?.();
+    onNavigate?.(prev);
+  };
   return (
     <div className="modal modal--sm gp-modal-center gp-mode-modal">
-      <ModalCloseButton onClose={onClose} />
+      <ModalCloseButton onClose={handleBack} />
       <h2 className="gp-mode-modal__title">Start a game</h2>
       <p className="modal__desc gp-mode-modal__desc">Pick how you'd like to play.</p>
       <div className="gp-mode-modal__options">
@@ -551,6 +564,7 @@ function GameModeModal({ onClose, onPickFriends }) {
           <span>Play a friend</span>
         </button>
       </div>
+      <button type="button" className="gp-play-friend__back gp-mode-modal__back" onClick={handleBack}>Go back</button>
     </div>
   );
 }
@@ -693,7 +707,7 @@ function SettingsModal() {
   );
 }
 
-function ModalOverlay({ modalType, onClose }) {
+function ModalOverlay({ modalType, onClose, onNavigate }) {
   const setDmeStates = useDMESetState();
   const closeModal = () => {
     onClose?.();
@@ -710,6 +724,7 @@ function ModalOverlay({ modalType, onClose }) {
       {modalType === 'Game Mode' && (
         <GameModeModal
           onClose={closeModal}
+          onNavigate={onNavigate}
           onPickFriends={() => {
             setDmeStates(prev => ({ ...prev, 'play.modal': 'None', 'play.challengeModal': 'Choose Mode' }));
           }}
@@ -1076,7 +1091,7 @@ export default function PlayPage({ onNavigate }) {
           </div>
         </div>
       </div>
-      <ModalOverlay modalType={effectiveModal} />
+      <ModalOverlay modalType={effectiveModal} onNavigate={onNavigate} />
       {showProfileCard && <InGameProfileCard onClose={closeProfileCard} />}
       <ChallengeModal type={challengeModal} onClose={closeChallengeModal} />
     </div>

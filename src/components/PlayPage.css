@@ -1162,8 +1162,17 @@
 
 .gp-mode-divider {
   height: 1px;
-  background: var(--prim-mint-200, #bce4d9);
+  background: var(--prim-mono-100, #dddddd);
   margin: 0;
+}
+
+/* Chain .gp-play-friend__back to bump specificity over the base rule
+   that lives later in this file and was winning the cascade with
+   var(--gp-dark-green) (mint-700). */
+.gp-play-friend__back.gp-mode-modal__back {
+  align-self: center;
+  margin-top: 16px;
+  color: var(--prim-mint-500);
 }
 
 /* ── Game Ready modal (Play-a-Friend final step) ─────────────── */

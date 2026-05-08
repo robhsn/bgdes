@@ -301,6 +301,19 @@ function App() {
   }, [currentPageId])
 
   const navigateTo = useCallback((id) => {
+    // Track the page the user is leaving FIRST (before we mutate the
+    // URL below), so modals like Game Mode can implement a back/X that
+    // returns to the previous page. Read from URL first since it's the
+    // canonical source of "what page the user is currently on" — the
+    // sessionStorage `dme-page` only gets written by navigateTo and
+    // can lag behind URL-driven navigation.
+    try {
+      let current = new URLSearchParams(window.location.search).get('page')
+      if (!current) current = sessionStorage.getItem('dme-page')
+      if (current && current !== id) {
+        sessionStorage.setItem('dme-prev-page', current)
+      }
+    } catch {}
     // Update the URL's `page` param SYNCHRONOUSLY so any component that
     // computes its state from window.location at render time (e.g.
     // SiteHeader's currentPage / active-link / Play-button visibility) sees

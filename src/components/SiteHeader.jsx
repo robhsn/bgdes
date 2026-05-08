@@ -297,7 +297,12 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
 
   const toggleMenu = useCallback((menu) => {
     setActiveMenu(prev => prev === menu ? null : menu);
-  }, []);
+    // Opening a header dropdown closes the Activity Center so only one
+    // header surface is open at a time. (Activity Center already calls
+    // closeAll() before opening to close header dropdowns; this is the
+    // reverse direction.)
+    setDMEState(prev => (prev['social.activityOpen'] ? { ...prev, 'social.activityOpen': false } : prev));
+  }, [setDMEState]);
 
   const closeAll = useCallback(() => setActiveMenu(null), []);
 
@@ -315,6 +320,11 @@ export default function SiteHeader({ onNavigate, onAuthAction }) {
   useEffect(() => {
     if (!activeMenu) return;
     const handler = (e) => {
+      // Don't close when the user is interacting with an IDP panel
+      // (DME / Comments / DevMode / Pages / States / etc). Otherwise
+      // any click inside an open inspector counts as "outside" the
+      // dropdown and dismisses it before it can be inspected.
+      if (e.target.closest && (e.target.closest('[data-devmode-panel]') || e.target.closest('[data-devmode-ignore]'))) return;
       if (headerRef.current && !headerRef.current.contains(e.target)) {
         setActiveMenu(null);
       }

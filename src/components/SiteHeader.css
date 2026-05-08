@@ -61,7 +61,7 @@
 @media (max-width: 1023px) {
   .ix-header .ix-header__inner { padding: 0 12px; gap: 4px; }
   .ix-header .ix-logo img { height: 22px; }
-  .ix-header .ix-play-btn { margin-right: 0; }
+  .ix-header .ix-play-btn { margin-right: 6px; }
   .ix-header .ix-play-btn.com-btn--sm { padding: 6px 12px; }
   .ix-header .ix-avatar-trigger { padding: 0 6px; gap: 6px; }
   .ix-header .ix-avatar-chevron { display: none; }
@@ -75,7 +75,7 @@
 
 .ix-play-btn {
   align-self: center;
-  margin-right: 8px;
+  margin-right: 6px;
 }
 
 /* On the homepage we keep the Play button mounted so the header layout

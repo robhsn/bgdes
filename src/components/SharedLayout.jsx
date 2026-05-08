@@ -159,6 +159,7 @@ export function AvatarDropdown({ avatarSrc, onNavigate }) {
   useEffect(() => {
     if (!open) return;
     const close = (e) => {
+      if (e.target.closest && (e.target.closest('[data-devmode-panel]') || e.target.closest('[data-devmode-ignore]'))) return;
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     };
     document.addEventListener('mousedown', close);

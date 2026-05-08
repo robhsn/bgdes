@@ -881,6 +881,112 @@ function ChallengeModal({ username, avatarSrc, onConfirm, onCancel }) {
   );
 }
 
+/* Standalone 3-dot menu reusing the same Add to Favorites + Unfriend
+   dropdown that lives inside FriendButton, plus the same UnfriendModal
+   confirmation. Used by friend-row entries on the Friends tab so each
+   row can manage its relationship without having to render the bigger
+   FriendButton pill. */
+function FriendActionsMenu({ username, avatarSrc }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showUnfriendModal, setShowUnfriendModal] = useState(false);
+  const isMvp = useDMEState('profile.mvp', true);
+  const [, setRelationshipOverride] = useSessionState(
+    `pp-relationship:${username || 'unknown'}`,
+    null,
+  );
+  const ref = React.useRef(null);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = (e) => {
+      if (e.target.closest && (e.target.closest('[data-devmode-panel]') || e.target.closest('[data-devmode-ignore]'))) return;
+      if (ref.current && !ref.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [menuOpen]);
+
+  return (
+    <>
+      <div ref={ref} style={{ position: 'relative' }}>
+        <button
+          className="pp-friend-row__more"
+          aria-label={`More options for ${username}`}
+          onClick={() => setMenuOpen(o => !o)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="5" cy="12" r="2" />
+            <circle cx="12" cy="12" r="2" />
+            <circle cx="19" cy="12" r="2" />
+          </svg>
+        </button>
+        {menuOpen && (
+          <div className="surface-inverse" style={{
+            position: 'absolute',
+            top: 'calc(100% + 6px)',
+            right: 0,
+            borderRadius: 10,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08)',
+            padding: '4px 0',
+            minWidth: 180,
+            zIndex: 100,
+            overflow: 'hidden',
+          }}>
+            {!isMvp && (
+              <>
+                <div
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 14px', cursor: 'pointer',
+                    fontSize: 13, fontWeight: 500, fontFamily: 'var(--font-body)',
+                    color: 'var(--color-heading)',
+                    transition: 'background 0.1s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                  Add to Favorites
+                </div>
+                <div style={{ height: 1, background: 'var(--color-border)', margin: '2px 10px' }} />
+              </>
+            )}
+            <div
+              onClick={() => { setMenuOpen(false); setShowUnfriendModal(true); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '10px 14px', cursor: 'pointer',
+                fontSize: 13, fontWeight: 500, fontFamily: 'var(--font-body)',
+                color: '#d43333',
+                transition: 'background 0.1s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/>
+                <line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/>
+              </svg>
+              Unfriend
+            </div>
+          </div>
+        )}
+      </div>
+      {showUnfriendModal && createPortal(
+        <UnfriendModal
+          username={username}
+          avatarSrc={avatarSrc}
+          onCancel={() => setShowUnfriendModal(false)}
+          onConfirm={() => { setShowUnfriendModal(false); setRelationshipOverride('Add Friend'); }}
+        />,
+        document.body,
+      )}
+    </>
+  );
+}
+
 function FriendButton({ status, username, avatarSrc }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showUnfriendModal, setShowUnfriendModal] = useState(false);
@@ -903,6 +1009,7 @@ function FriendButton({ status, username, avatarSrc }) {
   useEffect(() => {
     if (!menuOpen) return;
     const close = (e) => {
+      if (e.target.closest && (e.target.closest('[data-devmode-panel]') || e.target.closest('[data-devmode-ignore]'))) return;
       if (ref.current && !ref.current.contains(e.target)) setMenuOpen(false);
     };
     document.addEventListener('mousedown', close);
@@ -1201,7 +1308,7 @@ function MatchHistorySection({ history, isEmpty, onPlayerClick, isMvp, isOwn, on
               <span className="match-row__action">
                 <button className="com-btn com-btn--quaternary com-btn--sm" onClick={requireAuth(() => onChallenge?.())}>
                   <IconCheckerStack />
-                  Challenge
+                  <span className="match-row__action-label">Challenge</span>
                 </button>
               </span>
             )}
@@ -2616,6 +2723,7 @@ function CountryFlagDropdown({ currentCountry, onSelect, onClose }) {
   const wrapRef = React.useRef(null);
   useEffect(() => {
     function handleClick(e) {
+      if (e.target.closest && (e.target.closest('[data-devmode-panel]') || e.target.closest('[data-devmode-ignore]'))) return;
       if (wrapRef.current && !wrapRef.current.contains(e.target)) onClose();
     }
     document.addEventListener('mousedown', handleClick);
@@ -3126,7 +3234,11 @@ function AddFriendRowButton({ username }) {
 function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerClick, onChallenge }) {
   const [localView, setLocalView] = useState(dmeView);
   const [friendSearch, setFriendSearch] = useState('');
-  const [showAllFb, setShowAllFb] = useState(false);
+  // showAllFb is session-state so other surfaces (Activity Center's
+  // "Show More" link) can flip it true and have this card expand
+  // reactively, even when the profile is already mounted. The
+  // useSessionState pubsub propagates the change to this instance.
+  const [showAllFb, setShowAllFb] = useSessionState('pp-fb-show-all', false);
   const [cancelledRequestIds, setCancelledRequestIds] = useSessionSet('pp-friends-cancelled-requests');
   const [pendingCancelTarget, setPendingCancelTarget] = useState(null);
   // Gate all Facebook elements on the friends tab on the user actually being
@@ -3135,7 +3247,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
   const { requireAuth: ftRequireAuth } = useRequireAuth();
   useEffect(() => { setLocalView(dmeView); }, [dmeView]);
   const friendsView = localView;
-  const FB_INITIAL_VISIBLE = 3;
+  const FB_INITIAL_VISIBLE = 2;
   const visibleFbFriends = showAllFb ? MOCK_FB_FRIENDS : MOCK_FB_FRIENDS.slice(0, FB_INITIAL_VISIBLE);
 
   return (
@@ -3158,7 +3270,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
           it from the URL / State Controller without first walking through
           the FB connect flow. */}
       {isOwn && fbDiscovery === 'Matches Found' && (
-        <div className="pp-fb-card">
+        <div className="pp-fb-card" data-section-id="pp-fb-card">
           <div className="pp-fb-card__header">
             <img src={fbLogo} alt="Facebook" width="20" height="20" style={{ display: 'block', borderRadius: 4 }} />
             <span>{MOCK_FB_FRIENDS.length} Facebook friends found on Backgammon.com!</span>
@@ -3188,7 +3300,7 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
       )}
 
       {isOwn && fbDiscovery === 'Zero Matches' && (
-        <div className="pp-fb-card pp-fb-card--empty">
+        <div className="pp-fb-card pp-fb-card--empty" data-section-id="pp-fb-card">
           <img src={fbLogo} alt="Facebook" width="20" height="20" style={{ display: 'block', borderRadius: 4 }} />
           <span>None of your Facebook friends are on Backgammon.com yet. Invite them to play!</span>
           <button className="com-btn com-btn--outline com-btn--sm">Invite Friends</button>
@@ -3250,10 +3362,11 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
                 </div>
                 {isOwn && (
                   <div className="pp-friend-row__actions">
-                    <button className="com-btn com-btn--quaternary com-btn--sm" onClick={ftRequireAuth(() => onChallenge?.())}>
+                    <button className="com-btn com-btn--quaternary com-btn--sm pp-friend-row__challenge" onClick={ftRequireAuth(() => onChallenge?.())}>
                       <IconCheckerStack />
-                      Challenge
+                      <span className="pp-friend-btn-label">Challenge</span>
                     </button>
+                    <FriendActionsMenu username={f.username} avatarSrc={getAvatarSrc(f.avatar)} />
                   </div>
                 )}
               </div>
@@ -3478,13 +3591,23 @@ export default function ProfilePage({ onNavigate }) {
   // isOther, so a logged-out viewer landing on "Own" still sees the
   // own-profile player record (their public-facing data) rather than
   // suddenly seeing MOCK_OTHER.
-  const player = isProfileB
+  const basePlayer = isProfileB
     ? MOCK_PROFILE_B
     : baseIsOther
       ? MOCK_OTHER
       : isUnregistered
         ? MOCK_GUEST
         : MOCK_OWN;
+
+  // In MVP, clicking a player's avatar/username doesn't open a card modal;
+  // it routes through to the profile page with that player's name/avatar
+  // inherited. We persist the clicked target in session state and, when
+  // it's set on a non-own view type, override the player record's
+  // identifying fields so the hero reads as that player's profile.
+  const [viewedPlayer, setViewedPlayer] = useSessionState('pp-viewed-player', null);
+  const player = (viewedPlayer && (baseIsOther || isProfileB))
+    ? { ...basePlayer, displayName: viewedPlayer.username, avatar: getAvatarSrc(viewedPlayer.avatarKey) }
+    : basePlayer;
 
   const stats = isNewPlayer
     ? { wins: 0, losses: 0, gamesPlayed: 0, currentStreak: 0, highestStreak: 0 }
@@ -3504,9 +3627,31 @@ export default function ProfilePage({ onNavigate }) {
     });
   }
 
-  /* Show player card modal on avatar/username click */
+  // Clear the inherited viewedPlayer whenever the profile flips back to a
+  // self-view (Own - Established / Own - New Player). Without this, the
+  // user clicks back to their own profile via the header and the hero
+  // would still show the previous friend's name/avatar.
+  useEffect(() => {
+    if (baseIsOwn) setViewedPlayer(null);
+  }, [baseIsOwn]);
+
+  /* Click on an avatar/username from any list:
+     - MVP: route to that player's profile (set viewedPlayer + flip the
+       view type to a "viewing someone else" variant). The player record
+       inherits the clicked username + avatar.
+     - Non-MVP: open the PlayerCardModal as before. */
   function handlePlayerCardClick(username, avatarKey) {
     const friend = MOCK_FRIENDS.find(f => f.username === username);
+    const resolvedKey = avatarKey || friend?.avatar;
+    if (isMvp) {
+      setViewedPlayer({ username, avatarKey: resolvedKey });
+      setDmeStates(prev => ({
+        ...prev,
+        'profile.viewType': friend ? 'Friend - Match History' : 'Profile B',
+      }));
+      window.scrollTo(0, 0);
+      return;
+    }
     const mockPlayer = {
       displayName: username,
       joinDate: 'Joined 2024',
@@ -3515,7 +3660,7 @@ export default function ProfilePage({ onNavigate }) {
     };
     setPlayerCardTarget({
       player: mockPlayer,
-      avatarImg: getAvatarSrc(avatarKey || friend?.avatar),
+      avatarImg: getAvatarSrc(resolvedKey),
       isFriend: !!friend,
     });
   }
@@ -3538,8 +3683,13 @@ export default function ProfilePage({ onNavigate }) {
     }).catch(() => {});
   }
 
-  const displayName = savedName ?? player.displayName;
-  const bio = savedBio ?? player.bio;
+  // savedName / savedBio represent the logged-in user's edits to their
+  // own profile and only apply when we're rendering the Own view. When
+  // viewing someone else (viewedPlayer set, or a non-Own viewType), the
+  // hero must use the player record's identifying fields directly.
+  const isViewingOther = !!viewedPlayer || baseIsOther || isProfileB;
+  const displayName = isViewingOther ? player.displayName : (savedName ?? player.displayName);
+  const bio = isViewingOther ? player.bio : (savedBio ?? player.bio);
 
   function enterEditMode() {
     setEditName(displayName);
@@ -3631,7 +3781,7 @@ export default function ProfilePage({ onNavigate }) {
         <div className="profile-header__inner">
           <div className="profile-header__avatar-wrap">
             <Avatar
-              src={avatarEdit?.cropped || player.avatar}
+              src={isViewingOther ? player.avatar : (avatarEdit?.cropped || player.avatar)}
               alt={displayName}
               size="profile"
               online={onlineStatus === 'Online'}
@@ -3914,8 +4064,8 @@ export default function ProfilePage({ onNavigate }) {
         />
       )}
 
-      {/* ── Player card modal (own profile) ── */}
-      {showPlayerCard && (
+      {/* ── Player card modal (own profile, non-MVP only) ── */}
+      {!isMvp && showPlayerCard && (
         <PlayerCardModal
           player={{ ...player, displayName, bio, stats }}
           avatarImg={avatarEdit?.cropped || player.avatar}
@@ -3923,8 +4073,8 @@ export default function ProfilePage({ onNavigate }) {
         />
       )}
 
-      {/* ── Player card modal (other player) ── */}
-      {playerCardTarget && (
+      {/* ── Player card modal (other player, non-MVP only) ── */}
+      {!isMvp && playerCardTarget && (
         <PlayerCardModal
           player={playerCardTarget.player}
           avatarImg={playerCardTarget.avatarImg}

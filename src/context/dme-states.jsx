@@ -183,12 +183,11 @@ export const STATE_DEFINITIONS = [
   {
     key: 'profile.fbDiscovery',
     label: 'FB Discovery',
-    description: 'Show Facebook friend discovery card',
+    description: 'Show Facebook friend discovery card (Friends tab) and matches in the FB connect flow',
     type: 'select',
     page: 'profile',
     options: ['None', 'Matches Found', 'Zero Matches'],
     defaultValue: 'None',
-    visibleWhen: { 'profile.tab': ['Friends'] },
   },
 
   // Settings — used on the standalone /settings page AND inside the

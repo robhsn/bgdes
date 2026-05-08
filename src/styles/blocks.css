@@ -4322,6 +4322,18 @@ h1.profile-header__name {
     padding-left: 0;
   }
 
+  /* On small viewports the 140px Challenge action column overflows past
+     the right edge. Drop the label so the button is icon-only and shrink
+     the action column to a square so the row fits cleanly inside the
+     section padding. The header placeholder column tracks the same width
+     so the score column header still aligns over the score values. */
+  .match-row__action-label { display: none; }
+  .match-row__action,
+  .match-history__th--action { flex: 0 0 36px; }
+  .match-row,
+  .match-history__table-header { gap: 8px; padding-left: 8px; padding-right: 8px; }
+  .match-row__action .com-btn { padding-left: 8px; padding-right: 8px; min-width: 36px; }
+
   .trophy-editor {
     width: 85vw;
   }
@@ -4597,19 +4609,202 @@ h1.profile-header__name {
 
 /* ── Notification bell ───────────────────────────────────────── */
 
+/* Wraps the bell so the desktop dropdown can absolute-position relative
+   to it. Stretches to match sibling header items (Play / avatar) so the
+   bell stays vertically centered. */
+.notif-bell-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
 .notif-bell {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 4px;
+  padding: 0 12px;
+  align-self: stretch;
+  transition: background 0.15s;
+}
+
+/* Mirror the .ix-avatar-trigger--active treatment so the bell reads as
+   "engaged" while the dropdown is open. */
+.notif-bell--active {
+  background: #0D3529;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Activity Center desktop dropdown ────────────────────────── */
+
+/* Shared dark theme for the Activity Center, applied identically to the
+   desktop dropdown and the mobile side-panel via the section-id hook so
+   both surfaces look the same. Pins every token children might read so
+   inline styles using var(--color-heading) etc. resolve light-on-dark
+   rather than inheriting the underlying page surface. */
+[data-section-id="gl-activity-center"] {
+  background: var(--prim-mint-700, #0d3529);
+  --color-bg: var(--prim-mint-700, #0d3529);
+  --color-heading: #fff;
+  --color-body: rgba(255, 255, 255, 0.92);
+  --color-muted: rgba(255, 255, 255, 0.6);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-light: rgba(255, 255, 255, 0.05);
+  --color-accent: var(--prim-mint-200, #bce4d9);
+  /* Filter pills (All / Requests / Challenges / Messages):
+     non-active uses mint-900 (much darker than the mint-700 surface) so
+     they read as deeply recessed chips. Active pill keeps mint-200 fill
+     with dark text for high contrast. */
+  --com-btn-pill-bg: var(--prim-mint-900, #051f18);
+  --com-btn-pill-fg: rgba(255, 255, 255, 0.92);
+  --com-btn-pill-border: transparent;
+  --com-btn-pill-active-bg: var(--prim-mint-200, #bce4d9);
+  --com-btn-pill-active-fg: var(--prim-mint-700, #0d3529);
+  --com-btn-pill-active-border: transparent;
+  /* Positive CTAs (Accept / Add Friend) — light mint chip with dark text.
+     We override the underlying tokens (not just the .com-btn--primary
+     rule) because the IDP RoleTargeter injects per-button selectors of
+     higher specificity (e.g. nth-child) that themselves read these
+     tokens. By rebinding the tokens at this scope, every variant of the
+     primary rule resolves to the new colors. */
+  --com-btn-primary-bg: var(--prim-mint-100, #e9f4f3);
+  --com-btn-primary-fg: var(--prim-mint-900, #051f18);
+  /* Secondary CTAs (Reject / Decline) — dark gray fill with white text.
+     The base .com-btn--outline rule hardcodes background: transparent
+     in ComButtons.css, so the token override alone is not enough; we
+     keep the !important rule below for those. */
+  --com-btn-outline-fg: #fff;
+  --com-btn-outline-border: transparent;
+  color: var(--color-body);
+}
+
+/* RoleTargeter injects per-button auto-id rules with specificity (0,5,1)
+   for outline buttons that hardcode `background: transparent !important`.
+   We chain `.com-btn--outline` four times to push our specificity to
+   (0,6,1) so the black fill wins regardless of source order. */
+[data-section-id="gl-activity-center"] button.com-btn.com-btn--outline.com-btn--outline.com-btn--outline.com-btn--outline {
+  background: var(--prim-mono-black, #000) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Wraps the Accept/Reject (or Add Friend/Challenge) pair so the inner
+   button-to-button gap is tight at 7px while the row-level 14px gap
+   still spaces the whole action group away from the message text. */
+.ac-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.ac-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 9999;
+  border-radius: 0 0 14px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Fixed width so the dropdown doesn't jitter when switching between
+     the Activity tab (with filter pills row) and the Friends Online tab
+     (rows have a different intrinsic width). 420px fits both. */
+  width: 420px;
+  max-height: min(560px, calc(100vh - var(--ix-header-height, 64px) - 24px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: ix-dropdown-in 0.15s ease-out;
+}
+
+/* Mobile: drop down full-width below the header to match the profile /
+   hamburger / lang dropdown pattern (instead of a bottom-sheet from the
+   side-panel pattern that was used previously). Fills the full viewport
+   below the header so the dropdown reads as a takeover, not a hugging
+   chip. */
+@media (max-width: 1023px) {
+  .ac-dropdown {
+    position: fixed;
+    top: var(--ix-header-height, 56px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    height: calc(100dvh - var(--ix-header-height, 56px));
+    max-height: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    animation: ix-panel-in 0.2s ease-out;
+  }
+}
+
+.ac-tabbar {
+  display: flex;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ac-tab {
+  flex: 1;
+  padding: 14px 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  outline: none;
+}
+
+.ac-tab--active {
+  color: #fff;
+  border-bottom-color: var(--prim-mint-300, #8cb2a7);
+}
+
+.ac-tab:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ac-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.ac-body::-webkit-scrollbar { width: 8px; }
+.ac-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+.ac-body::-webkit-scrollbar-track { background: transparent; }
+
+.ac-empty {
+  padding: 32px 0;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* When the dropdown is dark green, the rows inside it (which use
+   inline styles like rgba(0,0,0,0.03) for hover) need a tweak so hover
+   reads on a dark surface. The friend-online and notification rows
+   already pull text colors from CSS vars (color-heading, color-muted)
+   which surface-inverse remaps. */
+.ac-dropdown :is(.activity-row, [class*="row"]):hover {
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
 .notif-bell__badge {
   position: absolute;
   top: 13px;
-  right: -2px;
+  right: 4px;
   min-width: 16px;
   height: 16px;
   border-radius: 100px;
@@ -4968,11 +5163,36 @@ h1.profile-header__name {
   display: flex;
   gap: 6px;
   flex-shrink: 0;
+  align-items: center;
+}
+
+.pp-friend-row__more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.pp-friend-row__more:hover {
+  background: var(--prim-mint-100, #f0fdf9);
+  color: var(--color-heading);
 }
 
 @media (max-width: 800px) {
-  .pp-friend-row__actions { gap: 12px; }
+  .pp-friend-row__actions { gap: 8px; }
   .pp-friend-btn-label { display: none; }
+  /* Match History uses the same icon-only collapse on mobile via
+     .match-row__action; mirror that here so the Challenge button on the
+     Friends tab also reads as a square icon chip instead of a wide pill. */
+  .pp-friend-row__challenge.com-btn { padding-left: 8px; padding-right: 8px; min-width: 36px; }
 }
 
 /* ── Facebook discovery card ───────────────────────────────── */
@@ -5003,15 +5223,14 @@ h1.profile-header__name {
 .pp-fb-card__show-more {
   display: block;
   width: 100%;
-  margin-top: 8px;
-  padding: 8px 0;
+  margin-top: 0;
+  padding: 4px 0 0;
   background: transparent;
   border: 0;
   font-family: var(--font-meta);
   font-size: 12px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   color: var(--prim-mint-600);
   cursor: pointer;
   text-align: center;
@@ -5020,8 +5239,8 @@ h1.profile-header__name {
 }
 
 .pp-fb-card__show-more:hover {
-  background: rgba(17, 83, 63, 0.08);
-  color: var(--prim-mint-700);
+  background: transparent;
+  color: var(--prim-mint-400);
 }
 
 .pp-fb-card--empty {

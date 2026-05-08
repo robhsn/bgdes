@@ -34,9 +34,12 @@ const fh = 'var(--font-heading)';
 
 function IconBell() {
   return (
-    <svg width="30" height="30" viewBox="0 0 40 40" fill="currentColor">
-      <path d="M20.0038 0C18.6547 0 17.5648 1.08994 17.5648 2.43902V2.68293C12.0008 3.81098 7.80871 8.73476 7.80871 14.6341V16.2881C7.80871 19.9543 6.55871 23.5137 4.27213 26.3796L3.52518 27.3095C3.13646 27.7896 2.93066 28.3841 2.93066 29.0015C2.93066 30.4954 4.14255 31.7073 5.63646 31.7073H34.3636C35.8575 31.7073 37.0694 30.4954 37.0694 29.0015C37.0694 28.3841 36.8636 27.7896 36.4749 27.3095L35.7279 26.3796C33.449 23.5137 32.199 19.9543 32.199 16.2881V14.6341C32.199 8.73476 28.0069 3.81098 22.4429 2.68293V2.43902C22.4429 1.08994 21.3529 0 20.0038 0Z"/>
-      <path d="M14.386 34.386C14.386 35.8749 14.9775 37.3028 16.0303 38.3557C17.0832 39.4085 18.5111 40 20.0001 40C21.489 40 22.917 39.4085 23.9698 38.3557C25.0226 37.3028 25.6141 35.8749 25.6141 34.386H14.386Z"/>
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M3.55555 8.44439C3.55555 7.62727 3.7165 6.81816 4.02919 6.06325C4.34189 5.30833 4.80021 4.6224 5.378 4.04461C5.95579 3.46683 6.64172 3.0085 7.39663 2.69581C8.15155 2.38311 8.96066 2.22217 9.77777 2.22217C10.5949 2.22217 11.404 2.38311 12.1589 2.69581C12.9138 3.0085 13.5998 3.46683 14.1775 4.04461C14.7553 4.6224 15.2137 5.30833 15.5264 6.06325C15.8391 6.81816 16 7.62727 16 8.44439C16 9.2615 15.8391 10.0706 15.5264 10.8255C15.2137 11.5804 14.7553 12.2664 14.1775 12.8442C13.5998 13.4219 12.9138 13.8803 12.1589 14.193C11.404 14.5057 10.5949 14.6666 9.77777 14.6666C8.96066 14.6666 8.15155 14.5057 7.39663 14.193C6.64172 13.8803 5.95579 13.4219 5.378 12.8442C4.80021 12.2664 4.34189 11.5804 4.02919 10.8255C3.7165 10.0706 3.55555 9.2615 3.55555 8.44439ZM0 27.1111C0 21.7111 4.37778 17.3333 9.77777 17.3333C15.1778 17.3333 19.5555 21.7111 19.5555 27.1111V27.4444C19.5555 28.7333 18.5111 29.7777 17.2222 29.7777H2.33333C1.04444 29.7777 0 28.7333 0 27.4444V27.1111Z" />
+      <g opacity="0.4">
+        <path d="M27.7713 6.45101C26.7711 5.45082 25.4146 4.88892 24.0001 4.88892C22.5856 4.88892 21.229 5.45082 20.2288 6.45101C19.2287 7.45121 18.6667 8.80776 18.6667 10.2222C18.6667 11.6367 19.2287 12.9933 20.2288 13.9935C21.229 14.9937 22.5856 15.5556 24.0001 15.5556C25.4146 15.5556 26.7711 14.9937 27.7713 13.9935C28.7715 12.9933 29.3334 11.6367 29.3334 10.2222C29.3334 8.80776 28.7715 7.45121 27.7713 6.45101Z" />
+        <path d="M32.0001 26.2222C32.0001 21.8056 28.4167 18.2222 24.0001 18.2222C22.3945 18.2222 20.8945 18.7 19.639 19.5167C21.2556 21.6167 22.2223 24.25 22.2223 27.1111V27.4445C22.2223 28.2889 22.0112 29.0834 21.6445 29.7778H29.689C30.9667 29.7778 32.0001 28.7445 32.0001 27.4667V26.2222Z" />
+      </g>
     </svg>
   );
 }
@@ -70,17 +73,22 @@ function IconClose() {
 /* ── Filter pills ────────────────────────────────────────────── */
 const FILTERS = [
   { key: 'all', label: 'All' },
-  { key: 'friend_request', label: 'Friend Requests' },
+  { key: 'friend_request', label: 'Requests' },
   { key: 'challenge', label: 'Challenges' },
   { key: 'message', label: 'Messages' },
 ];
 
 /* ── Friends Online Tab ──────────────────────────────────────── */
 
-const FB_SUGGESTIONS = [
-  { ...MOCK_FB_FRIENDS[0], online: true,  fbPhotoIndex: 0 },
-  { ...MOCK_FB_FRIENDS[1], online: false, fbPhotoIndex: 1 },
-];
+/* Online FB matches surfaced inside the Activity Center's Friends Online
+   tab. Slice the global MOCK_FB_FRIENDS list and tag each as online so
+   the avatar dot reads green. The first two render here; "Show More"
+   below routes the user to the profile FB matches card with the
+   show-all already expanded. */
+const ONLINE_FB_FRIENDS = MOCK_FB_FRIENDS.slice(0, 4).map((f, i) => ({
+  ...f, online: true, fbPhotoIndex: i,
+}));
+const FB_PREVIEW_COUNT = 2;
 
 function FriendsOnlineTab({ onNavigate, onClose }) {
   const onlineFriends = MOCK_FRIENDS.filter(f => f.online);
@@ -90,15 +98,43 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
     onClose?.();
     onNavigate?.('play');
   };
+  const visibleFb = ONLINE_FB_FRIENDS.slice(0, FB_PREVIEW_COUNT);
+  const fbRemaining = MOCK_FB_FRIENDS.length - FB_PREVIEW_COUNT;
+  const goToFbMatches = () => {
+    // Profile may already be mounted (the activity center is rendered
+    // inside it). Write sessionStorage + dispatch the session pubsub
+    // event ourselves so an already-mounted FriendsTab (via
+    // useSessionState) flips showAllFb to true reactively. We do this
+    // synchronously rather than via a setter so it survives the close +
+    // navigate that follows. Fresh mounts read the value during init.
+    try {
+      sessionStorage.setItem('profile-tab-intent', 'Friends');
+      sessionStorage.setItem('profile-scroll-intent', 'pp-fb-card');
+      sessionStorage.setItem('pp-fb-show-all', 'true');
+      window.dispatchEvent(new CustomEvent('app-session-state-change', { detail: { key: 'pp-fb-show-all' } }));
+    } catch {}
+    setDmeStates(prev => ({
+      ...prev,
+      'profile.fbDiscovery': 'Matches Found',
+      'profile.tab': 'Friends',
+    }));
+    onClose?.();
+    onNavigate?.('profile');
+    // Scroll on the next tick so the Friends tab has switched and the
+    // FB card has rendered.
+    setTimeout(() => {
+      document.querySelector('[data-section-id="pp-fb-card"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
+  };
 
   return (
     <div style={{ padding: '0' }}>
-      {/* Facebook friends not yet added */}
-      {FB_SUGGESTIONS.map(f => (
+      {/* Facebook friends not yet added — online-only preview */}
+      {visibleFb.map(f => (
         <div
           key={f.id}
           style={{
-            display: 'flex', alignItems: 'center', gap: 10,
+            display: 'flex', alignItems: 'center', gap: 14,
             padding: '10px 0',
             transition: 'background 0.1s',
           }}
@@ -125,13 +161,27 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
           <button className="com-btn com-btn--primary com-btn--xsm" onClick={handleChallenge}>Challenge</button>
         </div>
       ))}
+      {fbRemaining > 0 && (
+        <div
+          onClick={goToFbMatches}
+          style={{
+            padding: '8px 0 12px',
+            textAlign: 'center',
+            fontFamily: fm, fontSize: 12, fontWeight: 600,
+            color: 'var(--color-accent)',
+            cursor: 'pointer',
+          }}
+        >
+          Show More ({fbRemaining})
+        </div>
+      )}
       <div style={{ height: 1, background: 'var(--color-border)', margin: '4px 0' }} />
 
       {onlineFriends.map(f => (
         <div
           key={f.id}
           style={{
-            display: 'flex', alignItems: 'center', gap: 10,
+            display: 'flex', alignItems: 'center', gap: 14,
             padding: '10px 0',
             transition: 'background 0.1s',
           }}
@@ -147,7 +197,10 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
       ))}
       <div
         onClick={() => {
-          sessionStorage.setItem('profile-tab-intent', 'Friends');
+          try {
+            sessionStorage.setItem('profile-tab-intent', 'Friends');
+            sessionStorage.setItem('profile-scroll-intent', 'pp-friends');
+          } catch {}
           onClose?.();
           onNavigate?.('profile');
         }}
@@ -174,7 +227,7 @@ function ActivityAddFriendButton({ username }) {
     null,
   );
   if (override === 'Pending') {
-    return <button className="com-btn com-btn--primary com-btn--xsm" disabled>Friend Request Sent</button>;
+    return <button className="com-btn com-btn--primary com-btn--xsm" disabled>Request Sent</button>;
   }
   if (override === 'Friends') {
     return <button className="com-btn com-btn--primary com-btn--xsm" disabled>Friends</button>;
@@ -204,7 +257,7 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
   ) : null;
 
   const rowStyle = {
-    display: 'flex', alignItems: 'center', gap: 10,
+    display: 'flex', alignItems: 'center', gap: 14,
     padding: '10px 0',
     opacity: read ? 0.75 : 1,
     transition: 'background 0.1s',
@@ -229,8 +282,10 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
           <div style={nameStyle}>{user.fbName} joined Backgammon.com</div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <ActivityAddFriendButton username={user.username} />
-        <button className="com-btn com-btn--primary com-btn--xsm" onClick={onChallenge}>Challenge</button>
+        <div className="ac-actions">
+          <ActivityAddFriendButton username={user.username} />
+          <button className="com-btn com-btn--primary com-btn--xsm" onClick={onChallenge}>Challenge</button>
+        </div>
       </div>
     );
   }
@@ -247,8 +302,10 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
           <div style={nameStyle}>{user.username} sent you a friend request</div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptRequest?.(item.id)}>Accept</button>
-        <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onRejectRequest?.(item.id)}>Reject</button>
+        <div className="ac-actions">
+          <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptRequest?.(item.id)}>Accept</button>
+          <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onRejectRequest?.(item.id)}>Reject</button>
+        </div>
       </div>
     );
   }
@@ -267,8 +324,10 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
           </div>
           <div style={metaStyle}>{timestamp}</div>
         </div>
-        <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptChallenge?.(item.id)}>Accept</button>
-        <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onDeclineChallenge?.(item.id)}>Decline</button>
+        <div className="ac-actions">
+          <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptChallenge?.(item.id)}>Accept</button>
+          <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onDeclineChallenge?.(item.id)}>Decline</button>
+        </div>
       </div>
     );
   }
@@ -327,6 +386,9 @@ function ActivityTab({ onNavigate, onClose }) {
   const [rejectedRequestIds, setRejectedRequestIds] = useSessionSet('notif-rejected-friend-requests');
   const [acceptedChallengeIds, setAcceptedChallengeIds] = useSessionSet('notif-accepted-challenges');
   const [declinedChallengeIds, setDeclinedChallengeIds] = useSessionSet('notif-declined-challenges');
+  // MVP scope excludes chat/messages, so the Messages filter pill and any
+  // message-typed notification rows are hidden in MVP mode.
+  const isMvp = useDMEState('profile.mvp', true);
   const setDmeStates = useDMESetState();
   const handleChallenge = () => {
     setDmeStates(prev => ({ ...prev, 'play.challengeModal': 'Send Challenge' }));
@@ -359,6 +421,7 @@ function ActivityTab({ onNavigate, onClose }) {
   }
 
   const visible = MOCK_NOTIFICATIONS.filter(n => {
+    if (isMvp && n.type === 'message') return false;
     if (n.type === 'friend_request' && (acceptedRequestIds.has(n.id) || rejectedRequestIds.has(n.id))) return false;
     if (n.type === 'challenge_received' && (acceptedChallengeIds.has(n.id) || declinedChallengeIds.has(n.id))) return false;
     return true;
@@ -380,7 +443,7 @@ function ActivityTab({ onNavigate, onClose }) {
         display: 'flex', gap: 6, padding: '12px 0',
         overflowX: 'auto', whiteSpace: 'nowrap',
       }}>
-        {FILTERS.map(f => (
+        {FILTERS.filter(f => !(isMvp && f.key === 'message')).map(f => (
           <button
             key={f.key}
             className={`com-btn com-btn--pill com-btn--pill-sm${filter === f.key ? ' is-active' : ''}`}
@@ -432,21 +495,18 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
   const dmeOpen = useDMEState('social.activityOpen', false);
   const setDmeStates = useDMESetState();
   const { isAuthed } = useRequireAuth();
-  const [localOpen, setLocalOpen] = useState(false);
-  const open = dmeOpen || localOpen || !!externalOpen;
+  // dmeOpen is the single source of truth for the panel's open state.
+  // (Previously we mirrored a localOpen too, but that meant external code
+  // flipping dmeOpen=false couldn't close the panel — a header dropdown
+  // opening on top of an open Activity Center couldn't dismiss it.)
+  const open = dmeOpen || !!externalOpen;
   const [activeTab, setActiveTab] = useState('activity');
   const panelRef = useRef(null);
 
-  // Closing the panel must sync the DME state back to false. Otherwise
-  // toggling Activity Center "on" via the State Controller would lock the
-  // panel open since the in-page close X / overlay click only update the
-  // local toggle.
   const setOpenState = (next) => {
-    setLocalOpen(next);
     setDmeStates(prev => ({ ...prev, 'social.activityOpen': next }));
   };
   const closePanel = () => {
-    setLocalOpen(false);
     onExternalClose?.();
     if (dmeOpen) {
       setDmeStates(prev => ({ ...prev, 'social.activityOpen': false }));
@@ -469,13 +529,46 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
     }
   }, [externalOpen, dmeOpen]);
 
-  // Prevent body scroll when panel is open
+  // Detect desktop vs mobile so we can render the panel either as a
+  // dropdown anchored under the bell (desktop, matching ix-dropdown
+  // pattern) or as a full-screen bottom sheet overlay (mobile).
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window === 'undefined' ? true : window.matchMedia('(min-width: 1024px)').matches
+  );
   useEffect(() => {
-    if (open) {
+    const mql = window.matchMedia('(min-width: 1024px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  // Click-outside-to-close on desktop dropdown (mobile uses overlay click).
+  useEffect(() => {
+    if (!open || !isDesktop) return;
+    const handler = (e) => {
+      // Don't close when the click lands inside an IDP panel — keeps
+      // the dropdown frozen open while devs inspect it.
+      if (e.target.closest && (e.target.closest('[data-devmode-panel]') || e.target.closest('[data-devmode-ignore]'))) return;
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
+        // Don't close when the bell itself is clicked — its onClick already
+        // toggles the panel.
+        const bell = panelRef.current.parentElement?.querySelector('.notif-bell');
+        if (bell && bell.contains(e.target)) return;
+        closePanel();
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open, isDesktop]);
+
+  // Prevent body scroll only when the panel is a full-screen mobile sheet.
+  // Desktop dropdown leaves background scrolling alone.
+  useEffect(() => {
+    if (open && !isDesktop) {
       document.body.style.overflow = 'hidden';
       return () => { document.body.style.overflow = ''; };
     }
-  }, [open]);
+  }, [open, isDesktop]);
 
   if (bell === 'Hidden') return null;
 
@@ -491,12 +584,43 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
     { key: 'friends', label: 'Friends Online' },
   ];
 
+  const tabBar = (
+    <div className="ac-tabbar">
+      {TABS.map(t => (
+        <button
+          key={t.key}
+          className={`ac-tab${activeTab === t.key ? ' ac-tab--active' : ''}`}
+          onClick={() => setActiveTab(t.key)}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  const body = (
+    <div className="ac-body">
+      {isEmpty ? (
+        <div className="ac-empty">No notifications yet</div>
+      ) : (
+        <>
+          {activeTab === 'friends' && <FriendsOnlineTab onNavigate={onNavigate} onClose={closePanel} />}
+          {activeTab === 'activity' && <ActivityTab onNavigate={onNavigate} onClose={closePanel} />}
+        </>
+      )}
+    </div>
+  );
+
+  // The dropdown render is identical on desktop and mobile — CSS handles
+  // the responsive treatment (anchored under the bell on desktop, fixed
+  // full-width below the header on mobile, matching the profile /
+  // hamburger dropdown pattern). The isDesktop flag is still used above
+  // for body-scroll-lock and click-outside semantics.
   return (
-    <>
-      {/* Bell icon + badge (hidden when opened externally) */}
+    <div className="notif-bell-wrap">
       {!externalOpen && (
         <div
-          className="notif-bell"
+          className={`notif-bell${open ? ' notif-bell--active' : ''}`}
           onClick={() => {
             const next = !open;
             if (next) onBeforeOpen?.();
@@ -510,77 +634,16 @@ export default function ActivityCenter({ onNavigate, externalOpen, onExternalClo
           )}
         </div>
       )}
-
-      {/* Panel — always rendered as side-panel for consistency */}
       {open && (
         <div
-          className="overlay overlay--dark"
-          onClick={handleOverlayClick}
-          style={{ zIndex: 'var(--z-modal)' }}
+          ref={panelRef}
+          className="ac-dropdown surface-inverse"
+          data-section-id="gl-activity-center"
         >
-          <div
-            ref={panelRef}
-            className="side-panel surface-muted"
-            data-section-id="gl-activity-center"
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Header */}
-            <div className="side-panel__header" style={{ justifyContent: 'flex-end', padding: '10px 16px', borderBottom: 'none' }}>
-              <button className="side-panel__close" onClick={closePanel}>
-                <IconClose />
-              </button>
-            </div>
-
-            {/* Tab bar */}
-            <div style={{
-              display: 'flex',
-              borderBottom: '1px solid var(--color-border)',
-              flexShrink: 0,
-            }}>
-              {TABS.map(t => (
-                <button
-                  key={t.key}
-                  className="ac-tab"
-                  onClick={() => setActiveTab(t.key)}
-                  style={{
-                    flex: 1,
-                    padding: '10px 0',
-                    fontFamily: fm, fontSize: 12, fontWeight: 700,
-                    color: activeTab === t.key ? 'var(--color-accent)' : 'var(--color-muted)',
-                    background: 'none',
-                    border: 'none',
-                    borderBottom: activeTab === t.key ? '2px solid var(--color-accent)' : '2px solid transparent',
-                    cursor: 'pointer',
-                    transition: 'color 0.15s, border-color 0.15s',
-                    outline: 'none',
-                  }}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Body */}
-            <div className="side-panel__body">
-              {isEmpty ? (
-                <div style={{
-                  padding: '32px 0',
-                  textAlign: 'center',
-                  fontFamily: fb, fontSize: 13,
-                  color: 'var(--color-muted)',
-                }}>
-                  No notifications yet
-                </div>
-              ) : (
-                <>
-                  {activeTab === 'friends' && <FriendsOnlineTab onNavigate={onNavigate} onClose={closePanel} />}
-                  {activeTab === 'activity' && <ActivityTab onNavigate={onNavigate} onClose={closePanel} />}
-                </>
-              )}
-            </div>
-          </div>
+          {tabBar}
+          {body}
         </div>
       )}
-    </>
+    </div>
   );
 }
