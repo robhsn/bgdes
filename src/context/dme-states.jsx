@@ -166,7 +166,6 @@ export const STATE_DEFINITIONS = [
     page: 'profile',
     options: [
       'My Friends',
-      'Search Results',
       'Empty - No Friends',
       'Empty - No Results',
     ],
@@ -357,6 +356,19 @@ export const STATE_DEFINITIONS = [
     visibleWhen: {
       'social.activityOpen': [true],
       'social.tab': ['Activity'],
+    },
+  },
+  {
+    key: 'social.friendsContent',
+    label: 'Friends Online Content',
+    description: 'Whether the Friends Online tab has online friends or is empty',
+    type: 'select',
+    page: 'global',
+    options: ['Has Friends', 'Empty'],
+    defaultValue: 'Has Friends',
+    visibleWhen: {
+      'social.activityOpen': [true],
+      'social.tab': ['Friends Online'],
     },
   },
 ];

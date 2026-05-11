@@ -9,7 +9,7 @@ import avatarImg from '../imgs/avatar-dink.png';
 import boardSample from '../imgs/board-sample.png';
 import profileData from '../tokens/profile-data.json';
 import badgePlaceholder from '../imgs/badge-placeholder.svg';
-import { MOCK_FRIENDS, MOCK_SEARCH_RESULTS, MOCK_FB_FRIENDS, MOCK_REQUESTS_SENT } from '../data/social-mock-data';
+import { MOCK_FRIENDS, MOCK_FB_FRIENDS, MOCK_REQUESTS_SENT } from '../data/social-mock-data';
 import fbPic1 from '../imgs/fb photos/fb-pic-1.jpg';
 import fbPic2 from '../imgs/fb photos/fb-pic-2.jpg';
 import fbPic3 from '../imgs/fb photos/fb-pic-3.jpg';
@@ -3419,39 +3419,6 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
           }}
         />,
         document.body,
-      )}
-
-      {friendsView === 'Search Results' && (
-        <div className="pp-friends-list">
-          {MOCK_SEARCH_RESULTS.friends.length > 0 && (
-            <>
-              <div className="pp-friends-list__title">Friends</div>
-              {MOCK_SEARCH_RESULTS.friends.map(f => (
-                <div key={f.id} className="pp-friend-row">
-                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable onClick={() => onPlayerClick?.(f.username, f.avatar)} />
-                  <div className="pp-friend-row__info">
-                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
-                  </div>
-                  <button className="friend-btn friend-btn--friends">Friends</button>
-                </div>
-              ))}
-            </>
-          )}
-          {MOCK_SEARCH_RESULTS.players.length > 0 && (
-            <>
-              <div className="pp-friends-list__title">Players</div>
-              {MOCK_SEARCH_RESULTS.players.map(f => (
-                <div key={f.id} className="pp-friend-row">
-                  <Avatar src={getAvatarSrc(f.avatar)} alt={f.username} size="lg" online={f.online} clickable onClick={() => onPlayerClick?.(f.username, f.avatar)} />
-                  <div className="pp-friend-row__info">
-                    <span className="pp-friend-row__name" style={{ cursor: 'pointer' }} onClick={() => onPlayerClick?.(f.username, f.avatar)}>{f.username}</span>
-                  </div>
-                  <AddFriendRowButton username={f.username} />
-                </div>
-              ))}
-            </>
-          )}
-        </div>
       )}
 
       {friendsView === 'Empty - No Friends' && (

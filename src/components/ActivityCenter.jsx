@@ -91,6 +91,8 @@ const ONLINE_FB_FRIENDS = MOCK_FB_FRIENDS.slice(0, 4).map((f, i) => ({
 const FB_PREVIEW_COUNT = 2;
 
 function FriendsOnlineTab({ onNavigate, onClose }) {
+  const friendsContent = useDMEState('social.friendsContent', 'Has Friends');
+  const isEmpty = friendsContent === 'Empty';
   const onlineFriends = MOCK_FRIENDS.filter(f => f.online);
   const setDmeStates = useDMESetState();
   const handleChallenge = () => {
@@ -126,6 +128,14 @@ function FriendsOnlineTab({ onNavigate, onClose }) {
       document.querySelector('[data-section-id="pp-fb-card"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 200);
   };
+
+  if (isEmpty) {
+    return (
+      <div style={{ padding: '0' }}>
+        <div className="ac-empty">No Friends Online</div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '0' }}>
