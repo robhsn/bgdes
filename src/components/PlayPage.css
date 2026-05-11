@@ -1129,13 +1129,13 @@
 }
 
 .gp-mode-btn--primary {
-  background: var(--color-heading, #0d1f17);
+  background: var(--prim-mint-600, #11533f);
   color: #fff;
   border: none;
 }
 
 .gp-mode-btn--primary:hover {
-  background: #14302a;
+  background: var(--prim-mint-500, #196951);
 }
 
 .gp-mode-btn--ghost {
