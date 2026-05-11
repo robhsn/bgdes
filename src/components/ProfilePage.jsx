@@ -1802,14 +1802,10 @@ function FacebookConnectOverlay({ step, onStepChange, selectedFriends, setSelect
     return (
       <div className="st-sent-overlay">
         <div className="st-sent-card">
-          <div className="st-sent-card__icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
+          <img src={fbLogo} alt="Facebook" className="st-sent-card__icon st-sent-card__icon--fb" />
           <h3 className="st-sent-card__title">Friend Requests Sent!</h3>
           <p className="st-sent-card__desc">
-            {selectedFriends.size} friend request{selectedFriends.size !== 1 ? 's have' : ' has'} been sent. You'll be notified when they accept.
+            Facebook is now linked. {selectedFriends.size} friend request{selectedFriends.size !== 1 ? 's have' : ' has'} been sent. You'll be notified when they accept.
           </p>
           <button className="com-btn com-btn--primary com-btn--sm" style={{ marginTop: 8 }} onClick={() => onStepChange('None')}>
             Close
@@ -1831,6 +1827,15 @@ export function SettingsContent({
   bodyClassName, footerClassName,
 }) {
   const [settingsTab, setSettingsTab] = useState('Profile');
+  // Several DME-driven dialogs live inside the Account tab (Disconnect
+  // Confirm, Remove Facebook). When the URL / State Controller asks for
+  // one of those, snap the local tab to Account so the dialog actually
+  // renders.
+  useEffect(() => {
+    if (section === 'Disconnect Confirm' || section === 'Remove Facebook') {
+      setSettingsTab('Account');
+    }
+  }, [section]);
   const [draftName, setDraftName] = useState(displayName);
   const [draftBio, setDraftBio] = useState(bio || '');
   const [draftCountry, setDraftCountry] = useState(country);
@@ -2295,8 +2300,13 @@ export function SettingsContent({
                 document.body,
               )}
 
-              {/* Disconnect confirmation dialog (Facebook, interactive). */}
-              {showFbDisconnect && createPortal(
+              {/* Disconnect confirmation dialog (Facebook, interactive).
+                  Visible when either the local trigger (`showFbDisconnect`,
+                  set by clicking the Remove button on the FB row) or the
+                  DME-driven `settings.section === 'Remove Facebook'` is
+                  active, so the dialog is reachable from a URL like
+                  `?page=profile&profile.settingsOpen=true&settings.section=Remove+Facebook`. */}
+              {(showFbDisconnect || section === 'Remove Facebook') && createPortal(
                 <div className="st-dialog-overlay">
                   <div className="st-dialog">
                     <h3 className="st-dialog__title">Remove Facebook</h3>
@@ -2304,11 +2314,25 @@ export function SettingsContent({
                       You will no longer be able to login with Facebook.
                     </p>
                     <div className="st-dialog__actions">
-                      <button className="com-btn com-btn--outline com-btn--sm" onClick={() => setShowFbDisconnect(false)}>Cancel</button>
+                      <button
+                        className="com-btn com-btn--outline com-btn--sm"
+                        onClick={() => {
+                          setShowFbDisconnect(false);
+                          if (section === 'Remove Facebook') {
+                            setDmeStates(prev => ({ ...prev, 'settings.section': 'Connected Accounts' }));
+                          }
+                        }}
+                      >Cancel</button>
                       <button
                         className="com-btn com-btn--primary com-btn--sm"
                         style={{ background: '#ef4444', borderColor: '#ef4444' }}
-                        onClick={() => { setFbIsConnected(false); setShowFbDisconnect(false); }}
+                        onClick={() => {
+                          setFbIsConnected(false);
+                          setShowFbDisconnect(false);
+                          if (section === 'Remove Facebook') {
+                            setDmeStates(prev => ({ ...prev, 'settings.section': 'Connected Accounts' }));
+                          }
+                        }}
                       >
                         Yes, remove
                       </button>

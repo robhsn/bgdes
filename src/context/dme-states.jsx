@@ -202,6 +202,7 @@ export const STATE_DEFINITIONS = [
       'Profile',
       'Connected Accounts',
       'Disconnect Confirm',
+      'Remove Facebook',
       'Guard Rail',
       'Error - Already Linked',
       'Notification Preferences',

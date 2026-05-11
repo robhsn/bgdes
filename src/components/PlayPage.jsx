@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDMEState, useDMESetState } from '../context/dme-states';
 import { useSessionState } from '../hooks/useSessionState';
 import { useRequireAuth } from '../hooks/useRequireAuth';
@@ -1061,6 +1061,18 @@ export default function PlayPage({ onNavigate }) {
   const effectiveModal = (modalState === 'None' && preset.autoModal)
     ? preset.autoModal
     : modalState;
+
+  // Direct URL entry (e.g. pasting /?page=play) lands here with no
+  // play.modal set. The user's rule is that the play page should never
+  // be empty: pop the Game Mode picker so they can start a game.
+  // Doesn't fire when arriving via a header click that already set the
+  // modal, or when the URL explicitly requests a different modal.
+  useEffect(() => {
+    if (modalState === 'None' && challengeModal === 'None') {
+      setDmeStates(prev => ({ ...prev, 'play.modal': 'Game Mode' }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Closing in-game UI must mirror the DME state back so the State Controller
   // and the in-page close X stay in sync. Otherwise toggling something on via
