@@ -1088,18 +1088,18 @@
 
 /* ── Game mode picker modal (header Play btn entry point) ─────── */
 .modal.gp-mode-modal {
-  padding: 28px 24px 20px;
+  padding: 24px 28px;
   gap: 0;
-  max-width: 380px;
+  max-width: 460px;
   width: 92vw;
   align-items: stretch;
 }
 
 .gp-mode-modal__title {
   font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--color-heading, var(--gp-dark-green));
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--prim-mint-700, #0d3529);
   text-align: center;
   margin: 0 0 6px;
 }
@@ -1119,39 +1119,36 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 14px 16px;
+  height: 48px;
+  padding: 0 16px;
   border-radius: 9999px;
   font-family: var(--font-body);
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  box-sizing: border-box;
+  transition: transform 0.15s ease;
+}
+
+.gp-mode-btn:hover {
+  transform: scale(1.02);
 }
 
 .gp-mode-btn--primary {
-  background: var(--prim-mint-600, #11533f);
+  background: #000;
   color: #fff;
   border: none;
 }
 
-.gp-mode-btn--primary:hover {
-  background: var(--prim-mint-500, #196951);
-}
-
 .gp-mode-btn--ghost {
   background: transparent;
-  color: var(--color-heading, #0d1f17);
-  border: 2px solid var(--com-btn-outline-border, #bbbbbb);
-  padding: 12px 16px;
+  color: #000;
+  border: 2px solid #000;
+  padding: 0 16px;
 }
 
 .gp-mode-btn--ghost svg {
   color: var(--color-muted, #88a39c);
-}
-
-.gp-mode-btn--ghost:hover {
-  background: var(--prim-mint-100, #f0fdf9);
-  border-color: var(--prim-mint-300, #8cb2a7);
 }
 
 .gp-mode-modal__options {
@@ -1684,9 +1681,9 @@
 
 .gp-play-friend__title {
   font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--color-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--prim-mint-700, #0d3529);
   margin: 0;
   line-height: 1.2;
 }
@@ -1771,18 +1768,21 @@
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 16px;
+  transition: transform 0.15s ease;
 }
 
 .gp-play-friend__cta:hover {
-  background: #14302a;
+  transform: scale(1.02);
 }
 
 .gp-play-friend__back {
   background: none;
   border: none;
-  color: var(--gp-dark-green, #1c4338);
+  /* Matches live backgammon.com Go back hex (#507268). Closest mint
+     scale step is mint-500 (#196951). */
+  color: var(--prim-mint-500, #196951);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;

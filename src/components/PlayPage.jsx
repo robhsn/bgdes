@@ -531,6 +531,11 @@ function IconFriendPlus() {
 }
 
 function GameModeModal({ onClose, onPickFriends, onNavigate }) {
+  // MVP scope drops Quick game (not yet supported) so the modal only
+  // surfaces Play vs AI and Play a friend. Vs AI takes the primary slot
+  // in that case. Non-MVP keeps the full three-button layout with
+  // Quick game as primary.
+  const isMvp = useDMEState('profile.mvp', true);
   // Back / X dismisses the modal AND returns the user to where they
   // came from. If they landed on /?page=play directly (no prev page in
   // session), fall back to the homepage so they're never stranded on
@@ -550,12 +555,20 @@ function GameModeModal({ onClose, onPickFriends, onNavigate }) {
       <h2 className="gp-mode-modal__title">Start a game</h2>
       <p className="modal__desc gp-mode-modal__desc">Pick how you'd like to play.</p>
       <div className="gp-mode-modal__options">
-        <button type="button" className="gp-mode-btn gp-mode-btn--primary" onClick={onClose}>
-          <IconCheckers />
-          <span>Quick game</span>
-        </button>
-        <div className="gp-mode-divider" />
-        <button type="button" className="gp-mode-btn gp-mode-btn--ghost" onClick={onClose}>
+        {!isMvp && (
+          <>
+            <button type="button" className="gp-mode-btn gp-mode-btn--primary" onClick={onClose}>
+              <IconCheckers />
+              <span>Quick game</span>
+            </button>
+            <div className="gp-mode-divider" />
+          </>
+        )}
+        <button
+          type="button"
+          className={`gp-mode-btn ${isMvp ? 'gp-mode-btn--primary' : 'gp-mode-btn--ghost'}`}
+          onClick={onClose}
+        >
           <IconRobot />
           <span>Play vs AI</span>
         </button>
@@ -856,7 +869,7 @@ function ChooseModeModal({ onClose }) {
           className="gp-mode-btn gp-mode-btn--ghost"
           onClick={onClose}
         >
-          <span><strong>Join game</strong> <span style={{ color: 'var(--color-muted)', fontWeight: 500 }}>(8-digit code)</span></span>
+          <span><strong>Join game</strong> <span style={{ color: '#000', fontFamily: 'Inter, var(--font-body)', fontWeight: 400, fontSize: 12, lineHeight: '16px' }}>(8-digit code)</span></span>
         </button>
         <button className="gp-play-friend__back" style={{ marginTop: 16 }} onClick={goBack}>Go back</button>
       </div>
@@ -1037,7 +1050,7 @@ function PlayFriendModal({ opponent, onClose, flow = 'challenge' }) {
           </div>
         </div>
 
-        <button className="gp-play-friend__cta" onClick={advance}>Create game</button>
+        <button className="gp-mode-btn gp-mode-btn--primary" style={{ marginBottom: 16 }} onClick={advance}>Create game</button>
         <button className="gp-play-friend__back" onClick={goBack}>Go back</button>
       </div>
     </div>

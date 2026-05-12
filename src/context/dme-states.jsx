@@ -81,6 +81,7 @@ export const STATE_DEFINITIONS = [
     label: 'MVP',
     description: 'Toggle MVP feature set',
     type: 'profile',
+    page: ['profile', 'play'],
     defaultValue: true,
   },
   {
