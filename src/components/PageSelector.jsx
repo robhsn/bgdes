@@ -73,6 +73,9 @@ export function PageSelector({ pages, currentPageId, onNavigate, visible }) {
               {page.idpTool && (i === 0 || !pages[i - 1].idpTool) && (
                 <div className="ps-separator" />
               )}
+              {page.hidden && (i === 0 || !pages[i - 1].hidden) && (
+                <div className="ps-separator" />
+              )}
               <button
                 className={`ps-item${page.id === currentPageId ? ' ps-item--active' : ''}`}
                 role="option"

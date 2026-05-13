@@ -49,6 +49,9 @@ export default function PageNavigator({ open, onToggle, pages, currentPageId, on
             {p.idpTool && (i === 0 || !pages[i - 1].idpTool) && (
               <option disabled>{'─'.repeat(20)}</option>
             )}
+            {p.hidden && (i === 0 || !pages[i - 1].hidden) && (
+              <option disabled>{'─'.repeat(20)}</option>
+            )}
             <option value={p.id}>{p.label}</option>
           </React.Fragment>
         ))}

@@ -61,6 +61,8 @@ const PAGES = [
   { id: 'idp-audit',        label: 'IDP Audit',       idpTool: true },
   { id: 'siena',            label: 'Siena Palette',   idpTool: true },
   { id: 'surface-preview',  label: 'Surface Preview',  idpTool: true },
+  /* ── Hidden pages (bottom of selectors) ──── */
+  { id: 'mobile-scope',     label: 'Mobile Wireframes Scope', hidden: true },
 ]
 
 const PAGE_IDS = new Set(PAGES.map(p => p.id))
@@ -516,6 +518,7 @@ function App() {
     if (currentPageId === 'about') return <EthosPage onNavigate={navigateTo} />
     if (currentPageId === 'roll-for-good') return <RollForGoodPage onNavigate={navigateTo} />
     if (currentPageId === 'siena') return <iframe src="/siena.html" style={{ width: '100%', height: '100dvh', border: 'none' }} title="Siena Palette" />
+    if (currentPageId === 'mobile-scope') return <iframe src="/mobile-wireframes-scope.html" style={{ width: '100%', height: '100dvh', border: 'none' }} title="Mobile Wireframes Scope" />
     // Placeholder for pages without dedicated components
     const placeholderPage = PAGES.find(p => p.id === currentPageId)
     if (placeholderPage) {
