@@ -1148,7 +1148,7 @@
 }
 
 .gp-mode-btn--ghost svg {
-  color: var(--color-muted, #88a39c);
+  color: #000;
 }
 
 .gp-mode-modal__options {
@@ -1169,7 +1169,7 @@
 .gp-play-friend__back.gp-mode-modal__back {
   align-self: center;
   margin-top: 16px;
-  color: var(--prim-mint-500);
+  color: #507268;
 }
 
 /* ── Game Ready modal (Play-a-Friend final step) ─────────────── */
@@ -1778,9 +1778,7 @@
 .gp-play-friend__back {
   background: none;
   border: none;
-  /* Matches live backgammon.com Go back hex (#507268). Closest mint
-     scale step is mint-500 (#196951). */
-  color: var(--prim-mint-500, #196951);
+  color: #507268;
   font-family: var(--font-body);
   font-size: 16px;
   font-weight: 700;
