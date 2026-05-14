@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Wireframes — Scope Summary</title>
+<title>Mobile Wireframes — Screen Inventory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
   --cream: #F2EBDB;
   --cream-light: #FAF4E6;
   --paper: #FBF6EA;
+  --paper-deep: #F5EDD8;
   --navy: #1E2A3F;
   --navy-soft: #354360;
   --terracotta: #B84B2F;
@@ -21,6 +22,7 @@
   --gray: #8A8275;
   --line: #DCD3BE;
   --line-soft: #E8E0CC;
+  --green: #5B7A4C;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--cream); }
@@ -33,7 +35,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.wrap { max-width: 880px; margin: 0 auto; padding: 56px 48px 96px; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 56px 48px 96px; }
 
 .meta-bar {
   display: flex;
@@ -62,7 +64,6 @@ body {
 }
 
 h1 {
-  font-family: 'Geist', sans-serif;
   font-weight: 500;
   font-size: 48px;
   line-height: 1.05;
@@ -70,45 +71,74 @@ h1 {
   margin-bottom: 20px;
   color: var(--navy);
 }
-h1 .accent {
-  color: var(--terracotta);
-  font-weight: 500;
-}
+h1 .accent { color: var(--terracotta); font-weight: 500; }
 
 .lede {
   font-weight: 400;
   font-size: 18px;
   line-height: 1.5;
   color: var(--navy-soft);
-  max-width: 620px;
-  margin-bottom: 72px;
+  max-width: 640px;
+  margin-bottom: 48px;
   letter-spacing: -0.005em;
 }
 
-section { margin-bottom: 72px; }
+/* Totals row */
+.totals {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 72px;
+}
+.tile {
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 18px 20px 20px;
+  position: relative;
+}
+.tile .num {
+  font-weight: 500;
+  font-size: 34px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.tile .num .accent { color: var(--terracotta); }
+.tile .label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray);
+  font-weight: 500;
+}
 
-.section-header {
+/* Phase section */
+.phase { margin-bottom: 64px; }
+.phase-header {
   display: flex;
   align-items: baseline;
   gap: 20px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--line);
 }
-.section-number {
+.phase-number {
   font-family: 'Geist Mono', monospace;
   font-weight: 500;
   font-size: 14px;
   color: var(--terracotta);
   letter-spacing: 0.02em;
 }
-.section-title {
+.phase-title {
   font-weight: 500;
   font-size: 26px;
   letter-spacing: -0.02em;
   color: var(--navy);
 }
-.section-count {
+.phase-count {
   margin-left: auto;
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
@@ -117,13 +147,147 @@ section { margin-bottom: 72px; }
   color: var(--gray);
   font-weight: 500;
 }
+.phase-blurb {
+  font-size: 14.5px;
+  color: var(--navy-soft);
+  margin-bottom: 22px;
+  line-height: 1.55;
+  max-width: 680px;
+}
 
+/* Screen card */
+.screen {
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 22px 26px 22px 28px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 18px;
+  align-items: start;
+  position: relative;
+}
+.screen::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22px;
+  bottom: 22px;
+  width: 2px;
+  background: var(--terracotta);
+  opacity: 0.55;
+}
+.screen .index {
+  font-family: 'Geist Mono', monospace;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--terracotta);
+  letter-spacing: -0.01em;
+  padding-top: 2px;
+}
+.screen .body { min-width: 0; }
+.screen .name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.screen .name {
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.015em;
+  color: var(--navy);
+}
+.screen .kind {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--gray);
+  padding: 2px 7px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.screen .kind.pattern { color: var(--terracotta); border-color: var(--terracotta-border); background: var(--terracotta-faint); }
+.screen .kind.overlay { color: var(--green); border-color: rgba(91, 122, 76, 0.25); background: rgba(91, 122, 76, 0.08); }
+
+.screen .blurb {
+  font-size: 14px;
+  color: var(--navy-soft);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.screen .meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin-bottom: 0;
+}
+.tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  padding: 4px 9px 3px;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.tag .k {
+  text-transform: uppercase;
+  font-size: 9.5px;
+  color: var(--gray);
+  letter-spacing: 0.08em;
+}
+.tag .v { color: var(--navy); }
+.tag.ticket { background: var(--cream); border: 1px solid var(--line); }
+.tag.pending { background: var(--terracotta-faint); border: 1px solid var(--terracotta-border); }
+.tag.pending .v { color: var(--terracotta); }
+.tag.responsive { background: rgba(91, 122, 76, 0.08); border: 1px solid rgba(91, 122, 76, 0.25); }
+.tag.responsive .v { color: var(--green); }
+.tag.constraint { background: var(--paper-deep); border: 1px solid var(--line); }
+
+.screen .notes {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  list-style: none;
+}
+.screen .notes li {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--navy-soft);
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.screen .notes li::before {
+  content: "·";
+  position: absolute;
+  left: 4px;
+  color: var(--terracotta);
+  font-weight: 700;
+}
+.screen .notes li:last-child { margin-bottom: 0; }
+.screen .notes li strong {
+  font-weight: 500;
+  color: var(--navy);
+}
+
+/* FTUE flow rail */
 .flow-rail {
   background: var(--paper);
   border: 1px solid var(--line-soft);
   border-radius: 4px;
   padding: 14px 22px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -139,170 +303,25 @@ section { margin-bottom: 72px; }
   padding-right: 12px;
   border-right: 1px solid var(--line);
 }
-.flow-rail .flow-step {
-  font-size: 13px;
-  color: var(--navy);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
+.flow-rail .flow-step { font-size: 13px; color: var(--navy); }
+.flow-rail .flow-arrow { color: var(--gray); opacity: 0.45; font-size: 12px; }
 .flow-rail .flow-step .num {
   font-family: 'Geist Mono', monospace;
   color: var(--terracotta);
   font-weight: 500;
   font-size: 11.5px;
-}
-.flow-rail .flow-arrow {
-  color: var(--gray);
-  opacity: 0.45;
-  font-size: 12px;
+  margin-right: 5px;
 }
 
-.ticket {
-  background: var(--paper);
-  border: 1px solid var(--line-soft);
-  border-radius: 4px;
-  padding: 26px 32px 28px;
-  margin-bottom: 14px;
-  position: relative;
-}
-.ticket::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 28px;
-  bottom: 28px;
-  width: 2px;
-  background: var(--terracotta);
-  opacity: 0.55;
-}
-.seq-pill {
-  display: inline-block;
-  font-family: 'Geist Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: var(--terracotta);
-  background: var(--terracotta-faint);
-  border: 1px solid var(--terracotta-border);
-  border-radius: 2px;
-  padding: 3px 8px 2px;
-  margin-bottom: 10px;
-}
-.ticket-title {
-  font-weight: 500;
-  font-size: 19px;
-  letter-spacing: -0.02em;
-  margin-bottom: 6px;
-  color: var(--navy);
-}
-.ticket-desc {
-  font-weight: 400;
-  font-size: 14.5px;
-  color: var(--navy-soft);
-  margin-bottom: 20px;
-  line-height: 1.55;
-}
-
-.ticket h4 {
-  font-family: 'Geist Mono', monospace;
-  font-weight: 500;
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--terracotta);
-  margin: 18px 0 10px;
-}
-.ticket ul { list-style: none; }
-.ticket li {
-  padding-left: 18px;
-  position: relative;
-  margin-bottom: 7px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--navy);
-}
-.ticket li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 11px;
-  width: 8px;
-  height: 1px;
-  background: var(--terracotta);
-  opacity: 0.7;
-}
-.ticket li strong {
-  font-weight: 500;
-  color: var(--navy);
-}
-
-.connects {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px dashed var(--line);
-}
-.connects h4 { margin-top: 0; }
-.connects ul {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.connects li {
-  padding-left: 0;
-  margin-bottom: 0;
-  font-size: 13px;
-  line-height: 1.55;
-  color: var(--navy-soft);
-}
-.connects li::before { display: none; }
-.connects li::before {
-  content: "↳";
-  position: relative;
-  display: inline-block;
-  width: auto;
-  height: auto;
-  background: transparent;
-  color: var(--terracotta);
-  opacity: 0.7;
-  margin-right: 8px;
-  top: 0;
-  left: 0;
-}
-.connects .link {
-  color: var(--terracotta);
-  font-weight: 500;
-}
-.connects .sep {
-  color: var(--gray);
-  margin: 0 6px;
-  opacity: 0.5;
-}
-
-.inline-note {
-  background: var(--terracotta-faint);
-  border-left: 2px solid var(--terracotta);
-  padding: 10px 14px;
-  margin: 16px 0 4px;
-  border-radius: 0 3px 3px 0;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: var(--navy);
-}
-.inline-note strong {
-  color: var(--terracotta);
-  font-weight: 500;
-}
-
-.crosscut {
+/* Decisions block */
+.decisions {
   background: var(--navy);
   color: var(--cream-light);
   padding: 40px 44px;
   border-radius: 4px;
   margin-top: 32px;
 }
-.crosscut-label {
+.decisions-label {
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -311,34 +330,52 @@ section { margin-bottom: 72px; }
   font-weight: 500;
   margin-bottom: 14px;
 }
-.crosscut h2 {
+.decisions h2 {
   font-weight: 500;
   font-size: 26px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   letter-spacing: -0.02em;
   color: var(--cream-light);
 }
-.crosscut ul { list-style: none; }
-.crosscut li {
-  padding-left: 20px;
-  position: relative;
-  margin-bottom: 14px;
-  font-size: 14.5px;
-  line-height: 1.65;
-  opacity: 0.92;
+.decisions p.sub {
+  font-size: 14px;
+  color: var(--cream-light);
+  opacity: 0.75;
+  margin-bottom: 26px;
+  max-width: 600px;
 }
-.crosscut li::before {
-  content: "";
+.decisions ol { list-style: none; counter-reset: dec; }
+.decisions ol li {
+  counter-increment: dec;
+  padding-left: 36px;
+  position: relative;
+  margin-bottom: 18px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+.decisions ol li:last-child { margin-bottom: 0; }
+.decisions ol li::before {
+  content: counter(dec, decimal-leading-zero);
   position: absolute;
   left: 0;
-  top: 11px;
-  width: 10px;
-  height: 1px;
-  background: var(--terracotta-soft);
+  top: 1px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--terracotta-soft);
+  font-weight: 500;
+  letter-spacing: 0.05em;
 }
-.crosscut li strong {
+.decisions li strong {
   font-weight: 500;
   color: var(--paper);
+}
+.decisions li .blocks {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  opacity: 0.7;
+  color: var(--cream-light);
 }
 
 footer {
@@ -359,24 +396,25 @@ footer {
 @media print {
   html, body { background: white; }
   .wrap { padding: 32px 36px; max-width: none; }
-  .ticket, .crosscut { break-inside: avoid; }
-  .crosscut { background: var(--cream-light); color: var(--navy); }
-  .crosscut h2, .crosscut li strong { color: var(--navy); }
-  .crosscut li { opacity: 1; }
-  .crosscut-label { color: var(--terracotta); }
+  .screen, .decisions { break-inside: avoid; }
+  .decisions { background: var(--cream-light); color: var(--navy); }
+  .decisions h2, .decisions li strong { color: var(--navy); }
+  .decisions li { opacity: 1; }
+  .decisions-label { color: var(--terracotta); }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .wrap { padding: 40px 22px 60px; }
   h1 { font-size: 36px; }
-  .lede { font-size: 16px; margin-bottom: 48px; }
-  .section-header { flex-wrap: wrap; gap: 14px; }
-  .section-title { font-size: 22px; }
-  .section-count { margin-left: 0; flex-basis: 100%; }
-  .ticket { padding: 22px 24px; }
-  .crosscut { padding: 30px 26px; }
-  .crosscut h2 { font-size: 22px; }
-  .flow-rail { padding: 12px 18px; gap: 10px; }
+  .lede { font-size: 16px; margin-bottom: 36px; }
+  .totals { grid-template-columns: repeat(2, 1fr); margin-bottom: 56px; }
+  .phase-header { flex-wrap: wrap; gap: 14px; }
+  .phase-title { font-size: 22px; }
+  .phase-count { margin-left: 0; flex-basis: 100%; }
+  .screen { grid-template-columns: 1fr; gap: 10px; padding: 20px 22px; }
+  .screen .index { padding-top: 0; }
+  .decisions { padding: 30px 26px; }
+  .decisions h2 { font-size: 22px; }
   .flow-rail .flow-label { border-right: none; padding-right: 0; padding-bottom: 4px; flex-basis: 100%; }
 }
 </style>
@@ -386,237 +424,304 @@ footer {
 
 <div class="meta-bar">
   <span class="brand">Backgammon.com · Mobile</span>
-  <span>Wireframe scope · v1</span>
+  <span>Screen inventory · v1</span>
 </div>
 
-<h1>Mobile wireframes <span class="accent">scope summary</span></h1>
-<p class="lede">Eight tickets across three phases of the mobile experience: app shell, first-time experience, and the returning-user gameplay loop.</p>
+<h1>Mobile wireframes <span class="accent">screens to design</span></h1>
+<p class="lede">A flat inventory of every screen, overlay, and pattern called out across the eight tickets — organized by user journey phase rather than by ticket.</p>
 
-<section>
-  <div class="section-header">
-    <span class="section-number">01</span>
-    <span class="section-title">App shell</span>
-    <span class="section-count">2 tickets · always present</span>
+<div class="totals">
+  <div class="tile"><div class="num">15</div><div class="label">Total deliverables</div></div>
+  <div class="tile"><div class="num">11</div><div class="label">Screens</div></div>
+  <div class="tile"><div class="num">6</div><div class="label">Tutorial overlays</div></div>
+  <div class="tile"><div class="num">1</div><div class="label">Reusable pattern</div></div>
+</div>
+
+<!-- ───────────────────────── PHASE 01 ───────────────────────── -->
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-number">01</span>
+    <span class="phase-title">App shell</span>
+    <span class="phase-count">3 screens + 1 pattern</span>
   </div>
+  <p class="phase-blurb">The persistent frame around every other screen — what users land on when they open the app, how they get around, and the one reusable modal/menu pattern the rest of the app depends on.</p>
 
-  <div class="ticket">
-    <h3 class="ticket-title">App Open &amp; Navigation</h3>
-    <p class="ticket-desc">Wireframes for app-open state and global navigation.</p>
-    <h4>Open questions</h4>
-    <ul>
-      <li><strong>App open state:</strong> dedicated main screen/lobby, or default straight to the board (e.g. with a game-start modal layered on top)?</li>
-      <li><strong>Navigation pattern:</strong> assumption is a bottom tab bar. Where do system actions (logout, ToC, Privacy) live? Hamburger, dedicated options tab, or somewhere else?</li>
-    </ul>
-    <h4>Deliverable</h4>
-    <ul>
-      <li>Wireframe(s) for the app-open state and the nav shell showing tab bar plus where system/secondary actions live.</li>
-    </ul>
-    <div class="connects">
-      <h4>Connects to</h4>
-      <ul>
-        <li><span class="link">Generic UI Patterns</span><span class="sep">·</span>menu/system actions surface (hamburger, drawer, sheet) reuses that pattern</li>
-        <li><span class="link">Matchmaking &amp; Lobby</span><span class="sep">·</span>if board is default on open, lobby becomes a modal over the board</li>
-        <li><span class="link">FTUE: Connecting screen</span><span class="sep">·</span>app-open default informs what users land on when they return online</li>
-      </ul>
+  <div class="screen">
+    <div class="index">01</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">App-open landing screen</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">The first thing users see when they open the app. Either a dedicated lobby/home, or default straight to the board.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">App Open &amp; Navigation</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Lobby vs default-to-board</span></span>
+      </div>
     </div>
   </div>
 
-  <div class="ticket">
-    <h3 class="ticket-title">Generic UI Patterns</h3>
-    <p class="ticket-desc">A generic, reusable pattern for modals and menus across the mobile app.</p>
-    <h4>Open questions</h4>
-    <ul>
-      <li>General approach: centered alerts vs. bottom sheets/drawers?</li>
-      <li>Provide a single reusable example so FE can apply it consistently across the app.</li>
-    </ul>
-    <h4>Deliverable</h4>
-    <ul>
-      <li>One generic modal/menu wireframe pattern FE can reuse across screens.</li>
-    </ul>
-    <div class="connects">
-      <h4>Used by</h4>
-      <ul>
-        <li><span class="link">App Open &amp; Navigation</span><span class="sep">·</span>for system actions menu</li>
-        <li><span class="link">Matchmaking &amp; Lobby</span><span class="sep">·</span>if game-start uses a modal-over-board pattern</li>
-        <li><span class="link">In-Game &amp; Post-Game</span><span class="sep">·</span>in-game settings and end-of-match state</li>
-      </ul>
+  <div class="screen">
+    <div class="index">02</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Bottom tab bar / nav shell</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Global navigation visible across most screens. Tab bar is the working assumption.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">App Open &amp; Navigation</span></span>
+      </div>
     </div>
   </div>
-</section>
 
-<section>
-  <div class="section-header">
-    <span class="section-number">02</span>
-    <span class="section-title">First-time experience</span>
-    <span class="section-count">4 tickets · one-time onboarding</span>
+  <div class="screen">
+    <div class="index">03</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">System actions surface</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Where logout, Terms of Service, and Privacy Policy live. Could be a hamburger menu, a dedicated options tab, or somewhere else.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">App Open &amp; Navigation</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Hamburger vs tab vs other</span></span>
+      </div>
+    </div>
   </div>
+
+  <div class="screen">
+    <div class="index">04</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Generic modal / menu pattern</span>
+        <span class="kind pattern">pattern · reused</span>
+      </div>
+      <p class="blurb">One reusable example FE will apply consistently across the whole app. Not a screen on its own — it's the building block used by screens 03, 08, 10, 11, 12.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">Generic UI Patterns</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Centered alert vs bottom sheet</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────────────────── PHASE 02 ───────────────────────── -->
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-number">02</span>
+    <span class="phase-title">First-time experience</span>
+    <span class="phase-count">5 screens + 6 tutorial overlays</span>
+  </div>
+  <p class="phase-blurb">The one-time onboarding journey: auth and profile setup, the interactive tutorial that runs on the live board, the celebratory hand-off after, and an offline fallback before the first bot game.</p>
 
   <div class="flow-rail">
     <span class="flow-label">FTUE sequence</span>
-    <span class="flow-step"><span class="num">01</span>Auth &amp; profile</span>
+    <span class="flow-step"><span class="num">A</span>Auth &amp; profile (05–07)</span>
     <span class="flow-arrow">→</span>
-    <span class="flow-step"><span class="num">02</span>Tutorial</span>
+    <span class="flow-step"><span class="num">B</span>Tutorial overlays (08)</span>
     <span class="flow-arrow">→</span>
-    <span class="flow-step"><span class="num">03</span>Post-tutorial</span>
+    <span class="flow-step"><span class="num">C</span>Post-tutorial (09)</span>
     <span class="flow-arrow">→</span>
-    <span class="flow-step"><span class="num">04</span>Connecting</span>
+    <span class="flow-step"><span class="num">D</span>Connecting (10) if offline</span>
   </div>
 
-  <div class="ticket">
-    <span class="seq-pill">FTUE step 01 / 04</span>
-    <h3 class="ticket-title">FTUE, Auth &amp; Profile Setup</h3>
-    <p class="ticket-desc">Wireframes for first-time user experience, authentication screens, and profile setup.</p>
-    <h4>Open questions</h4>
-    <ul>
-      <li><strong>FTUE flow:</strong> logic and steps are described. Need wireframes against current requirements.</li>
-      <li><strong>Account creation:</strong> support anonymous/guest immediately (like web) and promote later, or force a registration prompt before they can play?</li>
-      <li><strong>Auth screens &amp; CAPTCHA:</strong> wireframes for login and registration. CAPTCHA (Turnstile) must render on all auth actions (anonymous entry, login, register by email). Cannot be skipped, since we share Supabase Auth with web where it's globally enabled. Design must leave space for the widget.</li>
-      <li><strong>Onboarding:</strong> how should avatar and display name selection work?</li>
-    </ul>
-    <h4>Deliverable</h4>
-    <ul>
-      <li>Wireframe flow covering FTUE, the anonymous-vs-registered decision point, login, register, CAPTCHA placement, avatar + display name selection.</li>
-    </ul>
-    <div class="inline-note">
-      <strong>Note:</strong> the broader FTUE flow referenced here is realized through the three FTUE tickets that follow (Tutorial, Post-tutorial, Connecting). This ticket owns the auth and profile portion of that flow.
+  <div class="screen">
+    <div class="index">05</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Login screen</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">For returning users on a new device. Must reserve layout space for the CAPTCHA (Turnstile) widget — it cannot be skipped.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">FTUE, Auth &amp; Profile Setup</span></span>
+        <span class="tag constraint"><span class="k">Must include</span><span class="v">Turnstile widget</span></span>
+      </div>
     </div>
-    <h4>Related epics</h4>
-    <ul>
-      <li>BGM-712 (FTUE epic), BGM-687 (Mobile Auth epic).</li>
-    </ul>
   </div>
 
-  <div class="ticket">
-    <span class="seq-pill">FTUE step 02 / 04</span>
-    <h3 class="ticket-title">FTUE: Tutorial screens + assets</h3>
-    <p class="ticket-desc">All overlay and interaction assets for the interactive tutorial (Steps 3.0 to 3.4). Tutorial runs on top of existing game-board components.</p>
-    <h4>Deliverables</h4>
-    <ul>
-      <li>Tooltip overlay system: instructional text bubble positioned above or below the board.</li>
-      <li>Tooltip styles (text bubble with instructional copy).</li>
-      <li>Highlight/pulse states for valid move target points.</li>
-      <li>Home board highlight overlay with colored border (Step 3.0).</li>
-      <li>Direction arrow overlay showing movement direction from point 24 toward point 1 (Step 3.0).</li>
-      <li>Tap hint animation for guided moves.</li>
-      <li>Hand/gesture animation assets (hint, idle re-engagement after ~5s).</li>
-      <li>Portrait orientation only. iPhone and iPad breakpoints.</li>
-    </ul>
-    <div class="connects">
-      <h4>In sequence</h4>
-      <ul>
-        <li>Previous: <span class="link">FTUE, Auth &amp; Profile Setup</span><span class="sep">·</span>user has authed and set up profile before reaching the tutorial</li>
-        <li>Next: <span class="link">FTUE: Post-tutorial screen</span><span class="sep">·</span>shown after the tutorial completes</li>
+  <div class="screen">
+    <div class="index">06</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Register-by-email screen</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">For new users creating an account. Same CAPTCHA constraint as login.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">FTUE, Auth &amp; Profile Setup</span></span>
+        <span class="tag constraint"><span class="k">Must include</span><span class="v">Turnstile widget</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Forced vs deferred registration</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="index">07</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Avatar &amp; display name selection</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Profile setup after auth. May be one screen or two depending on the flow chosen.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">FTUE, Auth &amp; Profile Setup</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Avatar/name UX approach</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="index">08</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Tutorial overlays on the game board</span>
+        <span class="kind overlay">overlay set · 6 assets</span>
+      </div>
+      <p class="blurb">Not standalone screens — these run on top of the existing game-board components across tutorial steps 3.0 to 3.4.</p>
+      <ul class="notes">
+        <li><strong>Tooltip overlay system</strong> — text bubble above or below the board, with instructional copy styles</li>
+        <li><strong>Highlight / pulse states</strong> for valid move target points</li>
+        <li><strong>Home board highlight overlay</strong> — colored border (Step 3.0)</li>
+        <li><strong>Direction arrow overlay</strong> — movement from point 24 toward point 1 (Step 3.0)</li>
+        <li><strong>Tap hint animation</strong> for guided moves</li>
+        <li><strong>Hand / gesture animation</strong> — hint + idle re-engagement after ~5s</li>
       </ul>
+      <div class="meta-row" style="margin-top: 14px;">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">FTUE: Tutorial screens + assets</span></span>
+        <span class="tag responsive"><span class="k">Responsive</span><span class="v">Portrait · iPhone + iPad</span></span>
+      </div>
     </div>
   </div>
 
-  <div class="ticket">
-    <span class="seq-pill">FTUE step 03 / 04</span>
-    <h3 class="ticket-title">FTUE: Post-tutorial screen</h3>
-    <p class="ticket-desc">Screen shown after tutorial completion. Two buttons, celebratory tone. Copy: "You've got the basics. Time to play for real!"</p>
-    <h4>Deliverables</h4>
-    <ul>
-      <li>Post-tutorial layout with two buttons: Play Now (primary) and Try Again (secondary).</li>
-      <li>No third option (no lobby/homepage button).</li>
-      <li>Portrait orientation only. iPhone and iPad breakpoints.</li>
-    </ul>
-    <div class="connects">
-      <h4>In sequence</h4>
-      <ul>
-        <li>Previous: <span class="link">FTUE: Tutorial screens + assets</span></li>
-        <li>Next (offline): <span class="link">FTUE: Connecting screen</span><span class="sep">·</span>if user has no network when tapping Play Now</li>
-        <li>Next (online): <span class="link">Matchmaking &amp; Lobby</span><span class="sep">·</span>into the first bot game</li>
-      </ul>
+  <div class="screen">
+    <div class="index">09</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Post-tutorial celebration screen</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Shown after tutorial completion. Two buttons — Play Now (primary) and Try Again (secondary). No third option, no lobby/homepage button. Copy: "You've got the basics. Time to play for real!"</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">FTUE: Post-tutorial screen</span></span>
+        <span class="tag responsive"><span class="k">Responsive</span><span class="v">Portrait · iPhone + iPad</span></span>
+      </div>
     </div>
   </div>
 
-  <div class="ticket">
-    <span class="seq-pill">FTUE step 04 / 04</span>
-    <h3 class="ticket-title">FTUE: Connecting screen (offline state)</h3>
-    <p class="ticket-desc">Reconnecting/connecting screen shown when a user taps Play Now after the tutorial but has no network. Stop-gap until connectivity is restored before the first bot game.</p>
-    <h4>Deliverables</h4>
-    <ul>
-      <li>Connecting/reconnecting screen layout.</li>
-      <li>Portrait orientation only. iPhone and iPad breakpoints.</li>
-    </ul>
-    <h4>Notes</h4>
-    <ul>
-      <li>Spec says to use the existing reconnecting screen as a stop-gap. This ticket covers whether it needs FTUE-specific adaptation or can be reused as-is.</li>
-    </ul>
-    <div class="connects">
-      <h4>In sequence</h4>
-      <ul>
-        <li>Previous: <span class="link">FTUE: Post-tutorial screen</span><span class="sep">·</span>entered from Play Now when offline</li>
-      </ul>
+  <div class="screen">
+    <div class="index">10</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Connecting / reconnecting screen</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Stop-gap shown when the user taps Play Now post-tutorial but has no network. May reuse the existing reconnect screen as-is, or need FTUE-specific adaptation.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">FTUE: Connecting screen (offline state)</span></span>
+        <span class="tag responsive"><span class="k">Responsive</span><span class="v">Portrait · iPhone + iPad</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Reuse vs adapt</span></span>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<section>
-  <div class="section-header">
-    <span class="section-number">03</span>
-    <span class="section-title">Gameplay loop</span>
-    <span class="section-count">2 tickets · returning user</span>
+<!-- ───────────────────────── PHASE 03 ───────────────────────── -->
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-number">03</span>
+    <span class="phase-title">Gameplay loop</span>
+    <span class="phase-count">4 screens · every session</span>
   </div>
+  <p class="phase-blurb">What returning users do every session — starting a match (vs AI or another player), then the in-match and post-match experience around it.</p>
 
-  <div class="ticket">
-    <h3 class="ticket-title">Matchmaking &amp; Lobby</h3>
-    <p class="ticket-desc">Wireframes for starting a game (vs AI or P2P) on mobile.</p>
-    <h4>Open questions</h4>
-    <ul>
-      <li>How does a user start a game vs AI or P2P?</li>
-      <li>If we default to the board on app open, do we use a modal over the board (like web) or introduce a new mobile pattern?</li>
-    </ul>
-    <h4>Deliverable</h4>
-    <ul>
-      <li>Wireframe(s) showing the game-start entry point(s) and AI vs P2P selection.</li>
-    </ul>
-    <div class="connects">
-      <h4>Connects to</h4>
-      <ul>
-        <li><span class="link">App Open &amp; Navigation</span><span class="sep">·</span>app-open decision (lobby vs board) sets the entry context</li>
-        <li><span class="link">Generic UI Patterns</span><span class="sep">·</span>if game-start uses a modal-over-board pattern</li>
-        <li><span class="link">FTUE: Post-tutorial screen</span><span class="sep">·</span>first-time users land here after the tutorial when online</li>
-        <li><span class="link">In-Game &amp; Post-Game</span><span class="sep">·</span>downstream of game-start</li>
-      </ul>
+  <div class="screen">
+    <div class="index">11</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Game-start entry point</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">How a user initiates a match. If app-open defaults to the board, this is likely a modal-over-board (like web) — otherwise a new mobile pattern.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">Matchmaking &amp; Lobby</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Modal-over-board vs new pattern</span></span>
+      </div>
     </div>
   </div>
 
-  <div class="ticket">
-    <h3 class="ticket-title">In-Game &amp; Post-Game</h3>
-    <p class="ticket-desc">Wireframes for in-game settings and the post-game state.</p>
-    <h4>Open questions</h4>
-    <ul>
-      <li><strong>In-game settings:</strong> where do settings like auto-move and sound FX toggles live while a match is active?</li>
-      <li><strong>Game finished:</strong> what happens when a match concludes? Modal like web, or a different mobile pattern?</li>
-    </ul>
-    <h4>Deliverable</h4>
-    <ul>
-      <li>Wireframe(s) for the in-game settings surface and the match-end state.</li>
-    </ul>
-    <div class="connects">
-      <h4>Connects to</h4>
-      <ul>
-        <li><span class="link">Generic UI Patterns</span><span class="sep">·</span>settings surface and end-state both depend on the modal/sheet pattern</li>
-        <li><span class="link">Matchmaking &amp; Lobby</span><span class="sep">·</span>upstream entry into in-game; post-game may route back here</li>
-      </ul>
+  <div class="screen">
+    <div class="index">12</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">AI vs P2P selection</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Choosing the opponent type for the match. Could be combined with screen 11 or split out.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">Matchmaking &amp; Lobby</span></span>
+      </div>
     </div>
   </div>
-</section>
 
-<div class="crosscut">
-  <div class="crosscut-label">Cross-cutting</div>
-  <h2>Threads that run through all of it</h2>
-  <ul>
-    <li>Portrait orientation only across FTUE tickets, with iPhone and iPad breakpoints called out explicitly.</li>
-    <li><strong>App-open state</strong> (lobby vs board) is the most upstream decision. It cascades into Matchmaking (modal-over-board or a new pattern) and into the Connecting screen context.</li>
-    <li><strong>Auth gate</strong> (anonymous-first vs forced registration) shapes FTUE order and where CAPTCHA surfaces. Turnstile is non-negotiable and must render on every auth action; design needs reserved space.</li>
-    <li><strong>Modal/menu pattern</strong> from Generic UI Patterns directly informs In-Game settings and the Game-finished state. Resolving that one first unblocks the gameplay-loop tickets.</li>
-  </ul>
+  <div class="screen">
+    <div class="index">13</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">In-game settings surface</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">Where in-match toggles like auto-move and sound FX live during an active game. Location and presentation TBD.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">In-Game &amp; Post-Game</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Where it surfaces in-match</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="index">14</div>
+    <div class="body">
+      <div class="name-row">
+        <span class="name">Match-end state</span>
+        <span class="kind">screen</span>
+      </div>
+      <p class="blurb">What appears when a match concludes. Modal like web, or a different mobile pattern.</p>
+      <div class="meta-row">
+        <span class="tag ticket"><span class="k">Ticket</span><span class="v">In-Game &amp; Post-Game</span></span>
+        <span class="tag pending"><span class="k">Decision</span><span class="v">Modal vs different pattern</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────────────────── KEY DECISIONS ───────────────────────── -->
+<div class="decisions">
+  <div class="decisions-label">Upstream decisions</div>
+  <h2>Resolve these first to unblock screens</h2>
+  <p class="sub">Each of these decisions sits above multiple screens. Locking them in before starting the wireframes will save reworking later.</p>
+  <ol>
+    <li>
+      <strong>App-open state</strong> — dedicated lobby vs default-to-board.
+      <span class="blocks">Blocks: 01 (landing), 11 (game-start), 10 (connecting context)</span>
+    </li>
+    <li>
+      <strong>Auth gate model</strong> — anonymous-first with later promotion (like web), or forced registration.
+      <span class="blocks">Blocks: 05–07 (auth flow order), 08 (whether tutorial requires registered user)</span>
+    </li>
+    <li>
+      <strong>Generic modal/menu pattern</strong> — centered alert vs bottom sheet/drawer.
+      <span class="blocks">Blocks: 03 (system actions), 11 (game-start surface), 13 (in-game settings), 14 (match-end)</span>
+    </li>
+    <li>
+      <strong>Responsiveness scope</strong> — only the 3 FTUE tutorial-adjacent tickets explicitly call out portrait-only + iPhone/iPad. The 5 other tickets are silent. Worth confirming whether the same constraint applies project-wide before sizing.
+    </li>
+  </ol>
 </div>
 
 <footer>
-  <span>8 tickets · 3 phases</span>
+  <span>15 deliverables · 3 phases · 8 tickets</span>
   <span>Mobile wireframes</span>
 </footer>
 
