@@ -249,8 +249,8 @@ function ActivityAddFriendButton({ username }) {
   );
 }
 
-function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChallenge, onDeclineChallenge, onChallenge }) {
-  const { type, user, timestamp, read } = item;
+function NotificationItem({ item, onAcceptRequest, onRejectRequest, onCancelSentRequest, onAcceptChallenge, onDeclineChallenge, onChallenge }) {
+  const { type, user, timestamp } = item;
 
   const avatarEl = <Avatar src={getAvatar(user.avatar)} alt={user.username} size="sm" />;
 
@@ -269,7 +269,6 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
   const rowStyle = {
     display: 'flex', alignItems: 'center', gap: 14,
     padding: '10px 0',
-    opacity: read ? 0.75 : 1,
     transition: 'background 0.1s',
   };
 
@@ -315,6 +314,25 @@ function NotificationItem({ item, onAcceptRequest, onRejectRequest, onAcceptChal
         <div className="ac-actions">
           <button className="com-btn com-btn--primary com-btn--xsm" onClick={() => onAcceptRequest?.(item.id)}>Accept</button>
           <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onRejectRequest?.(item.id)}>Reject</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === 'friend_request_sent') {
+    return (
+      <div style={rowStyle}
+        onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.03)'}
+        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+      >
+        {avatarEl}
+        <div style={{ flex: 1 }}>
+          {friendLabel}
+          <div style={nameStyle}>You sent a friend request to {user.username}</div>
+          <div style={metaStyle}>{timestamp}</div>
+        </div>
+        <div className="ac-actions">
+          <button className="com-btn com-btn--outline com-btn--xsm" onClick={() => onCancelSentRequest?.(item.id)}>Cancel Request</button>
         </div>
       </div>
     );
@@ -394,6 +412,7 @@ function ActivityTab({ onNavigate, onClose }) {
   // Shared session keys with NotificationsPage so actions stay in sync.
   const [acceptedRequestIds, setAcceptedRequestIds] = useSessionSet('notif-accepted-friend-requests');
   const [rejectedRequestIds, setRejectedRequestIds] = useSessionSet('notif-rejected-friend-requests');
+  const [cancelledSentRequestIds, setCancelledSentRequestIds] = useSessionSet('notif-cancelled-sent-requests');
   const [acceptedChallengeIds, setAcceptedChallengeIds] = useSessionSet('notif-accepted-challenges');
   const [declinedChallengeIds, setDeclinedChallengeIds] = useSessionSet('notif-declined-challenges');
   // MVP scope excludes chat/messages, so the Messages filter pill and any
@@ -433,6 +452,7 @@ function ActivityTab({ onNavigate, onClose }) {
   const visible = MOCK_NOTIFICATIONS.filter(n => {
     if (isMvp && n.type === 'message') return false;
     if (n.type === 'friend_request' && (acceptedRequestIds.has(n.id) || rejectedRequestIds.has(n.id))) return false;
+    if (n.type === 'friend_request_sent' && cancelledSentRequestIds.has(n.id)) return false;
     if (n.type === 'challenge_received' && (acceptedChallengeIds.has(n.id) || declinedChallengeIds.has(n.id))) return false;
     return true;
   });
@@ -440,11 +460,22 @@ function ActivityTab({ onNavigate, onClose }) {
   const filtered = filter === 'all'
     ? visible
     : visible.filter(n => {
-        if (filter === 'friend_request') return n.type === 'friend_request' || n.type === 'friend_accepted';
+        if (filter === 'friend_request') return n.type === 'friend_request' || n.type === 'friend_request_sent' || n.type === 'friend_accepted';
         if (filter === 'challenge') return n.type.startsWith('challenge');
         if (filter === 'message') return n.type === 'message';
         return true;
       });
+
+  // Ordering rule: rows with an Accept/Decline choice (incoming actionables)
+  // sit above rows with only a Cancel/Reject choice (outgoing actionables),
+  // which sit above rows with no CTA (passive).
+  const isIncomingActionable = (t) => t === 'friend_request' || t === 'challenge_received';
+  const isOutgoingActionable = (t) => t === 'friend_request_sent';
+  const prioritized = [
+    ...filtered.filter(n => isIncomingActionable(n.type)),
+    ...filtered.filter(n => isOutgoingActionable(n.type)),
+    ...filtered.filter(n => !isIncomingActionable(n.type) && !isOutgoingActionable(n.type)),
+  ];
 
   return (
     <div style={{ padding: '0' }}>
@@ -466,7 +497,7 @@ function ActivityTab({ onNavigate, onClose }) {
       </div>
 
       {/* Feed */}
-      {filtered.length === 0 ? (
+      {prioritized.length === 0 ? (
         <div style={{
           padding: '32px 0',
           textAlign: 'center',
@@ -476,12 +507,13 @@ function ActivityTab({ onNavigate, onClose }) {
           No activity in this category
         </div>
       ) : (
-        filtered.map(n => (
+        prioritized.map(n => (
           <NotificationItem
             key={n.id}
             item={n}
             onAcceptRequest={addId(setAcceptedRequestIds)}
             onRejectRequest={addId(setRejectedRequestIds)}
+            onCancelSentRequest={addId(setCancelledSentRequestIds)}
             onAcceptChallenge={addId(setAcceptedChallengeIds)}
             onDeclineChallenge={addId(setDeclinedChallengeIds)}
             onChallenge={handleChallenge}

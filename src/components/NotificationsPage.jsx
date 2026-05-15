@@ -342,6 +342,7 @@ export default function NotificationsPage({ onNavigate }) {
 function getNotifText(n) {
   switch (n.type) {
     case 'friend_request':     return <><strong>{n.user.username}</strong> sent you a friend request</>;
+    case 'friend_request_sent': return <>You sent a friend request to <strong>{n.user.username}</strong></>;
     case 'friend_accepted':    return <><strong>{n.user.username}</strong> accepted your friend request</>;
     case 'challenge_received': return <><strong>{n.user.username}</strong> challenged you to a <strong>{n.format} match</strong></>;
     case 'challenge_accepted': return <><strong>{n.user.username}</strong> accepted your challenge</>;
