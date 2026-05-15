@@ -3341,14 +3341,9 @@ function FriendsTab({ friendsView: dmeView, fbDiscovery, isMvp, isOwn, onPlayerC
           ? MOCK_FRIENDS.filter(f => f.username.toLowerCase().includes(lowered))
           : MOCK_FRIENDS;
         const filteredFriends = [...baseFriends].sort((a, b) => Number(!!b.online) - Number(!!a.online));
-        // Pending sent requests are private to the profile owner. Friends and
-        // guests viewing someone else's profile must never see who that
-        // player has friended out, so the Pending section is gated on isOwn.
-        const visiblePending = isOwn
-          ? MOCK_REQUESTS_SENT
-              .filter(r => !cancelledRequestIds.has(r.id))
-              .filter(r => !friendSearch || r.username.toLowerCase().includes(lowered))
-          : [];
+        // Pending sent requests section is hidden for now. Outgoing
+        // requests are surfaced via the Activity Center instead.
+        const visiblePending = [];
         const noResults = filteredFriends.length === 0 && visiblePending.length === 0;
         return (
           <div className="pp-friends-list">
